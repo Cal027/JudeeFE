@@ -12,7 +12,6 @@ docker run -d -p 80:80 lpojfrontend
 ## 一般部署
 
 ```
-cd Frontend
 npm install
 npm run build
 ```
@@ -48,4 +47,4 @@ server{
 ```
 其他配置请自行参考Nginx配置
 
-至此，前端部署完毕。**如要进行OJ二次开发，请参阅[文档](http://docs.lpoj.cn)**
+请参阅LPOJ的[文档](http://docs.lpoj.cn)
