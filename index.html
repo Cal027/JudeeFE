@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="bookmark" href="/favicon.ico" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Judee</title>
+</head>
+<script type="text/javascript">
+  // JavaScript Document
+  function urlredirect() {
+      var sUserAgent = navigator.userAgent.toLowerCase();
+      if ((sUserAgent.match(/(ipod|iphone os|midp|ucweb|android|windows ce|windows mobile)/i))) {
+          // PC跳转移动端
+          var thisUrl = window.location.href;
+          window.location.href ="https://m.lpoj.cn" //自行修改手机版跳转网址
+
+      }
+  }
+  urlredirect();
+  </script>
+
+<body style="background:rgb(238, 237, 237);margin: 0;">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <div id="app"><h1><br><br><center>首次加载，请稍等</center></h1></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>
