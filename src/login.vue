@@ -39,7 +39,7 @@ F
                         password: pas
                     })
                     .then(response => {
-                        if (response.data === "passworderror") {
+                        if (response.data === "passwordError") {
                             this.$message.error("密码错误");
                             return;
                         }
@@ -75,7 +75,7 @@ F
                                 sessionStorage.setItem("name", "");
                                 sessionStorage.setItem("rating", "");
                                 sessionStorage.setItem("type", "");
-                                sessionStorage.setItem("acpro", "");
+                                sessionStorage.setItem("ac_probs", "");
                             });
                     })
                     .catch(error => {
