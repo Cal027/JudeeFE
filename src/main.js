@@ -41,7 +41,7 @@ if (sessionStorage.username !== "" && sessionStorage.username !== undefined) {
       var acpro = response.data[0].acpro.split("|");
       acpro.shift(); //因为最前面会多出一个空，去掉它
       store.state.acpro = acpro;
-      sessionStorage.setItem("ac_probs", acpro);
+      sessionStorage.setItem("ac_prob", acpro);
     });
   //更新一下本地的rating，如果没有登录则刷新一下，更新成功返回updated，否则返回ok
   axios
@@ -52,7 +52,7 @@ if (sessionStorage.username !== "" && sessionStorage.username !== undefined) {
         sessionStorage.setItem("name", "");
         sessionStorage.setItem("rating", "");
         sessionStorage.setItem("type", "");
-        sessionStorage.setItem("ac_probs", "");
+        sessionStorage.setItem("ac_prob", "");
         router.go(0)
       }
     });
@@ -61,7 +61,7 @@ if (sessionStorage.username !== "" && sessionStorage.username !== undefined) {
   sessionStorage.setItem("name", "");
   sessionStorage.setItem("rating", "");
   sessionStorage.setItem("type", "");
-  sessionStorage.setItem("ac_probs", "");
+  sessionStorage.setItem("ac_prob", "");
 }
 
 
@@ -103,8 +103,8 @@ function getYourIP() {
     }
 
     function grepSDP(sdp) {
-      const hosts = [];
-      sdp.split('\r\n').forEach(function (line, index, arr) {
+      // const hosts = [];
+      sdp.split('\r\n').forEach(function (line, _, arr) {
         if (~line.indexOf("a=candidate")) {
           var parts = line.split(' '),
             addr = parts[4],
