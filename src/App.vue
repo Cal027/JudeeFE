@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-menu :default-active="activeIndex" mode="horizontal" :router="true" id="nav"
-    :class="[navFixed? 'navWrap':'']">
+             :class="[navFixed? 'navWrap':'']">
       <el-menu-item index="/" id="title">{{school}}</el-menu-item>
       <el-menu-item index="/main">
         <i class="el-icon-data-board"></i>首页
@@ -26,7 +26,10 @@
       </el-menu-item>
 
       <el-button round id="button" @click="registeropen" v-show="!loginshow">注册</el-button>
-      <el-button round id="button" @click="loginopen" v-show="!loginshow">登录</el-button>
+      <!--      <el-button round id="button" @click="loginopen" v-show="!loginshow">登录</el-button>-->
+      <router-link to="/login">
+        <el-button round id="button">登录</el-button>
+      </router-link>
 
       <el-dropdown
         id="user"
@@ -48,7 +51,7 @@
 
     <register ref="registerdialog"></register>
 
-    <login ref="logindialog"></login>
+<!--    <login ref="logindialog"></login>-->
 
     <el-backtop :bottom="50">
       <div
@@ -72,14 +75,14 @@
 </template>
 
 <script>
-    import login from "@/login";
+    // import login from "@/login";
     import register from "@/register";
 
 
     export default {
         name: "App",
         components: {
-            login,
+            // login,
             register
         },
         data() {

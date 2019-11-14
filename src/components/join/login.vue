@@ -1,26 +1,33 @@
 <template>
-  <el-dialog title="登录" :visible.sync="dialogLoginVisible">
-    <el-form :model="loginForm" @keyup.native.enter="loginClick">
-      <el-form-item prop="username" label="用户名或邮箱">
-        <el-input v-model="loginForm.username" :autofocus="true"></el-input>
-      </el-form-item>
-      <el-form-item prop="password" label="密码">
-        <el-input type="password" v-model="loginForm.password"></el-input>
-      </el-form-item>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="dialogLoginVisible = false">取消</el-button>
-      <el-button type="primary" @click="loginClick">确认</el-button>
-    </div>
-  </el-dialog>
+  <el-container>
+    <el-header>
+      <h1>登录Judee</h1>
+    </el-header>
+    <el-main>
+      <el-card class="login-box">
+        <el-form :model="loginForm">
+          <el-form-item prop="username" label="用户名或邮箱">
+            <el-input v-model="loginForm.username" :autofocus="true"></el-input>
+          </el-form-item>
+          <el-form-item prop="password" label="密码">
+            <el-input type="password" v-model="loginForm.password"></el-input>
+          </el-form-item>
+          <el-button type="primary" class="button" @click="loginClick">登 录</el-button>
+        </el-form>
+      </el-card>
+      <p class="create-account">
+        还没账号？
+        <router-link to="/register">立即注册!</router-link>
+      </p>
+    </el-main>
+  </el-container>
 </template>
-F
+
 <script>
     export default {
         name: "login",
         data() {
             return {
-                dialogLoginVisible: false,
                 loginForm: {
                     username: "",
                     password: ""
@@ -28,9 +35,6 @@ F
             };
         },
         methods: {
-            open() {
-                this.dialogLoginVisible = true;
-            },
             loginClick() {
                 var pas = this.$md5(this.loginForm.password);
                 this.$axios
@@ -87,5 +91,33 @@ F
 </script>
 
 <style scoped>
+  .el-header h1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -.5px;
+  }
 
+  .el-main {
+    text-align: center;
+    /*width: 340px;*/
+    margin: 0 auto;
+  }
+
+  .button {
+    display: block;
+    width: 100%;
+    margin-top: 35px;
+  }
+
+  .login-box {
+    width: 448px;
+  }
+
+  .create-account {
+    padding: 15px 20px;
+    text-align: center;
+    border: 1px solid #d8dee2;
+    border-radius: 3px;
+  }
 </style>

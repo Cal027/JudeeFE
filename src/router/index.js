@@ -25,6 +25,8 @@ import wikidetail from '../components/utils/wikidetail'
 import trainningdetail from '../components/wiki/trainning/trainningdetail'
 import newalgorithm from '../components/wiki/newalgorithm'
 import todolist from '../components/utils/todolist'
+import login from '../components/join/login'
+import register from "../components/join/register";
 
 Vue.use(Router);
 
@@ -150,6 +152,16 @@ export default new Router({
       path: '/todolist',
       name: 'todolist',
       component: todolist,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     }
   ]
 })
