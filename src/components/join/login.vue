@@ -67,7 +67,7 @@
                         }
 
                         this.$axios
-                            .post("/logindata/", {
+                            .post("/setlogindata/", {
                                 username: this.loginForm.username,
                                 ip: this.$store.state.loginip,
                                 msg: this.$store.state.logininfo
