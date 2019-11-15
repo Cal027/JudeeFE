@@ -31,7 +31,6 @@
         data() {
             return {
                 school: "Judee",
-                isAdmin: false,
             };
         },
         mounted() {

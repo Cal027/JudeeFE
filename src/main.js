@@ -43,19 +43,6 @@ if (sessionStorage.username !== "" && sessionStorage.username !== undefined) {
       store.state.acpro = acpro;
       sessionStorage.setItem("ac_prob", acpro);
     });
-  //更新一下本地的rating，如果没有登录则刷新一下，更新成功返回updated，否则返回ok
-  // axios
-  //   .get("/updaterating/")
-  //   .then(response => {
-  //     if (response.data === "ok") {
-  //       sessionStorage.setItem("username", "");
-  //       sessionStorage.setItem("name", "");
-  //       sessionStorage.setItem("rating", "");
-  //       sessionStorage.setItem("type", "");
-  //       sessionStorage.setItem("ac_prob", "");
-  //       router.go(0)
-  //     }
-  //   });
 } else {
   sessionStorage.setItem("username", "");
   sessionStorage.setItem("name", "");

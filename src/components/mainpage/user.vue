@@ -15,7 +15,7 @@
     <el-row>
       <el-col :span="8">
         <center>
-          <h2 :style="color">Submittion</h2>
+          <h2 :style="color">提交数量</h2>
           <h3 :style="color">{{ submittion }}</h3>
         </center>
       </el-col>
@@ -27,7 +27,7 @@
       </el-col>
       <el-col :span="8">
         <center>
-          <h2 :style="color">Score</h2>
+          <h2 :style="color">分数</h2>
           <h3 :style="color">{{ score }}</h3>
         </center>
       </el-col>

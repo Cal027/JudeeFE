@@ -6,7 +6,6 @@ import main from '../components/main'
 import problem from '../components/mainpage/problem'
 import statue from '../components/mainpage/statue'
 import user from '../components/mainpage/user'
-import setting from '../components/mainpage/setting'
 import contest from '../components/mainpage/contest'
 import contestdetail from '../components/contest/contestdetail'
 import problemdetail from '../components/problem/problemdetail'
@@ -14,7 +13,7 @@ import rank from '../components/mainpage/rank'
 import admin from '../components/mainpage/admin'
 import billboard from '../components/mainpage/billboard'
 import blog from '../components/mainpage/blog'
-import wiki from '../components/mainpage/wiki'
+// import wiki from '../components/mainpage/wiki'
 import algorithm from '../components/wiki/algorithm'
 import mbcode from '../components/wiki/code'
 import trainning from '../components/wiki/trainning'
@@ -24,9 +23,16 @@ import codeedit from '../components/wiki/mbcode/codeedit'
 import wikidetail from '../components/utils/wikidetail'
 import trainningdetail from '../components/wiki/trainning/trainningdetail'
 import newalgorithm from '../components/wiki/newalgorithm'
-import todolist from '../components/utils/todolist'
-import login from '../components/join/login'
-import register from "../components/join/register";
+// import todolist from '../components/utils/todolist'
+
+//懒加载
+const Setting = () => import('../views/setting/Settings');
+const ProfileSetting = () => import('../views/setting/ProfileSetting');
+const Login = () => import('../views/user/Login');
+const Register = () => import('../views/user/Register');
+const wiki = () => import('../components/mainpage/wiki');
+const todolist = () => import('../components/utils/todolist');
+
 
 Vue.use(Router);
 
@@ -71,7 +77,12 @@ export default new Router({
     {
       path: '/setting',
       name: 'setting',
-      component: setting
+      component: Setting
+    },
+    {
+      path: '/setting/profile',
+      name: 'profile',
+      component: ProfileSetting
     },
     {
       path: '/contest',
@@ -156,12 +167,12 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: Login
     },
     {
       path: '/register',
       name: 'register',
-      component: register
+      component: Register
     }
   ]
 })

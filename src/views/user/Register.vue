@@ -35,9 +35,8 @@
             <el-input
               type="password"
               v-model="regForm.confirm"
-              autocomplete="off"
-              placeholder="再次输入密码"
-            ></el-input>
+              placeholder="再次输入密码">
+            </el-input>
           </el-form-item>
         </el-form>
         <el-button @click="resetForm('regForm')" class="butt">重 置</el-button>
@@ -53,7 +52,7 @@
 
 <script>
     export default {
-        nickname: "register",
+        name: "Register",
         data() {
             //正则表达式校验
             var checkUserName = (rule, value, callback) => {

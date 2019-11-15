@@ -25,7 +25,7 @@
 
 <script>
     export default {
-        name: "login",
+        name: "Login",
         data() {
             return {
                 loginForm: {
@@ -104,7 +104,6 @@
 
   .el-main {
     text-align: center;
-    /*width: 340px;*/
     margin: 0 auto;
   }
 

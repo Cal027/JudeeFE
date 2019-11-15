@@ -1,12 +1,15 @@
 {
-    "presets": [
-      [
-        "env",
-        {
-          "modules": false,
-          "useBuiltIns": "entry"
-        }
-      ],
-      "stage-3"
-    ]
-  }
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "useBuiltIns": "entry"
+      }
+    ],
+    "stage-3"
+  ],
+  "plugins": [
+    "syntax-dynamic-import"
+  ]
+}

@@ -41,7 +41,7 @@
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="home">主页</el-dropdown-item>
         <el-dropdown-item command="submit">提交</el-dropdown-item>
-        <el-dropdown-item command="setting">设置</el-dropdown-item>
+        <el-dropdown-item command="profile">个人信息</el-dropdown-item>
         <el-dropdown-item command="admin" divided v-show="isAdmin">Admin</el-dropdown-item>
         <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
       </el-dropdown-menu>
@@ -58,7 +58,8 @@
                 loginShow: sessionStorage.username,
                 username: sessionStorage.username,
                 nickname: sessionStorage.nickname,
-                logo_url: '../static/logo2.png'
+                logo_url: '../static/logo2.png',
+                isAdmin: false
             };
         },
         methods: {
@@ -91,9 +92,9 @@
                         query: {username: sessionStorage.username}
                     });
                 }
-                if (command === "setting") {
+                if (command === "profile") {
                     this.$router.push({
-                        name: "setting",
+                        name: "profile",
                         params: {username: sessionStorage.username}
                     });
                 }
