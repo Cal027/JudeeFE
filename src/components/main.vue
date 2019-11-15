@@ -24,8 +24,8 @@
         data() {
             return {
                 label: {
-                    rule: "Rule",
-                    des: "Description"
+                    rule: "规则",
+                    des: "描述"
                 },
 
 

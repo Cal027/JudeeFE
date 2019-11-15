@@ -2,7 +2,9 @@
   <div id="app">
     <el-menu :default-active="activeIndex" mode="horizontal" :router="true" id="nav"
              :class="[navFixed? 'navWrap':'']">
-      <el-menu-item index="/" id="title">{{school}}</el-menu-item>
+      <el-menu-item index="/" id="title">
+        <el-image :src="logo_url" style="width: 96px;height: 54px"></el-image>
+      </el-menu-item>
       <el-menu-item index="/main">
         <i class="el-icon-data-board"></i>首页
       </el-menu-item>
@@ -25,10 +27,13 @@
         <i class="el-icon-s-promotion"></i>待办事项
       </el-menu-item>
 
-      <el-button round id="button" @click="registeropen" v-show="!loginshow">注册</el-button>
+      <!--      <el-button round id="button" @click="registeropen" v-show="!loginshow">注册</el-button>-->
       <!--      <el-button round id="button" @click="loginopen" v-show="!loginshow">登录</el-button>-->
+      <router-link to="/register">
+        <el-button round class="button">注册</el-button>
+      </router-link>
       <router-link to="/login">
-        <el-button round id="button">登录</el-button>
+        <el-button round class="button">登录</el-button>
       </router-link>
 
       <el-dropdown
@@ -49,9 +54,9 @@
       </el-dropdown>
     </el-menu>
 
-    <register ref="registerdialog"></register>
+    <!--    <register ref="registerdialog"></register>-->
 
-<!--    <login ref="logindialog"></login>-->
+    <!--    <login ref="logindialog"></login>-->
 
     <el-backtop :bottom="50">
       <div
@@ -64,7 +69,8 @@
         line-height: 40px;
         color: #1989fa;
       }"
-      >UP
+      >
+        <i class="el-icon-top"></i>
       </div>
     </el-backtop>
 
@@ -76,14 +82,14 @@
 
 <script>
     // import login from "@/login";
-    import register from "@/register";
+    // import register from "@/register";
 
 
     export default {
         name: "App",
         components: {
             // login,
-            register
+            // register
         },
         data() {
             return {
@@ -93,7 +99,8 @@
                 username: sessionStorage.username,
                 name: sessionStorage.name,
                 isadmin: false,
-                navFixed: false
+                navFixed: false,
+                logo_url: './static/logo2.png'
             };
         },
         mounted() {
@@ -179,7 +186,7 @@
     color: #409eff;
   }
 
-  #button {
+  .button {
     float: right;
     margin: 10px;
   }

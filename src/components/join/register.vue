@@ -36,14 +36,17 @@
               type="password"
               v-model="regForm.confirm"
               autocomplete="off"
-              placeholder="请重复密码"
+              placeholder="再次输入密码"
             ></el-input>
           </el-form-item>
         </el-form>
+        <el-button @click="resetForm('regForm')" class="butt">重 置</el-button>
+        <el-button type="primary" @click="registerClick('regForm')" class="butt">注 册</el-button>
       </el-card>
-      <el-button @click="dialogRegisterVisible = false">取 消</el-button>
-      <el-button @click="resetForm('regForm')">重 置</el-button>
-      <el-button type="primary" @click="registerClick('regForm')">确 定</el-button>
+      <p class="signin">
+        已有账号？
+        <router-link to="/login">立即登录!</router-link>
+      </p>
     </el-main>
   </el-container>
 </template>
@@ -95,7 +98,6 @@
                 }
             };
             return {
-                dialogRegisterVisible: false,
                 regForm: {
                     username: '',
                     password: '',
@@ -114,11 +116,7 @@
             };
         },
         methods: {
-            open() {
-                this.dialogRegisterVisible = true;
-            },
             registerClick(formName) {
-                console.log('Click register');
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // this.regForm.password = this.$md5(this.regForm.password);
@@ -159,7 +157,6 @@
                 });
             },
             resetForm(formName) {
-                console.log('Click Reset');
                 this.$refs[formName].resetFields();
             }
         }
@@ -182,5 +179,17 @@
 
   .reg-box {
     width: 448px;
+  }
+
+  .butt{
+    /*margin-top: 5px;*/
+    margin-right: 10px;
+  }
+
+  .signin {
+    padding: 15px 20px;
+    text-align: center;
+    border: 1px solid #d8dee2;
+    border-radius: 3px;
   }
 </style>
