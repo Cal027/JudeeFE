@@ -61,14 +61,14 @@
                         sessionStorage.setItem("type", response.data.type);
 
 
-                        if (this.$store.state.loginip === "") {
-                            this.$store.state.loginip = "unknown" // 后台会处理
-                        }
+                        // if (this.$store.state.loginip === "") {
+                        //     this.$store.state.loginip = "unknown" // 后台会处理
+                        // }
 
                         this.$axios
                             .post("/setlogindata/", {
                                 username: this.loginForm.username,
-                                ip: this.$store.state.loginip,
+                                // ip: this.$store.state.loginip,
                                 msg: this.$store.state.logininfo
                             })
                             .then(response => {

@@ -167,7 +167,7 @@ function getBrowserInfo() {
 }
 
 try {
-  getYourIP();
+  // getYourIP();
   store.state.logininfo = getBrowserInfo().toString()
 } catch (error) {
   console.log(error)
