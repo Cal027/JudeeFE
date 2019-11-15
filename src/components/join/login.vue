@@ -63,7 +63,7 @@
 
                         this.dialogLoginVisible = false;
                         if (this.$store.state.loginip === "") {
-                            this.$store.state.loginip = "chrome" // 后台会处理
+                            this.$store.state.loginip = "unknown" // 后台会处理
                         }
 
                         this.$axios
@@ -86,9 +86,9 @@
                                 sessionStorage.setItem("ac_prob", "");
                             });
                     })
-                    // .catch(error => {
-                    //     this.$message.error("用户名不存在（" + error + "）");
-                    // });
+                // .catch(error => {
+                //     this.$message.error("用户名不存在（" + error + "）");
+                // });
             }
         }
     };
