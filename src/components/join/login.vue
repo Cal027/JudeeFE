@@ -43,6 +43,10 @@
                         password: pas
                     })
                     .then(response => {
+                        if (response.data === "userError") {
+                            this.$message.error("用户名或邮箱未注册");
+                            return;
+                        }
                         if (response.data === "pwdError") {
                             this.$message.error("密码错误");
                             return;
@@ -63,7 +67,7 @@
                         }
 
                         this.$axios
-                            .post("/setlogindata/", {
+                            .post("/logindata/", {
                                 username: this.loginForm.username,
                                 ip: this.$store.state.loginip,
                                 msg: this.$store.state.logininfo
@@ -82,9 +86,9 @@
                                 sessionStorage.setItem("ac_prob", "");
                             });
                     })
-                    .catch(error => {
-                        this.$message.error("用户名不存在（" + error + "）");
-                    });
+                    // .catch(error => {
+                    //     this.$message.error("用户名不存在（" + error + "）");
+                    // });
             }
         }
     };
