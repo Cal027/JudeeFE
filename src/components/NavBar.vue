@@ -24,26 +24,26 @@
     <el-menu-item index="/todolist">
       <i class="el-icon-s-promotion"></i>待办事项
     </el-menu-item>
-    <router-link to="/register">
+    <router-link to="/register" v-if="!loginShow">
       <el-button round class="button">注册</el-button>
     </router-link>
-    <router-link to="/login">
+    <router-link to="/login" v-if="!loginShow">
       <el-button round class="button">登录</el-button>
     </router-link>
 
     <el-dropdown
       id="user"
-      v-show="loginshow"
+      v-show="loginShow"
       @command="handleCommand"
       :show-timeout="100"
       :split-button="true">
-      <span class="el-dropdown-link">Welcome {{name}}</span>
+      <span class="el-dropdown-link">{{nickname}}</span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="home">Home</el-dropdown-item>
-        <el-dropdown-item command="submittion">Submittion</el-dropdown-item>
-        <el-dropdown-item command="setting">Setting</el-dropdown-item>
+        <el-dropdown-item command="home">主页</el-dropdown-item>
+        <el-dropdown-item command="submit">提交</el-dropdown-item>
+        <el-dropdown-item command="setting">设置</el-dropdown-item>
         <el-dropdown-item command="admin" divided v-show="isAdmin">Admin</el-dropdown-item>
-        <el-dropdown-item command="logout" divided>Logout</el-dropdown-item>
+        <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-menu>
@@ -54,6 +54,10 @@
         name: "NavBar",
         data() {
             return {
+                activeIndex: "1",
+                loginShow: sessionStorage.username,
+                username: sessionStorage.username,
+                nickname: sessionStorage.nickname,
                 logo_url: '../static/logo2.png'
             };
         },
@@ -64,7 +68,7 @@
                         .get("/logout/")
                         .then(response => {
                             this.$message({
-                                message: "登出成功！",
+                                message: "注销成功！",
                                 type: "success"
                             });
                             sessionStorage.setItem("username", "");
@@ -93,7 +97,7 @@
                         params: {username: sessionStorage.username}
                     });
                 }
-                if (command === "submittion") {
+                if (command === "submit") {
                     this.$router.push({
                         name: "statue",
                         query: {username: sessionStorage.username}

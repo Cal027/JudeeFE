@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <h1>加入Judee</h1>
+      <h1>加入Judee OJ</h1>
     </el-header>
     <el-main>
       <el-card class="reg-box">
@@ -142,8 +142,8 @@
                                     message: "注册成功！",
                                     type: "success"
                                 });
-                                this.dialogRegisterVisible = false;
-                                this.regForm.password = "";
+                                this.resetForm('regForm');
+                                this.$router.push('/login');
                             })
                             .catch(Error => {
                                 this.$message.error(
@@ -181,7 +181,7 @@
     width: 448px;
   }
 
-  .butt{
+  .butt {
     /*margin-top: 5px;*/
     margin-right: 10px;
   }

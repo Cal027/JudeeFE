@@ -30,11 +30,7 @@
         components: {NavBar},
         data() {
             return {
-                activeIndex: "1",
                 school: "Judee",
-                loginShow: sessionStorage.username,
-                username: sessionStorage.username,
-                name: sessionStorage.name,
                 isAdmin: false,
             };
         },
@@ -51,56 +47,7 @@
             //             "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
             //         );
             //     });
-        },
-        methods: {
-            handleCommand(command) {
-                if (command === "logout") {
-                    this.$axios
-                        .get("/logout/")
-                        .then(response => {
-                            this.$message({
-                                message: "登出成功！",
-                                type: "success"
-                            });
-                            sessionStorage.setItem("username", "");
-                            sessionStorage.setItem("name", "");
-                            sessionStorage.setItem("rating", "");
-                            sessionStorage.setItem("type", "");
-                            this.loginShow = 0;
-                            this.username = "";
-                            this.$router.go(0);
-                        })
-                        .catch(error => {
-                            this.$message.error(
-                                "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
-                            );
-                        });
-                }
-                if (command === "home") {
-                    this.$router.push({
-                        name: "user",
-                        query: {username: sessionStorage.username}
-                    });
-                }
-                if (command === "setting") {
-                    this.$router.push({
-                        name: "setting",
-                        params: {username: sessionStorage.username}
-                    });
-                }
-                if (command === "submittion") {
-                    this.$router.push({
-                        name: "statue",
-                        query: {username: sessionStorage.username}
-                    });
-                }
-                if (command === "admin") {
-                    this.$router.push({
-                        name: "admin"
-                    });
-                }
-            }
-        },
+        }
     };
 </script>
 

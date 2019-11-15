@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <h1>登录Judee</h1>
+      <h1>登录Judee OJ</h1>
     </el-header>
     <el-main>
       <el-card class="login-box">
@@ -57,11 +57,10 @@
                         });
 
                         sessionStorage.setItem("username", this.loginForm.username);
-                        sessionStorage.setItem("name", response.data.name);
+                        sessionStorage.setItem("nickname", response.data.nickname);
                         sessionStorage.setItem("type", response.data.type);
 
 
-                        this.dialogLoginVisible = false;
                         if (this.$store.state.loginip === "") {
                             this.$store.state.loginip = "unknown" // 后台会处理
                         }
@@ -73,6 +72,7 @@
                                 msg: this.$store.state.logininfo
                             })
                             .then(response => {
+                                this.$router.push('/');
                                 this.$router.go(0);
                             })
                             .catch(error => {
@@ -80,7 +80,7 @@
                                     "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
                                 );
                                 sessionStorage.setItem("username", "");
-                                sessionStorage.setItem("name", "");
+                                sessionStorage.setItem("nickname", "");
                                 sessionStorage.setItem("rating", "");
                                 sessionStorage.setItem("type", "");
                                 sessionStorage.setItem("ac_prob", "");
