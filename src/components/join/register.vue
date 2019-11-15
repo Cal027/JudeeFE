@@ -121,9 +121,16 @@
                 console.log('Click register');
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.regForm.password = this.$md5(this.regForm.password);
+                        // this.regForm.password = this.$md5(this.regForm.password);
                         this.$axios
-                            .post("register/", this.regForm)
+                            .post("register/",
+                                {
+                                    username: this.regForm.username,
+                                    password: this.$md5(this.regForm.password),
+                                    nickname: this.regForm.nickname,
+                                    email: this.regForm.email
+                                }
+                            )
                             .then(response => {
                                 if (response.data === "userError") {
                                     this.$message.error("用户名已存在！");
