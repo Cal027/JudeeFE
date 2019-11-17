@@ -16,10 +16,10 @@
           <el-tooltip class="item" :content="profile.email" placement="bottom">
             <i class="iconfont j-icon-mail"></i>
           </el-tooltip>
-          <el-tooltip class="item" style="margin-left: 5px;margin-right: 5px" :content="profile.QQ" placement="bottom">
+          <el-tooltip class="item" style="margin-left: 5px;margin-right: 5px" :content="qq" placement="bottom">
             <i class="iconfont j-icon-QQ"></i>
           </el-tooltip>
-          <el-tooltip class="item" :content="profile.github" placement="bottom">
+          <el-tooltip class="item" :content="github" placement="bottom">
             <i class="iconfont j-icon-github-fill"></i>
           </el-tooltip>
         </el-row>
@@ -56,6 +56,8 @@
                 username: '',
                 profile: {},
                 ans: {},
+                github: '还没填写Github信息',
+                qq: '还没填写QQ信息'
             };
         },
         created() {
@@ -63,9 +65,17 @@
             this.$api.user.getUserInfo(this.username).then(response => {
                 console.log(response.data);
                 this.profile = response.data;
+                if (this.profile.qq_number) {
+                    this.qq = profile.qq_number;
+                }
+                if (this.profile.github_username) {
+                    this.github = profile.github_username;
+                }
             });
             this.$api.user.getUserData(this.username).then(response => {
-                this.ans = response.data;
+                this.ans = response.data
+                // this.qq = response.data.qq;
+                // this.github = response.data.github;
             });
         }
     }

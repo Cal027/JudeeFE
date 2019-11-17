@@ -119,9 +119,12 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // this.regForm.password = this.$md5(this.regForm.password);
+                        var pas = this.$md5(this.regForm.password);
                         this.$api.user.register({
-                            username: this.loginForm.username,
-                            password: pas
+                            username: this.regForm.username,
+                            password: pas,
+                            nickname: this.regForm.nickname,
+                            email: this.regForm.email
                         }).then(response => {
                             if (response.data === "userError") {
                                 this.$message.error("用户名已存在！");
@@ -142,36 +145,6 @@
                                 "服务器错误！" + "(" + JSON.stringify(Error.response.data) + ")"
                             );
                         });
-                        // this.$axios
-                        //     .post("register/",
-                        //         {
-                        //             username: this.regForm.username,
-                        //             password: this.$md5(this.regForm.password),
-                        //             nickname: this.regForm.nickname,
-                        //             email: this.regForm.email
-                        //         }
-                        //     )
-                        //     .then(response => {
-                        //         if (response.data === "userError") {
-                        //             this.$message.error("用户名已存在！");
-                        //             return;
-                        //         }
-                        //         if (response.data === "emailError") {
-                        //             this.$message.error("邮箱已存在！");
-                        //             return;
-                        //         }
-                        //         this.$message({
-                        //             message: "注册成功！",
-                        //             type: "success"
-                        //         });
-                        //         this.resetForm('regForm');
-                        //         this.$router.push('/login');
-                        //     })
-                        //     .catch(Error => {
-                        //         this.$message.error(
-                        //             "服务器错误！" + "(" + JSON.stringify(Error.response.data) + ")"
-                        //         );
-                        //     });
                     } else {
                         this.$message.error('注册失败!');
                         return false;

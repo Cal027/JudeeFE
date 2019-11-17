@@ -41,7 +41,7 @@
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="home">主页</el-dropdown-item>
         <el-dropdown-item command="submit">提交</el-dropdown-item>
-        <el-dropdown-item command="profile">个人信息</el-dropdown-item>
+<!--        <el-dropdown-item command="profile">个人信息</el-dropdown-item>-->
         <el-dropdown-item command="admin" divided v-show="isAdmin">Admin</el-dropdown-item>
         <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
       </el-dropdown-menu>
@@ -83,26 +83,6 @@
                             "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
                         );
                     });
-                    // this.$axios
-                    //     .get("/logout/")
-                    //     .then(response => {
-                    //         this.$message({
-                    //             message: "注销成功！",
-                    //             type: "success"
-                    //         });
-                    //         sessionStorage.setItem("username", "");
-                    //         sessionStorage.setItem("name", "");
-                    //         sessionStorage.setItem("rating", "");
-                    //         sessionStorage.setItem("type", "");
-                    //         this.loginShow = 0;
-                    //         this.username = "";
-                    //         this.$router.go(0);
-                    //     })
-                    //     .catch(error => {
-                    //         this.$message.error(
-                    //             "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
-                    //         );
-                    //     });
                 }
                 if (command === "home") {
                     this.$router.push({
