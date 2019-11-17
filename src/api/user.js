@@ -10,6 +10,10 @@ const user = {
   getUserInfo(username){
     return axios.get(`${base}/user/`+username);
   },
+  getUserData(username){
+    return axios.get(`${base}/userdata/`+username);
+
+  },
   // post提交
   login(params) {
     return axios.post(`${base}/login`,params);
