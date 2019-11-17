@@ -9,18 +9,12 @@
 
 <script>
 export default {
-  name: "newalgorithm",
+  name: "oi-wiki",
 
   data() {
     return {
     };
   },
-  created() {
-      
-  },
-  methods: {
-
-  }
 };
 </script>
 

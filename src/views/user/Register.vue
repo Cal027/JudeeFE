@@ -195,7 +195,6 @@
 
   .el-main {
     text-align: center;
-    /*width: 340px;*/
     margin: 0 auto;
   }
 
@@ -204,7 +203,6 @@
   }
 
   .butt {
-    /*margin-top: 5px;*/
     margin-right: 10px;
   }
 

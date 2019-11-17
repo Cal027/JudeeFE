@@ -1,11 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// const main = () => import("../components/main");
 
 import main from '../components/main'
 import problem from '../components/mainpage/problem'
 import statue from '../components/mainpage/statue'
-import user from '../components/mainpage/user'
 import contest from '../components/mainpage/contest'
 import contestdetail from '../components/contest/contestdetail'
 import problemdetail from '../components/problem/problemdetail'
@@ -13,25 +11,20 @@ import rank from '../components/mainpage/rank'
 import admin from '../components/mainpage/admin'
 import billboard from '../components/mainpage/billboard'
 import blog from '../components/mainpage/blog'
-// import wiki from '../components/mainpage/wiki'
-import algorithm from '../components/wiki/algorithm'
-import mbcode from '../components/wiki/code'
-import trainning from '../components/wiki/trainning'
-import viewcode from '../components/wiki/mbcode/viewcode'
-import viewcodedetail from '../components/wiki/mbcode/viewcodedetail'
-import codeedit from '../components/wiki/mbcode/codeedit'
-import wikidetail from '../components/utils/wikidetail'
-import trainningdetail from '../components/wiki/trainning/trainningdetail'
-import newalgorithm from '../components/wiki/newalgorithm'
-// import todolist from '../components/utils/todolist'
+import mbcode from '../views/tutorial/code'
+import viewcode from '../views/tutorial/mbcode/viewcode'
+import viewcodedetail from '../views/tutorial/mbcode/viewcodedetail'
+import codeedit from '../views/tutorial/mbcode/codeedit'
+import OiWiki from '../views/tutorial/OiWiki'
 
 //懒加载
 const Setting = () => import('../views/setting/Settings');
 const ProfileSetting = () => import('../views/setting/ProfileSetting');
 const Login = () => import('../views/user/Login');
 const Register = () => import('../views/user/Register');
-const wiki = () => import('../components/mainpage/wiki');
+const Tutorial = () => import('../views/tutorial/Tutorial');
 const todolist = () => import('../components/utils/todolist');
+const User = () => import('../views/user/UserHome');
 
 
 Vue.use(Router);
@@ -72,7 +65,7 @@ export default new Router({
     {
       path: '/user',
       name: 'user',
-      component: user
+      component: User
     },
     {
       path: '/setting',
@@ -110,54 +103,34 @@ export default new Router({
       component: blog,
     },
     {
-      path: '/wiki',
-      name: 'wiki',
-      component: wiki,
+      path: '/tutorial',
+      name: 'Tutorial',
+      component: Tutorial,
     },
     {
-      path: '/wiki/algorithm',
-      name: 'algorithm',
-      component: algorithm,
-    },
-    {
-      path: '/wiki/code',
+      path: '/tutorial/code',
       name: 'mbcode',
       component: mbcode,
     },
     {
-      path: '/wiki/trainning',
-      name: 'trainning',
-      component: trainning,
-    },
-    {
-      path: '/wiki/mbcode/:username',
+      path: '/tutorial/mbcode/:username',
       name: 'viewcode',
       component: viewcode,
     },
     {
-      path: '/wiki/mbcodedetail/:codeID',
+      path: '/tutorial/mbcodedetail/:codeID',
       name: 'viewcodedetail',
       component: viewcodedetail,
     },
     {
-      path: '/wiki/mbcodeedit',
+      path: '/tutorial/mbcodeedit',
       name: 'codeedit',
       component: codeedit,
     },
     {
-      path: '/wikidetail/:wikiid',
-      name: 'wikidetail',
-      component: wikidetail,
-    },
-    {
-      path: '/trainningdetail/:trainningid',
-      name: 'trainningdetail',
-      component: trainningdetail,
-    },
-    {
-      path: '/wiki/newalgorithm',
-      name: 'newalgorithm',
-      component: newalgorithm,
+      path: '/tutorial/oi-wiki',
+      name: 'OiWiki',
+      component: OiWiki,
     },
     {
       path: '/todolist',

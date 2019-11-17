@@ -1,0 +1,37 @@
+{
+  "id": "1514193",
+  "name": "Judee OJ",
+  "font_family": "iconfont",
+  "css_prefix_text": "j-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "4765887",
+      "name": "poweroff",
+      "font_class": "poweroff",
+      "unicode": "e78c",
+      "unicode_decimal": 59276
+    },
+    {
+      "icon_id": "4766918",
+      "name": "mail",
+      "font_class": "mail",
+      "unicode": "e7de",
+      "unicode_decimal": 59358
+    },
+    {
+      "icon_id": "4936984",
+      "name": "QQ",
+      "font_class": "QQ",
+      "unicode": "e882",
+      "unicode_decimal": 59522
+    },
+    {
+      "icon_id": "4937000",
+      "name": "github-fill",
+      "font_class": "github-fill",
+      "unicode": "e885",
+      "unicode_decimal": 59525
+    }
+  ]
+}

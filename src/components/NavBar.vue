@@ -18,8 +18,8 @@
     <el-menu-item index="/rank">
       <i class="el-icon-star-on"></i>排名
     </el-menu-item>
-    <el-menu-item index="/wiki">
-      <i class="el-icon-star-off"></i>Wiki
+    <el-menu-item index="/tutorial">
+      <i class="el-icon-reading"></i>教程
     </el-menu-item>
     <el-menu-item index="/todolist">
       <i class="el-icon-s-promotion"></i>待办事项

@@ -195,7 +195,7 @@
     <el-option key="math_matrix" label="矩阵" value="math_matrix"></el-option>
     <el-option key="math_gauss" label="高斯消元" value="math_gauss"></el-option>
     <el-option key="math_basis" label="线性基" value="math_basis"></el-option>
-    
+
     <el-option key="math_polyintro" label="多项式部分简介" value="math_poly_intro"></el-option>
     <el-option key="math_lagrangepoly" label="拉格朗日插值" value="math_poly_lagrange"></el-option>
     <el-option key="math_fft" label="快速傅里叶变换" value="math_fft"></el-option>
@@ -304,7 +304,7 @@ export default {
   },
   created() {
     this.$axios
-      .get("/wiki/?std=1")
+      .get("/tutorial/?std=1")
       .then(response => {
         this.menulist = response.data;
       })
