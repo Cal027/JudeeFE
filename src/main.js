@@ -5,6 +5,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import router from './router'
+import api from './api'
 import Vuex from 'vuex'
 import md5 from 'js-md5';
 import axios from 'axios';
@@ -19,13 +20,14 @@ Vue.use(Vuex);
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.$md5 = md5;
+Vue.prototype.$api = api; // 将api挂载到vue的原型上
 
 
 //开启debug模式
 Vue.config.debug = true;
 axios.defaults.withCredentials = true;//实现跨域访问
 axios.defaults.baseURL = process.env.API_ROOT;//设置根路径
-Vue.prototype.$axios = axios;
+// Vue.prototype.$axios = axios;
 
 const store = new Vuex.Store({
   state: {},
@@ -51,64 +53,6 @@ if (sessionStorage.username !== "" && sessionStorage.username !== undefined) {
   sessionStorage.setItem("ac_prob", "");
 }
 
-
-function getYourIP() {
-  var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-  if (RTCPeerConnection) (function () {
-    var rtc = new RTCPeerConnection({iceServers: []});
-    if (1 || window.mozRTCPeerConnection) {
-      rtc.createDataChannel('', {reliable: false});
-    }
-
-    rtc.onicecandidate = function (evt) {
-      if (evt.candidate) grepSDP("a=" + evt.candidate.candidate);
-    };
-    rtc.createOffer(function (offerDesc) {
-      grepSDP(offerDesc.sdp);
-      rtc.setLocalDescription(offerDesc);
-    }, function (e) {
-      console.warn("offer failed", e);
-    });
-
-
-    var addr = Object.create(null);
-    addr["0.0.0.0"] = false;
-
-    function updateDisplay(newAddr) {
-      if (newAddr in addr) return;
-      else addr[newAddr] = true;
-      var displayAddr = Object.keys(addr).filter(function (k) {
-        return addr[k];
-      });
-      for (var i = 0; i < displayAddr.length; i++) {
-        if (displayAddr[i].length > 16) {
-          displayAddr.splice(i, 1);
-          i--;
-        }
-      }
-      store.state.loginip = displayAddr[0].toString();
-    }
-
-    function grepSDP(sdp) {
-      // const hosts = [];
-      sdp.split('\r\n').forEach(function (line, _, arr) {
-        if (~line.indexOf("a=candidate")) {
-          var parts = line.split(' '),
-            addr = parts[4],
-            type = parts[7];
-          if (type === 'host') updateDisplay(addr);
-        } else if (~line.indexOf("c=")) {
-          var parts = line.split(' '),
-            addr = parts[2];
-          updateDisplay(addr);
-        }
-      });
-    }
-  })();
-  else {
-    store.state.loginip = "请使用主流浏览器：chrome,firefox,opera,safari";
-  }
-}
 
 
 function getBrowserInfo() {

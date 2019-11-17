@@ -37,61 +37,98 @@
         methods: {
             loginClick() {
                 var pas = this.$md5(this.loginForm.password);
-                this.$axios
-                    .post("/login/", {
+                this.$api.user.login({
+                    username: this.loginForm.username,
+                    password: pas
+                }).then(response => {
+                    if (response.data === "userError") {
+                        this.$message.error("用户名或邮箱未注册");
+                        return;
+                    }
+                    if (response.data === "pwdError") {
+                        this.$message.error("密码错误");
+                        return;
+                    }
+                    this.$message({
+                        message: "登录成功！",
+                        type: "success"
+                    });
+                    sessionStorage.setItem("username", this.loginForm.username);
+                    sessionStorage.setItem("nickname", response.data.nickname);
+                    sessionStorage.setItem("type", response.data.type);
+                    this.$api.user.setLoginData({
                         username: this.loginForm.username,
-                        password: pas
-                    })
-                    .then(response => {
-                        if (response.data === "userError") {
-                            this.$message.error("用户名或邮箱未注册");
-                            return;
-                        }
-                        if (response.data === "pwdError") {
-                            this.$message.error("密码错误");
-                            return;
-                        }
-                        this.$message({
-                            message: "登录成功！",
-                            type: "success"
-                        });
+                        msg: this.$store.state.logininfo
+                    }).then(response => {
+                        this.$router.push('/');
+                        this.$router.go(0);
+                    }).catch(error => {
+                        this.$message.error(
+                            "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
+                        );
+                        sessionStorage.setItem("username", "");
+                        sessionStorage.setItem("nickname", "");
+                        sessionStorage.setItem("rating", "");
+                        sessionStorage.setItem("type", "");
+                        sessionStorage.setItem("ac_prob", "");
+                    });
+                })
 
-                        sessionStorage.setItem("username", this.loginForm.username);
-                        sessionStorage.setItem("nickname", response.data.nickname);
-                        sessionStorage.setItem("type", response.data.type);
-
-
-                        // if (this.$store.state.loginip === "") {
-                        //     this.$store.state.loginip = "unknown" // 后台会处理
-                        // }
-
-                        this.$axios
-                            .post("/setlogindata/", {
-                                username: this.loginForm.username,
-                                // ip: this.$store.state.loginip,
-                                msg: this.$store.state.logininfo
-                            })
-                            .then(response => {
-                                this.$router.push('/');
-                                this.$router.go(0);
-                            })
-                            .catch(error => {
-                                this.$message.error(
-                                    "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
-                                );
-                                sessionStorage.setItem("username", "");
-                                sessionStorage.setItem("nickname", "");
-                                sessionStorage.setItem("rating", "");
-                                sessionStorage.setItem("type", "");
-                                sessionStorage.setItem("ac_prob", "");
-                            });
-                    })
-                // .catch(error => {
-                //     this.$message.error("用户名不存在（" + error + "）");
-                // });
+                    // this.$axios
+                    //     .post("/login/", {
+                    //         username: this.loginForm.username,
+                    //         password: pas
+                    //     })
+                    //     .then(response => {
+                    //         if (response.data === "userError") {
+                    //             this.$message.error("用户名或邮箱未注册");
+                    //             return;
+                    //         }
+                    //         if (response.data === "pwdError") {
+                    //             this.$message.error("密码错误");
+                    //             return;
+                    //         }
+                    //         this.$message({
+                    //             message: "登录成功！",
+                    //             type: "success"
+                    //         });
+                    //
+                    //         sessionStorage.setItem("username", this.loginForm.username);
+                    //         sessionStorage.setItem("nickname", response.data.nickname);
+                    //         sessionStorage.setItem("type", response.data.type);
+                    //
+                    //
+                    //         // if (this.$store.state.loginip === "") {
+                    //         //     this.$store.state.loginip = "unknown" // 后台会处理
+                    //         // }
+                    //
+                    //         this.$axios
+                    //             .post("/setlogindata/", {
+                    //                 username: this.loginForm.username,
+                    //                 // ip: this.$store.state.loginip,
+                    //                 msg: this.$store.state.logininfo
+                    //             })
+                    //             .then(response => {
+                    //                 this.$router.push('/');
+                    //                 this.$router.go(0);
+                    //             })
+                    //             .catch(error => {
+                    //                 this.$message.error(
+                    //                     "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
+                    //                 );
+                    //                 sessionStorage.setItem("username", "");
+                    //                 sessionStorage.setItem("nickname", "");
+                    //                 sessionStorage.setItem("rating", "");
+                    //                 sessionStorage.setItem("type", "");
+                    //                 sessionStorage.setItem("ac_prob", "");
+                    //             });
+                    //     })
+                    // .catch(error => {
+                    //     this.$message.error("用户名不存在（" + error + "）");
+                    // });
+                }
             }
-        }
-    };
+        };
 </script>
 
 <style scoped>

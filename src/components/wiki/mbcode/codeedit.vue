@@ -62,7 +62,7 @@ export default {
     };
   },
   created() {
-    if (sessionStorage.type == 3) this.username = "std";
+    if (sessionStorage.type === 3) this.username = "std";
     else this.username = sessionStorage.username;
     if (!this.username) {
       this.$message.error("请先登录");

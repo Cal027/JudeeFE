@@ -65,8 +65,7 @@
         methods: {
             handleCommand(command) {
                 if (command === "logout") {
-                    this.$axios
-                        .get("/logout/")
+                    this.$api.user.logout()
                         .then(response => {
                             this.$message({
                                 message: "注销成功！",
@@ -79,12 +78,31 @@
                             this.loginShow = 0;
                             this.username = "";
                             this.$router.go(0);
-                        })
-                        .catch(error => {
-                            this.$message.error(
-                                "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
-                            );
-                        });
+                        }).catch(error => {
+                        this.$message.error(
+                            "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
+                        );
+                    });
+                    // this.$axios
+                    //     .get("/logout/")
+                    //     .then(response => {
+                    //         this.$message({
+                    //             message: "注销成功！",
+                    //             type: "success"
+                    //         });
+                    //         sessionStorage.setItem("username", "");
+                    //         sessionStorage.setItem("name", "");
+                    //         sessionStorage.setItem("rating", "");
+                    //         sessionStorage.setItem("type", "");
+                    //         this.loginShow = 0;
+                    //         this.username = "";
+                    //         this.$router.go(0);
+                    //     })
+                    //     .catch(error => {
+                    //         this.$message.error(
+                    //             "服务器错误！" + "(" + JSON.stringify(error.response.data) + ")"
+                    //         );
+                    //     });
                 }
                 if (command === "home") {
                     this.$router.push({

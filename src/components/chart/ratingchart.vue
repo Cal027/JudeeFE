@@ -1,7 +1,7 @@
 <template>
-  <center>
+  <div style="text-align: center;">
     <div ref="myEchart" style="height:500px;width:100%"></div>
-  </center>
+  </div>
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
     };
   },
   methods: {
-    
+
     initChart() {
       let myChart = echarts.init(this.$refs.myEchart);
       let a= this.Xcontest
@@ -116,54 +116,54 @@ export default {
       });
     }
   },
-  mounted() {
-    var username = this.$route.query.username
-    this.$axios
-      .get("/contestratingchange/?user="+username)
-      .then(response => {
-        var Xnames = []
-        var Ynames = new Set();
-
-        for (var i = 0; i < response.data.length; i++) {
-          Xnames.push(response.data[i]["contesttime"]);
-          Ynames.add(response.data[i]["user"]);
-        }
-
-        for (var name1 of Ynames) {
-          this.yNum.push(name1);
-          this.series.push({ name: name1, type: "line", data: [],areaStyle: {}});
-        }
-
-        for (var i=0;i<Xnames.length;i++) {
-          var name2=Xnames[i]
-          var tname2 = moment(parseInt(name2)).format("YYYY-MM-DD");
-          this.xNum.push(tname2);
-        }
-
-        for (var i = 0; i < response.data.length; i++) {
-          for (var j = 0; j < this.series.length; j++) {
-      
-            if (this.series[j].name == response.data[i]["user"]) {
-              this.series[j].data.push(response.data[i].currentrating)
-              this.Xcontest.push(response.data[i].contestname)
-              this.Xchange.push(response.data[i].ratingchange)
-              this.Xid.push(response.data[i].contestid)
-            }
-          }
-        }
-
-
-        let obj = this.$refs.myEchart;
-        if (obj) {
-          this.initChart();
-        }
-      })
-      .catch(error => {
-        this.$message.error(
-          "服务器出错！" + JSON.stringify(error.response.data)
-        );
-      });
-  }
+  // mounted() {
+  //   var username = this.$route.query.username
+  //   this.$axios
+  //     .get("/contestratingchange/?user="+username)
+  //     .then(response => {
+  //       var Xnames = []
+  //       var Ynames = new Set();
+  //
+  //       for (var i = 0; i < response.data.length; i++) {
+  //         Xnames.push(response.data[i]["contesttime"]);
+  //         Ynames.add(response.data[i]["user"]);
+  //       }
+  //
+  //       for (var name1 of Ynames) {
+  //         this.yNum.push(name1);
+  //         this.series.push({ name: name1, type: "line", data: [],areaStyle: {}});
+  //       }
+  //
+  //       for (var i=0;i<Xnames.length;i++) {
+  //         var name2=Xnames[i]
+  //         var tname2 = moment(parseInt(name2)).format("YYYY-MM-DD");
+  //         this.xNum.push(tname2);
+  //       }
+  //
+  //       for (var i = 0; i < response.data.length; i++) {
+  //         for (var j = 0; j < this.series.length; j++) {
+  //
+  //           if (this.series[j].name == response.data[i]["user"]) {
+  //             this.series[j].data.push(response.data[i].currentrating)
+  //             this.Xcontest.push(response.data[i].contestname)
+  //             this.Xchange.push(response.data[i].ratingchange)
+  //             this.Xid.push(response.data[i].contestid)
+  //           }
+  //         }
+  //       }
+  //
+  //
+  //       let obj = this.$refs.myEchart;
+  //       if (obj) {
+  //         this.initChart();
+  //       }
+  //     })
+  //     .catch(error => {
+  //       this.$message.error(
+  //         "服务器出错！" + JSON.stringify(error.response.data)
+  //       );
+  //     });
+  // }
 };
 </script>
 
