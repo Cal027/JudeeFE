@@ -7,6 +7,9 @@ const user = {
   logout(){
     return axios.get(`${base}/logout`);
   },
+  getUserInfo(username){
+    return axios.get(`${base}/`+'username');
+  },
   // post提交
   login(params) {
     return axios.post(`${base}/login`,params);
@@ -16,7 +19,8 @@ const user = {
   },
   setLoginData(params) {
     return axios.post(`${base}/setlogindata`,params);
-  }
+  },
+
 
 };
 
