@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import main from '../components/main'
+import Intro from '../views/Intro'
 import problem from '../components/mainpage/problem'
 import statue from '../components/mainpage/statue'
 import contest from '../components/mainpage/contest'
@@ -18,7 +18,6 @@ import codeedit from '../views/tutorial/mbcode/codeedit'
 import OiWiki from '../views/tutorial/OiWiki'
 
 //懒加载
-const Setting = () => import('../views/setting/Settings');
 const ProfileSetting = () => import('../views/setting/ProfileSetting');
 const Login = () => import('../views/user/Login');
 const Register = () => import('../views/user/Register');
@@ -34,8 +33,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'main',
-      component: main
+      name: 'intro',
+      component: Intro
     },
     {
       path: '/problem',
@@ -46,11 +45,6 @@ export default new Router({
       path: '/problemdetail',
       name: 'problemdetail',
       component: problemdetail,
-    },
-    {
-      path: '/main',
-      name: 'main',
-      component: main
     },
     {
       path: '/admin',
@@ -66,11 +60,6 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: User
-    },
-    {
-      path: '/setting',
-      name: 'setting',
-      component: Setting
     },
     {
       path: '/setting/profile',

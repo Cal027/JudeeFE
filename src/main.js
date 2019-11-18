@@ -12,8 +12,7 @@ import axios from 'axios';
 import VueClipboard from 'vue-clipboard2'
 import 'babel-polyfill' //兼容IE6
 import MuseUI from 'muse-ui';
-import '../static/icon/iconfont.css'
-
+// import '../static/icon/iconfont.css'
 
 Vue.use(MuseUI);
 
