@@ -25,7 +25,7 @@ const user = {
     return axios.post(`${base}/setlogindata`,params);
   },
   updateUserProfile(username, new_profile) {
-    return axios.post(`${base}/change_profile`+username, new_profile);
+    return axios.put(`${base}/change_profile`+username+'/', new_profile);
 
   }
 
