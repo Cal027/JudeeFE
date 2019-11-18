@@ -45,10 +45,11 @@
                 username: sessionStorage.username,
                 avatarUrl: "../static/default.png",
                 form: {
+                    username: "",
                     nickname: "",
                     desc: "",
-                    qq_number: "",
-                    phone_number: "",
+                    qq_number: null,
+                    phone_number: null,
                     github_username: "",
                 },
             };
@@ -76,15 +77,11 @@
                     this.$api.user.updateUserProfile(this.username, this.form)
                         .then(response => {
                             console.log(response.data);
-                            if (response.data === '200') {
-                                this.$message({
-                                    message: "修改个人信息成功！",
-                                    type: "success"
-                                });
-                                this.$router.go(0);
-                            } else {
-                                this.$message.error("修改个人信息失败！");
-                            }
+                            this.$message({
+                                message: "修改个人信息成功！",
+                                type: "success"
+                            });
+                            this.$router.go(0);
                         });
                 })
             }
@@ -92,10 +89,12 @@
         created() {
             if (this.username) {
                 this.$api.user.getUserInfo(this.username).then(response => {
+                    this.form.username = this.username;
                     this.form.qq_number = response.data.qq_number;
                     this.form.desc = response.data.desc;
                     this.form.nickname = response.data.nickname;
                     this.form.phone_number = response.data.phone_number;
+                    this.form.github_username = response.data.github_username;
                 });
             }
         }
