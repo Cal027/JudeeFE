@@ -25,7 +25,7 @@
             return {
                 label: {
                     rule: "规则",
-                    des: "描述"
+                    des: "介绍"
                 },
             };
         }

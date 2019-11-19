@@ -16,6 +16,7 @@ import viewcode from '../views/tutorial/mbcode/viewcode'
 import viewcodedetail from '../views/tutorial/mbcode/viewcodedetail'
 import codeedit from '../views/tutorial/mbcode/codeedit'
 import OiWiki from '../views/tutorial/OiWiki'
+import {Pass} from "codemirror/src/util/misc";
 
 //懒加载
 const ProfileSetting = () => import('../views/setting/ProfileSetting');
@@ -24,6 +25,7 @@ const Register = () => import('../views/user/Register');
 const Tutorial = () => import('../views/tutorial/Tutorial');
 const todolist = () => import('../components/utils/todolist');
 const User = () => import('../views/user/UserHome');
+const PasswordSetting = () => import('../views/setting/PasswordSetting');
 
 
 Vue.use(Router);
@@ -65,6 +67,11 @@ export default new Router({
       path: '/setting/profile',
       name: 'profile',
       component: ProfileSetting
+    },
+    {
+      path: '/setting/password',
+      name: 'password',
+      component: PasswordSetting
     },
     {
       path: '/contest',

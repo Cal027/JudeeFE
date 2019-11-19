@@ -39,8 +39,12 @@
             </el-input>
           </el-form-item>
         </el-form>
-        <el-button @click="resetForm('regForm')" class="butt">重 置</el-button>
-        <el-button type="primary" @click="registerClick('regForm')" class="butt">注 册</el-button>
+        <el-row>
+          <el-button @click="resetForm('regForm')" class="butt">重 置</el-button>
+        </el-row>
+        <el-row>
+          <el-button type="primary" @click="registerClick('regForm')" class="butt">注 册</el-button>
+        </el-row>
       </el-card>
       <p class="signin">
         已有账号？
@@ -89,13 +93,6 @@
                     callback()
                 }
             };
-            var checkName = (rule, value, callback) => {
-                if (value.length < 1) {
-                    callback(new Error('昵称不能少于1字符'))
-                } else {
-                    callback()
-                }
-            };
             return {
                 regForm: {
                     username: '',
@@ -110,7 +107,9 @@
                     username: [{validator: checkUserName, trigger: 'blur'}],
                     password: [{validator: checkPass, trigger: 'blur'}],
                     confirm: [{validator: checkConfirm, trigger: 'blur'}],
-                    nickname: [{validator: checkName, trigger: 'blur'}]
+                    nickname: [
+                        {min: 3, max: 16, message: '长度在 3 到 8 个字符', trigger: 'blur'},
+                        {required: true, message: '请输入昵称', trigger: 'blur'}]
                 }
             };
         },
@@ -118,7 +117,6 @@
             registerClick(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // this.regForm.password = this.$md5(this.regForm.password);
                         var pas = this.$md5(this.regForm.password);
                         this.$api.user.register({
                             username: this.regForm.username,
@@ -176,7 +174,8 @@
   }
 
   .butt {
-    margin-right: 10px;
+    margin-top: 15px;
+    width: 100%;
   }
 
   .signin {

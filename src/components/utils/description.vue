@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <h2>欢迎来到Judee</h2>
+    <h2>欢迎来到Judee OJ</h2>
 
     <h3>这是一个基于Vue.js和Django的轻量级在线评测系统</h3>
     <br>

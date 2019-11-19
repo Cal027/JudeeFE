@@ -6,7 +6,10 @@
 
     <el-card :body-style="{ padding: '100px' }">
       <router-link to="/setting/profile">
-        <el-button icon="el-icon-edit-outline" type="text" class="edit">编辑信息</el-button>
+        <el-button icon="el-icon-edit-outline" type="text" class="editProf">修改信息</el-button>
+      </router-link>
+      <router-link to="/setting/password">
+        <el-button icon="el-icon-edit-outline" type="text" class="editPass">修改密码</el-button>
       </router-link>
       <p style="margin-top: -10px;">
         <el-row>
@@ -108,11 +111,19 @@
       margin-bottom: 20px;
     }
 
-    .edit {
+    .editProf {
       margin-top: 10px;
-      margin-right: 10px;
+      margin-right: 20px;
       position: absolute;
       top: 0;
+      right: 0;
+    }
+
+    .editPass {
+      margin-top: 10px;
+      margin-right: 20px;
+      position: absolute;
+      top: 30px;
       right: 0;
     }
 

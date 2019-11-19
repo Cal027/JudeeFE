@@ -5,20 +5,28 @@
     </el-header>
     <el-main>
       <el-card id="card">
-        <el-form :model="form">
-          <el-form-item prop="des" label="密码">
+        <el-form :model="form" :rules="rules" ref="form">
+          <el-form-item prop="pass" label="当前密码">
             <el-input
               type="password"
               v-model="form.password"
-              placeholder="不少于6个字符的密码">
+              placeholder="请输入当前密码">
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="confirm" label="确认密码">
+          <el-form-item prop="newPass" label="新密码">
+            <el-input
+              type="password"
+              v-model="form.new_password"
+              placeholder="不少于6个字符的新密码">
+            </el-input>
+          </el-form-item>
+
+          <el-form-item prop="Confirm" label="确认新密码">
             <el-input
               type="password"
               v-model="form.confirm"
-              placeholder="再次输入密码">
+              placeholder="请再次输入密码">
             </el-input>
           </el-form-item>
         </el-form>
@@ -32,14 +40,38 @@
     export default {
         name: "PasswordSetting",
         data() {
+            var checkPass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('密码不能为空'));
+                } else if (value.length < 6) {
+                    callback(new Error('密码不能少于6字符'));
+                } else {
+                    if (this.form.confirm !== '') {
+                        this.$refs.form.validateField('Confirm');
+                    }
+                    callback();
+                }
+            };
+            var checkConfirm = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.form.new_password) {
+                    callback(new Error('两次输入密码不一致!'))
+                } else {
+                    callback()
+                }
+            };
             return {
                 username: sessionStorage.username,
-                avatarUrl: "../static/default.png",
-                userid: -1,
                 form: {
                     password: "",
+                    new_password: "",
                     confirm: "",
                 },
+                rules: {
+                    newPass: {validator: checkPass, trigger: 'blur'},
+                    Confirm: {validator: checkConfirm, trigger: 'blur'},
+                }
             };
         },
         methods: {
@@ -65,8 +97,8 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    this.form.password = this.$md5(this.form.password);
-
+                    // TODO 未处理修改密码API
+                    now = this.$md5(this.form.password);
                 })
             }
         },
@@ -89,8 +121,6 @@
   }
 
   #card {
-    /*margin: 200px;*/
-    /*padding: 200px;*/
     width: 448px;
   }
 

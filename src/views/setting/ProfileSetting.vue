@@ -5,24 +5,24 @@
     </el-header>
     <el-main>
       <el-card id="card">
-        <el-form :model="form">
+        <el-form :model="form" :rules="rules" ref="form">
           <el-form-item prop="nickname" label="昵称">
             <el-input v-model="form.nickname"></el-input>
           </el-form-item>
 
           <el-form-item prop="desc" label="个人介绍">
             <el-input v-model="form.desc"
-                      placeholder="你这个人很懒，什么都没有没有留下">
+                      placeholder="你这个人很懒，什么都没有留下">
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="phone" label="电话号码">
+          <el-form-item prop="phone_number" label="电话号码">
             <el-input v-model="form.phone_number"
                       placeholder="还没留下电话号码">
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="qq" label="QQ">
+          <el-form-item prop="qq_number" label="QQ">
             <el-input v-model="form.qq_number" placeholder="还没留下QQ号码"></el-input>
           </el-form-item>
 
@@ -31,7 +31,7 @@
           </el-form-item>
         </el-form>
 
-        <el-button class="button" type="primary" @click="updateClick">更新</el-button>
+        <el-button class="button" type="primary" @click="updateClick('form')">更新</el-button>
       </el-card>
     </el-main>
   </el-container>
@@ -41,60 +41,93 @@
     export default {
         name: "ProfileSetting",
         data() {
+            var checkQQ = (rule, value, callback) => {
+                var qqPattern = /^[1-9][0-9]{4,10}$/;
+                setTimeout(() => {
+                    if (qqPattern.test(value) || !value) {
+                        callback()
+                    } else {
+                        callback(new Error('非法QQ号码'))
+                    }
+                }, 100)
+            };
+            var checkPhone = (rule, value, callback) => {
+                var pPattern = /^1[34578]\d{9}$/;
+                setTimeout(() => {
+                    if (pPattern.test(value) || !value) {
+                        callback()
+                    } else {
+                        callback(new Error('非法手机号码'))
+                    }
+                }, 100)
+            };
             return {
                 username: sessionStorage.username,
                 avatarUrl: "../static/default.png",
                 form: {
-                    username: "",
+                    // username: "",
                     nickname: "",
                     desc: "",
                     qq_number: null,
                     phone_number: null,
                     github_username: "",
                 },
+                rules: {
+                    nickname: [
+                        {min: 3, max: 16, message: '长度在 3 到 8 个字符', trigger: 'blur'},
+                        {required: true, message: '请输入昵称', trigger: 'blur'}],
+                    qq_number: {validator: checkQQ, trigger: 'blur'},
+                    phone_number: {validator: checkPhone, trigger: 'blur'}
+                }
             };
         },
 
         methods: {
-            updateClick() {
-                if (!this.username) {
-                    this.$message.error("非法访问！");
-                    return;
-                }
-                if (this.form.nickname.length < 2) {
-                    this.$message.error("昵称太短！");
-                    return;
-                }
-                this.$confirm(
-                    "确定更新吗?",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }
-                ).then(() => {
-                    // sessionStorage.setItem("user_id",)
-                    this.$api.user.updateUserProfile(this.username, this.form)
-                        .then(response => {
-                            console.log(response.data);
-                            this.$message({
-                                message: "修改个人信息成功！",
-                                type: "success"
+            updateClick(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (!this.username) {
+                            this.$message.error("非法访问！");
+                            return;
+                        }
+                        this.$confirm(
+                            "确定更新吗?",
+                            {
+                                confirmButtonText: "确定",
+                                cancelButtonText: "取消",
+                                type: "warning"
+                            }
+                        ).then(() => {
+                            this.$api.user.updateUserProfile(this.username, this.form)
+                                .then(response => {
+                                    this.$message({
+                                        message: "修改个人信息成功！",
+                                        type: "success"
+                                    });
+                                    // this.$router.go(0);
+                                }).catch(Error => {
+                                this.$message.error(
+                                    "服务器错误！ (" + Error.response.data.detail + ")"
+                                );
                             });
-                            this.$router.go(0);
-                        });
-                })
+                        })
+                    } else {
+                        this.$message.error('更新个人信息失败!');
+                        return false;
+                    }
+                });
             }
         },
         created() {
             if (this.username) {
                 this.$api.user.getUserInfo(this.username).then(response => {
-                    this.form.username = this.username;
-                    this.form.qq_number = response.data.qq_number;
-                    this.form.desc = response.data.desc;
-                    this.form.nickname = response.data.nickname;
-                    this.form.phone_number = response.data.phone_number;
-                    this.form.github_username = response.data.github_username;
+                    // this.form.username = this.username;
+                    // this.form.qq_number = response.data.qq_number;
+                    // this.form.desc = response.data.desc;
+                    // this.form.nickname = response.data.nickname;
+                    // this.form.phone_number = response.data.phone_number;
+                    // this.form.github_username = response.data.github_username;
+                    this.form = response.data;
                 });
             }
         }
