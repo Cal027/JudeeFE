@@ -26,6 +26,9 @@ const user = {
   },
   updateUserProfile(username, new_profile) {
     return axios.put(`${base}/change_profile/`+username+'/', new_profile);
+  },
+  changePwd(params) {
+    return axios.put(`${base}/change_pwd`, params);
 
   }
 
