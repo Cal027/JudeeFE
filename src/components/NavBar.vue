@@ -24,6 +24,9 @@
     <el-menu-item index="/todolist">
       <i class="el-icon-s-promotion"></i>待办事项
     </el-menu-item>
+    <el-menu-item index="/admin" v-show="isAdmin">
+      <i class="el-icon-odometer"></i>管理面板
+    </el-menu-item>
     <router-link to="/register" v-if="!loginShow">
       <el-button round class="button">注册</el-button>
     </router-link>
@@ -41,8 +44,6 @@
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="home">主页</el-dropdown-item>
         <el-dropdown-item command="submit">提交</el-dropdown-item>
-<!--        <el-dropdown-item command="profile">个人信息</el-dropdown-item>-->
-        <el-dropdown-item command="admin" divided v-show="isAdmin">Admin</el-dropdown-item>
         <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -59,7 +60,7 @@
                 username: sessionStorage.username,
                 nickname: sessionStorage.nickname,
                 logo_url: '../static/logo2.png',
-                isAdmin: false
+                isAdmin: true
             };
         },
         methods: {
@@ -102,12 +103,11 @@
                         query: {username: sessionStorage.username}
                     });
                 }
-                if (command === "admin") {
-                    this.$router.push({
-                        name: "admin"
-                    });
-                }
             }
+        },
+        mounted() {
+            // this.isAdmin = sessionStorage.type === 2 || sessionStorage.type === 3;
+            this.activeIndex = this.$route.path;
         }
     }
 </script>

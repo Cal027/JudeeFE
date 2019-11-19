@@ -14,7 +14,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="newPass" label="新密码">
+          <el-form-item prop="new_password" label="新密码">
             <el-input
               type="password"
               v-model="form.new_password"
@@ -22,7 +22,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="Confirm" label="确认新密码">
+          <el-form-item prop="confirm" label="确认新密码">
             <el-input
               type="password"
               v-model="form.confirm"
@@ -30,7 +30,7 @@
             </el-input>
           </el-form-item>
         </el-form>
-        <el-button class="button" type="primary" @click="updateClick">更新</el-button>
+        <el-button class="button" type="primary" @click="updateClick('form')">更新</el-button>
       </el-card>
     </el-main>
   </el-container>
@@ -40,14 +40,16 @@
     export default {
         name: "PasswordSetting",
         data() {
-            var checkPass = (rule, value, callback) => {
+            var checkNewPass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('密码不能为空'));
                 } else if (value.length < 6) {
                     callback(new Error('密码不能少于6字符'));
+                } else if (value === this.form.password) {
+                    callback(new Error('新密码不能和原密码一致'));
                 } else {
                     if (this.form.confirm !== '') {
-                        this.$refs.form.validateField('Confirm');
+                        this.$refs.form.validateField('confirm');
                     }
                     callback();
                 }
@@ -64,65 +66,61 @@
             return {
                 username: sessionStorage.username,
                 form: {
+                    username: "",
                     password: "",
                     new_password: "",
                     confirm: "",
                 },
                 rules: {
-                    newPass: {validator: checkPass, trigger: 'blur'},
-                    Confirm: {validator: checkConfirm, trigger: 'blur'},
+                    new_password: {validator: checkNewPass, trigger: 'blur'},
+                    confirm: {validator: checkConfirm, trigger: 'blur'},
                 }
             };
         },
         methods: {
-            updateClick() {
-                if (!this.username) {
-                    this.$message.error("非法访问！");
-                    return;
-                }
-                if (this.form.password !== this.form.confirm) {
-                    this.$message.error("两次密码不一致！");
-                    return;
-                }
-                if (this.form.password && this.form.password.length < 6) {
-                    this.$message.error("密码太短！");
-                    return;
-                }
-
-                this.$confirm(
-                    "确定更新吗?",
-                    {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
+            updateClick(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$confirm(
+                            "确定更新吗?",
+                            {
+                                confirmButtonText: "确定",
+                                cancelButtonText: "取消",
+                                type: "warning"
+                            }
+                        ).then(() => {
+                            // FIXME 修改密码API
+                            var pass = this.$md5(this.form.password);
+                            var new_pass = this.$md5(this.form.new_password);
+                            this.$api.user.changePwd({
+                                username: this.form.username,
+                                password: pass,
+                                new_password: new_pass
+                            }).then(response => {
+                                if (response.data === "userError") {
+                                    this.$message.error("非法访问！");
+                                    return;
+                                }
+                                if (response.data === "pwdError") {
+                                    this.$message.error("原密码不一致！");
+                                    return;
+                                }
+                                this.$message({
+                                    message: "修改密码成功！",
+                                    type: "success"
+                                });
+                                this.$router.go(-1);
+                            })
+                        })
+                    } else {
+                        this.$message.error('修改密码失败');
+                        return false;
                     }
-                ).then(() => {
-                    // FIXME 修改密码API
-                    if (this.form.new_password === this.form.password) {
-                        this.$message.error("新密码和旧密码不能相同！");
-                        return;
-                    }
-                    this.form.password = this.$md5(this.form.password);
-                    this.form.new_password = this.$md5(this.form.new_password);
-                    this.$api.user.changePwd(this.form).then(response => {
-                        if (response.data === "userError") {
-                            this.$message.error("非法访问！");
-                            return;
-                        }
-                        if (response.data === "pwdError") {
-                            this.$message.error("原密码不一致！");
-                            return;
-                        }
-                        this.$message({
-                            message: "修改密码成功！",
-                            type: "success"
-                        });
-                        this.$router.go(-1);
-                    })
-                })
+                });
             }
         },
         created() {
+            this.form.username = sessionStorage.username;
         }
     }
 </script>

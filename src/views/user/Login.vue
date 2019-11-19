@@ -56,6 +56,7 @@
                     sessionStorage.setItem("username", this.loginForm.username);
                     sessionStorage.setItem("nickname", response.data.nickname);
                     sessionStorage.setItem("type", response.data.type);
+
                     this.$api.user.setLoginData({
                         username: this.loginForm.username,
                         msg: this.$store.state.logininfo

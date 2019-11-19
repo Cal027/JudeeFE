@@ -34,7 +34,6 @@
             };
         },
         mounted() {
-            // this.isAdmin = sessionStorage.type === 2 || sessionStorage.type === 3;
             // this.$axios
             //     .get("/dashboard/")
             //     .then(res => {

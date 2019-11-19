@@ -16,7 +16,6 @@ import viewcode from '../views/tutorial/mbcode/viewcode'
 import viewcodedetail from '../views/tutorial/mbcode/viewcodedetail'
 import codeedit from '../views/tutorial/mbcode/codeedit'
 import OiWiki from '../views/tutorial/OiWiki'
-import {Pass} from "codemirror/src/util/misc";
 
 //懒加载
 const ProfileSetting = () => import('../views/setting/ProfileSetting');
