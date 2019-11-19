@@ -39,6 +39,11 @@ export default new Router({
       component: Intro
     },
     {
+      path: '/home',
+      name: 'intro',
+      component: Intro
+    },
+    {
       path: '/problem',
       name: 'problem',
       component: problem,

@@ -97,8 +97,28 @@
                         type: "warning"
                     }
                 ).then(() => {
-                    // TODO 未处理修改密码API
-                    now = this.$md5(this.form.password);
+                    // FIXME 修改密码API
+                    if (this.form.new_password === this.form.password) {
+                        this.$message.error("新密码和旧密码不能相同！");
+                        return;
+                    }
+                    this.form.password = this.$md5(this.form.password);
+                    this.form.new_password = this.$md5(this.form.new_password);
+                    this.$api.user.changePwd(this.form).then(response => {
+                        if (response.data === "userError") {
+                            this.$message.error("非法访问！");
+                            return;
+                        }
+                        if (response.data === "pwdError") {
+                            this.$message.error("原密码不一致！");
+                            return;
+                        }
+                        this.$message({
+                            message: "修改密码成功！",
+                            type: "success"
+                        });
+                        this.$router.go(-1);
+                    })
                 })
             }
         },

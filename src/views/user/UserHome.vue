@@ -37,15 +37,15 @@
       <el-row type="flex">
         <el-col>
           <p>提交次数</p>
-          <p class="emphasis">{{ans.submit}}</p>
+          <p class="emphasis">{{userData.submit}}</p>
         </el-col>
         <el-col class="middle">
           <p>AC问题数</p>
-          <p class="emphasis">{{ans.ac}}</p>
+          <p class="emphasis">{{userData.ac}}</p>
         </el-col>
         <el-col>
           <p>分数</p>
-          <p class="emphasis">{{ans.score}}</p>
+          <p class="emphasis">{{userData.score}}</p>
         </el-col>
       </el-row>
 
@@ -61,7 +61,7 @@
                 avatarUrl: '../static/default.png',
                 username: '',
                 profile: {},
-                ans: {},
+                userData: {},
                 github: '还没填写Github信息',
                 qq: '还没填写QQ信息',
                 phone_number: '还没填写电话号码'
@@ -82,7 +82,7 @@
                 }
             });
             this.$api.user.getUserData(this.username).then(response => {
-                this.ans = response.data
+                this.userData = response.data
             });
         }
     }

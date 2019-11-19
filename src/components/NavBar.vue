@@ -3,7 +3,7 @@
     <el-menu-item index="/" id="title">
       <el-image :src="logo_url" class="logo"></el-image>
     </el-menu-item>
-    <el-menu-item index="/main">
+    <el-menu-item index="/home">
       <i class="el-icon-data-board"></i>首页
     </el-menu-item>
     <el-menu-item index="/problem">
@@ -54,7 +54,7 @@
         name: "NavBar",
         data() {
             return {
-                activeIndex: "1",
+                activeIndex: "/home",
                 loginShow: sessionStorage.username,
                 username: sessionStorage.username,
                 nickname: sessionStorage.nickname,

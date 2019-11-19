@@ -104,7 +104,7 @@
                                         message: "修改个人信息成功！",
                                         type: "success"
                                     });
-                                    // this.$router.go(0);
+                                    this.$router.go(-1);
                                 }).catch(Error => {
                                 this.$message.error(
                                     "服务器错误！ (" + Error.response.data.detail + ")"
