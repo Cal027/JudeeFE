@@ -38,7 +38,7 @@ module.exports = {
         port: 8999,
         proxy: {
             '/api': {
-                target: 'http://cs308.leeeung.com:8300/',
+                target: 'http://10.20.184.64:8300/',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
@@ -49,9 +49,6 @@ module.exports = {
     },
     chainWebpack: (config) => {
         config.plugins.delete('named-chunks')
-        config.externals({
-            'CKEDITOR': 'window.CKEDITOR'
-        })
         config.resolve.alias
             .set('@oj',resolve('src/pages/index'))
             .set('@admin',resolve('src/pages/admin'))

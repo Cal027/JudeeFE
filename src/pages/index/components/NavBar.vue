@@ -1,7 +1,7 @@
 <template>
   <el-menu id="nav" :default-active="activeIndex" :router="true" mode="horizontal">
     <el-menu-item id="title" index="/">
-      <el-image :src="logo_url" class="logo"/>
+      <el-image :src="`/images/logo2.png`" class="logo"/>
     </el-menu-item>
     <el-menu-item index="/home">
       <i class="el-icon-data-board"/>首页
@@ -56,7 +56,7 @@ export default {
             loginShow: sessionStorage.username,
             username: sessionStorage.username,
             nickname: sessionStorage.nickname,
-            logo_url: '@/assets/images/logo2.png'
+            // logo_url: `images/logo2.png\`
         }
     },
     mounted () {

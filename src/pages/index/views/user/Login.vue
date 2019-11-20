@@ -59,7 +59,7 @@ export default {
 
                 this.$api.user.setLoginData({
                     username: this.loginForm.username,
-                    msg: this.$store.state.logininfo
+                    msg: this.$store.state.loginInfo
                 }).then(response => {
                     this.$router.push('/')
                     this.$router.go(0)
