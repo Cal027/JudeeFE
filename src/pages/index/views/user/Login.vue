@@ -25,57 +25,57 @@
 
 <script>
 export default {
-    name: 'Login',
-    data () {
-        return {
-            loginForm: {
-                username: '',
-                password: ''
-            }
-        }
-    },
-    methods: {
-        loginClick () {
-            var pas = this.$md5(this.loginForm.password)
-            this.$api.user.login({
-                username: this.loginForm.username,
-                password: pas
-            }).then(response => {
-                if (response.data === 'userError') {
-                    this.$message.error('用户名或邮箱未注册')
-                    return
-                }
-                if (response.data === 'pwdError') {
-                    this.$message.error('密码错误')
-                    return
-                }
-                this.$message({
-                    message: '登录成功！',
-                    type: 'success'
-                })
-                sessionStorage.setItem('username', this.loginForm.username)
-                sessionStorage.setItem('nickname', response.data.nickname)
-                sessionStorage.setItem('type', response.data.type)
-
-                this.$api.user.setLoginData({
-                    username: this.loginForm.username,
-                    msg: this.$store.state.loginInfo
-                }).then(response => {
-                    this.$router.push('/')
-                    this.$router.go(0)
-                }).catch(error => {
-                    this.$message.error(
-                        '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
-                    )
-                    sessionStorage.setItem('username', '')
-                    sessionStorage.setItem('nickname', '')
-                    sessionStorage.setItem('rating', '')
-                    sessionStorage.setItem('type', '')
-                    sessionStorage.setItem('ac_prob', '')
-                })
-            })
-        }
+  name: 'Login',
+  data () {
+    return {
+      loginForm: {
+        username: '',
+        password: ''
+      }
     }
+  },
+  methods: {
+    loginClick () {
+      var pas = this.$md5(this.loginForm.password)
+      this.$api.user.login({
+        username: this.loginForm.username,
+        password: pas
+      }).then(response => {
+        if (response.data === 'userError') {
+          this.$message.error('用户名或邮箱未注册')
+          return
+        }
+        if (response.data === 'pwdError') {
+          this.$message.error('密码错误')
+          return
+        }
+        this.$message({
+          message: '登录成功！',
+          type: 'success'
+        })
+        sessionStorage.setItem('username', this.loginForm.username)
+        sessionStorage.setItem('nickname', response.data.nickname)
+        sessionStorage.setItem('type', response.data.type)
+
+        this.$api.user.setLoginData({
+          username: this.loginForm.username,
+          msg: this.$store.state.loginInfo
+        }).then(response => {
+          this.$router.push('/')
+          this.$router.go(0)
+        }).catch(error => {
+          this.$message.error(
+            '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
+          )
+          sessionStorage.setItem('username', '')
+          sessionStorage.setItem('nickname', '')
+          sessionStorage.setItem('rating', '')
+          sessionStorage.setItem('type', '')
+          sessionStorage.setItem('ac_prob', '')
+        })
+      })
+    }
+  }
 }
 </script>
 

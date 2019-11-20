@@ -38,22 +38,20 @@
 
 <script>
 export default {
-    name: 'Tutorial',
-    data () {
-        return {}
+  name: 'Tutorial',
+  data () {
+    return {}
+  },
+  methods: {
+    glClick () {
+      this.$router.push({
+        name: 'OiWiki'
+      })
     },
-    methods: {
-        glClick () {
-            this.$router.push({
-                name: 'OiWiki'
-            })
-        },
-        mbClick () {
-            this.$router.push({
-                name: 'mbcode'
-            })
-        }
+    mbClick () {
+      this.$message.error('还没实现')
     }
+  }
 }
 </script>
 

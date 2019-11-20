@@ -1,16 +1,14 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-// 打包分析工具，可选用
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-// sentry 接入，可选用
-// const SentryPlugin = require('@tencent/webpack-sentry-plugin');
+const VueFilenameInjector = require('@d2-projects/vue-filename-injector')
+const ThemeColorReplacer = require('webpack-theme-color-replacer')
+const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 
 const glob = require('glob')
 const titles = require('./title.js')
-const path = require('path');
-function resolve (dir) {
-    return path.join(__dirname, dir)
-}
+
+// 拼接路径
+const resolve = dir => require('path').join(__dirname, dir)
 
 // 统一配置多页
 const pages = {}
@@ -47,11 +45,89 @@ module.exports = {
             }
         } // 配置开发环境 URL 便于本地开发调试
     },
+    css: {
+        loaderOptions: {
+            // 设置 scss 公用变量文件
+            sass: {
+                data: `@import '~@/assets/style/public.scss';`
+            }
+        }
+    },
     chainWebpack: (config) => {
-        config.plugins.delete('named-chunks')
+        config.plugins
+            .delete('prefetch')
+            .delete('preload')
+        config.resolve
+            .symlinks(true)
+        config
+            .plugin('theme-color-replacer')
+            .use(ThemeColorReplacer, [{
+                fileName: 'css/theme-colors.[contenthash:8].css',
+                matchColors: [
+                    ...forElementUI.getElementUISeries(process.env.VUE_APP_ELEMENT_COLOR) // Element-ui主色系列
+                ],
+                externalCssFiles: [ './node_modules/element-ui/lib/theme-chalk/index.css' ], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
+                changeSelector: forElementUI.changeSelector
+            }])
         config.resolve.alias
-            .set('@oj',resolve('src/pages/index'))
-            .set('@admin',resolve('src/pages/admin'))
+            .set('@oj', resolve('src/pages/index'))
+            .set('@admin', resolve('src/pages/admin'))
+            .set('@api', resolve('src/api'))
+        config
+        // 开发环境
+            .when(process.env.NODE_ENV === 'development',
+                // sourcemap不包含列信息
+                config => config.devtool('cheap-source-map')
+            )
+            // TRAVIS 构建 vue-loader 添加 filename
+            .when(process.env.VUE_APP_SCOURCE_LINK === 'TRUE',
+                VueFilenameInjector(config, {
+                    propName: process.env.VUE_APP_SOURCE_VIEWER_PROP_NAME
+                })
+            )
+        // markdown
+        config.module
+            .rule('md')
+            .test(/\.md$/)
+            .use('text-loader')
+            .loader('text-loader')
+            .end()
+        // svg
+        const svgRule = config.module.rule('svg')
+        svgRule.uses.clear()
+        svgRule
+            .include
+            .add(resolve('src/assets/svg-icons/icons'))
+            .end()
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
+            .options({
+                symbolId: 'd2-[name]'
+            })
+            .end()
+        // image exclude
+        const imagesRule = config.module.rule('images')
+        imagesRule
+            .test(/\.(png|jpe?g|gif|webp|svg)(\?.*)?$/)
+            .exclude
+            .add(resolve('src/assets/svg-icons/icons'))
+            .end()
+        // 判断环境加入模拟数据
+        const entry = config.entry('app')
+        if (process.env.VUE_APP_BUILD_MODE !== 'NOMOCK') {
+            entry
+                .add('@admin/mock')
+                .end()
+        }
+    },
+    // i18n
+    pluginOptions: {
+        i18n: {
+            locale: 'zh-chs',
+            fallbackLocale: 'en',
+            localeDir: 'locales',
+            enableInSFC: true
+        }
     },
     configureWebpack: (config) => {
         const plugins = [

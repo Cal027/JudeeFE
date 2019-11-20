@@ -1,10 +1,10 @@
 <template>
   <el-menu id="nav" :default-active="activeIndex" :router="true" mode="horizontal">
     <el-menu-item id="title" index="/">
-      <el-image :src="`/images/logo2.png`" class="logo"/>
+      <el-image :src="`/image/logo2.png`" class="logo"/>
     </el-menu-item>
     <el-menu-item index="/home">
-      <i class="el-icon-data-board"/>首页
+      <i class="el-icon-data-board"></i>首页
     </el-menu-item>
     <el-menu-item index="/problem">
       <i class="el-icon-tickets"/>题库
@@ -21,9 +21,9 @@
     <el-menu-item index="/tutorial">
       <i class="el-icon-reading"/>教程
     </el-menu-item>
-    <el-menu-item index="/todolist">
-      <i class="el-icon-s-promotion"/>待办事项
-    </el-menu-item>
+<!--    <el-menu-item index="/todolist">-->
+<!--      <i class="el-icon-s-promotion"/>待办事项-->
+<!--    </el-menu-item>-->
     <router-link v-if="!loginShow" to="/register">
       <el-button round class="button">注册</el-button>
     </router-link>
@@ -49,61 +49,61 @@
 
 <script>
 export default {
-    name: 'NavBar',
-    data () {
-        return {
-            activeIndex: '/home',
-            loginShow: sessionStorage.username,
-            username: sessionStorage.username,
-            nickname: sessionStorage.nickname,
-            // logo_url: `images/logo2.png\`
-        }
-    },
-    mounted () {
-        this.activeIndex = this.$route.path
-    },
-    methods: {
-        handleCommand (command) {
-            if (command === 'logout') {
-                this.$api.user.logout()
-                    .then(response => {
-                        this.$message({
-                            message: '注销成功！',
-                            type: 'success'
-                        })
-                        sessionStorage.setItem('username', '')
-                        sessionStorage.setItem('name', '')
-                        sessionStorage.setItem('rating', '')
-                        sessionStorage.setItem('type', '')
-                        this.loginShow = 0
-                        this.username = ''
-                        this.$router.push('/')
-                    }).catch(error => {
-                        this.$message.error(
-                            '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
-                        )
-                    })
-            }
-            if (command === 'home') {
-                this.$router.push({
-                    name: 'user',
-                    query: { username: sessionStorage.username }
-                })
-            }
-            if (command === 'profile') {
-                this.$router.push({
-                    name: 'profile',
-                    params: { username: sessionStorage.username }
-                })
-            }
-            if (command === 'submit') {
-                this.$router.push({
-                    name: 'statue',
-                    query: { username: sessionStorage.username }
-                })
-            }
-        }
+  name: 'NavBar',
+  data () {
+    return {
+      activeIndex: '/home',
+      loginShow: sessionStorage.username,
+      username: sessionStorage.username,
+      nickname: sessionStorage.nickname
+      // logo_url: `image/logo2.png\`
     }
+  },
+  mounted () {
+    this.activeIndex = this.$route.path
+  },
+  methods: {
+    handleCommand (command) {
+      if (command === 'logout') {
+        this.$api.user.logout()
+          .then(response => {
+            this.$message({
+              message: '注销成功！',
+              type: 'success'
+            })
+            sessionStorage.setItem('username', '')
+            sessionStorage.setItem('name', '')
+            sessionStorage.setItem('rating', '')
+            sessionStorage.setItem('type', '')
+            this.loginShow = 0
+            this.username = ''
+            this.$router.push('/')
+          }).catch(error => {
+            this.$message.error(
+              '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
+            )
+          })
+      }
+      if (command === 'home') {
+        this.$router.push({
+          name: 'user',
+          query: { username: sessionStorage.username }
+        })
+      }
+      if (command === 'profile') {
+        this.$router.push({
+          name: 'profile',
+          params: { username: sessionStorage.username }
+        })
+      }
+      if (command === 'submit') {
+        this.$router.push({
+          name: 'statue',
+          query: { username: sessionStorage.username }
+        })
+      }
+    }
+  }
 
 }
 </script>

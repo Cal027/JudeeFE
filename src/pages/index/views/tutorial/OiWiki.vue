@@ -9,12 +9,12 @@
 
 <script>
 export default {
-    name: 'OiWiki',
+  name: 'OiWiki',
 
-    data () {
-        return {
-        }
+  data () {
+    return {
     }
+  }
 }
 </script>
 

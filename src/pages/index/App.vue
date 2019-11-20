@@ -18,10 +18,10 @@
 import NavBar from './components/NavBar'
 
 export default {
-    name: 'App',
-    components: { NavBar },
-    mounted () {
-    }
+  name: 'App',
+  components: { NavBar },
+  mounted () {
+  }
 }
 </script>
 

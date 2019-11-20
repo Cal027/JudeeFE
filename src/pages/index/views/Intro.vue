@@ -16,19 +16,19 @@ import ratingrule from '@oj/components/ratingrule'
 import description from '@oj/components/description'
 
 export default {
-    name: 'Intro',
-    components: {
-        ratingrule,
-        description
-    },
-    data () {
-        return {
-            label: {
-                rule: '规则',
-                des: '介绍'
-            }
-        }
+  name: 'Intro',
+  components: {
+    ratingrule,
+    description
+  },
+  data () {
+    return {
+      label: {
+        rule: '规则',
+        des: '介绍'
+      }
     }
+  }
 }
 </script>
 

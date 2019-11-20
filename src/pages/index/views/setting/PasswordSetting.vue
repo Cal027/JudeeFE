@@ -35,90 +35,90 @@
 
 <script>
 export default {
-    name: 'PasswordSetting',
-    data () {
-        var checkNewPass = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('密码不能为空'))
-            } else if (value.length < 6) {
-                callback(new Error('密码不能少于6字符'))
-            } else if (value === this.form.password) {
-                callback(new Error('新密码不能和原密码一致'))
-            } else {
-                if (this.form.confirm !== '') {
-                    this.$refs.form.validateField('confirm')
-                }
-                callback()
-            }
+  name: 'PasswordSetting',
+  data () {
+    var checkNewPass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('密码不能为空'))
+      } else if (value.length < 6) {
+        callback(new Error('密码不能少于6字符'))
+      } else if (value === this.form.password) {
+        callback(new Error('新密码不能和原密码一致'))
+      } else {
+        if (this.form.confirm !== '') {
+          this.$refs.form.validateField('confirm')
         }
-        var checkConfirm = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请再次输入密码'))
-            } else if (value !== this.form.new_password) {
-                callback(new Error('两次输入密码不一致!'))
-            } else {
-                callback()
-            }
-        }
-        return {
-            username: sessionStorage.username,
-            form: {
-                username: '',
-                password: '',
-                new_password: '',
-                confirm: ''
-            },
-            rules: {
-                new_password: { validator: checkNewPass, trigger: 'blur' },
-                confirm: { validator: checkConfirm, trigger: 'blur' }
-            }
-        }
-    },
-    created () {
-        this.form.username = sessionStorage.username
-    },
-    methods: {
-        updateClick (formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.$confirm(
-                        '确定更新吗?',
-                        {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }
-                    ).then(() => {
-                        // FIXME 修改密码API
-                        var pass = this.$md5(this.form.password)
-                        var newPass = this.$md5(this.form.new_password)
-                        this.$api.user.changePwd({
-                            username: this.form.username,
-                            password: pass,
-                            new_password: newPass
-                        }).then(response => {
-                            if (response.data === 'userError') {
-                                this.$message.error('非法访问！')
-                                return
-                            }
-                            if (response.data === 'pwdError') {
-                                this.$message.error('原密码不一致！')
-                                return
-                            }
-                            this.$message({
-                                message: '修改密码成功！',
-                                type: 'success'
-                            })
-                            this.$router.go(-1)
-                        })
-                    })
-                } else {
-                    this.$message.error('修改密码失败')
-                    return false
-                }
-            })
-        }
+        callback()
+      }
     }
+    var checkConfirm = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.form.new_password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      username: sessionStorage.username,
+      form: {
+        username: '',
+        password: '',
+        new_password: '',
+        confirm: ''
+      },
+      rules: {
+        new_password: { validator: checkNewPass, trigger: 'blur' },
+        confirm: { validator: checkConfirm, trigger: 'blur' }
+      }
+    }
+  },
+  created () {
+    this.form.username = sessionStorage.username
+  },
+  methods: {
+    updateClick (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$confirm(
+            '确定更新吗?',
+            {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }
+          ).then(() => {
+            // FIXME 修改密码API
+            var pass = this.$md5(this.form.password)
+            var newPass = this.$md5(this.form.new_password)
+            this.$api.user.changePwd({
+              username: this.form.username,
+              password: pass,
+              new_password: newPass
+            }).then(response => {
+              if (response.data === 'userError') {
+                this.$message.error('非法访问！')
+                return
+              }
+              if (response.data === 'pwdError') {
+                this.$message.error('原密码不一致！')
+                return
+              }
+              this.$message({
+                message: '修改密码成功！',
+                type: 'success'
+              })
+              this.$router.go(-1)
+            })
+          })
+        } else {
+          this.$message.error('修改密码失败')
+          return false
+        }
+      })
+    }
+  }
 }
 </script>
 

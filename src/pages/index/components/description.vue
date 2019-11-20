@@ -21,10 +21,8 @@
     <h4>轻量级，易于部署和自定义定制</h4>
     <h4>前后端分离，提高服务器性能</h4>
     <h4>支持多机器多进程判题，判题更高效</h4>
-    <h4>支持 C/C++/Java/Python3和Swift5.1语言</h4>
+    <h4>支持 C/C++/Java/Python3</h4>
     <h4>支持 Special Judge</h4>
-    <h4>实时爬取用户的博客和其他OJ的做题数</h4>
-    <h4>丰富的算法知识和体系化的套题训练</h4>
     <h4>一键保存和导出代码模板</h4>
     <h4>包含类CF的积分体系和比赛机制</h4>
 
@@ -33,15 +31,15 @@
 
 <script>
 export default {
-    name: 'Description',
-    data () {
-        return {
-
-        }
-    },
-    methods: {
+  name: 'Description',
+  data () {
+    return {
 
     }
+  },
+  methods: {
+
+  }
 }
 </script>
 

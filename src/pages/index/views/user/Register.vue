@@ -55,103 +55,103 @@
 
 <script>
 export default {
-    name: 'Register',
-    data () {
-        // 正则表达式校验
-        var checkUserName = (rule, value, callback) => {
-            var uPattern = /^[a-zA-Z0-9_-]{3,16}$/
-            if (!value) {
-                return callback(new Error('用户名不能为空'))
-            }
-            setTimeout(() => {
-                if (uPattern.test(value)) {
-                    callback()
-                } else {
-                    callback(new Error('非法用户名'))
-                }
-            }, 100)
+  name: 'Register',
+  data () {
+    // 正则表达式校验
+    var checkUserName = (rule, value, callback) => {
+      var uPattern = /^[a-zA-Z0-9_-]{3,16}$/
+      if (!value) {
+        return callback(new Error('用户名不能为空'))
+      }
+      setTimeout(() => {
+        if (uPattern.test(value)) {
+          callback()
+        } else {
+          callback(new Error('非法用户名'))
         }
-        var checkPass = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('密码不能为空'))
-            } else if (value.length < 6) {
-                callback(new Error('密码不能少于6字符'))
-            } else {
-                if (this.regForm.confirm !== '') {
-                    this.$refs.regForm.validateField('confirm')
-                }
-                callback()
-            }
-        }
-        var checkConfirm = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请再次输入密码'))
-            } else if (value !== this.regForm.password) {
-                callback(new Error('两次输入密码不一致!'))
-            } else {
-                callback()
-            }
-        }
-        return {
-            regForm: {
-                username: '',
-                password: '',
-                confirm: '',
-                nickname: '',
-                email: ''
-            },
-            rules: {
-                email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
-                username: [{ validator: checkUserName, trigger: 'blur' }],
-                password: [{ validator: checkPass, trigger: 'blur' }],
-                confirm: [{ validator: checkConfirm, trigger: 'blur' }],
-                nickname: [
-                    { min: 3, max: 16, message: '长度在 3 到 8 个字符', trigger: 'blur' },
-                    { required: true, message: '请输入昵称', trigger: 'blur' }]
-            }
-        }
-    },
-    methods: {
-        registerClick (formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    var pas = this.$md5(this.regForm.password)
-                    this.$api.user.register({
-                        username: this.regForm.username,
-                        password: pas,
-                        nickname: this.regForm.nickname,
-                        email: this.regForm.email
-                    }).then(response => {
-                        if (response.data === 'userError') {
-                            this.$message.error('用户名已存在！')
-                            return
-                        }
-                        if (response.data === 'emailError') {
-                            this.$message.error('邮箱已存在！')
-                            return
-                        }
-                        this.$message({
-                            message: '注册成功！',
-                            type: 'success'
-                        })
-                        this.resetForm('regForm')
-                        this.$router.push('/login')
-                    }).catch(Error => {
-                        this.$message.error(
-                            '服务器错误！' + '(' + JSON.stringify(Error.response.data) + ')'
-                        )
-                    })
-                } else {
-                    this.$message.error('注册失败!')
-                    return false
-                }
-            })
-        },
-        resetForm (formName) {
-            this.$refs[formName].resetFields()
-        }
+      }, 100)
     }
+    var checkPass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('密码不能为空'))
+      } else if (value.length < 6) {
+        callback(new Error('密码不能少于6字符'))
+      } else {
+        if (this.regForm.confirm !== '') {
+          this.$refs.regForm.validateField('confirm')
+        }
+        callback()
+      }
+    }
+    var checkConfirm = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.regForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      regForm: {
+        username: '',
+        password: '',
+        confirm: '',
+        nickname: '',
+        email: ''
+      },
+      rules: {
+        email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
+        username: [{ validator: checkUserName, trigger: 'blur' }],
+        password: [{ validator: checkPass, trigger: 'blur' }],
+        confirm: [{ validator: checkConfirm, trigger: 'blur' }],
+        nickname: [
+          { min: 3, max: 16, message: '长度在 3 到 8 个字符', trigger: 'blur' },
+          { required: true, message: '请输入昵称', trigger: 'blur' }]
+      }
+    }
+  },
+  methods: {
+    registerClick (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          var pas = this.$md5(this.regForm.password)
+          this.$api.user.register({
+            username: this.regForm.username,
+            password: pas,
+            nickname: this.regForm.nickname,
+            email: this.regForm.email
+          }).then(response => {
+            if (response.data === 'userError') {
+              this.$message.error('用户名已存在！')
+              return
+            }
+            if (response.data === 'emailError') {
+              this.$message.error('邮箱已存在！')
+              return
+            }
+            this.$message({
+              message: '注册成功！',
+              type: 'success'
+            })
+            this.resetForm('regForm')
+            this.$router.push('/login')
+          }).catch(Error => {
+            this.$message.error(
+              '服务器错误！' + '(' + JSON.stringify(Error.response.data) + ')'
+            )
+          })
+        } else {
+          this.$message.error('注册失败!')
+          return false
+        }
+      })
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
+  }
 }
 </script>
 
