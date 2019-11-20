@@ -106,7 +106,7 @@
             }
         },
         mounted() {
-            // this.isAdmin = sessionStorage.type === 2 || sessionStorage.type === 3;
+            this.isAdmin = sessionStorage.type === '3' || sessionStorage.type === '2'
             this.activeIndex = this.$route.path;
         }
     }

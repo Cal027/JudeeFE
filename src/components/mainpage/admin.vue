@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      type: 1,
+      type: '1',
       isadmin: false,
       canshow: false,
       loading:true
@@ -51,13 +51,13 @@ export default {
   },
   created() {
     this.type = sessionStorage.type;
-    if (this.type != 2 && this.type != 3) {
+    if (this.type !== '2' && this.type !== '3') {
       this.$message.error("非法访问！");
       this.canshow = false;
       return;
     }
     this.canshow = true;
-    if (this.type == 3) {
+    if (this.type === '3') {
       this.isadmin = true;
     }
   },

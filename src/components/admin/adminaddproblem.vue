@@ -50,7 +50,7 @@
       <el-input v-model="addproblemform.source" style="width:400px;"></el-input>
     </el-form-item>
     <el-form-item label="时间（ms）：">
-      <el-input-number style="width:200px;" v-model="addproblemform.time" :step="1000" :min="100" :max="60000"></el-input-number>      
+      <el-input-number style="width:200px;" v-model="addproblemform.time" :step="1000" :min="100" :max="60000"></el-input-number>
     </el-form-item>
     <el-form-item label="内存（MB）：">
       <el-input-number style="width:200px;" v-model="addproblemform.memory" :step="64" :min="4" :max="1024"></el-input-number>
@@ -111,7 +111,7 @@ export default {
       uploadaddress: "/uploadfile/",
       fileList: [],
       loading: false,
-      
+
       addproblemform: {
         problem: this.problemcount + 1,
         author: sessionStorage.name,
@@ -142,7 +142,7 @@ export default {
         score: 100,
         auth: 2,
         oj: "",
-    
+
       }
     };
   },
@@ -178,7 +178,7 @@ export default {
       var name = file.name;
       var li = name.split(".");
       this.fileList = fileList;
-      if (li[1] != "zip") {
+      if (li[1] !== "zip") {
         this.$message.error("数据文件名名不正确！后缀应为zip");
         this.fileList = [];
       }
@@ -187,7 +187,7 @@ export default {
       this.$message.error("数据上传失败！" + response);
     },
     handleSuccess(response, file, fileList) {
-      if(this.addproblemform.isspj == true) {
+      if(this.addproblemform.isspj === true) {
         this.addproblemform.hint = this.addproblemform.hint +"\n <b>【本题为Special Judge，即答案可能有多种情况】</b>"
       }
 
@@ -241,7 +241,7 @@ export default {
       console.log(this.fileList);
       var name = this.fileList[0].name;
       var li = name.split(".");
-      if (li[1] != "zip") {
+      if (li[1] !== "zip") {
         this.$message.error("数据文件名名不正确！后缀应为zip");
         this.fileList = [];
       }
