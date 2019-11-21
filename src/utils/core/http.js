@@ -2,12 +2,19 @@
 import axios from 'axios';
 import cookie from './cookie.js'
 // 默认配置
-axios.defaults.timeout = 10000; // 超时
 // axios.defaults.baseURL = process.env.VUE_APP_BASE_URL; // 不同环境下的BASE_URL
+// 创建axios实例
+var instance = axios.create({    timeout: 1000 * 12});
+// 设置post请求头
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 
 // 请求拦截
-axios.interceptors.request.use(function (config) {
+instance.interceptors.request.use(function (config) {
     // Do something before request is sent
+    if (localStorage.JWT_TOKEN) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+        config.headers.Authorization = `token ${localStorage.JWT_TOKEN}`;
+    }
     return config;
 }, function (error) {
     // Do something with request error
@@ -15,7 +22,7 @@ axios.interceptors.request.use(function (config) {
 });
 
 // 响应拦截
-axios.interceptors.response.use(function (response) {
+instance.interceptors.response.use(function (response) {
     // Do something with response data
     return response;
 }, function (error) {
@@ -34,24 +41,4 @@ export async function get(url, params = {}) {
         console.log(err);
     }
 }
-const os = {
-    windows: /Windows/ig.test(navigator.userAgent),
-    macos: /Mac OS/ig.test(navigator.userAgent)
-}
-
-// post 请求
-export async function post(url, params = {}) {
-    try {
-        let res = await axios.post(url, params);
-        console.log(url)
-        return new Promise((resolve) => {
-            var data = res.body
-            if (data.retcode === 0) {
-                resolve(res.data);
-            }
-        })
-    } catch (err) {
-        console.log(err);
-    }
-}
-
+export default instance;
