@@ -10,6 +10,7 @@ const Tutorial = () => import('@oj/views/tutorial/Tutorial')
 const ProfileSetting = () => import('@oj/views/setting/ProfileSetting')
 const PasswordSetting = () => import('@oj/views/setting/PasswordSetting')
 const OiWiki = () => import('@oj/views/tutorial/OiWiki')
+const ProblemList = () => import('@oj/views/problem/ProblemList')
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
     path: '/tutorial/oi-wiki',
     name: 'OiWiki',
     component: OiWiki
+  },
+  {
+    path: '/problem',
+    name: 'ProblemList',
+    component: ProblemList
   }
 ]
 

@@ -4,11 +4,11 @@ import { Message } from 'element-ui'
 import util from '@/utils/util'
 
 // 创建一个错误
-function errorCreate (msg) {
-  const error = new Error(msg)
-  errorLog(error)
-  throw error
-}
+// function errorCreate (msg) {
+//   const error = new Error(msg)
+//   errorLog(error)
+//   throw error
+// }
 
 // 记录和显示错误
 function errorLog (error) {

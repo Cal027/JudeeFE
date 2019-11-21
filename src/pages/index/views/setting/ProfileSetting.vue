@@ -61,7 +61,7 @@ export default {
     }
     return {
       username: localStorage.username,
-      avatarUrl: '../static/default.png',
+      avatarUrl: 'image/default.png',
       form: {
         nickname: '',
         desc: '',
