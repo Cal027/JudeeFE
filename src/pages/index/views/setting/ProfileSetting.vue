@@ -67,7 +67,7 @@ export default {
         desc: '',
         qq_number: null,
         phone_number: null,
-        github_username: ''
+        github_username: null
       },
       rules: {
         nickname: [
@@ -81,7 +81,11 @@ export default {
   created () {
     if (this.username) {
       this.$api.user.getUserInfo(localStorage.username).then(response => {
-        this.form = response.data
+        this.form.nickname = response.data.nickname
+        this.form.desc = response.data.desc
+        this.form.qq_number = response.data.qq_number
+        this.form.phone_number = response.data.phone_number
+        this.form.github_username = response.data.github_username
       })
     }
   },

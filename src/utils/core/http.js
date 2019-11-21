@@ -31,15 +31,5 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-// get请求
-export async function get(url, params = {}) {
-    try {
-        let res = await axios.get(url, params);
-        return new Promise((resolve, reject) => {
-            resolve(res.data);
-        })
-    } catch (err) {
-        console.log(err);
-    }
-}
+
 export default instance;

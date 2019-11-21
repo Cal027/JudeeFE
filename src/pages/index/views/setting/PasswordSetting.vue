@@ -90,10 +90,9 @@ export default {
             }
           ).then(() => {
             // FIXME 修改密码API
-            var pass = this.$md5(this.form.password)
-            var newPass = this.$md5(this.form.new_password)
+            var pass = this.form.password
+            var newPass = this.form.new_password
             this.$api.user.changePwd({
-              username: this.form.username,
               password: pass,
               new_password: newPass
             }).then(response => {
