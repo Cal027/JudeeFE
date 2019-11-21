@@ -21,34 +21,16 @@ const frameIn = [
         },
         component: _import('system/index')
       },
-      // 演示页面
       {
-        path: 'page1',
-        name: 'page1',
+        path: 'add-problem',
+        name: 'add-problem',
         meta: {
-          title: '页面 1',
+          title: '添加题目',
           auth: true
         },
-        component: _import('demo/page1')
+        component: _import('problem/AddProblem')
       },
-      {
-        path: 'page2',
-        name: 'page2',
-        meta: {
-          title: '页面 2',
-          auth: true
-        },
-        component: _import('demo/page2')
-      },
-      {
-        path: 'page3',
-        name: 'page3',
-        meta: {
-          title: '页面 3',
-          auth: true
-        },
-        component: _import('demo/page3')
-      },
+
       // 系统 前端日志
       {
         path: 'log',

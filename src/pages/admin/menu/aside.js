@@ -2,12 +2,10 @@
 export default [
   { path: '/index', title: '首页', icon: 'home' },
   {
-    title: '页面',
-    icon: 'folder-o',
+    title: '题目',
+    icon: 'list-ul',
     children: [
-      { path: '/page1', title: '页面 1' },
-      { path: '/page2', title: '页面 2' },
-      { path: '/page3', title: '页面 3' }
+      { path: '/add-problem', title: '添加题目', icon: 'plus' }
     ]
   }
 ]
