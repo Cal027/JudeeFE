@@ -56,7 +56,6 @@ export default {
       nickname: localStorage.getItem('nickname'),
       loginShow: localStorage.getItem('username'),
       username: localStorage.getItem('username')
-      // logo_url: `image/logo2.png\`
     }
   },
   mounted () {
