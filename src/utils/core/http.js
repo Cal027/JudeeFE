@@ -26,12 +26,8 @@ instance.interceptors.request.use(function (config) {
  * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
  */
 const toLogin = () => {
-  router.replace({
-    path: '/login',
-    query: {
-      redirect: router.currentRoute.fullPath
-    }
-  })
+  router.push('/')
+  router.go(0)
 }
 
 /**
@@ -51,6 +47,7 @@ const errorHandle = (status, other) => {
       localStorage.removeItem('JWT_TOKEN')
       localStorage.removeItem('username')
       localStorage.removeItem('nickname')
+      localStorage.removeItem('ac_prob')
       toLogin()
       break
     // 403 token过期
@@ -61,6 +58,12 @@ const errorHandle = (status, other) => {
     case 404:
       Message({
         message: '404请求不存在',
+        type: 'error'
+      });
+      break
+    case 500:
+      Message({
+        message: '500 服务器错误',
         type: 'error'
       });
       break

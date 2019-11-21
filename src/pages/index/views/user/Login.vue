@@ -55,7 +55,7 @@ export default {
         localStorage.setItem('JWT_TOKEN', response.data.token)
         localStorage.setItem('username', response.data.username)
         localStorage.setItem('nickname', response.data.nickname)
-
+        localStorage.setItem('ac_prob', response.data.ac_prob)
         this.$api.user.setLoginData({
           username: this.loginForm.username,
           msg: this.$store.state.loginInfo

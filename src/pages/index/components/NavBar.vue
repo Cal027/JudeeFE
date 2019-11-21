@@ -71,6 +71,7 @@ export default {
         localStorage.removeItem('JWT_TOKEN')
         localStorage.removeItem('username')
         localStorage.removeItem('nickname')
+        localStorage.removeItem('ac_prob')
 
         this.loginShow = 0
         this.username = ''
