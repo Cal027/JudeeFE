@@ -61,7 +61,7 @@ export default {
       }
     }
     return {
-      username: sessionStorage.username,
+      username: localStorage.username,
       form: {
         username: '',
         password: '',
@@ -75,7 +75,7 @@ export default {
     }
   },
   created () {
-    this.form.username = sessionStorage.username
+    this.form.username = localStorage.username
   },
   methods: {
     updateClick (formName) {

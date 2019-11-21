@@ -14,7 +14,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
     if (localStorage.JWT_TOKEN) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-        config.headers.Authorization = `token ${localStorage.JWT_TOKEN}`;
+        config.headers.Authorization = `JWT ${localStorage.JWT_TOKEN}`;
     }
     return config;
 }, function (error) {

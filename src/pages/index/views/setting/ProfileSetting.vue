@@ -60,7 +60,7 @@ export default {
       }, 100)
     }
     return {
-      username: sessionStorage.username,
+      username: localStorage.username,
       avatarUrl: '../static/default.png',
       form: {
         nickname: '',
@@ -80,7 +80,7 @@ export default {
   },
   created () {
     if (this.username) {
-      this.$api.user.getUserInfo(this.username).then(response => {
+      this.$api.user.getUserInfo(localStorage.username).then(response => {
         this.form = response.data
       })
     }
@@ -102,6 +102,7 @@ export default {
               type: 'warning'
             }
           ).then(() => {
+            console.log(this.form)
             this.$api.user.updateUserProfile(this.username, this.form)
               .then(response => {
                 this.$message({
