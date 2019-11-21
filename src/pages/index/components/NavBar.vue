@@ -65,21 +65,17 @@ export default {
   methods: {
     handleCommand (command) {
       if (command === 'logout') {
-        this.$api.user.logout()
-          .then(response => {
-            this.$message({
-              message: '注销成功！',
-              type: 'success'
-            })
-            localStorage.removeItem('JWT_TOKEN')
-            this.loginShow = 0
-            this.username = ''
-            this.$router.push('/')
-          }).catch(error => {
-            this.$message.error(
-              '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
-            )
-          })
+        this.$message({
+          message: '注销成功！',
+          type: 'success'
+        })
+        localStorage.removeItem('JWT_TOKEN')
+        localStorage.removeItem('username')
+        localStorage.removeItem('nickname')
+
+        this.loginShow = 0
+        this.username = ''
+        this.$router.push('/')
       }
       if (command === 'home') {
         this.$router.push({
