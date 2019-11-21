@@ -58,8 +58,7 @@ export default {
   name: 'Profile',
   data () {
     return {
-      baseUrl: process.env.BASE_URL,
-      avatarUrl: `images/default.png`,
+      avatarUrl: `image/default.png`,
       username: '',
       profile: {},
       userData: {},

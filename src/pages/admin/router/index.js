@@ -6,7 +6,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 import store from '@admin/store/index'
-import util from '@admin/libs/util.js'
+import util from '@/utils/util.js'
 
 // 路由数据
 import routes from './routes'
@@ -46,6 +46,7 @@ router.beforeEach(async (to, from, next) => {
     // 这里暂时将cookie里是否存有token作为验证是否登录的条件
     // 请根据自身业务需要修改
     const token = util.cookies.get('token')
+    // const token = sessionStorage.getItem('token')
     if (token && token !== 'undefined') {
       next()
     } else {

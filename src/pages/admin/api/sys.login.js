@@ -1,4 +1,4 @@
-import request from '@admin/plugin/axios'
+import request from '@/plugin/axios'
 
 export function AccountLogin (data) {
   return request({

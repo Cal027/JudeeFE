@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import util from '@admin/libs/util'
+import util from '@/utils/util'
 export default {
   name: 'app',
   watch: {

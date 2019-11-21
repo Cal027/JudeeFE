@@ -40,7 +40,7 @@ module.exports = {
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': '/'
+                    '^/api': ''
                 }
             }
         } // 配置开发环境 URL 便于本地开发调试
@@ -112,13 +112,6 @@ module.exports = {
             .exclude
             .add(resolve('src/assets/svg-icons/icons'))
             .end()
-        // 判断环境加入模拟数据
-        const entry = config.entry('app')
-        if (process.env.VUE_APP_BUILD_MODE !== 'NOMOCK') {
-            entry
-                .add('@admin/mock')
-                .end()
-        }
     },
     // i18n
     pluginOptions: {

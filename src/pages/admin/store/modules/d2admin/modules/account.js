@@ -1,5 +1,5 @@
 import { Message, MessageBox } from 'element-ui'
-import util from '@admin/libs/util.js'
+import util from '@/utils/util.js'
 import router from '@admin/router'
 import { AccountLogin } from '@admin/api/sys.login'
 
@@ -33,7 +33,7 @@ export default {
             util.cookies.set('token', res.token)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
-              name: res.name
+              name: res.username
             }, { root: true })
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
