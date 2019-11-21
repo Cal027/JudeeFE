@@ -36,10 +36,9 @@ export default {
   },
   methods: {
     loginClick () {
-      var pas = this.$md5(this.loginForm.password)
       this.$api.user.login({
         username: this.loginForm.username,
-        password: pas
+        password: this.loginForm.password
       }).then(response => {
         if (response.data === 'userError') {
           this.$message.error('用户名或邮箱未注册')
@@ -53,9 +52,9 @@ export default {
           message: '登录成功！',
           type: 'success'
         })
-        sessionStorage.setItem('username', this.loginForm.username)
-        sessionStorage.setItem('nickname', response.data.nickname)
-        sessionStorage.setItem('type', response.data.type)
+        localStorage.setItem('JWT_TOKEN', response.data.token)
+        localStorage.setItem('username', response.data.username)
+        localStorage.setItem('nickname', response.data.nickname)
 
         this.$api.user.setLoginData({
           username: this.loginForm.username,
@@ -67,11 +66,7 @@ export default {
           this.$message.error(
             '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
           )
-          sessionStorage.setItem('username', '')
-          sessionStorage.setItem('nickname', '')
-          sessionStorage.setItem('rating', '')
-          sessionStorage.setItem('type', '')
-          sessionStorage.setItem('ac_prob', '')
+          localStorage.removeItem('JWT_TOKEN')
         })
       })
     }

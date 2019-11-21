@@ -116,10 +116,9 @@ export default {
     registerClick (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          var pas = this.$md5(this.regForm.password)
           this.$api.user.register({
             username: this.regForm.username,
-            password: pas,
+            password: this.regForm.password,
             nickname: this.regForm.nickname,
             email: this.regForm.email
           }).then(response => {

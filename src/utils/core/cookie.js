@@ -1,41 +1,42 @@
-let cookie = {
-  getCookie (name) {
-    // 读取COOKIE
-    var reg = new RegExp('(^| )' + name + '(?:=([^;]*))?(;|$)')
-    var val = document.cookie.match(reg)
-    if (!val || !val[2]) { return '' }
-    var res = val[2]
-    try {
-      if (/(%[0-9A-F]{2}){2,}/.test(res)) { // utf8编码
-        return decodeURIComponent(res)
-      } else { // unicode编码
-        return unescape(res)
-      }
-    } catch (e) {
-      return unescape(res)
-    }
-  },
-  setCookie (name, value, expires, path, domain, secure) {
-    // 写入COOKIES
-    /* eslint-disable */
-    var exp = new Date()
-    expires = expires || null
-    path = path || '/'
-    domain = domain || null
-    secure = secure || false
-    if (expires) exp.setMinutes(exp.getMinutes() + parseInt(expires))
-    document.cookie = name + '=' + escape(value) + (expires ? ';expires=' + exp.toGMTString() : '') + (path ? ';path=' + path : '') + (domain ? ';domain=' + domain : '') + (secure ? ';secure' : '')
-  },
-  delCookie (name, path, domain, secure) {
-    // 删除cookie
-    var value = this.getCookie(name)
-    if (value != null) {
-      var exp = new Date()
-      exp.setMinutes(exp.getMinutes() - 1000)
-      path = path || '/'
-      document.cookie = name + '=;expires=' + exp.toGMTString() + (path ? ';path=' + path : '') + (domain ? ';domain=' + domain : '') + (secure ? ';secure' : '')
-    }
+import Cookies from 'js-cookie'
+
+const cookies = {}
+
+/**
+ * @description 存储 cookie 值
+ * @param {String} name cookie name
+ * @param {String} value cookie value
+ * @param {Object} setting cookie setting
+ */
+cookies.set = function (name = 'default', value = '', cookieSetting = {}) {
+  let currentCookieSetting = {
+    expires: 1
   }
+  Object.assign(currentCookieSetting, cookieSetting)
+  Cookies.set(`d2admin-${process.env.VUE_APP_VERSION}-${name}`, value, currentCookieSetting)
 }
 
-export default cookie
+/**
+ * @description 拿到 cookie 值
+ * @param {String} name cookie name
+ */
+cookies.get = function (name = 'default') {
+  return Cookies.get(`d2admin-${process.env.VUE_APP_VERSION}-${name}`)
+}
+
+/**
+ * @description 拿到 cookie 全部的值
+ */
+cookies.getAll = function () {
+  return Cookies.get()
+}
+
+/**
+ * @description 删除 cookie
+ * @param {String} name cookie name
+ */
+cookies.remove = function (name = 'default') {
+  return Cookies.remove(`d2admin-${process.env.VUE_APP_VERSION}-${name}`)
+}
+
+export default cookies

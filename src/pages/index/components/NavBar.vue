@@ -53,9 +53,9 @@ export default {
   data () {
     return {
       activeIndex: '/home',
-      loginShow: sessionStorage.username,
-      username: sessionStorage.username,
-      nickname: sessionStorage.nickname
+      nickname: localStorage.getItem('nickname'),
+      loginShow: localStorage.getItem('username'),
+      username: localStorage.getItem('username')
       // logo_url: `image/logo2.png\`
     }
   },
@@ -71,10 +71,7 @@ export default {
               message: '注销成功！',
               type: 'success'
             })
-            sessionStorage.setItem('username', '')
-            sessionStorage.setItem('name', '')
-            sessionStorage.setItem('rating', '')
-            sessionStorage.setItem('type', '')
+            localStorage.removeItem('JWT_TOKEN')
             this.loginShow = 0
             this.username = ''
             this.$router.push('/')

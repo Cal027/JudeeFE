@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
-import cookie from './cookie.js'
+import cookies from './cookie.js'
+
 // 默认配置
 // axios.defaults.baseURL = process.env.VUE_APP_BASE_URL; // 不同环境下的BASE_URL
 // 创建axios实例

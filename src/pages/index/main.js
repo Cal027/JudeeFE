@@ -3,14 +3,12 @@ import App from './App.vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
-import md5 from 'js-md5'
 import api from './api'
 import store from './store'
 import axios from 'axios'
 
 Vue.use(ElementUI)
 
-Vue.prototype.$md5 = md5
 Vue.prototype.$api = api
 
 axios.defaults.withCredentials = true// 实现跨域访问
