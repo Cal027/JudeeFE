@@ -20,7 +20,7 @@
           还没账号？
           <router-link to="/register">立即注册!</router-link>
         </el-row>
-        <a href="admin.html">已经是管理员？立即登录！</a>
+        <a href="admin">已经是管理员？立即登录！</a>
       </div>
     </el-main>
   </el-container>
