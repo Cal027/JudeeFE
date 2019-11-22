@@ -72,6 +72,7 @@
             <!--            </el-row>-->
             <el-row>
                 <el-card shadow="always">
+                    <h4>Search the problem ID or title</h4>
                     <el-input placeholder="Search..." v-model="searchText" @keyup.native.enter="getProblems">
                         <el-button slot="append" icon="el-icon-search" @click="getProblems"></el-button>
                     </el-input>
@@ -80,7 +81,7 @@
             <el-row :gutter="15">
                 <el-col>
                     <el-card shadow="always">
-                        <h4>Tags (Click to filter)</h4>
+                        <h4>Filter the tags</h4>
                         <el-checkbox-group v-model="currentTag" @change="getProblems">
                             <el-checkbox-button v-for="tag in tagNames" :label="tag.id" :key="tag.id">{{tag.name}}
                             </el-checkbox-button>

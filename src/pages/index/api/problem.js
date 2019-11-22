@@ -12,7 +12,7 @@ const problem = {
       url += `&tags=${tags}`
     }
     if (searchText !== '') {
-      url += `&search=${searchText}`
+      url += `&keyword=${searchText}`
     }
     return axios.get(url)
   }
