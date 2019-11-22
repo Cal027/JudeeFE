@@ -15,10 +15,13 @@
           <el-button type="primary" class="button" @click="loginClick">登 录</el-button>
         </el-form>
       </el-card>
-      <p class="create-account">
-        还没账号？
-        <router-link to="/register">立即注册!</router-link>
-      </p>
+      <div class="create-account">
+        <el-row>
+          还没账号？
+          <router-link to="/register">立即注册!</router-link>
+        </el-row>
+        <a href="admin.html">已经是管理员？立即登录！</a>
+      </div>
     </el-main>
   </el-container>
 </template>
@@ -98,6 +101,7 @@ export default {
   }
 
   .create-account {
+    margin-top: 20px;
     padding: 15px 20px;
     text-align: center;
     border: 1px solid #d8dee2;

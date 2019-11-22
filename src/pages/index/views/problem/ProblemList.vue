@@ -20,8 +20,8 @@
                         size="small"
                 >
                     <el-table-column prop="ID" label="ID" :width="70"></el-table-column>
-                    <el-table-column prop="title" label="Title" :width="250"></el-table-column>
-                    <el-table-column prop="difficulty" label="Difficulty" :width="100"></el-table-column>
+                    <el-table-column prop="title" label="题目" :width="250"></el-table-column>
+                    <el-table-column prop="difficulty" label="难度" :width="100"></el-table-column>
                     <!--                    <el-table-column prop="level" label="Level" :width="170">-->
                     <!--                        <template slot-scope="scope1">-->
                     <!--                            <el-tag-->
@@ -33,7 +33,7 @@
                     <!--                            >{{ scope1.row.level }}</el-tag>-->
                     <!--                        </template>-->
                     <!--                    </el-table-column>-->
-                    <el-table-column prop="tags" label="Tag">
+                    <el-table-column prop="tags" label="标签">
                         <template slot-scope="scope">
                             <el-tag
                                     id="index"
@@ -46,9 +46,9 @@
                             </el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="rate" label="AC rate" :width="70"></el-table-column>
-                    <el-table-column prop="submission_number" label="Submissions" :width="100"></el-table-column>
-                    <el-table-column prop="total_score" label="Score" :width="70"></el-table-column>
+                    <el-table-column prop="rate" label="正确率" :width="70"></el-table-column>
+                    <el-table-column prop="submission_number" label="提交数" :width="100"></el-table-column>
+                    <el-table-column prop="total_score" label="分数" :width="70"></el-table-column>
                 </el-table>
                 <div style="text-align: center;">
                     <el-pagination
@@ -72,8 +72,7 @@
             <!--            </el-row>-->
             <el-row>
                 <el-card shadow="always">
-                    <h4>Search the problem ID or title</h4>
-                    <el-input placeholder="Search..." v-model="searchText" @keyup.native.enter="getProblems">
+                    <el-input placeholder="搜索题目..." v-model="searchText" @keyup.native.enter="getProblems">
                         <el-button slot="append" icon="el-icon-search" @click="getProblems"></el-button>
                     </el-input>
                 </el-card>
@@ -81,7 +80,7 @@
             <el-row :gutter="15">
                 <el-col>
                     <el-card shadow="always">
-                        <h4>Filter the tags</h4>
+                        <h4>标签(点击筛选)</h4>
                         <el-checkbox-group v-model="currentTag" @change="getProblems">
                             <el-checkbox-button v-for="tag in tagNames" :label="tag.id" :key="tag.id">{{tag.name}}
                             </el-checkbox-button>

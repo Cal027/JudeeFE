@@ -1,5 +1,5 @@
 # Judee OJ前端项目
-> Vue CLI 3 多页应用项目, ElementUI为UI组件库
+> Vue CLI 3 多页应用项目, ElementUI为UI组件库, D2Admin后台管理模板
 
 
 ## 初始化
