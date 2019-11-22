@@ -28,7 +28,6 @@
             <el-input v-model="form.github_username" placeholder="还没留下Github用户名"/>
           </el-form-item>
         </el-form>
-
         <el-button class="button" type="primary" @click="updateClick('form')">更新</el-button>
       </el-card>
     </el-main>

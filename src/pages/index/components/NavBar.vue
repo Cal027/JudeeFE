@@ -24,13 +24,13 @@
 <!--    <el-menu-item index="/todolist">-->
 <!--      <i class="el-icon-s-promotion"/>待办事项-->
 <!--    </el-menu-item>-->
+    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"></el-button>
     <router-link v-if="!loginShow" to="/register">
       <el-button round class="button">注册</el-button>
     </router-link>
     <router-link v-if="!loginShow" to="/login">
       <el-button round class="button">登录</el-button>
     </router-link>
-
     <el-dropdown
       v-show="loginShow"
       id="user"
@@ -52,6 +52,7 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      backShow: false,
       activeIndex: '/home',
       nickname: localStorage.getItem('nickname'),
       loginShow: localStorage.getItem('username'),
@@ -60,6 +61,11 @@ export default {
   },
   mounted () {
     this.activeIndex = this.$route.path
+  },
+  watch: {
+    $route (now) {
+      this.backShow = !(now.path === '/' || now.path === '/home')
+    }
   },
   methods: {
     handleCommand (command) {
@@ -95,6 +101,9 @@ export default {
           query: { username: localStorage.username }
         })
       }
+    },
+    handleBack () {
+      this.$router.back()
     }
   }
 

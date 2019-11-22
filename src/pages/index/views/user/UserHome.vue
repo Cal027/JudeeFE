@@ -9,7 +9,7 @@
         <el-button icon="el-icon-edit-outline" type="text" class="editProf">修改信息</el-button>
       </router-link>
       <router-link to="/setting/password">
-        <el-button icon="el-icon-edit-outline" type="text" class="editPass">修改密码</el-button>
+        <el-button icon="el-icon-edit" type="text" class="editPass">修改密码</el-button>
       </router-link>
       <p style="margin-top: -10px;">
         <el-row>

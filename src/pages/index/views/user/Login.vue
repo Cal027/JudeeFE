@@ -17,10 +17,9 @@
       </el-card>
       <div class="create-account">
         <el-row>
-          还没账号？
-          <router-link to="/register">立即注册!</router-link>
+          还没账号？<router-link to="/register">立即注册!</router-link>
         </el-row>
-        <a href="admin">已经是管理员？立即登录！</a>
+        已经是管理员？<a href="admin">立即登录！</a>
       </div>
     </el-main>
   </el-container>
