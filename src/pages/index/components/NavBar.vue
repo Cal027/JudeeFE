@@ -17,10 +17,10 @@
       <i class="el-icon-trophy"/>比赛
     </el-menu-item>
     <el-menu-item index="/rank">
-      <i class="el-icon-star-on"/>排名
+      <i class="iconfont j-icon-paiming"/>排名
     </el-menu-item>
     <el-menu-item index="/tutorial">
-      <i class="el-icon-reading"/>教程
+      <i class="iconfont j-icon-wiki-"/>教程
     </el-menu-item>
     <el-button v-show="backShow" class="button" icon="el-icon-back" type="text" circle @click="handleBack"></el-button>
     <router-link v-if="!loginShow" to="/register">
@@ -141,5 +141,10 @@ export default {
     #user {
         float: right;
         margin: 10px;
+    }
+
+    .iconfont{
+        font-size: 18px;
+        margin-right: 5px
     }
 </style>

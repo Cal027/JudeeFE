@@ -5,20 +5,20 @@
         <description/>
       </el-tab-pane>
       <el-tab-pane :label="label.rule" :lazy="true">
-        <ratingrule/>
+        <ratingRule/>
       </el-tab-pane>
     </el-tabs>
   </el-row>
 </template>
 
 <script>
-import ratingrule from '@oj/components/ratingrule'
-import description from '@oj/components/description'
+import ratingRule from '@oj/components/RatingRule'
+import description from '@oj/components/Description'
 
 export default {
   name: 'Intro',
   components: {
-    ratingrule,
+    ratingRule,
     description
   },
   data () {
