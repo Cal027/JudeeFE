@@ -1,7 +1,8 @@
 <template>
   <el-menu id="nav" :default-active="activeIndex" :router="true" mode="horizontal">
     <el-menu-item id="title" index="/">
-      <el-image :src="`/image/logo2.png`" class="logo"/>
+<!--       <el-image :src="`/image/logo2.png`" class="logo"/>-->
+      <d2-icon-svg name="logo-text" class="logo" />
     </el-menu-item>
     <el-menu-item index="/home">
       <i class="el-icon-data-board"></i>首页
@@ -21,10 +22,7 @@
     <el-menu-item index="/tutorial">
       <i class="el-icon-reading"/>教程
     </el-menu-item>
-<!--    <el-menu-item index="/todolist">-->
-<!--      <i class="el-icon-s-promotion"/>待办事项-->
-<!--    </el-menu-item>-->
-    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"></el-button>
+    <el-button v-show="backShow" class="button" icon="el-icon-back" type="text" circle @click="handleBack"></el-button>
     <router-link v-if="!loginShow" to="/register">
       <el-button round class="button">注册</el-button>
     </router-link>
@@ -104,6 +102,7 @@ export default {
     },
     handleBack () {
       this.$router.back()
+      console.log(this.activeIndex)
     }
   }
 
@@ -125,7 +124,8 @@ export default {
 
     .logo {
         width: 96px;
-        height: 54px
+        height: 54px;
+        margin-bottom: 8px;
     }
 
     .el-dropdown-link {

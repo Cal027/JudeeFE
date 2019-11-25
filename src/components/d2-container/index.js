@@ -50,7 +50,7 @@ export default {
         on: {
           scroll: e => this.$emit('scroll', e)
         }
-      }, slots),
+      }, slots)
     ])
   },
   methods: {
