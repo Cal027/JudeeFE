@@ -19,7 +19,7 @@
         <el-row>
           还没账号？<router-link to="/register">立即注册!</router-link>
         </el-row>
-        已经是管理员？<a href="admin">立即登录！</a>
+        已经是管理员？<el-link href="admin">立即登录！</el-link>
       </div>
     </el-main>
   </el-container>
@@ -57,6 +57,7 @@ export default {
         localStorage.setItem('JWT_TOKEN', response.data.token)
         localStorage.setItem('username', response.data.username)
         localStorage.setItem('nickname', response.data.nickname)
+        localStorage.setItem('type', response.data.type)
         localStorage.setItem('ac_prob', response.data.ac_prob)
         this.$api.user.setLoginData({
           username: this.loginForm.username,

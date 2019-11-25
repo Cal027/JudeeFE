@@ -1,8 +1,8 @@
 <template>
     <d2-container class="page">
-      <el-card class="logo">
-        <el-image src="image/logo2.png"></el-image>
-      </el-card>
+        <el-card class="logo">
+            <d2-icon-svg name="logo-text"></d2-icon-svg>
+        </el-card>
         <div class="te">
             <span>Judee OJ后台管理面板</span>
         </div>
@@ -22,14 +22,15 @@ export default {
 
 <style lang="scss" scoped>
     .logo {
-      width: 600px;
-      text-align: center;
-      margin: 10%  auto;
+        width: 500px;
+        text-align: center;
+        margin: 10% auto;
     }
-    .te{
+
+    .te {
         margin-top: -7%;
         text-align: center;
-        font-weight: 350;
+        font-weight: 400;
         font-size: 18px;
     }
 </style>

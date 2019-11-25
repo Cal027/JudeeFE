@@ -22,7 +22,7 @@
     <el-menu-item index="/tutorial">
       <i class="iconfont j-icon-wiki-"/>教程
     </el-menu-item>
-    <el-button v-show="backShow" class="button" icon="el-icon-back" type="text" circle @click="handleBack"></el-button>
+    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"></el-button>
     <router-link v-if="!loginShow" to="/register">
       <el-button round class="button">注册</el-button>
     </router-link>
@@ -39,7 +39,10 @@
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="home">主页</el-dropdown-item>
         <el-dropdown-item command="submit">提交</el-dropdown-item>
-        <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
+          <el-link href="admin" v-show="isAdmin" :underline="false">
+              <el-dropdown-item >管理</el-dropdown-item>
+          </el-link>
+          <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-menu>
@@ -50,6 +53,7 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      isAdmin: true,
       backShow: false,
       activeIndex: '/home',
       nickname: localStorage.getItem('nickname'),
@@ -59,6 +63,7 @@ export default {
   },
   mounted () {
     this.activeIndex = this.$route.path
+    this.isAdmin = localStorage.getItem('type') === '1'
   },
   watch: {
     $route (now) {
@@ -85,12 +90,6 @@ export default {
         this.$router.push({
           name: 'user',
           query: { username: localStorage.username }
-        })
-      }
-      if (command === 'profile') {
-        this.$router.push({
-          name: 'profile',
-          params: { username: localStorage.username }
         })
       }
       if (command === 'submit') {
