@@ -63,7 +63,7 @@ export default {
   },
   mounted () {
     this.activeIndex = this.$route.path
-    this.isAdmin = localStorage.getItem('type') === '1'
+    this.isAdmin = localStorage.getItem('type') !== '1'
   },
   watch: {
     $route (now) {

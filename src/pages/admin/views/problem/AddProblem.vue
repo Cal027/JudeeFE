@@ -1,6 +1,5 @@
 <template>
-    <d2-container>
-<!--        <template slot="header">添加题目</template>-->
+    <d2-container ref="container">
         <d2-module-index-banner v-bind="banner"/>
         <el-form ref="form" style="margin: 0 auto;max-width: 90%"
                  :model="form" :rules="rules" label-position="top" label-width="90px">
@@ -105,7 +104,7 @@
             </el-row>
             <el-form-item label="上传测试数据">
                 <el-card style="width: 25%">
-                    <el-upload>
+                    <el-upload style="text-align: center">
                         <el-button round  type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">只能上传zip文件，且不超过2MB</div>
                     </el-upload>
@@ -183,6 +182,9 @@ export default {
         output_sample: { required: true, message: '样例输入不能为空', trigger: 'blur' }
       }
     }
+  },
+  mounted () {
+    this.$refs.container.scrollToTop()
   }
 }
 </script>
