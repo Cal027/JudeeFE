@@ -1,11 +1,11 @@
 <template>
-  <el-menu id="nav" :default-active="activeIndex" :router="true" mode="horizontal">
+  <el-menu id="nav" :default-active="activeIndex" text-color="#170317"
+           router mode="horizontal">
     <el-menu-item id="title" index="/">
-<!--       <el-image :src="`/image/logo2.png`" class="logo"/>-->
       <d2-icon-svg name="logo-text" class="logo" />
     </el-menu-item>
     <el-menu-item index="/home">
-      <i class="el-icon-data-board"></i>首页
+        <i class="el-icon-data-board"/>首页
     </el-menu-item>
     <el-menu-item index="/problem">
       <i class="el-icon-tickets"/>题库
@@ -22,7 +22,7 @@
     <el-menu-item index="/tutorial">
       <i class="iconfont j-icon-wiki-"/>教程
     </el-menu-item>
-    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"></el-button>
+    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"/>
     <router-link v-if="!loginShow" to="/register">
       <el-button round class="button">注册</el-button>
     </router-link>
@@ -110,7 +110,6 @@ export default {
 
 <style scoped>
     #nav {
-        background-color: #ffffff;
         min-width: 1100px;
         position: fixed;
         left: 0;
