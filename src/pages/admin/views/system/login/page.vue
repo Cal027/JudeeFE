@@ -40,7 +40,7 @@
                     type="text"
                     v-model="formLogin.username"
                     placeholder="用户名">
-                    <i slot="prepend" class="fa fa-user-circle-o"></i>
+                    <i slot="prepend" class="fa fa-user-circle-o"/>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
@@ -48,7 +48,7 @@
                     type="password"
                     v-model="formLogin.password"
                     placeholder="密码">
-                    <i slot="prepend" class="fa fa-keyboard-o"></i>
+                    <i slot="prepend" class="fa fa-keyboard-o"/>
                   </el-input>
                 </el-form-item>
                 <el-button
@@ -80,10 +80,7 @@
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
-            2018 D2 Projects 开源组织出品
-            <a href="https://github.com/FairyEver">
-              @FairyEver
-            </a>
+            SUSTech Judee小组出品
           </p>
           <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
