@@ -41,7 +41,5 @@
   memory_limit:0,
 
   difficulty:可以直接传文字也可以传数字来代表等级,
-
-  source:代表题目来源可为空,
-
-  created_by: username
+  tags:[],
+  source:代表题目来源可为空
