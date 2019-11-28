@@ -6,10 +6,10 @@
 
     <el-card :body-style="{ padding: '100px' }">
       <router-link to="/setting/profile">
-        <el-button icon="el-icon-edit-outline" type="text" class="editProf">修改信息</el-button>
+        <el-button icon="el-icon-edit-outline" v-if="isShowEdit" type="text" class="editProf">修改信息</el-button>
       </router-link>
       <router-link to="/setting/password">
-        <el-button icon="el-icon-edit" type="text" class="editPass">修改密码</el-button>
+        <el-button icon="el-icon-edit" v-if="isShowEdit" type="text" class="editPass">修改密码</el-button>
       </router-link>
       <p style="margin-top: -10px;">
         <el-row>
@@ -65,11 +65,13 @@ export default {
       userData: {},
       github: '还没填写Github信息',
       qq: '还没填写QQ信息',
-      phone_number: '还没填写电话号码'
+      phone_number: '还没填写电话号码',
+      isShowEdit: false
     }
   },
   created () {
     this.username = this.$route.query.username
+    this.isShowEdit = localStorage.getItem('username') === this.username
     this.$api.user.getUserInfo(this.username).then(response => {
       this.profile = response.data
       if (this.profile.qq_number) {
