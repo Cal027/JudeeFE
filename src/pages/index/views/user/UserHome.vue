@@ -9,7 +9,7 @@
         <el-button icon="el-icon-edit-outline" type="text" class="editProf">修改信息</el-button>
       </router-link>
       <router-link to="/setting/password">
-        <el-button icon="el-icon-edit-outline" type="text" class="editPass">修改密码</el-button>
+        <el-button icon="el-icon-edit" type="text" class="editPass">修改密码</el-button>
       </router-link>
       <p style="margin-top: -10px;">
         <el-row>
@@ -17,14 +17,15 @@
         </el-row>
         <el-row>
           <el-tooltip :content="profile.email" class="item" placement="bottom">
-            <i class="iconfont j-icon-mail-fill"/>
+            <i class="iconfont j-icon-mail-fill" @click="copyText(profile.email)"/>
           </el-tooltip>
           <el-tooltip :content="phone_number" class="item" placement="bottom">
-            <i class="iconfont j-icon-phone-fill"/>
+            <i class="iconfont j-icon-phone-fill" @click="copyText(phone_number)"/>
           </el-tooltip>
-          <el-tooltip :content="qq" class="item" style="margin-left: 5px;margin-right: 5px"
+          <el-tooltip :content="qq" class="item"
+                      style="margin-left: 5px;margin-right: 5px"
                       placement="bottom">
-            <i class="iconfont j-icon-QQ"/>
+            <i class="iconfont j-icon-QQ" @click="copyText(qq)"/>
           </el-tooltip>
           <el-tooltip :content="github" class="item" placement="bottom">
             <i class="iconfont j-icon-github-fill"/>
@@ -48,12 +49,12 @@
           <p class="emphasis">{{ userData.score }}</p>
         </el-col>
       </el-row>
-
     </el-card>
   </div>
 </template>
 
 <script>
+import * as clipboard from 'clipboard-polyfill'
 export default {
   name: 'Profile',
   data () {
@@ -84,6 +85,15 @@ export default {
     this.$api.user.getUserData(this.username).then(response => {
       this.userData = response.data
     })
+  },
+  methods: {
+    copyText (text) {
+      clipboard.writeText(text)
+      this.$message({
+        message: '已复制到剪贴板！',
+        type: 'success'
+      })
+    }
   }
 }
 </script>

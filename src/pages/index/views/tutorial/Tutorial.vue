@@ -10,11 +10,9 @@
             <div slot="header">
               <b>算法教程</b>
             </div>
-            <div style=" margin-bottom: 18px;">在这里你可以找到最全的算法攻略</div>
-            <div style=" margin-bottom: 18px;">在这里你可以编写自己的攻略</div>
-            <div style=" margin-bottom: 18px;">在这里你可以查看别人编写的攻略</div>
+            <div style=" margin-bottom: 18px;">来自Oi-Wiki的算法教程</div>
             <div style=" margin-bottom: 5px;">
-              <el-button type="primary" @click="glClick">查看攻略</el-button>
+              <el-button type="primary" @click="glClick">查看教程</el-button>
             </div>
           </el-card>
         </el-col>
@@ -23,7 +21,6 @@
             <div slot="header">
               <b>算法模板</b>
             </div>
-            <div style=" margin-bottom: 18px;">在这里你可以找到最全的算法模板</div>
             <div style=" margin-bottom: 18px;">在这里你可以保存自己的模板</div>
             <div style=" margin-bottom: 18px;">在这里你可以查看别人编写的模板</div>
             <div style=" margin-bottom: 5px;">

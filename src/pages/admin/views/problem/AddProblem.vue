@@ -1,60 +1,59 @@
 <template>
-    <d2-container>
-<!--        <template slot="header">添加题目</template>-->
+    <d2-container ref="container">
         <d2-module-index-banner v-bind="banner"/>
         <el-form ref="form" style="margin: 0 auto;max-width: 90%"
                  :model="form" :rules="rules" label-position="top" label-width="90px">
             <el-row :gutter="50">
                 <el-col :span="6">
                     <el-form-item prop="author" label="作者">
-                        <el-input v-model="form.author" placeholder="这里输入题目作者"></el-input>
+                        <el-input v-model="form.author" placeholder="这里输入题目作者"/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item prop="title" label="标题" >
-                        <el-input v-model="form.title" placeholder="这里输入题目"></el-input>
+                        <el-input v-model="form.title" placeholder="这里输入题目"/>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item prop="description" label="题目描述" size="mini" style="width: 65%">
-                <d2-quill style="min-height: 200px;" v-model="form.description"></d2-quill>
+                <d2-quill style="min-height: 200px;" v-model="form.description"/>
             </el-form-item>
             <el-row type="flex" justify="space-between" >
                 <el-col :span="11" >
                     <el-form-item prop="input_description" label="输入" size="mini">
-                        <d2-quill style="min-height: 150px;" v-model="form.input_description"></d2-quill>
+                        <d2-quill style="min-height: 150px;" v-model="form.input_description"/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="11">
                     <el-form-item prop="output_description" label="输出" size="mini">
-                        <d2-quill style="min-height: 150px;" v-model="form.output_description"></d2-quill>
+                        <d2-quill style="min-height: 150px;" v-model="form.output_description"/>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="7">
                     <el-form-item prop="input_sample" label="样例输入">
-                        <el-input type="textarea" :autosize="{minRows: 2}" v-model="form.input_sample"></el-input>
+                        <el-input type="textarea" :autosize="{minRows: 2}" v-model="form.input_sample"/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="7">
                     <el-form-item prop="output_sample" label="样例输出" >
-                        <el-input type="textarea" :autosize="{minRows: 2}" v-model="form.output_sample"></el-input>
+                        <el-input type="textarea" :autosize="{minRows: 2}" v-model="form.output_sample"/>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item prop="tips" label="提示" size="mini" style="width: 65%">
-                <d2-quill style="min-height: 200px;" v-model="form.tips"></d2-quill>
+                <d2-quill style="min-height: 200px;" v-model="form.tips"/>
             </el-form-item>
             <el-row :gutter="20">
                 <el-col :span="6">
                     <el-form-item prop="time_limit" label="时间限制(MS)">
-                        <el-input-number  controls-position="right" v-model="form.time_limit" :step="1000" step-strictly></el-input-number>
+                        <el-input-number  controls-position="right" v-model="form.time_limit" :step="1000" step-strictly/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
                     <el-form-item prop="memory_limit" label="内存限制(MB)" >
-                        <el-input-number controls-position="right" v-model="form.memory_limit" :step="16"></el-input-number>
+                        <el-input-number controls-position="right" v-model="form.memory_limit" :step="16"/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -105,7 +104,7 @@
             </el-row>
             <el-form-item label="上传测试数据">
                 <el-card style="width: 25%">
-                    <el-upload>
+                    <el-upload style="text-align: center">
                         <el-button round  type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">只能上传zip文件，且不超过2MB</div>
                     </el-upload>
@@ -183,6 +182,9 @@ export default {
         output_sample: { required: true, message: '样例输入不能为空', trigger: 'blur' }
       }
     }
+  },
+  mounted () {
+    this.$refs.container.scrollToTop()
   }
 }
 </script>

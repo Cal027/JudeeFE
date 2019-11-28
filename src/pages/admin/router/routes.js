@@ -30,7 +30,15 @@ const frameIn = [
         },
         component: _import('problem/AddProblem')
       },
-
+      {
+        path: 'user',
+        name: 'user',
+        meta: {
+          title: '用户管理',
+          auth: true
+        },
+        component: _import('user/User')
+      },
       // 系统 前端日志
       {
         path: 'log',

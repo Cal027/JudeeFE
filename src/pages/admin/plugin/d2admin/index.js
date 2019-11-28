@@ -4,7 +4,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // flex 布局库
 import 'flex.css'
 // 组件
-import '@admin/components'
+import '@/components'
 // svg 图标
 import '@/assets/svg-icons'
 // 国际化

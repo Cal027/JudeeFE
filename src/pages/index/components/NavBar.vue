@@ -1,10 +1,11 @@
 <template>
-  <el-menu id="nav" :default-active="activeIndex" :router="true" mode="horizontal">
+  <el-menu id="nav" :default-active="activeIndex" text-color="#170317"
+           router mode="horizontal">
     <el-menu-item id="title" index="/">
-      <el-image :src="`/image/logo2.png`" class="logo"/>
+      <d2-icon-svg name="logo-text" class="logo" />
     </el-menu-item>
     <el-menu-item index="/home">
-      <i class="el-icon-data-board"></i>首页
+        <i class="el-icon-data-board"/>首页
     </el-menu-item>
     <el-menu-item index="/problem">
       <i class="el-icon-tickets"/>题库
@@ -16,21 +17,18 @@
       <i class="el-icon-trophy"/>比赛
     </el-menu-item>
     <el-menu-item index="/rank">
-      <i class="el-icon-star-on"/>排名
+      <i class="iconfont j-icon-paiming"/>排名
     </el-menu-item>
     <el-menu-item index="/tutorial">
-      <i class="el-icon-reading"/>教程
+      <i class="iconfont j-icon-wiki-"/>教程
     </el-menu-item>
-<!--    <el-menu-item index="/todolist">-->
-<!--      <i class="el-icon-s-promotion"/>待办事项-->
-<!--    </el-menu-item>-->
+    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"/>
     <router-link v-if="!loginShow" to="/register">
       <el-button round class="button">注册</el-button>
     </router-link>
     <router-link v-if="!loginShow" to="/login">
       <el-button round class="button">登录</el-button>
     </router-link>
-
     <el-dropdown
       v-show="loginShow"
       id="user"
@@ -41,7 +39,10 @@
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="home">主页</el-dropdown-item>
         <el-dropdown-item command="submit">提交</el-dropdown-item>
-        <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
+          <el-link href="admin" v-show="isAdmin" :underline="false">
+              <el-dropdown-item >管理</el-dropdown-item>
+          </el-link>
+          <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-menu>
@@ -52,6 +53,8 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      isAdmin: true,
+      backShow: false,
       activeIndex: '/home',
       nickname: localStorage.getItem('nickname'),
       loginShow: localStorage.getItem('username'),
@@ -60,6 +63,12 @@ export default {
   },
   mounted () {
     this.activeIndex = this.$route.path
+    this.isAdmin = localStorage.getItem('type') !== '1'
+  },
+  watch: {
+    $route (now) {
+      this.backShow = !(now.path === '/' || now.path === '/home')
+    }
   },
   methods: {
     handleCommand (command) {
@@ -83,18 +92,16 @@ export default {
           query: { username: localStorage.username }
         })
       }
-      if (command === 'profile') {
-        this.$router.push({
-          name: 'profile',
-          params: { username: localStorage.username }
-        })
-      }
       if (command === 'submit') {
         this.$router.push({
           name: 'statue',
           query: { username: localStorage.username }
         })
       }
+    },
+    handleBack () {
+      this.$router.back()
+      console.log(this.activeIndex)
     }
   }
 
@@ -103,7 +110,6 @@ export default {
 
 <style scoped>
     #nav {
-        background-color: #ffffff;
         min-width: 1100px;
         position: fixed;
         left: 0;
@@ -116,7 +122,8 @@ export default {
 
     .logo {
         width: 96px;
-        height: 54px
+        height: 54px;
+        margin-bottom: 8px;
     }
 
     .el-dropdown-link {
@@ -132,5 +139,10 @@ export default {
     #user {
         float: right;
         margin: 10px;
+    }
+
+    .iconfont{
+        font-size: 18px;
+        margin-right: 5px
     }
 </style>

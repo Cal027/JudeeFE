@@ -7,6 +7,11 @@ import api from './api'
 import store from './store'
 import axios from 'axios'
 
+// 组件
+import '@/components'
+// svg 图标
+import '@/assets/svg-icons'
+
 Vue.use(ElementUI)
 
 Vue.prototype.$api = api

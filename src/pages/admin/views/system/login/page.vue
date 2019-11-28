@@ -23,7 +23,9 @@
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
           <!-- logo -->
-          <img class="page-login--logo" src="./image/logo2.png">
+          <a href="/">
+            <d2-icon-svg class="page-login--logo" name="logo-text"/>
+          </a>
           <!-- form -->
           <div class="page-login--form">
             <el-card shadow="never">
@@ -212,8 +214,8 @@ export default {
   }
   // main
   .page-login--logo {
-    width: 240px;
-    margin-bottom: 2em;
+    width: 260px;
+    margin-bottom: 1em;
     margin-top: -2em;
   }
   // 登录表单
