@@ -6,7 +6,7 @@ const problem = {
   getTags () {
     return axios.get(`${base}/problem_tag/`)
   },
-  getProblemWithLimit (limit, offset, tags, searchText) {
+  getProblemWithLimit (limit, offset, tags, searchText, diffs) {
     let url = `${base}/problem/?limit=${limit}&offset=${offset}&is_public=True`
     if (tags.length > 0) {
       url += `&tags=${tags}`
@@ -14,12 +14,12 @@ const problem = {
     if (searchText !== '') {
       url += `&keyword=${searchText}`
     }
+    if (tags.length > 0) {
+      url += `&diff=${diffs}`
+    }
     return axios.get(url)
-  },
-  // post
-  addProblem (form) {
-    return axios.post(`${base}/problem`, form)
   }
+
   // getProblemWithTags (limit, offset, tagList) {
   //   let tags = ''
   //   let i
