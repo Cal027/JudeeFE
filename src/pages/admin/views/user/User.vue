@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import userAPI from '@admin/api/sys.user'
 export default {
   name: 'User',
   data () {
@@ -121,7 +122,7 @@ export default {
       // 用户总数
       total: 0,
       // 当前页码
-      currentPage: 0,
+      currentPage: 1,
       userList: [
         {
           username: 'Test123',
@@ -155,7 +156,7 @@ export default {
     // 切换页码回调
     currentChange (page) {
       this.currentPage = page
-      this.getUserList(page)
+      this.getUserList()
     },
     openUserDialog (id) {
 
@@ -163,6 +164,11 @@ export default {
     getUserList (page) {
       this.loadingTable = true
       // TODO 分页获取用户API
+      userAPI.getUserList(this.pageSize, (this.currentPage - 1) * this.pageSize)
+        .then(response => {
+          this.userList = response.data.results
+          this.total = response.data.count
+        })
     },
     deleteUsers (ids) {
       this.$confirm('此操作将永久删除用户及其资料, 是否继续?', '提示', {
