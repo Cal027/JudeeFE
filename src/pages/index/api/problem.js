@@ -4,7 +4,7 @@ import axios from '@/utils/core/http' // 导入http中创建的axios实例
 const problem = {
   // get
   getTags () {
-    return axios.get(`${base}/problem_tag`)
+    return axios.get(`${base}/problem_tag/`)
   },
   getProblemWithLimit (limit, offset, tags, searchText) {
     let url = `${base}/problem/?limit=${limit}&offset=${offset}&is_public=True`
@@ -15,6 +15,10 @@ const problem = {
       url += `&keyword=${searchText}`
     }
     return axios.get(url)
+  },
+  // post
+  addProblem (form) {
+    return axios.post(`${base}/problem`, form)
   }
   // getProblemWithTags (limit, offset, tagList) {
   //   let tags = ''
