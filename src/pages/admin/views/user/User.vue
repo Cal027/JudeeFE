@@ -58,9 +58,7 @@
             <div slot="header">
                 <span style="font-size: 22px">导入用户</span>
             </div>
-            <el-upload>
-                <el-button round type="primary" icon="fa fa-upload">点击上传</el-button>
-            </el-upload>
+                <el-button round type="primary" icon="fa fa-upload">点击上传(还没实现)</el-button>
         </el-card>
 
         <el-card style="margin-top: 25px">
