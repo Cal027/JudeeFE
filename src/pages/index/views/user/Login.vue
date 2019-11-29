@@ -19,7 +19,7 @@
         <el-row>
           还没账号？<router-link to="/register">立即注册!</router-link>
         </el-row>
-        已经是管理员？<el-link href="admin">立即登录！</el-link>
+        <el-link href="admin" style="font-size: 16px">已经是管理员？立即登录！</el-link>
       </div>
     </el-main>
   </el-container>
