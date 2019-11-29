@@ -1,10 +1,10 @@
 <template>
-    <d2-container style="width: 80%; margin: 0 auto">
+    <d2-container style="width: 90%; margin: 0 auto">
         <el-card class="controlPanel">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
-                <el-col :span="5">
+                <el-col :span="10">
                     <el-input size="small" placeholder="搜索题目编号、标题、关键字..." v-model="searchText"
                               @keyup.native.enter="getProblems">
                         <el-button slot="append" @click="getProblems" size="mini">
@@ -16,17 +16,21 @@
             <el-row>
                 <el-col :span="2">难度：</el-col>
                 <el-col :span="20">
+                    <el-checkbox v-model="selectAll" @change="handleAllDiff">全部
+                    </el-checkbox>
                     <el-checkbox-group v-model="difficulty">
-                        <el-checkbox v-for="dif in diffOptions" :label="dif.id" :key="dif.id">{{dif.name}}</el-checkbox>
+                        <el-checkbox v-for="dif in diffOptions" :label="dif.value"
+                                     :key="dif.value" @change="handleDiff">{{dif.label}}
+                        </el-checkbox>
                     </el-checkbox-group>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="2">标签：</el-col>
-                <el-col :span="20">
+                <el-col :span="10">
                     <el-cascader clearable placeholder="请选择算法标签" v-model="tags"
-                                 :show-all-levels="false" filterable size="mini"
-                                 :props="{multiple:true,value:'name'}" :options="tagsOptions"/>
+                                 :show-all-levels="false" filterable size="mini" style="width: 100%"
+                                 :props="{multiple:true}" :options="tagNames"/>
                 </el-col>
             </el-row>
         </el-card>
@@ -72,32 +76,13 @@
                     </div>
                 </el-card>
             </el-col>
-            <el-col :span="6" v-if="false">
-                <el-row>
-                    <el-card shadow="always">
-                        <el-input placeholder="搜索题目..." v-model="searchText" @keyup.native.enter="getProblems">
-                            <el-button slot="append" icon="el-icon-search" @click="getProblems"/>
-                        </el-input>
-                    </el-card>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col>
-                        <el-card>
-                            <h4>标签(点击筛选)</h4>
-                            <el-checkbox-group v-model="currentTag" @change="getProblems">
-                                <el-checkbox-button v-for="tag in tagNames" :label="tag.id" :key="tag.id">{{tag.name}}
-                                </el-checkbox-button>
-                            </el-checkbox-group>
-                        </el-card>
-                    </el-col>
-                </el-row>
-            </el-col>
         </el-row>
     </d2-container>
 </template>
 
 <script>
-
+const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' }, { value: 3, label: '中等' },
+  { value: 4, label: '困难' }, { value: 5, label: '非常困难' }]
 export default {
   name: 'ProblemList',
   data () {
@@ -105,10 +90,11 @@ export default {
       searchText: '',
       // 难度
       difficulty: [],
+      selectAll: true,
       // 难度选项
-      diffOptions: [{ 'id': 1, 'name': '简单' }, { 'id': 2, 'name': '普通' }, { 'id': 3, 'name': '中等' }],
+      diffOptions,
       // 标签选项
-      tagsOptions: [],
+      tagNames: [],
       // 标签
       tags: [],
       loadingTable: false,
@@ -125,7 +111,6 @@ export default {
       wa: 100,
       se: 100,
       title: 'Statistics',
-      tagNames: [],
       currentTag: []
     }
   },
@@ -135,6 +120,7 @@ export default {
       this.difficulty = []
       this.tags = []
       this.searchText = ''
+      this.getProblems()
     },
     handleSizeChange (val) {
       this.pageSize = val
@@ -142,6 +128,13 @@ export default {
     },
     handleCurrentChange (val) {
       this.currentPage = val
+      this.getProblems()
+    },
+    handleAllDiff (val) {
+      this.difficulty = []
+    },
+    handleDiff (val) {
+      this.selectAll = this.difficulty.length === 0
       this.getProblems()
     },
     // ac 的题目就变颜色
@@ -153,13 +146,6 @@ export default {
       }
       return ''
     },
-    // problemLevel (type) {
-    //   // if (type === 'Easy') return 'info'
-    //   // if (type === 'Medium') return 'success'
-    //   // if (type === 'Hard') return ''
-    //   // if (type === 'VeryHard') return 'warning'
-    //   // if (type === 'ExtremelyHard') return 'danger'
-    // },
     changeStatistics (row, column, cell, event) {
     },
     problemClick (row, column, cell, event) {
@@ -170,7 +156,8 @@ export default {
     },
     getProblems () {
       this.loadingTable = true
-      this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize, this.tags, this.searchText, this.difficulty)
+      this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
+        this.currentTag, this.searchText, this.difficulty)
         .then(response => {
           for (let i = 0; i < response.data.results.length; i++) {
             let ac = response.data.results[i]['accepted_number']
@@ -187,19 +174,24 @@ export default {
     this.getProblems()
     this.$api.problem.getTags().then(response => {
       for (let i = 0; i < response.data.count; i++) {
-        this.tagsOptions.push(response.data.results[i])
+        let tmp = {}
+        tmp.value = response.data.results[i].id
+        tmp.label = response.data.results[i].name
+        this.tagNames.push(tmp)
       }
     })
+    console.log(this.tagNames)
     // TODO 获取难度id和Name
   }
 }
 </script>
 
 <style scoped>
-    .controlPanel{
+    .controlPanel {
         position: relative;
         margin-bottom: 20px;
     }
+
     .clear {
         margin-bottom: 10px;
         margin-right: 20px;
