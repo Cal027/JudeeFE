@@ -3,7 +3,7 @@
         <el-card class="controlPanel">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
-                <el-col :span="1">搜索:</el-col>
+                <el-col :span="2">搜索:</el-col>
                 <el-col :span="5">
                     <el-input size="small" placeholder="搜索题目编号、标题、关键字..." v-model="searchText"
                               @keyup.native.enter="getProblems">
@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="1">难度：</el-col>
+                <el-col :span="2">难度：</el-col>
                 <el-col :span="20">
                     <el-checkbox-group v-model="difficulty">
                         <el-checkbox v-for="dif in diffOptions" :label="dif.id" :key="dif.id">{{dif.name}}</el-checkbox>
@@ -22,7 +22,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="1">标签：</el-col>
+                <el-col :span="2">标签：</el-col>
                 <el-col :span="20">
                     <el-cascader clearable placeholder="请选择算法标签" v-model="tags"
                                  :show-all-levels="false" filterable size="mini"
@@ -191,7 +191,6 @@ export default {
       }
     })
     // TODO 获取难度id和Name
-    // TODO 获取标签的父子id和Name
   }
 }
 </script>

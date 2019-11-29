@@ -33,12 +33,13 @@ export default {
             // [{ 'indent': '-1' }, { 'indent': '+1' }],
             // [{ 'direction': 'rtl' }],
             [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'header': [1, 2, 3, 4, 5, false] }],
             [{ 'color': [] }, { 'background': [] }],
             // [{ 'font': [] }],
             [{ 'align': [] }],
             ['clean'],
-            ['link', 'image']
+            // ['link', 'image']
+            ['link']
           ]
         },
         placeholder: '书写你的内容',
