@@ -7,11 +7,11 @@ export default {
       method: 'get'
     })
   },
-  addProblem (form) {
+  addProblem (data) {
     return request({
-      url: '/problem',
+      url: '/problem/',
       method: 'post',
-      form
+      data
     })
   }
 

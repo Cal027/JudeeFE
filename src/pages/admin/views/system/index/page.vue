@@ -1,7 +1,7 @@
 <template>
     <d2-container class="page">
         <el-card class="logo">
-            <d2-icon-svg name="logo-text"></d2-icon-svg>
+            <d2-icon-svg name="logo-text"/>
         </el-card>
         <div class="te">
             <span>Judee OJ后台管理面板</span>

@@ -28,7 +28,8 @@
                 <div style="position: relative">
                     <label class="el-form-item__label">样例</label>
                     <el-tooltip content="添加一个样例" placement="left">
-                        <el-button class="add-btn" icon="el-icon-plus" circle size="mini" @click="addSample"/>
+                        <el-button class="add-btn" type="primary" icon="el-icon-plus" circle size="mini"
+                                   @click="addSample"/>
                     </el-tooltip>
                     <el-tooltip content="删除当前样例">
                         <el-button class="del-btn" icon="el-icon-minus" circle size="mini" @click="delSample"/>
@@ -56,12 +57,13 @@
                 </el-form-item>
             </div>
             <el-form-item v-for="(score,index) in form.test_case_score" :key="index"
-                          :prop="'test_case_score.' + index" :label="'测试用例 '+index+' 分数'">
-                <el-input-number controls-position="right" v-model="score.val"
-                                 :step="10" :min="0" :max="100"/>
+                          :prop="'test_case_score.' + index" :label="'测试用例 '+(index+1)+' 分数'">
+                <el-input-number controls-position="right" v-model="form.test_case_score[index]"
+                                 :step="10" :min="0" :max="100" size="small"/>
             </el-form-item>
             <el-form-item>
-                <el-button @click="addTestScore" round>新增测试样例分数</el-button>
+                <el-button @click="addTestScore" size="small" round type="primary">新增用例分数</el-button>
+                <el-button @click="delTestScore" circle icon="el-icon-minus" size="small"/>
             </el-form-item>
             <el-form-item prop="hint" label="提示" size="mini" style="width: 70%">
                 <d2-quill style="min-height: 200px;" v-model="form.hint"/>
@@ -99,7 +101,7 @@
                                     v-for="item in tagNames"
                                     :key="item.id"
                                     :label="item.name"
-                                    :value="item.id">
+                                    :value="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -110,25 +112,33 @@
                     <el-switch v-model="form.is_public" active-text="公开" inactive-text="私密"/>
                 </el-form-item>
             </el-col>
-            <el-form-item label="限制语言" prop="language">
+            <el-form-item label="限制语言" prop="languages">
                 <el-checkbox-group v-model="form.languages">
                     <el-checkbox v-for="la in languageOptions" :label="la" :key="la">{{la}}</el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="上传测试数据">
-                <el-card style="width: 25%">
-                    <el-upload style="text-align: center"
-                               :action="uploadURL"
-                               :data="{problem_ID: 7}"
-                               :headers="uploadHeader"
-                               :on-success="uploadSucceeded"
-                               :on-error="uploadFailed">
-                        <el-button round type="primary">点击上传</el-button>
-                        <div slot="tip" class="el-upload__tip">只能上传zip文件，且不超过2MB</div>
-                    </el-upload>
-                </el-card>
-            </el-form-item>
+            <el-dialog width="25%" title="上传测试数据"
+                       :close-on-click-modal="false"
+                       :close-on-press-escape="false"
+                       :before-close="handleClose"
+                       :visible.sync="test_case_dialog" center>
+                <el-upload style="text-align: center"
+                           :action="uploadURL"
+                           :data="uploadArg"
+                           :headers="uploadHeader"
+                           accept=".zip"
+                           :before-upload="onBeforeUpload"
+                           :on-success="uploadSucceeded"
+                           :on-error="uploadFailed">
+                    <el-button round type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传zip文件,内部格式应为1.in,1.out以此类推</div>
+                </el-upload>
+            </el-dialog>
             <el-button round type="success" style="float:right;" @click="submitProblem">添加题目</el-button>
+            <el-button round type="primary"
+                       v-show="continue_flag" style="float:right;margin-right: 20px"
+                       @click="test_case_dialog=true">继续上传
+            </el-button>
         </el-form>
     </d2-container>
 </template>
@@ -143,6 +153,17 @@ const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' 
 export default {
   name: 'addProblem',
   data () {
+    var checkSample = (rule, value, callback) => {
+      if (value.length < 1) {
+        return callback(new Error('样例不能为空'))
+      }
+      for (let obj of value) {
+        if (obj.input === '' || obj.output === '') {
+          return callback(new Error('输入或输出不能为空'))
+        }
+      }
+      callback()
+    }
     return {
       banner: {
         title: '添加题目',
@@ -157,40 +178,40 @@ export default {
         description: '',
         input_description: '',
         output_description: '',
-        input_sample: '',
-        output_sample: '',
         samples: [{ input: '', output: '' }],
         hint: '',
-        difficulty: '3',
+        difficulty: 3,
         is_public: true,
         time_limit: 1000,
         memory_limit: 32,
         tags: [],
-        test_case_score: [{ val: 0 }],
+        test_case_score: [10],
         languages: []
       },
-      problem_ID: 0,
       languageOptions,
       rules: {
         title: { required: true, message: '标题不能为空', trigger: 'blur' },
+        source: { required: true, message: '来源不能为空', trigger: 'blur' },
         description: { required: true, message: '描述不能为空', trigger: 'blur' },
         input_description: { required: true, message: '输入描述不能为空', trigger: 'blur' },
         output_description: { required: true, message: '输出描述不能为空', trigger: 'blur' },
-        input_sample: { required: true, message: '样例输入不能为空', trigger: 'blur' },
-        output_sample: { required: true, message: '样例输入不能为空', trigger: 'blur' },
-        language: { required: true, message: '语言不能为空', trigger: 'blur' }
+        samples: { validator: checkSample, trigger: 'blur' },
+        languages: { required: true, message: '语言不能为空', trigger: 'blur' }
       },
       uploadURL: process.env.VUE_APP_API + '/upload_file/',
       uploadHeader: {},
-      test_case_dialog: false
+      uploadArg: {},
+      test_case_dialog: false,
+      continue_flag: false
     }
   },
   mounted () {
-    this.$refs.container.scrollToTop()
+    // this.$refs.container.scrollToTop()
     this.getTags()
     const token = cookies.get('token')
     this.uploadHeader.Authorization = `JWT ${token}`
   },
+  // 上传校验
   methods: {
     delSample () {
       if (this.form.samples.length === 1) {
@@ -203,15 +224,56 @@ export default {
       this.form.samples.push({ input: '', output: '' })
     },
     addTestScore () {
-      this.form.test_case_score.push({ val: 0 })
+      this.form.test_case_score.push(10)
+    },
+    delTestScore () {
+      if (this.form.test_case_score.length === 1) {
+        this.$message.error('至少有一个测试用例')
+      } else {
+        this.form.test_case_score.splice(this.form.test_case_score.length - 1, 1)
+      }
     },
     uploadSucceeded (response) {
       if (response.error) {
         this.$message.error(response.data)
       }
+      this.$message({
+        message: '添加测试用例数据！',
+        type: 'success'
+      })
+      this.test_case_dialog = false
+      this.continue_flag = false
     },
     uploadFailed (err) {
-      this.$message.error('上传失败' + err)
+      // console.log(err.message)
+      // console.log(this.uploadArg.problem_ID)
+      if (err.message === '"Wrong filename format"') {
+        this.$message.error('压缩文件名格式错误！')
+      } else if (err.message === '"Bad zip file"') {
+        this.$message.error('文件格式必须为ZIP！')
+      } else if (err.message === '"Wrong case number"') {
+        this.$message.error('测试用例数量不一致！')
+      } else if (err.message === '"No such problem"') {
+        this.$message.error('没有对应的题目！')
+      } else {
+        this.$message.error('未知上传错误')
+      }
+      this.continue_flag = true
+    },
+
+    onBeforeUpload (file) {
+      const isZip = file.type === 'application/x-zip-compressed'
+      if (!isZip) {
+        this.$message.error('必须为zip压缩文件')
+      }
+      return isZip
+    },
+    handleClose (done) {
+      this.$confirm('确认放弃上传？').then(_ => {
+        done()
+        this.continue_flag = true
+      }).catch(_ => {
+      })
     },
     // 获取标签
     getTags () {
@@ -221,28 +283,33 @@ export default {
         }
       })
     },
-    // 转换为纯数组
-    testCaseToArray () {
-      let arr = []
-      for (let obj of this.form.test_case_score) {
-        arr.push(obj.val)
-      }
-      this.form.test_case_score = arr
-    },
     // 提交题目信息
     submitProblem () {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.testCaseToArray()
-          problemAPI.addProblem(this.form).then(res => {
-            this.problem_ID = res.id
-            this.test_case_dialog = true
-            this.$message({
-              message: '添加题目信息成功！',
-              type: 'success'
+      this.$confirm('是否确认提交题目？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            problemAPI.addProblem(this.form).then(res => {
+              this.uploadArg.problem_ID = res
+              this.test_case_dialog = true
+              this.$message({
+                message: '添加题目信息成功！',
+                type: 'success'
+              })
             })
-          })
-        }
+          } else {
+            this.$message.error('添加失败!')
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消提交'
+        })
       })
     }
   }

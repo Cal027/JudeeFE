@@ -30,7 +30,7 @@
                 <el-col :span="10">
                     <el-cascader clearable placeholder="请选择算法标签" v-model="tags"
                                  :show-all-levels="false" filterable size="mini" style="width: 100%"
-                                 :props="{multiple:true}" :options="tagNames"/>
+                                 :props="{multiple:true}" @change="getProblems" :options="tagNames"/>
                 </el-col>
             </el-row>
         </el-card>
@@ -40,13 +40,14 @@
                     <el-table :data="tableData"
                               :row-class-name="tableRowClassName"
                               v-loading="loadingTable"
+                              max-height="700"
                               element-loading-text="正在加载"
                               @cell-mouse-enter="changeStatistics"
                               @cell-click="problemClick"
                               size="medium">
                         <el-table-column prop="ID" label="ID" :width="70"/>
                         <el-table-column prop="title" label="题目" :width="250"/>
-                        <el-table-column prop="difficulty" label="难度" :width="100"/>
+                        <el-table-column prop="difficulty" label="难度" :width="70"/>
                         <el-table-column prop="tags" label="标签">
                             <template slot-scope="scope">
                                 <el-tag
@@ -60,9 +61,9 @@
                                 </el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="rate" label="正确率" :width="70"/>
+                        <el-table-column prop="rate" label="正确率" :width="80"/>
                         <el-table-column prop="submission_number" label="提交数" :width="100"/>
-                        <el-table-column prop="total_score" label="分数" :width="70"/>
+                        <el-table-column prop="total_score" label="分数" :width="80"/>
                     </el-table>
                     <div style="text-align: center; margin-top: 20px">
                         <el-pagination
@@ -110,8 +111,7 @@ export default {
       ce: 100,
       wa: 100,
       se: 100,
-      title: 'Statistics',
-      currentTag: []
+      title: 'Statistics'
     }
   },
   methods: {
@@ -130,18 +130,23 @@ export default {
       this.currentPage = val
       this.getProblems()
     },
-    handleAllDiff (val) {
+    handleAllDiff () {
       this.difficulty = []
+      this.getProblems()
     },
-    handleDiff (val) {
+    // 处理难度变化
+    handleDiff () {
       this.selectAll = this.difficulty.length === 0
+      this.getProblems()
+    },
+    // 处理标签变化
+    handleTags () {
       this.getProblems()
     },
     // ac 的题目就变颜色
     tableRowClassName ({ row, rowIndex }) {
       var acProb = localStorage.getItem('ac_prob')
       if (acProb && acProb.indexOf(row.ID + '') !== -1) {
-        // console.log(acProb)
         return 'success-row'
       }
       return ''
@@ -157,7 +162,7 @@ export default {
     getProblems () {
       this.loadingTable = true
       this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
-        this.currentTag, this.searchText, this.difficulty)
+        this.tags, this.searchText, this.difficulty)
         .then(response => {
           for (let i = 0; i < response.data.results.length; i++) {
             let ac = response.data.results[i]['accepted_number']
@@ -180,8 +185,6 @@ export default {
         this.tagNames.push(tmp)
       }
     })
-    console.log(this.tagNames)
-    // TODO 获取难度id和Name
   }
 }
 </script>

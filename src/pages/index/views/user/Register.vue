@@ -103,9 +103,9 @@ export default {
       rules: {
         email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
-        username: [{ validator: checkUserName, trigger: 'blur' }],
-        password: [{ validator: checkPass, trigger: 'blur' }],
-        confirm: [{ validator: checkConfirm, trigger: 'blur' }],
+        username: { validator: checkUserName, trigger: 'blur' },
+        password: { validator: checkPass, trigger: 'blur' },
+        confirm: { validator: checkConfirm, trigger: 'blur' },
         nickname: [
           { min: 3, max: 16, message: '长度在 3 到 8 个字符', trigger: 'blur' },
           { required: true, message: '请输入昵称', trigger: 'blur' }]
