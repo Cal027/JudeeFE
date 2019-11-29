@@ -14,7 +14,7 @@ const problem = {
     if (searchText !== '') {
       url += `&keyword=${searchText}`
     }
-    if (tags.length > 0) {
+    if (diffs.length > 0) {
       url += `&diff=${diffs}`
     }
     return axios.get(url)

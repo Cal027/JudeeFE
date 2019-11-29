@@ -26,7 +26,7 @@
                 <el-col :span="20">
                     <el-cascader clearable placeholder="请选择算法标签" v-model="tags"
                                  :show-all-levels="false" filterable size="mini"
-                                 :props="{multiple:true}" :options="tagsOptions"/>
+                                 :props="{multiple:true,value:'name'}" :options="tagsOptions"/>
                 </el-col>
             </el-row>
         </el-card>
@@ -170,7 +170,7 @@ export default {
     },
     getProblems () {
       this.loadingTable = true
-      this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize, this.currentTag, this.searchText)
+      this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize, this.tags, this.searchText, this.difficulty)
         .then(response => {
           for (let i = 0; i < response.data.results.length; i++) {
             let ac = response.data.results[i]['accepted_number']
@@ -187,7 +187,7 @@ export default {
     this.getProblems()
     this.$api.problem.getTags().then(response => {
       for (let i = 0; i < response.data.count; i++) {
-        this.tagNames.push(response.data.results[i])
+        this.tagsOptions.push(response.data.results[i])
       }
     })
     // TODO 获取难度id和Name
