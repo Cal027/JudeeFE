@@ -55,6 +55,14 @@
                     </el-collapse>
                 </el-form-item>
             </div>
+            <el-form-item v-for="(score,index) in form.test_case_score" :key="index"
+                          :prop="'test_case_score.' + index" :label="'测试用例 '+index+' 分数'">
+                <el-input-number controls-position="right" v-model="score.val"
+                                 :step="10" :min="0" :max="100"/>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="addTestScore" round>新增测试样例分数</el-button>
+            </el-form-item>
             <el-form-item prop="hint" label="提示" size="mini" style="width: 70%">
                 <d2-quill style="min-height: 200px;" v-model="form.hint"/>
             </el-form-item>
@@ -68,13 +76,6 @@
                 <el-col :span="6">
                     <el-form-item prop="memory_limit" label="内存限制(MB)">
                         <el-input-number :min="0" controls-position="right" v-model="form.memory_limit" :step="16"/>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item prop="score" label="分数">
-                        <el-input-number controls-position="right" v-model="form.score"
-                                         :step="10" :min="0" :max="100">
-                        </el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -119,6 +120,7 @@
                     <el-upload style="text-align: center"
                                :action="uploadURL"
                                :data="{problem_ID: 7}"
+                               :headers="uploadHeader"
                                :on-success="uploadSucceeded"
                                :on-error="uploadFailed">
                         <el-button round type="primary">点击上传</el-button>
@@ -126,13 +128,14 @@
                     </el-upload>
                 </el-card>
             </el-form-item>
-            <el-button round type="success" style="float:right;">添加题目</el-button>
+            <el-button round type="success" style="float:right;" @click="submitProblem">添加题目</el-button>
         </el-form>
     </d2-container>
 </template>
 
 <script>
 import problemAPI from '@admin/api/sys.problem'
+import cookies from '@/utils/util.cookies'
 
 const languageOptions = ['java', 'C', 'C++', 'python']
 const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' }, { value: 3, label: '中等' },
@@ -163,9 +166,10 @@ export default {
         time_limit: 1000,
         memory_limit: 32,
         tags: [],
-        score: '0',
+        test_case_score: [{ val: 0 }],
         languages: []
       },
+      problem_ID: 0,
       languageOptions,
       rules: {
         title: { required: true, message: '标题不能为空', trigger: 'blur' },
@@ -176,17 +180,16 @@ export default {
         output_sample: { required: true, message: '样例输入不能为空', trigger: 'blur' },
         language: { required: true, message: '语言不能为空', trigger: 'blur' }
       },
-      uploadURL: process.env.VUE_APP_API + '/upload_file/'
+      uploadURL: process.env.VUE_APP_API + '/upload_file/',
+      uploadHeader: {},
+      test_case_dialog: false
     }
   },
   mounted () {
     this.$refs.container.scrollToTop()
-    // 获取标签
-    problemAPI.getTags().then(res => {
-      for (let i = 0; i < res.count; i++) {
-        this.tagNames.push(res.results[i])
-      }
-    })
+    this.getTags()
+    const token = cookies.get('token')
+    this.uploadHeader.Authorization = `JWT ${token}`
   },
   methods: {
     delSample () {
@@ -199,13 +202,48 @@ export default {
     addSample () {
       this.form.samples.push({ input: '', output: '' })
     },
+    addTestScore () {
+      this.form.test_case_score.push({ val: 0 })
+    },
     uploadSucceeded (response) {
       if (response.error) {
         this.$message.error(response.data)
       }
     },
-    uploadFailed () {
-      this.$message.error('上传失败')
+    uploadFailed (err) {
+      this.$message.error('上传失败' + err)
+    },
+    // 获取标签
+    getTags () {
+      problemAPI.getTags().then(res => {
+        for (let i = 0; i < res.count; i++) {
+          this.tagNames.push(res.results[i])
+        }
+      })
+    },
+    // 转换为纯数组
+    testCaseToArray () {
+      let arr = []
+      for (let obj of this.form.test_case_score) {
+        arr.push(obj.val)
+      }
+      this.form.test_case_score = arr
+    },
+    // 提交题目信息
+    submitProblem () {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.testCaseToArray()
+          problemAPI.addProblem(this.form).then(res => {
+            this.problem_ID = res.id
+            this.test_case_dialog = true
+            this.$message({
+              message: '添加题目信息成功！',
+              type: 'success'
+            })
+          })
+        }
+      })
     }
   }
 }
