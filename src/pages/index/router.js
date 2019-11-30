@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Intro from '@oj/views/Intro'
+import Problem from '@/pages/index/views/problem/ProblemDetail'
 
 const Login = () => import('@oj/views/user/Login')
 const Register = () => import('@oj/views/user/Register')
@@ -11,6 +12,7 @@ const ProfileSetting = () => import('@oj/views/setting/ProfileSetting')
 const PasswordSetting = () => import('@oj/views/setting/PasswordSetting')
 const OiWiki = () => import('@oj/views/tutorial/OiWiki')
 const ProblemList = () => import('@oj/views/problem/ProblemList')
+const ProblemDetail = () => import('@oj/views/problem/ProblemDetail')
 
 Vue.use(VueRouter)
 
@@ -36,7 +38,7 @@ const routes = [
     component: Intro
   },
   {
-    path: '/user',
+    path: '/user/:username',
     name: 'user',
     component: User
   },
@@ -74,6 +76,10 @@ const routes = [
     path: '/problem',
     name: 'ProblemList',
     component: ProblemList
+  },
+  { path: '/problem/:id',
+    name: 'ProblemDetail',
+    component: ProblemDetail
   }
 ]
 

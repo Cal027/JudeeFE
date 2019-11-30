@@ -166,11 +166,11 @@ export default {
     },
     changeStatistics (row, column, cell, event) {
     },
-    problemClick (row, column, cell, event) {
-      // this.$router.push({
-      //   name: 'problemdetail',
-      //   query: { problemID: row.problem }
-      // })
+    problemClick (row) {
+      this.$router.push({
+        name: 'ProblemDetail',
+        params: { id: row.ID }
+      })
     },
     getProblems () {
       this.loadingTable = true

@@ -89,13 +89,13 @@ export default {
       if (command === 'home') {
         this.$router.push({
           name: 'user',
-          query: { username: localStorage.username }
+          params: { username: localStorage.username }
         })
       }
       if (command === 'submit') {
         this.$router.push({
-          name: 'statue',
-          query: { username: localStorage.username }
+          name: 'status',
+          params: { username: localStorage.username }
         })
       }
     },
