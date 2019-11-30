@@ -169,7 +169,7 @@ export default {
     problemClick (row) {
       this.$router.push({
         name: 'ProblemDetail',
-        params: { id: row.ID }
+        params: { id: row.ID, problemDetail: row }
       })
     },
     getProblems () {

@@ -18,6 +18,9 @@ const problem = {
       url += `&diff=${diffs}`
     }
     return axios.get(url)
+  },
+  getProblem (id) {
+    return axios.get(`${base}/problem/${id}`)
   }
 
   // getProblemWithTags (limit, offset, tagList) {
