@@ -21,7 +21,6 @@
             </div>
             <el-table :data="userList"
                       height="250"
-                      v-loading="loadingTable"
                       @selection-change="handleSelectionChange"
                       element-loading-text="Loading"
                       style="width: 100%">
@@ -29,8 +28,8 @@
                 <el-table-column prop="username" label="用户名"/>
                 <el-table-column prop="nickname" label="昵称"/>
                 <el-table-column prop="email" label="Email"/>
-                <el-table-column prop="last_time" label="最后登录"/>
-                <el-table-column prop="create_time" label="注册时间"/>
+                <el-table-column prop="last_login" label="最后登录"/>
+                <el-table-column prop="register_time" label="注册时间"/>
                 <el-table-column prop="qq_number" label="QQ号码"/>
                 <el-table-column prop="github_username" label="Github用户名"/>
                 <el-table-column prop="phone_number" label="手机号码"/>
@@ -148,7 +147,7 @@ export default {
     }
   },
   mounted () {
-
+    this.getUserList()
   },
   methods: {
     // 切换页码回调
@@ -159,13 +158,14 @@ export default {
     openUserDialog (id) {
 
     },
-    getUserList (page) {
+    getUserList () {
       this.loadingTable = true
       // TODO 分页获取用户API
       userAPI.getUserList(this.pageSize, (this.currentPage - 1) * this.pageSize)
         .then(response => {
-          this.userList = response.data.results
-          this.total = response.data.count
+          this.userList = response.results
+          this.total = response.count
+          console.log(this.userList)
         })
     },
     deleteUsers (ids) {

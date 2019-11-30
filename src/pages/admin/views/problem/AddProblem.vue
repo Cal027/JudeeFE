@@ -57,11 +57,11 @@
                 </el-form-item>
             </div>
             <el-form-item v-for="(score,index) in form.test_case_score" :key="index"
-                          :prop="'test_case_score.' + index" :label="'测试用例 '+(index+1)+' 分数'">
+                          :prop="'test_case_score.' + index" :label="'测试用例 '+(index+1)+' 分数'" >
                 <el-input-number controls-position="right" v-model="form.test_case_score[index]"
                                  :step="10" :min="0" :max="100" size="small"/>
             </el-form-item>
-            <el-form-item>
+            <el-form-item >
                 <el-button @click="addTestScore" size="small" round type="primary">新增用例分数</el-button>
                 <el-button @click="delTestScore" circle icon="el-icon-minus" size="small"/>
             </el-form-item>
@@ -96,7 +96,9 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item prop="tags" label="题目标签">
-                        <el-select v-model="form.tags" clearable multiple style="width: 100%" placeholder="请选择标签">
+                        <el-select v-model="form.tags" clearable multiple filterable
+                                   allow-create
+                                   default-first-option style="width: 100%" placeholder="请选择标签">
                             <el-option
                                     v-for="item in tagNames"
                                     :key="item.id"
@@ -191,7 +193,7 @@ export default {
       languageOptions,
       rules: {
         title: { required: true, message: '标题不能为空', trigger: 'blur' },
-        source: { required: true, message: '来源不能为空', trigger: 'blur' },
+        // source: { required: true, message: '来源不能为空', trigger: 'blur' },
         description: { required: true, message: '描述不能为空', trigger: 'blur' },
         input_description: { required: true, message: '输入描述不能为空', trigger: 'blur' },
         output_description: { required: true, message: '输出描述不能为空', trigger: 'blur' },
