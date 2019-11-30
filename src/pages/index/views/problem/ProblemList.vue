@@ -47,7 +47,17 @@
                               size="medium">
                         <el-table-column prop="ID" label="ID" :width="70"/>
                         <el-table-column prop="title" label="题目" :width="250"/>
-                        <el-table-column prop="difficulty" label="难度" :width="70"/>
+                        <el-table-column prop="difficulty" label="难度" :width="100">
+                            <template slot-scope="scope1">
+                                <el-tag
+                                        id="difficulty-tag"
+                                        size="medium"
+                                        :type="diffType[scope1.row.difficulty-1]"
+                                        disable-transitions
+                                        hit
+                                >{{diffOptions[scope1.row.difficulty-1].label }}</el-tag>
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="tags" label="标签">
                             <template slot-scope="scope">
                                 <el-tag
@@ -88,6 +98,7 @@ export default {
   name: 'ProblemList',
   data () {
     return {
+      diffType: ['success', 'info', 'info', 'warning', 'danger'],
       searchText: '',
       // 难度
       difficulty: [],
@@ -120,6 +131,7 @@ export default {
       this.difficulty = []
       this.tags = []
       this.searchText = ''
+      this.selectAll = true
       this.getProblems()
     },
     handleSizeChange (val) {
@@ -147,6 +159,7 @@ export default {
     tableRowClassName ({ row, rowIndex }) {
       var acProb = localStorage.getItem('ac_prob')
       if (acProb && acProb.indexOf(row.ID + '') !== -1) {
+        // console.log(acProb)
         return 'success-row'
       }
       return ''
@@ -189,7 +202,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     .controlPanel {
         position: relative;
         margin-bottom: 20px;
@@ -203,7 +216,7 @@ export default {
         right: 0;
     }
 
-    #leveltag {
+    #difficulty-tag {
         text-align: center;
         font-weight: bold;
     }
