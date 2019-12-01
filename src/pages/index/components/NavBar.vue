@@ -114,7 +114,7 @@ export default {
         position: fixed;
         left: 0;
         top: 0;
-        z-index: 1000;
+        z-index: 888;
         width: 100%;
         height: 60px;
         box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);

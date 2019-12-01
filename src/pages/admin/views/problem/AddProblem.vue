@@ -153,7 +153,7 @@
 import problemAPI from '@admin/api/sys.problem'
 import cookies from '@/utils/util.cookies'
 
-const languageOptions = ['java', 'C', 'C++', 'python']
+const languageOptions = ['Java', 'C', 'C++', 'Python']
 const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' }, { value: 3, label: '中等' },
   { value: 4, label: '困难' }, { value: 5, label: '非常困难' }]
 export default {
