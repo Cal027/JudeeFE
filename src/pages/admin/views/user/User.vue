@@ -20,13 +20,23 @@
                 </el-row>
             </div>
             <el-table :data="userList"
-                      height="250"
+                      max-height="400"
+                      v-loading="loadingTable"
                       @selection-change="handleSelectionChange"
                       element-loading-text="Loading"
                       style="width: 100%">
                 <el-table-column type="selection" width="55"/>
                 <el-table-column prop="username" label="用户名"/>
                 <el-table-column prop="nickname" label="昵称"/>
+                <el-table-column prop="type" label="用户类型">
+                    <template slot-scope="scopeT">
+                        <el-tag
+                                :type="typeColor[scopeT.row.type-1]"
+                                effect="plain">
+                                {{typeMap[scopeT.row.type-1]}}
+                        </el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="email" label="Email"/>
                 <el-table-column prop="last_login" label="最后登录"/>
                 <el-table-column prop="register_time" label="注册时间"/>
@@ -37,7 +47,7 @@
                     <template slot-scope="{row}">
                         <el-button round size="mini" icon="el-icon-edit"
                                    @click.native="openUserDialog(row.id)"/>
-                        <el-button round size="mini" icon="el-icon-delete"
+                        <el-button round type="danger" size="mini" icon="el-icon-delete"
                                    @click.native="deleteUsers([row.id])"/>
                     </template>
                 </el-table-column>
@@ -45,8 +55,9 @@
             <div class="panel-options">
                 <el-pagination
                         class="page"
-                        layout="prev, pager, next"
-                        @current-change="currentChange"
+                        layout="total, prev, pager, next, jumper"
+                        :current-page="currentPage"
+                        @current-change="handleCurrentChange"
                         :page-size="pageSize"
                         :total="total">
                 </el-pagination>
@@ -57,7 +68,7 @@
             <div slot="header">
                 <span style="font-size: 22px">导入用户</span>
             </div>
-                <el-button round type="primary" icon="fa fa-upload">点击上传(还没实现)</el-button>
+            <el-button round type="primary" icon="fa fa-upload">点击上传(还没实现)</el-button>
         </el-card>
 
         <el-card style="margin-top: 25px">
@@ -106,6 +117,9 @@
 
 <script>
 import userAPI from '@admin/api/sys.user'
+
+const typeMap = ['用户', '普通管理员', '超级管理员']
+const typeColor = ['info', '', 'warning']
 export default {
   name: 'User',
   data () {
@@ -120,15 +134,9 @@ export default {
       total: 0,
       // 当前页码
       currentPage: 1,
-      userList: [
-        {
-          username: 'Test123',
-          nickname: 'TestMe',
-          email: '123@qq.com',
-          qq_number: 'None',
-          github_username: 'None',
-          phone_number: 'None'
-        }],
+      typeMap,
+      typeColor,
+      userList: [],
       selectedUsers: [],
       keyword: '',
       generateForm: {
@@ -151,7 +159,7 @@ export default {
   },
   methods: {
     // 切换页码回调
-    currentChange (page) {
+    handleCurrentChange (page) {
       this.currentPage = page
       this.getUserList()
     },
@@ -160,9 +168,9 @@ export default {
     },
     getUserList () {
       this.loadingTable = true
-      // TODO 分页获取用户API
       userAPI.getUserList(this.pageSize, (this.currentPage - 1) * this.pageSize)
         .then(response => {
+          this.loadingTable = false
           this.userList = response.results
           this.total = response.count
           console.log(this.userList)

@@ -151,10 +151,6 @@ export default {
       this.selectAll = this.difficulty.length === 0
       this.getProblems()
     },
-    // 处理标签变化
-    handleTags () {
-      this.getProblems()
-    },
     // ac 的题目就变颜色
     tableRowClassName ({ row, rowIndex }) {
       var acProb = localStorage.getItem('ac_prob')

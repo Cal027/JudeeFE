@@ -57,11 +57,11 @@
                 </el-form-item>
             </div>
             <el-form-item v-for="(score,index) in form.test_case_score" :key="index"
-                          :prop="'test_case_score.' + index" :label="'测试用例 '+(index+1)+' 分数'" >
+                          :prop="'test_case_score.' + index" :label="'测试用例 '+(index+1)+' 分数'">
                 <el-input-number controls-position="right" v-model="form.test_case_score[index]"
                                  :step="10" :min="0" :max="100" size="small"/>
             </el-form-item>
-            <el-form-item >
+            <el-form-item>
                 <el-button @click="addTestScore" size="small" round type="primary">新增用例分数</el-button>
                 <el-button @click="delTestScore" circle icon="el-icon-minus" size="small"/>
             </el-form-item>
@@ -96,8 +96,8 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item prop="tags" label="题目标签">
-                        <el-select v-model="form.tags" clearable multiple filterable
-                                   allow-create
+                        <el-select v-model="form.tags" clearable
+                                   allow-create multiple filterable
                                    default-first-option style="width: 100%" placeholder="请选择标签">
                             <el-option
                                     v-for="item in tagNames"
@@ -109,16 +109,20 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-col :span="6">
-                <el-form-item prop="is_public" label="开放权限">
-                    <el-switch v-model="form.is_public" active-text="公开" inactive-text="私密"/>
-                </el-form-item>
-            </el-col>
-            <el-form-item label="限制语言" prop="languages">
-                <el-checkbox-group v-model="form.languages">
-                    <el-checkbox v-for="la in languageOptions" :label="la" :key="la">{{la}}</el-checkbox>
-                </el-checkbox-group>
-            </el-form-item>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="开放权限">
+                        <el-switch active-text="公开" inactive-text="私密" v-model="form.is_public"/>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="18">
+                    <el-form-item label="限制语言" prop="languages">
+                        <el-checkbox-group v-model="form.languages">
+                            <el-checkbox v-for="la in languageOptions" :label="la" :key="la">{{la}}</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-dialog width="25%" title="上传测试数据"
                        :close-on-click-modal="false"
                        :close-on-press-escape="false"
@@ -174,6 +178,7 @@ export default {
       diffOptions,
       tagNames: [],
       activeItem: 0,
+      isPublic: true,
       form: {
         title: '',
         source: '',
@@ -193,7 +198,6 @@ export default {
       languageOptions,
       rules: {
         title: { required: true, message: '标题不能为空', trigger: 'blur' },
-        // source: { required: true, message: '来源不能为空', trigger: 'blur' },
         description: { required: true, message: '描述不能为空', trigger: 'blur' },
         input_description: { required: true, message: '输入描述不能为空', trigger: 'blur' },
         output_description: { required: true, message: '输出描述不能为空', trigger: 'blur' },
