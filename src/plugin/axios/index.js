@@ -1,4 +1,4 @@
-import store from '@admin/store'
+import store from '@/store'
 import axios from 'axios'
 import { Message } from 'element-ui'
 import util from '@/utils/util'

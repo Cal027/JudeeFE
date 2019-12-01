@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-import store from '@admin/store/index'
+import store from '@/store'
 import util from '@/utils/util.js'
 
 // 路由数据

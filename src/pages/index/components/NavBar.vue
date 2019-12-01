@@ -29,6 +29,7 @@
     <router-link v-if="!loginShow" to="/login">
       <el-button round class="button">登录</el-button>
     </router-link>
+    <ColorPicker style="float: right; margin: 15px 5px"/>
     <el-dropdown
       v-show="loginShow"
       id="user"
@@ -49,8 +50,10 @@
 </template>
 
 <script>
+import ColorPicker from '@oj/components/ColorPicker'
 export default {
   name: 'NavBar',
+  components: { ColorPicker },
   data () {
     return {
       isAdmin: true,

@@ -1,4 +1,4 @@
-import store from '@admin/store'
+import store from '@/store'
 import util from '@/utils/util'
 
 export default {

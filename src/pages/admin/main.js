@@ -5,7 +5,7 @@ import App from './App'
 // 核心插件
 import d2Admin from '@admin/plugin/d2admin'
 // store
-import store from '@admin/store/index'
+import store from '@/store'
 
 // 菜单和路由设置
 import router from './router'
