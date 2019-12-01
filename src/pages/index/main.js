@@ -84,5 +84,9 @@ new Vue({
   router,
   el: '#app',
   store,
-  render: h => h(App)
+  render: h => h(App),
+  mounted () {
+    // 暂时全局加载，不分账户
+    this.$store.dispatch('oj/color/load')
+  }
 }).$mount('#app')
