@@ -1,56 +1,59 @@
 <template>
-  <el-menu id="nav" :default-active="activeIndex" text-color="#170317"
-           router mode="horizontal">
-    <el-menu-item id="title" index="/">
-      <d2-icon-svg name="logo-text" class="logo" />
-    </el-menu-item>
-    <el-menu-item index="/home">
-        <i class="el-icon-data-board"/>首页
-    </el-menu-item>
-    <el-menu-item index="/problem">
-      <i class="el-icon-tickets"/>题库
-    </el-menu-item>
-    <el-menu-item index="/statue">
-      <i class="el-icon-tickets"/>评测记录
-    </el-menu-item>
-    <el-menu-item index="/contest">
-      <i class="el-icon-trophy"/>比赛
-    </el-menu-item>
-    <el-menu-item index="/rank">
-      <i class="iconfont j-icon-paiming"/>排名
-    </el-menu-item>
-    <el-menu-item index="/tutorial">
-      <i class="iconfont j-icon-wiki-"/>教程
-    </el-menu-item>
-    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"/>
-    <router-link v-if="!loginShow" to="/register">
-      <el-button round class="button">注册</el-button>
-    </router-link>
-    <router-link v-if="!loginShow" to="/login">
-      <el-button round class="button">登录</el-button>
-    </router-link>
-    <ColorPicker style="float: right; margin: 15px 5px"/>
-    <el-dropdown
-      v-show="loginShow"
-      id="user"
-      :show-timeout="100"
-      :split-button="true"
-      @command="handleCommand">
-      <span class="el-dropdown-link">{{ nickname }}</span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="home">主页</el-dropdown-item>
-        <el-dropdown-item command="submit">提交</el-dropdown-item>
-          <el-link href="admin" v-show="isAdmin" :underline="false">
-              <el-dropdown-item >管理</el-dropdown-item>
-          </el-link>
-          <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-  </el-menu>
+    <el-menu id="nav" :default-active="activeIndex" text-color="#170317"
+             router mode="horizontal">
+        <el-menu-item id="title" index="/">
+            <d2-icon-svg name="logo-text" class="logo"/>
+        </el-menu-item>
+        <el-menu-item index="/home">
+            <i class="el-icon-data-board"/>首页
+        </el-menu-item>
+        <el-menu-item index="/problem">
+            <i class="el-icon-tickets"/>题库
+        </el-menu-item>
+        <el-menu-item index="/statue">
+            <i class="el-icon-tickets"/>评测记录
+        </el-menu-item>
+        <el-menu-item index="/contest">
+            <i class="el-icon-trophy"/>比赛
+        </el-menu-item>
+        <el-menu-item index="/rank">
+            <i class="iconfont j-icon-paiming"/>排名
+        </el-menu-item>
+        <el-menu-item index="/tutorial">
+            <i class="iconfont j-icon-wiki-"/>教程
+        </el-menu-item>
+        <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"/>
+        <router-link v-if="!loginShow" to="/register">
+            <el-button round class="button">注册</el-button>
+        </router-link>
+        <router-link v-if="!loginShow" to="/login">
+            <el-button round class="button">登录</el-button>
+        </router-link>
+        <el-tooltip content="选择Judee主题色">
+            <ColorPicker style="float: right; margin: 15px 5px"/>
+        </el-tooltip>
+        <el-dropdown
+                v-show="loginShow"
+                id="user"
+                :show-timeout="100"
+                :split-button="true"
+                @command="handleCommand">
+            <span class="el-dropdown-link">{{ nickname }}</span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="home">主页</el-dropdown-item>
+                <el-dropdown-item command="submit">提交</el-dropdown-item>
+                <el-link href="admin" v-show="isAdmin" :underline="false">
+                    <el-dropdown-item>管理</el-dropdown-item>
+                </el-link>
+                <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+    </el-menu>
 </template>
 
 <script>
 import ColorPicker from '@oj/components/ColorPicker'
+
 export default {
   name: 'NavBar',
   components: { ColorPicker },
@@ -144,7 +147,7 @@ export default {
         margin: 10px;
     }
 
-    .iconfont{
+    .iconfont {
         font-size: 18px;
         margin-right: 5px
     }
