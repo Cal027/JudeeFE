@@ -7,6 +7,7 @@ import Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
 export default {
   name: 'd2-quill',
   props: {
@@ -19,6 +20,7 @@ export default {
   data () {
     return {
       Quill: undefined,
+      // katex,
       currentValue: '',
       options: {
         theme: 'snow',
@@ -29,18 +31,21 @@ export default {
             ['bold', 'italic', 'underline', 'strike'],
             ['blockquote', 'code-block'],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            // [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
             // [{ 'indent': '-1' }, { 'indent': '+1' }],
             // [{ 'direction': 'rtl' }],
             [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'header': [1, 2, 3, 4, 5, false] }],
+            [{ 'header': [1, 2, 3, 4, false] }],
             [{ 'color': [] }, { 'background': [] }],
             // [{ 'font': [] }],
             [{ 'align': [] }],
             ['clean'],
             // ['link', 'image']
-            ['link']
-          ]
+            ['link'],
+            ['formula']
+          ],
+          syntax: true,
+          formula: true
         },
         placeholder: '书写你的内容',
         readOnly: false

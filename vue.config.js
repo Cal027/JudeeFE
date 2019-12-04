@@ -10,6 +10,9 @@ const titles = require('./title.js')
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
 
+// 基础路径 注意发布之前要先修改这里
+// let publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
+
 // 增加环境变量
 process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_BUILD_TIME = require('dayjs')().format('YYYY-M-D HH:mm:ss')
@@ -33,11 +36,13 @@ glob.sync('./src/pages/**/main.js').forEach((filePath) => {
 console.log('process.env.NODE_ENV ==' + process.env.NODE_ENV)
 module.exports = {
     pages,
+    // publicPath,
     lintOnSave: true,
     outputDir: './dist',
     productionSourceMap: !(process.env.NODE_ENV === 'production'),
     devServer: {
         port: 8999,
+        // publicPath,
         proxy: {
             '/api': {
                 target: 'http://10.20.184.64:8300/',
