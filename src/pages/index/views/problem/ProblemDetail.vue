@@ -2,7 +2,7 @@
     <d2-container type="ghost" style="margin: 0 auto;width: 80%">
         <div class="float-nav" slot="header">
             <div class="header">
-                <router-link to="/problem">题目列表</router-link>
+                <router-link to="/problem" :style="myStyle">题目列表</router-link>
                 >
                 <span style="font-size: 24px">{{problemDetail.title}}</span>
             </div>
@@ -11,7 +11,6 @@
                     mode="horizontal"
                     text-color="#1b153b"
                     class="menu"
-                    active-text-color="#57a3f3"
                     background-color="transparent">
                 <el-menu-item index="1" class="menuItem">做题</el-menu-item>
                 <el-menu-item index="2" class="menuItem">我的提交</el-menu-item>
@@ -19,33 +18,33 @@
             </el-menu>
         </div>
         <el-card class="module" shadow="hover">
-            <span class="title">题目描述</span>
+            <span class="title" :style="myStyle">题目描述</span>
             <div class="content" v-html="problemDetail.description"/>
             <div v-if="problemDetail.source">
-                <span class="title">来源</span>
+                <span class="title" :style="myStyle">来源</span>
                 <div class="content">{{problemDetail.source}}</div>
             </div>
         </el-card>
         <el-card class="module" shadow="hover">
-            <span class="title">输入描述</span>
+            <span class="title" :style="myStyle">输入描述</span>
             <div class="content" v-html="problemDetail.input_description"/>
-            <span class="title">输出描述</span>
+            <span class="title" :style="myStyle">输出描述</span>
             <div class="content" v-html="problemDetail.output_description"/>
             <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
                 <el-col :span="10">
-                    <span class="title">输入样例 {{index+1}} </span>
+                    <span class="title" :style="myStyle">输入样例 {{index+1}} </span>
                     <el-button icon="iconfont j-icon-clipboard" @click="copyText(sample.input)"
                                class="icon-btn" type="text"/>
                     <pre class="sample">{{sample.input}}</pre>
                 </el-col>
                 <el-col :span="10">
-                    <span class="title">输出样例 {{index+1}} </span>
+                    <span class="title" :style="myStyle">输出样例 {{index+1}} </span>
                     <pre class="sample">{{sample.output}}</pre>
                 </el-col>
             </el-row>
         </el-card>
         <el-card class="module" shadow="hover" v-if="problemDetail.hint">
-            <span class="title">提示</span>
+            <span class="title" :style="myStyle">提示</span>
             <div class="content" v-html="problemDetail.hint"/>
         </el-card>
 
@@ -84,6 +83,7 @@ export default {
   },
   data () {
     return {
+      myStyle: { color: '' },
       problemDetail: {},
       activeIndex: '1',
       code: '',
@@ -120,11 +120,11 @@ export default {
         return
       }
       this.submitLoading = true
-      let data = {
-        problem_ID: this.problemDetail.problem_ID,
-        language: this.language,
-        code: this.code
-      }
+      // let data = {
+      //   problem_ID: this.problemDetail.problem_ID,
+      //   language: this.language,
+      //   code: this.code
+      // }
       // const submitFunc = (data, detailVisible) => {
       // }
     }
@@ -139,6 +139,15 @@ export default {
       this.getProblem(this.$route.params.id)
       load.close()
     }
+  },
+  async created () {
+    // 异步加载当前主题色
+    this.myStyle.color = await this.$store.dispatch('oj/db/get', {
+      dbName: 'sys',
+      path: 'color.value',
+      defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+      user: true
+    })
   }
 
 }
@@ -164,11 +173,11 @@ export default {
 
     a {
         text-decoration: none;
-        color: #2d8cf0;
+        /*color: #2d8cf0;*/
     }
 
     a:hover {
-        color: #57a3f3;
+        /*color: #57a3f3;*/
     }
 
     .router-link-active {
@@ -196,7 +205,7 @@ export default {
         font-size: 20px;
         font-weight: 400;
         margin: 25px 0 8px;
-        color: #3091f2
+        /*color: #3091f2*/
     }
 
     .sample {

@@ -3,7 +3,7 @@ import LocalStorage from 'lowdb/adapters/LocalStorage'
 import util from '@/utils/util'
 import { cloneDeep } from 'lodash'
 
-const adapter = new LocalStorage(`d2admin-${process.env.VUE_APP_VERSION}`)
+const adapter = new LocalStorage(`judee-${process.env.VUE_APP_VERSION}`)
 const db = low(adapter)
 
 db

@@ -10,6 +10,10 @@ const titles = require('./title.js')
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
 
+// 增加环境变量
+process.env.VUE_APP_VERSION = require('./package.json').version
+process.env.VUE_APP_BUILD_TIME = require('dayjs')().format('YYYY-M-D HH:mm:ss')
+
 // 统一配置多页
 const pages = {}
 glob.sync('./src/pages/**/main.js').forEach((filePath) => {
