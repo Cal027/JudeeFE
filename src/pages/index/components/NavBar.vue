@@ -11,7 +11,7 @@
       <i class="el-icon-tickets"/>题库
     </el-menu-item>
     <el-menu-item index="/statue">
-      <i class="el-icon-tickets"/>评测记录
+      <i class="iconfont j-icon-tiku"/>评测记录
     </el-menu-item>
     <el-menu-item index="/contest">
       <i class="el-icon-trophy"/>比赛
@@ -22,16 +22,16 @@
     <el-menu-item index="/tutorial">
       <i class="iconfont j-icon-wiki-"/>教程
     </el-menu-item>
-    <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"/>
     <router-link v-if="!loginShow" to="/register">
-      <el-button round class="button">注册</el-button>
+      <el-button type="text" class="button">注册</el-button>
     </router-link>
     <router-link v-if="!loginShow" to="/login">
-      <el-button round class="button">登录</el-button>
+      <el-button type="text" class="button">登录</el-button>
     </router-link>
     <el-tooltip content="Judee主题色">
       <ColorPicker style="float: right; margin: 15px 5px"/>
     </el-tooltip>
+    <el-button v-show="backShow" size="small" class="back-button" icon="el-icon-back" circle @click="handleBack"/>
     <el-dropdown
       v-show="loginShow"
       id="user"
@@ -138,7 +138,14 @@ export default {
 
     .button {
         float: right;
+        font-size: 17px;
         margin: 10px;
+    }
+
+    .back-button {
+      float: right;
+      margin-top: 15px;
+      margin-right: 5px;
     }
 
     #user {
