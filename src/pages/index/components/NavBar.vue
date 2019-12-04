@@ -29,7 +29,9 @@
     <router-link v-if="!loginShow" to="/login">
       <el-button round class="button">登录</el-button>
     </router-link>
-    <ColorPicker style="float: right; margin: 15px 5px"/>
+    <el-tooltip content="Judee主题色">
+      <ColorPicker style="float: right; margin: 15px 5px"/>
+    </el-tooltip>
     <el-dropdown
       v-show="loginShow"
       id="user"

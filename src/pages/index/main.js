@@ -84,5 +84,8 @@ new Vue({
   router,
   el: '#app',
   store,
-  render: h => h(App)
+  render: h => h(App),
+  mounted () {
+    this.$store.dispatch('oj/color/load', null, { root: true })
+  }
 }).$mount('#app')

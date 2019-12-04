@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <SquareBackground/>
     <el-header>
       <h1>加入Judee OJ</h1>
     </el-header>
@@ -54,8 +55,10 @@
 </template>
 
 <script>
+import SquareBackground from '@oj/components/SquareBackground'
 export default {
   name: 'Register',
+  components: { SquareBackground },
   data () {
     // 正则表达式校验
     var checkUserName = (rule, value, callback) => {

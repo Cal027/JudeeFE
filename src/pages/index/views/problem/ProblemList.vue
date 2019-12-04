@@ -4,7 +4,7 @@
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
-                <el-col :span="10">
+                <el-col :span="8">
                     <el-input size="small" placeholder="搜索题目编号、标题、关键字..." v-model="searchText"
                               @keyup.native.enter="getProblems">
                         <el-button slot="append" @click="getProblems" size="mini">
@@ -27,7 +27,7 @@
             </el-row>
             <el-row>
                 <el-col :span="2">标签：</el-col>
-                <el-col :span="10">
+                <el-col :span="8">
                     <el-cascader clearable placeholder="请选择算法标签" v-model="tags"
                                  :show-all-levels="false" filterable size="mini" style="width: 100%"
                                  :props="{multiple:true}" @change="getProblems" :options="tagNames"/>
@@ -61,7 +61,7 @@
                     <el-table-column prop="tags" label="标签">
                         <template slot-scope="scope">
                             <el-tag
-                                    id="index"
+                                    class="tags"
                                     v-for="(name,index) in scope.row.tags"
                                     :key="index"
                                     size="medium"
@@ -217,18 +217,8 @@ export default {
         font-weight: bold;
     }
 
-    #protag {
-        text-align: center;
-        font-weight: bold;
-        margin-right: 7px;
-        margin-bottom: 7px;
-    }
-
-    #tag {
-        text-align: center;
-        font-weight: bold;
-        margin-left: 2px;
-        margin-bottom: 5px;
+    .tags {
+        margin-left: 6px;
     }
 
     .el-row {

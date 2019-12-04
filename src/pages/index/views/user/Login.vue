@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <SquareBackground/>
     <el-header>
       <h1>登录Judee OJ</h1>
     </el-header>
@@ -26,8 +27,10 @@
 </template>
 
 <script>
+import SquareBackground from '@oj/components/SquareBackground'
 export default {
   name: 'Login',
+  components: { SquareBackground },
   data () {
     return {
       loginForm: {
