@@ -6,6 +6,7 @@ import router from './router'
 import api from './api'
 import store from '@/store'
 import axios from 'axios'
+import Sticky from 'vue-sticky-directive'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css'
 
@@ -15,6 +16,7 @@ import '@/components'
 import '@/assets/svg-icons'
 
 Vue.use(ElementUI)
+Vue.use(Sticky)
 
 Vue.prototype.$api = api
 
