@@ -19,7 +19,7 @@
         </div>
         <el-card class="module" shadow="hover">
             <span class="title" :style="myStyle">题目描述</span>
-            <div class="content" v-html="problemDetail.description"/>
+            <div class="content" v-highlight v-html="problemDetail.description"/>
             <div v-if="problemDetail.source">
                 <span class="title" :style="myStyle">来源</span>
                 <div class="content">{{problemDetail.source}}</div>
@@ -27,9 +27,9 @@
         </el-card>
         <el-card class="module" shadow="hover">
             <span class="title" :style="myStyle">输入描述</span>
-            <div class="content" v-html="problemDetail.input_description"/>
+            <div class="content" v-highlight v-html="problemDetail.input_description"/>
             <span class="title" :style="myStyle">输出描述</span>
-            <div class="content" v-html="problemDetail.output_description"/>
+            <div class="content" v-highlight v-html="problemDetail.output_description"/>
             <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
                 <el-col :span="10">
                     <span class="title" :style="myStyle">输入样例 {{index+1}} </span>
@@ -45,7 +45,7 @@
         </el-card>
         <el-card class="module" shadow="hover" v-if="problemDetail.hint">
             <span class="title" :style="myStyle">提示</span>
-            <div class="content" v-html="problemDetail.hint"/>
+            <div class="content" v-highlight v-html="problemDetail.hint"/>
         </el-card>
 
         <el-card shadow="hover">

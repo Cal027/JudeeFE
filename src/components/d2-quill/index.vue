@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-dark.css'
 import Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -20,7 +22,6 @@ export default {
   data () {
     return {
       Quill: undefined,
-      // katex,
       currentValue: '',
       options: {
         theme: 'snow',
@@ -44,7 +45,7 @@ export default {
             ['link'],
             ['formula']
           ],
-          syntax: true,
+          syntax: { highlight: text => hljs.highlightAuto(text).value },
           formula: true
         },
         placeholder: '书写你的内容',
