@@ -22,6 +22,22 @@
     <el-menu-item index="/tutorial">
       <i class="iconfont j-icon-wiki-"/>教程
     </el-menu-item>
+    <el-dropdown
+            v-show="loginShow"
+            class="user"
+            :show-timeout="100"
+            :split-button="true"
+            @command="handleCommand">
+      <span class="el-dropdown-link">{{ nickname }}</span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="home">主页</el-dropdown-item>
+        <el-dropdown-item command="submit">提交</el-dropdown-item>
+        <el-link href="admin" v-show="isAdmin" :underline="false">
+          <el-dropdown-item >管理</el-dropdown-item>
+        </el-link>
+        <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
     <router-link v-if="!loginShow" to="/register">
       <el-button type="text" class="button">注册</el-button>
     </router-link>
@@ -32,22 +48,6 @@
       <ColorPicker style="float: right; margin: 15px 5px"/>
     </el-tooltip>
     <el-button v-show="backShow" size="small" class="back-button" icon="el-icon-back" circle @click="handleBack"/>
-    <el-dropdown
-      v-show="loginShow"
-      id="user"
-      :show-timeout="100"
-      :split-button="true"
-      @command="handleCommand">
-      <span class="el-dropdown-link">{{ nickname }}</span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="home">主页</el-dropdown-item>
-        <el-dropdown-item command="submit">提交</el-dropdown-item>
-          <el-link href="admin" v-show="isAdmin" :underline="false">
-              <el-dropdown-item >管理</el-dropdown-item>
-          </el-link>
-          <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
   </el-menu>
 </template>
 
@@ -148,7 +148,7 @@ export default {
       margin-right: 5px;
     }
 
-    #user {
+    .user {
         float: right;
         margin: 10px;
     }
