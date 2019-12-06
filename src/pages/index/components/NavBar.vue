@@ -1,7 +1,7 @@
 <template>
     <el-menu :default-active="activeIndex" text-color="#170317"
              router mode="horizontal" v-sticky class="nav">
-        <el-menu-item id="title" index="/">
+        <el-menu-item index="/">
             <d2-icon-svg name="logo-text" class="logo"/>
         </el-menu-item>
         <el-menu-item index="/home">
@@ -13,7 +13,7 @@
         <el-menu-item index="/statue">
             <i class="iconfont j-icon-tiku"/>评测记录
         </el-menu-item>
-        <el-menu-item index="/contest">
+        <el-menu-item index="/contests">
             <i class="el-icon-trophy"/>比赛
         </el-menu-item>
         <el-menu-item index="/rank">
@@ -53,6 +53,7 @@
 
 <script>
 import ColorPicker from '@oj/components/ColorPicker'
+import util from '@/utils/util'
 
 export default {
   name: 'NavBar',
@@ -84,6 +85,7 @@ export default {
           type: 'success'
         })
         localStorage.removeItem('JWT_TOKEN')
+        util.cookies.remove('token')
         localStorage.removeItem('username')
         localStorage.removeItem('nickname')
         localStorage.removeItem('ac_prob')

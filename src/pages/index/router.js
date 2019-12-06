@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Intro from '@oj/views/Intro'
-import Problem from '@/pages/index/views/problem/ProblemDetail'
 
 const Login = () => import('@oj/views/user/Login')
 const Register = () => import('@oj/views/user/Register')
@@ -13,6 +12,7 @@ const PasswordSetting = () => import('@oj/views/setting/PasswordSetting')
 const OiWiki = () => import('@oj/views/tutorial/OiWiki')
 const ProblemList = () => import('@oj/views/problem/ProblemList')
 const ProblemDetail = () => import('@oj/views/problem/ProblemDetail')
+const ContestList = () => import('@oj/views/contest/ContestList')
 
 Vue.use(VueRouter)
 
@@ -80,6 +80,11 @@ const routes = [
   { path: '/problem/:id',
     name: 'ProblemDetail',
     component: ProblemDetail
+  },
+  {
+    path: '/contests',
+    name: 'ContestsList',
+    component: ContestList
   }
 ]
 

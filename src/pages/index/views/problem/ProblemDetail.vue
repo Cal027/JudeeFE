@@ -130,28 +130,35 @@ export default {
       this.language = newLang
     },
     submitCode () {
-      // TODO 提交代码
       if (this.code.trim() === '') {
         this.$message.error('不能提交空代码')
         return
       }
-      this.submissionId = ''
-      this.submitLoading = true
-      let data = {
-        problem: this.problemDetail.ID,
-        language: this.language,
-        code: this.code
-      }
       const submitFunc = (data) => {
-        console.log(data)
         api.submitCode(data).then(res => {
           this.submitLoading = false
-          console.log(res)
-          // this.submissionId = res.submission_id
+          this.submissionId = res
+          this.submitLoading = false
+          this.$message({
+            message: '提交代码成功！',
+            type: 'success'
+          })
         })
-        this.submitLoading = false
       }
-      submitFunc(data)
+      this.$confirm('是否确认提交代码', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.submissionId = ''
+        this.submitLoading = true
+        let data = {
+          problem: this.problemDetail.ID,
+          language: this.language,
+          code: this.code
+        }
+        submitFunc(data)
+      })
     }
   },
   mounted () {
@@ -179,7 +186,7 @@ export default {
 </script>
 
 <style scoped>
-    .online{
+    .online {
         display: block;
         height: 2px;
         width: 100%;
@@ -188,7 +195,7 @@ export default {
 
     .nav {
         padding: 10px 50px 0 50px;
-        width: 80%!important;
+        width: 80% !important;
         background-color: #fff;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         margin: 0 auto 20px;
@@ -200,12 +207,14 @@ export default {
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
     }
-    .el-menu-item{
+
+    .el-menu-item {
         height: 55px;
+        margin-top: -5px;
     }
 
     .header {
-        font-size: 27px;
+        font-size: 24px;
         font-weight: 400;
         color: #1b153b;
         line-height: 38px;
@@ -216,11 +225,6 @@ export default {
 
     a {
         text-decoration: none;
-        /*color: #2d8cf0;*/
-    }
-
-    a:hover {
-        /*color: #57a3f3;*/
     }
 
     .router-link-active {
@@ -236,7 +240,7 @@ export default {
     }
 
     .menuItem {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .module {

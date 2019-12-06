@@ -34,60 +34,57 @@
                 </el-col>
             </el-row>
         </el-card>
-        <el-row :gutter="15">
-            <el-col :span="24">
-                <el-card>
-                <el-table :data="tableData"
-                          :row-class-name="tableRowClassName"
-                          v-loading="loadingTable"
-                          max-height="700"
-                          element-loading-text="正在加载"
-                          @cell-mouse-enter="changeStatistics"
-                          @cell-click="problemClick"
-                          size="medium">
-                    <el-table-column prop="ID" label="ID" sortable :width="70"/>
-                    <el-table-column prop="title" label="题目" :width="250"/>
-                    <el-table-column prop="difficulty" sortable label="难度" :width="100">
-                        <template slot-scope="scope1">
-                            <el-tag
-                                    id="difficulty-tag"
-                                    size="medium"
-                                    :type="diffType[scope1.row.difficulty-1]"
-                                    disable-transitions
-                                    hit
-                            >{{diffOptions[scope1.row.difficulty-1].label }}</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="tags" label="标签">
-                        <template slot-scope="scope">
-                            <el-tag
-                                    class="tags"
-                                    v-for="(name,index) in scope.row.tags"
-                                    :key="index"
-                                    size="medium"
-                                    disable-transitions
-                                    hit
-                            >{{ name.name }}
-                            </el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="rate" label="正确率" :width="80"/>
-                    <el-table-column prop="submission_number" label="提交数" :width="100"/>
-                    <el-table-column prop="total_score" label="分数" :width="80"/>
-                </el-table>
-                <div style="text-align: center; margin-top: 20px">
-                    <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="currentPage"
-                            :page-sizes="[15, 20, 30, 50]"
-                            :page-size="pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="problemNum"/>
-                </div>
-            </el-card>
-            </el-col>
-        </el-row>
+        <el-card>
+            <el-table :data="tableData"
+                      :row-class-name="tableRowClassName"
+                      v-loading="loadingTable"
+                      max-height="700"
+                      element-loading-text="正在加载"
+                      @cell-mouse-enter="changeStatistics"
+                      @cell-click="problemClick"
+                      size="medium">
+                <el-table-column prop="ID" label="ID" sortable :width="70"/>
+                <el-table-column prop="title" label="题目" :width="250"/>
+                <el-table-column prop="difficulty" sortable label="难度" :width="100">
+                    <template slot-scope="scope1">
+                        <el-tag
+                                id="difficulty-tag"
+                                size="medium"
+                                :type="diffType[scope1.row.difficulty-1]"
+                                disable-transitions
+                                hit
+                        >{{diffOptions[scope1.row.difficulty-1].label }}
+                        </el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="tags" label="标签">
+                    <template slot-scope="scope">
+                        <el-tag
+                                class="tags"
+                                v-for="(name,index) in scope.row.tags"
+                                :key="index"
+                                size="medium"
+                                disable-transitions
+                                hit
+                        >{{ name.name }}
+                        </el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="rate" label="正确率" :width="80"/>
+                <el-table-column prop="submission_number" label="提交数" :width="100"/>
+                <el-table-column prop="total_score" label="分数" :width="80"/>
+            </el-table>
+            <div style="text-align: center; margin-top: 20px">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[15, 20, 30, 50]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="problemNum"/>
+            </div>
+        </el-card>
     </d2-container>
 </template>
 
