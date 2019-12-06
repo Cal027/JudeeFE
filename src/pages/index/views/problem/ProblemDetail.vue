@@ -77,6 +77,7 @@
 <script>
 import * as clipboard from 'clipboard-polyfill'
 import CodeMirror from '@oj/components/CodeMirror.vue'
+import api from '@oj/api/oj.problem'
 
 export default {
   name: 'ProblemDetail',
@@ -86,12 +87,14 @@ export default {
   data () {
     return {
       themeColor: '',
+      problem_ID: '',
       problemDetail: {},
       activeIndex: '1',
       code: '',
       top: -10,
       isSticky: false,
       language: '',
+      submissionId: '',
       statusVisible: false,
       submitLoading: false
     }
@@ -132,14 +135,22 @@ export default {
         this.$message.error('不能提交空代码')
         return
       }
+      this.submissionId = ''
       this.submitLoading = true
-      // let data = {
-      //   problem_ID: this.problemDetail.problem_ID,
-      //   language: this.language,
-      //   code: this.code
-      // }
-      // const submitFunc = (data, detailVisible) => {
-      // }
+      let data = {
+        problem_ID: this.problemDetail.ID,
+        language: this.language,
+        code: this.code
+      }
+      const submitFunc = (data) => {
+        console.log(data)
+        api.submitCode(data).then(res => {
+          this.submitLoading = false
+          console.log(res)
+          // this.submissionId = res.submission_id
+        })
+      }
+      submitFunc(data)
     }
   },
   mounted () {
