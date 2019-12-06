@@ -53,7 +53,6 @@
 
 <script>
 import ColorPicker from '@oj/components/ColorPicker'
-import { mapState } from 'vuex'
 
 export default {
   name: 'NavBar',
