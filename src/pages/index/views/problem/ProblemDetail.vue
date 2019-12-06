@@ -87,7 +87,7 @@ export default {
   data () {
     return {
       themeColor: '',
-      problem_ID: '',
+      problem: '',
       problemDetail: {},
       activeIndex: '1',
       code: '',
@@ -138,7 +138,7 @@ export default {
       this.submissionId = ''
       this.submitLoading = true
       let data = {
-        problem_ID: this.problemDetail.ID,
+        problem: this.problemDetail.ID,
         language: this.language,
         code: this.code
       }
@@ -149,6 +149,7 @@ export default {
           console.log(res)
           // this.submissionId = res.submission_id
         })
+        this.submitLoading = false
       }
       submitFunc(data)
     }

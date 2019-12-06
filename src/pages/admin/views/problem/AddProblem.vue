@@ -98,7 +98,7 @@
                     <el-form-item prop="tags" label="题目标签">
                         <el-select v-model="form.tags" clearable
                                    allow-create multiple filterable
-                                   default-first-option style="width: 100%" placeholder="请选择标签">
+                                   default-first-option style="width: 100%" placeholder="请选择标签或输入新标签">
                             <el-option
                                     v-for="item in tagNames"
                                     :key="item.id"
