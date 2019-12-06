@@ -1,65 +1,73 @@
 <template>
-  <div class="container">
-    <div class="avatar-container">
-      <el-avatar :src="avatarUrl" :size="140"/>
+    <div>
+        <SquareBackground/>
+        <div class="container">
+            <div class="avatar-container">
+                <el-avatar :src="avatarUrl" :size="140"/>
+            </div>
+
+            <el-card :body-style="{ padding: '100px' }">
+                <router-link to="/setting/profile">
+                    <el-button icon="el-icon-edit-outline" v-if="isShowEdit" type="text" class="editProf">修改信息
+                    </el-button>
+                </router-link>
+                <router-link to="/setting/password">
+                    <el-button icon="el-icon-edit" v-if="isShowEdit" type="text" class="editPass">修改密码</el-button>
+                </router-link>
+                <p style="margin-top: -10px;">
+                    <el-row>
+                        <span class="emphasis">{{ username }}</span>
+                    </el-row>
+                    <el-row>
+                        <el-tooltip :content="profile.email" class="item" placement="bottom">
+                            <i class="iconfont j-icon-mail-fill" @click="copyText(profile.email)"/>
+                        </el-tooltip>
+                        <el-tooltip :content="phone_number" class="item" placement="bottom">
+                            <i class="iconfont j-icon-phone-fill" @click="copyText(phone_number)"/>
+                        </el-tooltip>
+                        <el-tooltip :content="qq" class="item"
+                                    style="margin-left: 5px;margin-right: 5px"
+                                    placement="bottom">
+                            <i class="iconfont j-icon-QQ" @click="copyText(qq)"/>
+                        </el-tooltip>
+                        <el-tooltip :content="github" class="item" placement="bottom">
+                            <i class="iconfont j-icon-github-fill"/>
+                        </el-tooltip>
+                    </el-row>
+                </p>
+
+                <el-divider/>
+
+                <el-row type="flex">
+                    <el-col>
+                        <p>提交次数</p>
+                        <p class="emphasis">{{ userData.submit }}</p>
+                    </el-col>
+                    <el-col class="middle">
+                        <p>AC问题数</p>
+                        <p class="emphasis">{{ userData.ac }}</p>
+                    </el-col>
+                    <el-col>
+                        <p>分数</p>
+                        <p class="emphasis">{{ userData.score }}</p>
+                    </el-col>
+                </el-row>
+            </el-card>
+        </div>
     </div>
-
-    <el-card :body-style="{ padding: '100px' }">
-      <router-link to="/setting/profile">
-        <el-button icon="el-icon-edit-outline" v-if="isShowEdit" type="text" class="editProf">修改信息</el-button>
-      </router-link>
-      <router-link to="/setting/password">
-        <el-button icon="el-icon-edit" v-if="isShowEdit" type="text" class="editPass">修改密码</el-button>
-      </router-link>
-      <p style="margin-top: -10px;">
-        <el-row>
-          <span class="emphasis">{{ username }}</span>
-        </el-row>
-        <el-row>
-          <el-tooltip :content="profile.email" class="item" placement="bottom">
-            <i class="iconfont j-icon-mail-fill" @click="copyText(profile.email)"/>
-          </el-tooltip>
-          <el-tooltip :content="phone_number" class="item" placement="bottom">
-            <i class="iconfont j-icon-phone-fill" @click="copyText(phone_number)"/>
-          </el-tooltip>
-          <el-tooltip :content="qq" class="item"
-                      style="margin-left: 5px;margin-right: 5px"
-                      placement="bottom">
-            <i class="iconfont j-icon-QQ" @click="copyText(qq)"/>
-          </el-tooltip>
-          <el-tooltip :content="github" class="item" placement="bottom">
-            <i class="iconfont j-icon-github-fill"/>
-          </el-tooltip>
-        </el-row>
-      </p>
-
-      <el-divider/>
-
-      <el-row type="flex">
-        <el-col>
-          <p>提交次数</p>
-          <p class="emphasis">{{ userData.submit }}</p>
-        </el-col>
-        <el-col class="middle">
-          <p>AC问题数</p>
-          <p class="emphasis">{{ userData.ac }}</p>
-        </el-col>
-        <el-col>
-          <p>分数</p>
-          <p class="emphasis">{{ userData.score }}</p>
-        </el-col>
-      </el-row>
-    </el-card>
-  </div>
 </template>
 
 <script>
 import * as clipboard from 'clipboard-polyfill'
+import SquareBackground from '@oj/components/SquareBackground'
+
 export default {
   name: 'Profile',
+  components: { SquareBackground },
   data () {
     return {
-      avatarUrl: `image/default.png`,
+      avatarUrl: `/image/default.png`,
+      // avatarUrl: require('/image/default.png'),
       username: '',
       profile: {},
       userData: {},
@@ -70,7 +78,7 @@ export default {
     }
   },
   created () {
-    this.username = this.$route.query.username
+    this.username = this.$route.params.username
     this.isShowEdit = localStorage.getItem('username') === this.username
     this.$api.user.getUserInfo(this.username).then(response => {
       this.profile = response.data

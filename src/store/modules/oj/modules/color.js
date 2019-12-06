@@ -47,7 +47,9 @@ export default {
         state.value = await dispatch('oj/db/get', {
           dbName: 'sys',
           path: 'color.value',
-          defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+          // defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+          // 修改默认为中环红
+          defaultValue: '#C41832',
           user: true
         }, { root: true })
         // 应用

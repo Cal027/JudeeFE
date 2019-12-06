@@ -1,14 +1,14 @@
 <template>
-  <el-row>
-    <el-tabs type="border-card">
-      <el-tab-pane :label="label.des">
-        <description/>
-      </el-tab-pane>
-      <el-tab-pane :label="label.rule" :lazy="true">
-        <ratingRule/>
-      </el-tab-pane>
-    </el-tabs>
-  </el-row>
+    <el-row>
+        <el-tabs type="border-card">
+            <el-tab-pane :label="label.des">
+                <description/>
+            </el-tab-pane>
+            <el-tab-pane :label="label.rule" :lazy="true">
+                <ratingRule/>
+            </el-tab-pane>
+        </el-tabs>
+    </el-row>
 </template>
 
 <script>
@@ -34,7 +34,8 @@ export default {
 
 <style scoped>
     .el-row {
-        margin-bottom: 12px;
+        width: 95%;
+        margin: 0 auto;
     }
 
 </style>

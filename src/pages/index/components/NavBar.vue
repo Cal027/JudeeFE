@@ -1,6 +1,6 @@
 <template>
-    <el-menu id="nav" :default-active="activeIndex" text-color="#170317"
-             router mode="horizontal">
+    <el-menu :default-active="activeIndex" text-color="#170317"
+             router mode="horizontal" v-sticky class="nav">
         <el-menu-item id="title" index="/">
             <d2-icon-svg name="logo-text" class="logo"/>
         </el-menu-item>
@@ -11,7 +11,7 @@
             <i class="el-icon-tickets"/>题库
         </el-menu-item>
         <el-menu-item index="/statue">
-            <i class="el-icon-tickets"/>评测记录
+            <i class="iconfont j-icon-tiku"/>评测记录
         </el-menu-item>
         <el-menu-item index="/contest">
             <i class="el-icon-trophy"/>比赛
@@ -22,19 +22,9 @@
         <el-menu-item index="/tutorial">
             <i class="iconfont j-icon-wiki-"/>教程
         </el-menu-item>
-        <el-button v-show="backShow" class="button" icon="el-icon-back" circle @click="handleBack"/>
-        <router-link v-if="!loginShow" to="/register">
-            <el-button round class="button">注册</el-button>
-        </router-link>
-        <router-link v-if="!loginShow" to="/login">
-            <el-button round class="button">登录</el-button>
-        </router-link>
-        <el-tooltip content="选择Judee主题色">
-            <ColorPicker style="float: right; margin: 15px 5px"/>
-        </el-tooltip>
         <el-dropdown
                 v-show="loginShow"
-                id="user"
+                class="user"
                 :show-timeout="100"
                 :split-button="true"
                 @command="handleCommand">
@@ -48,11 +38,22 @@
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
+        <router-link v-if="!loginShow" to="/register">
+            <el-button type="text" class="button">注册</el-button>
+        </router-link>
+        <router-link v-if="!loginShow" to="/login">
+            <el-button type="text" class="button">登录</el-button>
+        </router-link>
+        <el-tooltip content="Judee主题色">
+            <ColorPicker style="float: right; margin: 15px 5px"/>
+        </el-tooltip>
+        <el-button v-show="backShow" size="small" class="back-button" icon="el-icon-back" circle @click="handleBack"/>
     </el-menu>
 </template>
 
 <script>
 import ColorPicker from '@oj/components/ColorPicker'
+import { mapState } from 'vuex'
 
 export default {
   name: 'NavBar',
@@ -115,11 +116,8 @@ export default {
 </script>
 
 <style scoped>
-    #nav {
+    .nav {
         min-width: 1100px;
-        position: fixed;
-        left: 0;
-        top: 0;
         z-index: 888;
         width: 100%;
         height: 60px;
@@ -139,10 +137,17 @@ export default {
 
     .button {
         float: right;
+        font-size: 17px;
         margin: 10px;
     }
 
-    #user {
+    .back-button {
+        float: right;
+        margin-top: 15px;
+        margin-right: 5px;
+    }
+
+    .user {
         float: right;
         margin: 10px;
     }

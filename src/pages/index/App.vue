@@ -6,7 +6,7 @@
         <i class="el-icon-top"/>
       </div>
     </el-backtop>
-    <div class="content">
+    <div :style="{ 'margin-top': height + 'px'}">
       <transition name="el-fade-in-linear" mode="out-in">
         <router-view/>
       </transition>
@@ -20,7 +20,10 @@ import NavBar from './components/NavBar'
 export default {
   name: 'App',
   components: { NavBar },
-  mounted () {
+  data () {
+    return {
+      height: 20
+    }
   }
 }
 </script>
@@ -29,11 +32,6 @@ export default {
     .el-dropdown-link {
         cursor: pointer;
         color: #409eff;
-    }
-
-    .content {
-        margin-top: 80px;
-        padding: 0 2%;
     }
 
     .back {

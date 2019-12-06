@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <SquareBackground/>
     <el-header>
       <h1>修改密码</h1>
     </el-header>
@@ -34,8 +35,10 @@
 </template>
 
 <script>
+import SquareBackground from '@oj/components/SquareBackground'
 export default {
   name: 'PasswordSetting',
+  components: { SquareBackground },
   data () {
     var checkNewPass = (rule, value, callback) => {
       if (value === '') {

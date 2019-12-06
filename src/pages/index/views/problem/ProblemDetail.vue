@@ -1,8 +1,10 @@
 <template>
-    <d2-container type="ghost" style="margin: 0 auto;width: 80%">
-        <div class="float-nav" slot="header">
+    <d2-container type="ghost">
+        <div :class="isSticky? 'float': 'nav'"
+             :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
+             v-sticky on-stick="handleSticky" sticky-offset="{top:-44}">
             <div class="header">
-                <router-link to="/problem">题目列表</router-link>
+                <router-link to="/problem" :style="{color:themeColor}">题目列表</router-link>
                 >
                 <span style="font-size: 24px">{{problemDetail.title}}</span>
             </div>
@@ -11,45 +13,44 @@
                     mode="horizontal"
                     text-color="#1b153b"
                     class="menu"
-                    active-text-color="#57a3f3"
                     background-color="transparent">
                 <el-menu-item index="1" class="menuItem">做题</el-menu-item>
                 <el-menu-item index="2" class="menuItem">我的提交</el-menu-item>
                 <el-menu-item index="3" class="menuItem">所有提交</el-menu-item>
             </el-menu>
         </div>
-        <el-card class="module" shadow="hover">
-            <span class="title">题目描述</span>
-            <div class="content" v-html="problemDetail.description"/>
+        <el-card class="module">
+            <span class="title" :style="{color:themeColor}">题目描述</span>
+            <div class="content" v-highlight v-html="problemDetail.description"/>
             <div v-if="problemDetail.source">
-                <span class="title">来源</span>
+                <span class="title" :style="{color:themeColor}">来源</span>
                 <div class="content">{{problemDetail.source}}</div>
             </div>
         </el-card>
-        <el-card class="module" shadow="hover">
-            <span class="title">输入描述</span>
-            <div class="content" v-html="problemDetail.input_description"/>
-            <span class="title">输出描述</span>
-            <div class="content" v-html="problemDetail.output_description"/>
+        <el-card class="module">
+            <span class="title" :style="{color:themeColor}">输入描述</span>
+            <div class="content" v-highlight v-html="problemDetail.input_description"/>
+            <span class="title" :style="{color:themeColor}">输出描述</span>
+            <div class="content" v-highlight v-html="problemDetail.output_description"/>
             <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
                 <el-col :span="10">
-                    <span class="title">输入样例 {{index+1}} </span>
+                    <span class="title" :style="{color:themeColor}">输入样例 {{index+1}} </span>
                     <el-button icon="iconfont j-icon-clipboard" @click="copyText(sample.input)"
                                class="icon-btn" type="text"/>
                     <pre class="sample">{{sample.input}}</pre>
                 </el-col>
                 <el-col :span="10">
-                    <span class="title">输出样例 {{index+1}} </span>
+                    <span class="title" :style="{color:themeColor}">输出样例 {{index+1}} </span>
                     <pre class="sample">{{sample.output}}</pre>
                 </el-col>
             </el-row>
         </el-card>
-        <el-card class="module" shadow="hover" v-if="problemDetail.hint">
-            <span class="title">提示</span>
-            <div class="content" v-html="problemDetail.hint"/>
+        <el-card class="module" v-if="problemDetail.hint">
+            <span class="title" :style="{color:themeColor}">提示</span>
+            <div class="content" v-highlight v-html="problemDetail.hint"/>
         </el-card>
 
-        <el-card shadow="hover">
+        <el-card class="module">
             <CodeMirror :value.sync="code"
                         :languages="problemDetail.languages"
                         :language="language"
@@ -84,15 +85,27 @@ export default {
   },
   data () {
     return {
+      themeColor: '',
       problemDetail: {},
       activeIndex: '1',
       code: '',
+      top: -10,
+      isSticky: false,
       language: '',
       statusVisible: false,
       submitLoading: false
     }
   },
   methods: {
+    handleSticky (data) {
+      if (data.sticked) {
+        this.isSticky = true
+        this.top = 44
+      } else {
+        this.isSticky = false
+        this.top = -10
+      }
+    },
     getProblem (id) {
       this.$api.problem.getProblem(id)
         .then(response => {
@@ -120,11 +133,11 @@ export default {
         return
       }
       this.submitLoading = true
-      let data = {
-        problem_ID: this.problemDetail.problem_ID,
-        language: this.language,
-        code: this.code
-      }
+      // let data = {
+      //   problem_ID: this.problemDetail.problem_ID,
+      //   language: this.language,
+      //   code: this.code
+      // }
       // const submitFunc = (data, detailVisible) => {
       // }
     }
@@ -139,17 +152,44 @@ export default {
       this.getProblem(this.$route.params.id)
       load.close()
     }
+  },
+  async created () {
+    // 异步加载当前主题色
+    this.themeColor = await this.$store.dispatch('oj/db/get', {
+      dbName: 'sys',
+      path: 'color.value',
+      defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+      user: true
+    })
   }
 
 }
 </script>
 
 <style scoped>
-    .float-nav {
-        padding: 10px 100px 0;
+    .online{
+        display: block;
+        height: 2px;
+        width: 100%;
+        margin: -1.5px 0 0;
+    }
+
+    .nav {
+        padding: 10px 50px 0 50px;
+        width: 80%!important;
+        background-color: #fff;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        margin: 0 auto 20px;
+    }
+
+    .float {
+        padding: 10px 80px 0;
         background-color: #fff;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
+    }
+    .el-menu-item{
+        height: 55px;
     }
 
     .header {
@@ -164,11 +204,11 @@ export default {
 
     a {
         text-decoration: none;
-        color: #2d8cf0;
+        /*color: #2d8cf0;*/
     }
 
     a:hover {
-        color: #57a3f3;
+        /*color: #57a3f3;*/
     }
 
     .router-link-active {
@@ -188,15 +228,16 @@ export default {
     }
 
     .module {
+        width: 80%;
         padding: 30px 50px;
-        margin-bottom: 20px;
+        margin: 0 auto 20px;
     }
 
     .title {
         font-size: 20px;
         font-weight: 400;
         margin: 25px 0 8px;
-        color: #3091f2
+        /*color: #3091f2*/
     }
 
     .sample {

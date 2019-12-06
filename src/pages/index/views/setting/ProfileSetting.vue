@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <SquareBackground/>
     <el-header>
       <h1>修改个人信息</h1>
     </el-header>
@@ -35,8 +36,10 @@
 </template>
 
 <script>
+import SquareBackground from '@oj/components/SquareBackground'
 export default {
   name: 'ProfileSetting',
+  components: { SquareBackground },
   data () {
     var checkQQ = (rule, value, callback) => {
       var qqPattern = /^[1-9][0-9]{4,10}$/
