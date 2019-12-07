@@ -15,7 +15,7 @@ const util = {
  * @param {String} title 标题
  */
 util.title = function (titleText) {
-  const processTitle = process.env.VUE_APP_TITLE || 'D2Admin'
+  const processTitle = process.env.VUE_APP_TITLE || 'Judee OJ'
   window.document.title = `${processTitle}${titleText ? ` | ${titleText}` : ''}`
 }
 

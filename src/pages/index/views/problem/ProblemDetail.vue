@@ -78,6 +78,7 @@
 import * as clipboard from 'clipboard-polyfill'
 import CodeMirror from '@oj/components/CodeMirror.vue'
 import api from '@oj/api/oj.problem'
+import util from '@/utils/util'
 
 export default {
   name: 'ProblemDetail',
@@ -114,6 +115,7 @@ export default {
         .then(response => {
           this.problemDetail = response.data
           this.language = this.problemDetail.languages[0]
+          util.title(this.problemDetail.title)
         })
     },
     copyText (text) {
@@ -165,6 +167,7 @@ export default {
     let load = this.$loading()
     if (this.$route.params.problemDetail && this.$route.params.problemDetail.ID === this.$route.params.id) {
       this.problemDetail = this.$route.params.problemDetail
+      util.title(this.problemDetail.title)
       this.language = this.problemDetail.languages[0]
       load.close()
     } else {

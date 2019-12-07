@@ -59,7 +59,7 @@
                             <ul class="detail">
                                 <li>
                                     <el-icon class="el-icon-date"/>
-                                    {{getLocalTime(contest.start_time)}}
+                                    {{contest.start_time}}
                                 </li>
                                 <li>
                                     <el-icon class="el-icon-alarm-clock"/>
@@ -97,22 +97,22 @@ export default {
           'title': 'Judee OJ 模拟赛1',
           'type': 'public',
           'rule': 'ACM',
-          'start_time': 'Tue Dec 01 2019 18:52:20 GMT+0800 (中国标准时间)',
-          'end_time': 'Tue Dec 03 2019 18:52:20 GMT+0800 (中国标准时间)'
+          'start_time': '2019-12-18 00:00',
+          'end_time': '2019-12-28 00:00'
         },
         {
           'title': 'Judee OJ 模拟赛2',
           'type': 'class',
           'rule': 'OI',
-          'start_time': 'Tue Dec 03 2019 18:52:20 GMT+0800 (中国标准时间)',
-          'end_time': 'Tue Dec 06 2019 18:52:20 GMT+0800 (中国标准时间)'
+          'start_time': '2019-2-18 00:00',
+          'end_time': '2019-12-18 00:00'
         },
         {
           'title': 'Judee OJ 模拟赛3',
           'type': 'class',
           'rule': 'ACM',
-          'start_time': 'Tue Dec 03 2019 12:52:20 GMT+0800 (中国标准时间)',
-          'end_time': 'Tue Dec 10 2019 18:52:20 GMT+0800 (中国标准时间)'
+          'start_time': '2019-12-18 10:00',
+          'end_time': '2019-12-18 12:30'
         }
       ],
       rules: [],
@@ -169,9 +169,6 @@ export default {
     },
     getDuration (startTime, endTime) {
       return util.time.duration(startTime, endTime)
-    },
-    getLocalTime (time) {
-      return util.time.localtime(time, 'YYYY-M-D HH:mm')
     },
     goContest (contest) {
       this.cur_contest_id = contest.id

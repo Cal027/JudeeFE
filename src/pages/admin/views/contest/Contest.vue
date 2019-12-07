@@ -18,6 +18,7 @@
                         <el-date-picker
                                 v-model="form.start_time"
                                 type="datetime"
+                                value-format="yyyy-MM-dd HH:mm"
                                 placeholder="竞赛开始时间"/>
                     </el-form-item>
                 </el-col>
@@ -26,6 +27,7 @@
                         <el-date-picker
                                 v-model="form.end_time"
                                 type="datetime"
+                                value-format="yyyy-MM-dd HH:mm"
                                 placeholder="竞赛结束时间"/>
                     </el-form-item>
                 </el-col>

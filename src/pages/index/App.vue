@@ -43,4 +43,10 @@ export default {
         line-height: 40px;
         color: #1989fa;
     }
+
+</style>
+<style>
+  #nprogress .bar{
+    background: #c41832!important;
+  }
 </style>
