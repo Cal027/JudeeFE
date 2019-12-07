@@ -1,4 +1,5 @@
 import moment from 'moment'
+moment.locale('zh-cn')
 
 // convert utc time to localtime
 function utcToLocal (utcDt, format = 'YYYY-M-D  HH:mm:ss') {
@@ -13,7 +14,8 @@ function duration (startTime, endTime) {
   if (duration.days() !== 0) {
     return duration.humanize()
   }
-  return Math.abs(duration.asHours().toFixed(1)) + ' hours'
+  // return Math.abs(duration.asHours().toFixed(1)) + ' hours'
+  return Math.abs(duration.asHours().toFixed(1)) + ' 小时'
 }
 
 function secondFormat (seconds) {
@@ -21,8 +23,8 @@ function secondFormat (seconds) {
   return m.hours() + ':' + m.minutes() + ':' + m.seconds()
 }
 
-function localtime (format) {
-  return moment().format(format)
+function localtime (time, format) {
+  return moment(time).format(format)
 }
 
 export default {

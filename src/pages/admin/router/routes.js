@@ -22,13 +22,40 @@ const frameIn = [
         component: _import('system/index')
       },
       {
-        path: 'add-problem',
-        name: 'add-problem',
+        path: 'problem/create',
+        name: 'create-problem',
         meta: {
           title: '添加题目',
           auth: true
         },
-        component: _import('problem/AddProblem')
+        component: _import('problem/Problem')
+      },
+      {
+        path: 'problem/edit/:problemId',
+        name: 'edit-problem',
+        meta: {
+          title: '修改题目',
+          auth: true
+        },
+        component: _import('problem/Problem')
+      },
+      {
+        path: 'contest/create',
+        name: 'create-contest',
+        meta: {
+          title: '添加竞赛',
+          auth: true
+        },
+        component: _import('contest/Contest')
+      },
+      {
+        path: 'contest/edit:contestId',
+        name: 'edit-contest',
+        meta: {
+          title: '修改竞赛',
+          auth: true
+        },
+        component: _import('contest/Contest')
       },
       {
         path: 'user',

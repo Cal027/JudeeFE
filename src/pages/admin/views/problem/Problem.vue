@@ -156,8 +156,9 @@ import cookies from '@/utils/util.cookies'
 const languageOptions = ['Java', 'C', 'C++', 'Python']
 const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' }, { value: 3, label: '中等' },
   { value: 4, label: '困难' }, { value: 5, label: '非常困难' }]
+
 export default {
-  name: 'addProblem',
+  name: 'Problem',
   data () {
     var checkSample = (rule, value, callback) => {
       if (value.length < 1) {
@@ -212,7 +213,7 @@ export default {
     }
   },
   mounted () {
-    // this.$refs.container.scrollToTop()
+    this.$refs.container.scrollToTop()
     this.getTags()
     const token = cookies.get('token')
     this.uploadHeader.Authorization = `JWT ${token}`
@@ -251,8 +252,6 @@ export default {
       this.continue_flag = false
     },
     uploadFailed (err) {
-      // console.log(err.message)
-      // console.log(this.uploadArg.problem_ID)
       if (err.message === '"Wrong filename format"') {
         this.$message.error('压缩文件名格式错误！')
       } else if (err.message === '"Bad zip file"') {

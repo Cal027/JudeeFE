@@ -14,7 +14,7 @@
             <i class="iconfont j-icon-tiku"/>评测记录
         </el-menu-item>
         <el-menu-item index="/contests">
-            <i class="el-icon-trophy"/>比赛
+            <i class="el-icon-trophy"/>竞赛
         </el-menu-item>
         <el-menu-item index="/rank">
             <i class="iconfont j-icon-paiming"/>排名

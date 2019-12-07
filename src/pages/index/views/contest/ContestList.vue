@@ -97,22 +97,22 @@ export default {
           'title': 'Judee OJ 模拟赛1',
           'type': 'public',
           'rule': 'ACM',
-          'start_time': '',
-          'end_time': ''
+          'start_time': 'Tue Dec 01 2019 18:52:20 GMT+0800 (中国标准时间)',
+          'end_time': 'Tue Dec 03 2019 18:52:20 GMT+0800 (中国标准时间)'
         },
         {
           'title': 'Judee OJ 模拟赛2',
           'type': 'class',
           'rule': 'OI',
-          'start_time': '',
-          'end_time': ''
+          'start_time': 'Tue Dec 03 2019 18:52:20 GMT+0800 (中国标准时间)',
+          'end_time': 'Tue Dec 06 2019 18:52:20 GMT+0800 (中国标准时间)'
         },
         {
           'title': 'Judee OJ 模拟赛3',
           'type': 'class',
           'rule': 'ACM',
-          'start_time': '',
-          'end_time': ''
+          'start_time': 'Tue Dec 03 2019 12:52:20 GMT+0800 (中国标准时间)',
+          'end_time': 'Tue Dec 10 2019 18:52:20 GMT+0800 (中国标准时间)'
         }
       ],
       rules: [],
@@ -160,6 +160,7 @@ export default {
       this.getContests()
     },
     changeRule (val) {
+      this.selectAllRules = false
       this.rules = [val]
       this.getContests()
     },
@@ -170,7 +171,7 @@ export default {
       return util.time.duration(startTime, endTime)
     },
     getLocalTime (time) {
-      return util.time.localtime('YYYY-M-D HH:mm') | time
+      return util.time.localtime(time, 'YYYY-M-D HH:mm')
     },
     goContest (contest) {
       this.cur_contest_id = contest.id

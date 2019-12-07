@@ -27,7 +27,7 @@
           <el-form-item prop="password" label="密码">
             <el-input
               v-model="regForm.password"
-              type="password"
+              show-password
               placeholder="不少于6个字符的密码"
             />
           </el-form-item>

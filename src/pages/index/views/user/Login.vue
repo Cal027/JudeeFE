@@ -11,7 +11,7 @@
             <el-input v-model="loginForm.username" :autofocus="true"/>
           </el-form-item>
           <el-form-item prop="password" label="密码">
-            <el-input v-model="loginForm.password" type="password"/>
+            <el-input v-model="loginForm.password" show-password/>
           </el-form-item>
           <el-button type="primary" class="button" @click="loginClick">登 录</el-button>
         </el-form>
