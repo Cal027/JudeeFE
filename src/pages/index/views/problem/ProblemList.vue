@@ -108,7 +108,7 @@ export default {
       tags: [],
       loadingTable: false,
       currentPage: 1,
-      pageSize: 15,
+      pageSize: 20,
       problemNum: 0,
       tableData: [],
       ac: 100,

@@ -175,7 +175,8 @@ export default {
       if (contest.type !== 'public') {
         this.$message.error('请先登录')
       } else {
-        this.$router.push({ name: 'contest-details', params: { contestID: contest.id } })
+        // this.$router.push({ name: 'Contest-detail', params: { contestID: contest.id } })
+        this.$router.push({ name: 'Contest-detail', params: { contestID: 1 } })
       }
     }
   },

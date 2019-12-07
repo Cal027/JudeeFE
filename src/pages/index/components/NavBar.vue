@@ -13,7 +13,7 @@
         <el-menu-item index="/statue">
             <i class="iconfont j-icon-tiku"/>评测记录
         </el-menu-item>
-        <el-menu-item index="/contests">
+        <el-menu-item index="/contest">
             <i class="el-icon-trophy"/>竞赛
         </el-menu-item>
         <el-menu-item index="/rank">
@@ -25,8 +25,10 @@
         <el-dropdown
                 v-show="loginShow"
                 class="user"
+                type="text"
                 :show-timeout="100"
                 :split-button="true"
+                @click="handleClick"
                 @command="handleCommand">
             <span class="el-dropdown-link">{{ nickname }}</span>
             <el-dropdown-menu slot="dropdown">
@@ -78,6 +80,12 @@ export default {
     }
   },
   methods: {
+    handleClick () {
+      this.$router.push({
+        name: 'user',
+        params: { username: localStorage.username }
+      })
+    },
     handleCommand (command) {
       if (command === 'logout') {
         this.$message({

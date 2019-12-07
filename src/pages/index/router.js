@@ -94,10 +94,16 @@ const routes = [
     component: ProblemDetail
   },
   {
-    path: '/contests',
-    name: 'Contests-list',
+    path: '/contest',
+    name: 'Contest-list',
     meta: { title: '竞赛列表' },
     component: Contest.ContestList
+  },
+  {
+    path: '/contest/:contestID',
+    name: 'Contest-detail',
+    meta: { title: '竞赛详情' },
+    component: Contest.ContestDetail
   }
 ]
 

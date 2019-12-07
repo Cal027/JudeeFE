@@ -60,6 +60,7 @@
 <script>
 import * as clipboard from 'clipboard-polyfill'
 import SquareBackground from '@oj/components/SquareBackground'
+import util from '@/utils/util'
 
 export default {
   name: 'Profile',
@@ -79,6 +80,7 @@ export default {
   },
   created () {
     this.username = this.$route.params.username
+    util.title(this.username)
     this.isShowEdit = localStorage.getItem('username') === this.username
     this.$api.user.getUserInfo(this.username).then(response => {
       this.profile = response.data
