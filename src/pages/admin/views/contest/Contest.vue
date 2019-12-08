@@ -33,11 +33,25 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="竞赛赛制">
-                        <el-radio v-model="form.rule" label="ACM" :disabled="disableRule">ACM</el-radio>
-                        <el-radio v-model="form.rule" label="OI" :disabled="disableRule">OI</el-radio>
+                        <el-radio v-model="form.rule_type" label="ACM" :disabled="disableRule">ACM</el-radio>
+                        <el-radio v-model="form.rule_type" label="OI" :disabled="disableRule">OI</el-radio>
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-form-item label="允许IP范围">
+                <div v-for="(range, index) in form.allowed_ip_ranges" :key="index">
+                    <el-row :gutter="20" style="margin-bottom: 15px">
+                        <el-col :span="8">
+                            <el-input v-model="range.value" placeholder="CIDR Network"/>
+                        </el-col>
+                        <el-col :span="10">
+                            <el-button type="primary" icon="el-icon-plus" circle size="mini"
+                                       @click="addIPRange"/>
+                            <el-button icon="el-icon-minus" circle size="mini" @click="removeIPRange(range)"/>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-form-item>
             <el-button round type="success" style="float:right;" @click="submitContest">添加竞赛</el-button>
         </el-form>
 
@@ -69,7 +83,8 @@ export default {
         start_time: '',
         end_time: '',
         password: '',
-        rule: 'ACM'
+        rule_type: 'ACM',
+        allowed_ip_ranges: [{ value: '' }]
       },
       rules: {
         title: { required: true, message: '标题不能为空', trigger: 'blur' },
@@ -90,8 +105,17 @@ export default {
       }).then(() => {
         this.$refs.form.validate((valid) => {
           if (valid) {
+            let data = Object.assign({}, this.form)
+            let ranges = []
+            for (let v of data.allowed_ip_ranges) {
+              if (v.value !== '') {
+                ranges.push(v.value)
+              }
+            }
+            data.allowed_ip_ranges = ranges
             // TODO 添加竞赛API
-            ContestAPI.addContest(this.from).then(res => {
+            ContestAPI.addContest(data).then(res => {
+              console.log(res)
               this.$message({
                 message: '添加竞赛信息成功！',
                 type: 'success'
@@ -108,6 +132,18 @@ export default {
           message: '已取消提交'
         })
       })
+    },
+    addIPRange () {
+      this.form.allowed_ip_ranges.push({ value: '' })
+    },
+    removeIPRange (range) {
+      let index = this.form.allowed_ip_ranges.indexOf(range)
+      if (index !== -1) {
+        this.form.allowed_ip_ranges.splice(index, 1)
+      }
+      if (this.form.allowed_ip_ranges.length === 0) {
+        this.addIPRange()
+      }
     }
   },
   mounted () {

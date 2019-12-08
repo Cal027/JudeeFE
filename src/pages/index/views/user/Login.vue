@@ -59,7 +59,7 @@ export default {
           type: 'success'
         })
         localStorage.setItem('JWT_TOKEN', response.data.token)
-        util.cookies.set('token',response.data.token)
+        util.cookies.set('token', response.data.token)
         localStorage.setItem('username', response.data.username)
         localStorage.setItem('nickname', response.data.nickname)
         localStorage.setItem('type', response.data.type)

@@ -20,22 +20,54 @@
                 <el-menu-item index="6" class="menuItem">公告</el-menu-item>
             </el-menu>
         </div>
+        <ul class="contest-info">
+            <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.start_time)}}</li>
+            <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.end_time)}}</li>
+            <li>
+                <i class="el-icon-alarm-clock" :style="{color:themeColor}"/>
+                {{getDuration(contestDetail.start_time,contestDetail.end_time)}}
+            </li>
+            <li><i class="el-icon-price-tag" :style="{color:themeColor}"/>{{contestDetail.rule_type}}</li>
+            <li><i class="el-icon-user" :style="{color:themeColor}"/>{{contestDetail.created_by}}</li>
+        </ul>
+        <el-card class="module">
+            <span class="title" :style="{color:themeColor}">竞赛说明</span>
+            <div class="content" v-highlight v-html="contestDetail.description"/>
+        </el-card>
 
     </d2-container>
 </template>
 
 <script>
+import util from '@/utils/util'
+import ContestAPI from '@oj/api/oj.contest'
+
 export default {
   name: 'ContestDetail',
   data () {
     return {
       themeColor: '',
       contest: '',
-      contestDetail: { title: 'Judee OJ 模拟赛1' },
+      contestDetail: {},
       activeIndex: '1',
       top: -10,
       isSticky: false
     }
+  },
+  methods: {
+    getDuration (startTime, endTime) {
+      return util.time.duration(startTime, endTime)
+    },
+    resolveTime (time) {
+      return util.time.resolveTime(time)
+    }
+  },
+  mounted () {
+    ContestAPI.getContest(this.$route.params.contestID).then(res => {
+      console.log(res)
+      this.contestDetail = res
+      util.title(this.contestDetail.title)
+    })
   },
   async created () {
     // 异步加载当前主题色
@@ -49,7 +81,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     .online {
         display: block;
         height: 2px;
@@ -77,13 +109,6 @@ export default {
         margin-top: -5px;
     }
 
-    .title {
-        font-size: 20px;
-        font-weight: 400;
-        margin: 25px 0 8px;
-        /*color: #3091f2*/
-    }
-
     .menu {
         border-bottom: none;
     }
@@ -95,4 +120,39 @@ export default {
     .menuItem {
         font-size: 16px;
     }
+
+    .module {
+        width: 80%;
+        padding: 30px 50px;
+        margin: 0 auto 20px;
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: 400;
+        margin: 25px 0 8px;
+        /*color: #3091f2*/
+    }
+
+    .contest-info {
+        background-color: #fff;
+        width: 80%;
+        padding: 5px 50px;
+        margin: -10px auto 0;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+
+        li {
+            display: inline-block;
+            margin-right: 30px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #3e3e3e;
+            line-height: 33px;
+
+            i{
+                margin-right: 5px;
+            }
+        }
+    }
+
 </style>

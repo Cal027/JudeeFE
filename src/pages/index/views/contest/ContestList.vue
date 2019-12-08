@@ -19,10 +19,10 @@
                     <el-checkbox v-model="selectAllRules" @change="handleAllRules">全部</el-checkbox>
                 </el-col>
                 <el-col :span="20">
-                    <el-checkbox-group v-model="rules" @change="handleRule" class="group">
-                        <el-checkbox label="ACM"/>
-                        <el-checkbox label="OI"/>
-                    </el-checkbox-group>
+                    <el-radio-group v-model="rule_type" style="margin-left: 30px" @change="handleRule">
+                        <el-radio label="ACM"/>
+                        <el-radio label="OI"/>
+                    </el-radio-group>
                 </el-col>
             </el-row>
             <el-row>
@@ -32,34 +32,34 @@
                 </el-col>
                 <el-col :span="20">
                     <el-checkbox-group v-model="status" @change="handleStatus" class="group">
-                        <el-checkbox label="比赛中"/>
-                        <el-checkbox label="已结束"/>
-                        <el-checkbox label="筹备中"/>
+                        <el-checkbox :label="0">比赛中</el-checkbox>
+                        <el-checkbox :label="-1">已结束</el-checkbox>
+                        <el-checkbox :label="1">筹备中</el-checkbox>
                     </el-checkbox-group>
                 </el-col>
             </el-row>
         </el-card>
         <el-card>
             <p id="no-contest" v-if="contests.length===0">暂时没有比赛</p>
-            <ol id="contest-list">
+            <ol id="contest-list" v-loading="loading">
                 <li v-for="contest in contests" :key="contest.title">
                     <el-row>
                         <el-col :span="1">
-                            <el-button @click="changeRule(contest.rule)" type="text">
-                                <el-badge :value="contest.rule" class="rule-badge"/>
+                            <el-button @click="changeRule(contest.rule_type)" type="text">
+                                <el-badge :value="contest.rule_type" class="rule-badge"/>
                             </el-button>
                         </el-col>
                         <el-col :span="18" class="contest-main">
                             <p class="title">
                                 <a class="entry" @click.stop="goContest(contest)">{{contest.title}}</a>
-                                <template v-if="contest.type!=='public'">
+                                <template v-if="contest.password!==''">
                                     <el-icon class="el-icon-lock" style="margin-left: 5px"/>
                                 </template>
                             </p>
                             <ul class="detail">
                                 <li>
                                     <el-icon class="el-icon-date"/>
-                                    {{contest.start_time}}
+                                    {{resolveTime(contest.start_time)}}
                                 </li>
                                 <li>
                                     <el-icon class="el-icon-alarm-clock"/>
@@ -86,50 +86,29 @@
 
 <script>
 import util from '@/utils/util'
+import contestAPI from '@oj/api/oj.contest'
 
 export default {
   name: 'ContestList',
   data () {
     return {
       searchText: '',
-      contests: [
-        {
-          'title': 'Judee OJ 模拟赛1',
-          'type': 'public',
-          'rule': 'ACM',
-          'start_time': '2019-12-18 00:00',
-          'end_time': '2019-12-28 00:00'
-        },
-        {
-          'title': 'Judee OJ 模拟赛2',
-          'type': 'class',
-          'rule': 'OI',
-          'start_time': '2019-2-18 00:00',
-          'end_time': '2019-12-18 00:00'
-        },
-        {
-          'title': 'Judee OJ 模拟赛3',
-          'type': 'class',
-          'rule': 'ACM',
-          'start_time': '2019-12-18 10:00',
-          'end_time': '2019-12-18 12:30'
-        }
-      ],
-      rules: [],
+      contests: [],
+      rule_type: '',
       status: [],
       selectAllRules: true,
       selectAllStatus: true,
       currentPage: 1,
       pageSize: 15,
-      contestNum: 0
+      contestNum: 0,
+      loading: false
     }
   },
   methods: {
     // 清空筛选
     clearFilter () {
-      this.difficulty = []
-      this.types = []
       this.status = []
+      this.rule_type = ''
       this.searchText = ''
       this.selectAllRules = true
       this.selectAllStatus = true
@@ -144,7 +123,7 @@ export default {
       this.getContests()
     },
     handleRule () {
-      this.selectAllRules = this.rules.length === 0
+      this.selectAllRules = false
       this.getContests()
     },
     handleStatus () {
@@ -156,27 +135,36 @@ export default {
       this.getContests()
     },
     handleAllRules () {
-      this.rules = []
+      this.rule_type = ''
       this.getContests()
     },
     changeRule (val) {
       this.selectAllRules = false
-      this.rules = [val]
+      this.rule_type = val
       this.getContests()
     },
     getContests () {
       // TODO 获取比赛列表
+      this.loading = true
+      contestAPI.getContestWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
+        this.searchText, this.rule_type, this.status).then(res => {
+        this.contestNum = res.count
+        this.contests = res.results
+        this.loading = false
+      })
     },
     getDuration (startTime, endTime) {
       return util.time.duration(startTime, endTime)
     },
+    resolveTime (time) {
+      return util.time.resolveTime(time)
+    },
     goContest (contest) {
-      this.cur_contest_id = contest.id
-      if (contest.type !== 'public') {
+      const token = util.cookies.get('token')
+      if (contest.type !== 'public' && token === '') {
         this.$message.error('请先登录')
       } else {
-        // this.$router.push({ name: 'Contest-detail', params: { contestID: contest.id } })
-        this.$router.push({ name: 'Contest-detail', params: { contestID: 1 } })
+        this.$router.push({ name: 'Contest-detail', params: { contestID: contest.id } })
       }
     }
   },
@@ -240,6 +228,7 @@ export default {
                         }
                     }
                 }
+
                 .detail {
                     margin-left: -90px;
                 }

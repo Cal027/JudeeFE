@@ -1,4 +1,5 @@
 import moment from 'moment'
+
 moment.locale('zh-cn')
 
 // convert utc time to localtime
@@ -23,8 +24,13 @@ function secondFormat (seconds) {
   return m.hours() + ':' + m.minutes() + ':' + m.seconds()
 }
 
+function resolveTime (time) {
+  return moment(time).format('YYYY-MM-DD HH:mm')
+}
+
 export default {
   utcToLocal: utcToLocal,
   duration: duration,
-  secondFormat: secondFormat
+  secondFormat: secondFormat,
+  resolveTime: resolveTime
 }
