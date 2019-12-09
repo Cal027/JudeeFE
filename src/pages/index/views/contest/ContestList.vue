@@ -26,7 +26,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="2">比赛状态：</el-col>
+                <el-col :span="2">状态：</el-col>
                 <el-col :span="1">
                     <el-checkbox v-model="selectAllStatus" @change="handleAllStatus">全部</el-checkbox>
                 </el-col>
@@ -39,9 +39,9 @@
                 </el-col>
             </el-row>
         </el-card>
-        <el-card>
-            <p id="no-contest" v-if="contests.length===0">暂时没有比赛</p>
-            <ol id="contest-list" v-loading="loading">
+        <el-card v-loading="loading" style="min-height: 200px">
+            <p id="no-contest" v-if="contests.length===0&&!loading">暂时没有比赛</p>
+            <ol id="contest-list">
                 <li v-for="contest in contests" :key="contest.title">
                     <el-row>
                         <el-col :span="1">
@@ -51,7 +51,7 @@
                         </el-col>
                         <el-col :span="18" class="contest-main">
                             <p class="title">
-                                <a class="entry" @click.stop="goContest(contest)">{{contest.title}}</a>
+                                <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
                                 <template v-if="contest.password!==''">
                                     <el-icon class="el-icon-lock" style="margin-left: 5px"/>
                                 </template>
@@ -212,20 +212,18 @@ export default {
 
             .rule-badge {
                 margin-top: 14px;
-                margin-left: -5px;
+                margin-left: -15px;
+                margin-right: 10px;
             }
 
             .contest-main {
                 .title {
+                    margin-bottom: 0;
                     font-size: 18px;
-
-                    a.entry {
-                        color: #495060;
-
-                        &:hover {
-                            color: #2d8cf0;
-                            border-bottom: 1px solid #2d8cf0;
-                        }
+                    .entry {
+                        margin-left: 5px;
+                        font-size: 18px;
+                        font-weight: 400;
                     }
                 }
 
@@ -251,6 +249,7 @@ export default {
         .el-badge__content {
             border-radius: 11px 11px 11px 0;
             font-weight: 800;
+            border: none;
             line-height: 14px;
             padding: 3px 8px;
             display: inline;
