@@ -6,13 +6,13 @@
             <el-form-item prop="title" label="标题" style="width: 50%">
                 <el-input v-model="form.title" placeholder="这里输入题目"/>
             </el-form-item>
-            <el-form-item prop="password" label="竞赛密码" style="width: 30%">
-                <el-input v-model="form.password" show-password/>
-            </el-form-item>
             <el-form-item prop="description" label="竞赛描述" size="mini" style="width: 70%">
                 <d2-quill style="min-height: 250px;" v-model="form.description"/>
             </el-form-item>
-            <el-row :gutter="20">
+            <el-form-item prop="password" label="竞赛密码" style="width: 30%">
+                <el-input v-model="form.password" show-password placeholder="(可选) 竞赛密码"/>
+            </el-form-item>
+            <el-row type="flex" justify="space-between">
                 <el-col :span="6">
                     <el-form-item prop="start_time" label="开始时间">
                         <el-date-picker

@@ -4,8 +4,8 @@
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
-                <el-col :span="6">
-                    <el-input size="small" placeholder="搜索竞赛编号、标题、关键字..." v-model="searchText"
+                <el-col :span="8">
+                    <el-input size="small" placeholder="搜索竞赛编号、标题" v-model="searchText"
                               @keyup.native.enter="getContests">
                         <el-button slot="append" @click="getContests" size="mini">
                             <d2-icon name="search"/>
@@ -15,11 +15,9 @@
             </el-row>
             <el-row>
                 <el-col :span="2">赛制：</el-col>
-                <el-col :span="1">
-                    <el-checkbox v-model="selectAllRules" @change="handleAllRules">全部</el-checkbox>
-                </el-col>
                 <el-col :span="20">
-                    <el-radio-group v-model="rule_type" style="margin-left: 30px" @change="handleRule">
+                    <el-radio-group v-model="rule_type" @change="getContests">
+                        <el-radio label=''>全部</el-radio>
                         <el-radio label="ACM"/>
                         <el-radio label="OI"/>
                     </el-radio-group>
@@ -96,7 +94,6 @@ export default {
       contests: [],
       rule_type: '',
       status: [],
-      selectAllRules: true,
       selectAllStatus: true,
       currentPage: 1,
       pageSize: 15,
@@ -110,7 +107,6 @@ export default {
       this.status = []
       this.rule_type = ''
       this.searchText = ''
-      this.selectAllRules = true
       this.selectAllStatus = true
       this.getContests()
     },
@@ -122,10 +118,6 @@ export default {
       this.currentPage = val
       this.getContests()
     },
-    handleRule () {
-      this.selectAllRules = false
-      this.getContests()
-    },
     handleStatus () {
       this.selectAllStatus = this.status.length === 0
       this.getContests()
@@ -134,12 +126,7 @@ export default {
       this.status = []
       this.getContests()
     },
-    handleAllRules () {
-      this.rule_type = ''
-      this.getContests()
-    },
     changeRule (val) {
-      this.selectAllRules = false
       this.rule_type = val
       this.getContests()
     },
