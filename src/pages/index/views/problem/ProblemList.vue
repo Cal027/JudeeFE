@@ -168,17 +168,16 @@ export default {
     getProblems () {
       this.loadingTable = true
       this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
-        this.tags, this.searchText, this.difficulty)
-        .then(response => {
-          for (let i = 0; i < response.data.results.length; i++) {
-            let ac = response.data.results[i]['accepted_number']
-            let sub = response.data.results[i]['submission_number']
-            response.data.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
-          }
-          this.tableData = response.data.results
-          this.problemNum = response.data.count
-          this.loadingTable = false
-        })
+        this.tags, this.searchText, this.difficulty).then(response => {
+        for (let i = 0; i < response.data.results.length; i++) {
+          let ac = response.data.results[i]['accepted_number']
+          let sub = response.data.results[i]['submission_number']
+          response.data.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+        }
+        this.tableData = response.data.results
+        this.problemNum = response.data.count
+        this.loadingTable = false
+      })
     }
   },
   mounted () {

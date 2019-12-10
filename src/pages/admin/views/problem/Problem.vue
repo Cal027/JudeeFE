@@ -215,7 +215,7 @@ export default {
   mounted () {
     this.$refs.container.scrollToTop()
     this.getTags()
-    const token = cookies.get('token')
+    const token = cookies.get('tokenAdmin')
     this.uploadHeader.Authorization = `JWT ${token}`
   },
   // 上传校验

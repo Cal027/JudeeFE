@@ -93,7 +93,7 @@ export default {
           type: 'success'
         })
         localStorage.removeItem('JWT_TOKEN')
-        util.cookies.remove('token')
+        util.cookies.remove('tokenOJ')
         localStorage.removeItem('username')
         localStorage.removeItem('nickname')
         localStorage.removeItem('ac_prob')
@@ -117,7 +117,6 @@ export default {
     },
     handleBack () {
       this.$router.back()
-      console.log(this.activeIndex)
     }
   }
 

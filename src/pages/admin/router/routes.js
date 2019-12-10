@@ -40,6 +40,12 @@ const frameIn = [
         component: _import('problem/Problem')
       },
       {
+        path: 'problems',
+        name: 'problem-list',
+        meta: { title: '题目列表' },
+        component: _import('problem/ProblemList')
+      },
+      {
         path: 'contest/create',
         name: 'create-contest',
         meta: {

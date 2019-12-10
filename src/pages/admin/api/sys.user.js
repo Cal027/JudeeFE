@@ -1,4 +1,4 @@
-import request from '@/plugin/axios'
+import request from '@/plugin/axiosAdmin'
 
 export default {
   getUserList (limit, offset) {

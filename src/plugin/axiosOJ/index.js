@@ -1,39 +1,7 @@
-import store from '@/store'
 import axios from 'axios'
-import { Message } from 'element-ui'
 import util from '@/utils/util'
 
-// 创建一个错误
-// function errorCreate (msg) {
-//   const error = new Error(msg)
-//   errorLog(error)
-//   throw error
-// }
-
-// 记录和显示错误
-function errorLog (error) {
-  // 添加到日志
-  store.dispatch('d2admin/log/push', {
-    message: '数据请求异常',
-    type: 'danger',
-    meta: {
-      error
-    }
-  })
-  // 打印到控制台
-  if (process.env.NODE_ENV === 'development') {
-    util.log.danger('>>>>>> Error >>>>>>')
-    console.log(error)
-  }
-  // 显示提示
-  Message({
-    message: error.message,
-    type: 'error',
-    duration: 5 * 1000
-  })
-}
-
-// 创建一个 axios 实例
+// 创建一个 axiosAdmin 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
   timeout: 5000 // 请求超时时间
@@ -43,15 +11,9 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // 在请求发送之前做一些处理
-    // const tokenL = localStorage.getItem('JWT_TOKEN')
-    // console.log(tokenL)
-    // if (tokenL) {
-    //   config.headers.Authorization = `JWT ${tokenL}`
-    //   return config
-    // }
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     // config.headers['JWT'] = token
-    const token = util.cookies.get('token')
+    const token = util.cookies.get('tokenOJ')
     if (token) {
       config.headers.Authorization = `JWT ${token}`
     }
@@ -109,7 +71,6 @@ service.interceptors.response.use(
           break
       }
     }
-    errorLog(error)
     return Promise.reject(error)
   }
 )

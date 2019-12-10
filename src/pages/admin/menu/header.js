@@ -16,7 +16,7 @@ export default [
     icon: 'list-ul',
     children: [
       { path: '/problem/create', title: '添加题目', icon: 'plus' },
-      { path: '/problem-list', title: '题目列表', icon: 'list-ol' }
+      { path: '/problems', title: '题目列表', icon: 'list-ol' }
     ]
   },
   {

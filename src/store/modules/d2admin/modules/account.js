@@ -30,7 +30,7 @@ export default {
             // token 代表用户当前登录状态 建议在网络请求中携带 token
             // 如有必要 token 需要定时更新，默认保存一天
             util.cookies.set('uuid', res.uuid)
-            util.cookies.set('token', res.token)
+            util.cookies.set('tokenAdmin', res.token)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
               name: res.username
@@ -57,7 +57,7 @@ export default {
        */
       async function logout () {
         // 删除cookie
-        util.cookies.remove('token')
+        util.cookies.remove('tokenAdmin')
         util.cookies.remove('uuid')
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })

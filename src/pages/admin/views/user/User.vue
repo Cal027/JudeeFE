@@ -26,8 +26,8 @@
                       element-loading-text="Loading"
                       style="width: 100%">
                 <el-table-column type="selection" width="55"/>
-                <el-table-column prop="username" label="用户名"/>
-                <el-table-column prop="nickname" label="昵称"/>
+                <el-table-column prop="username" label="用户名" width="90"/>
+                <el-table-column prop="nickname" label="昵称" width="90"/>
                 <el-table-column prop="type" label="用户类型">
                     <template slot-scope="scopeT">
                         <el-tag

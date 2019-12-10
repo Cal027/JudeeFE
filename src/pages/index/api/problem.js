@@ -22,15 +22,6 @@ const problem = {
   getProblem (id) {
     return axios.get(`${base}/problem/${id}`)
   }
-
-  // getProblemWithTags (limit, offset, tagList) {
-  //   let tags = ''
-  //   let i
-  //   for (i = 0; i < tagList.length; i++) {
-  //     tags += tagList[i] + '+'
-  //   }
-  //   return axios.get(`${base}/problem/?limit=${limit}&offset=${offset}&is_public=True&tags=${tags}`)
-  // }
 }
 
 export default problem

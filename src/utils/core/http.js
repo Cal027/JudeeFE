@@ -3,7 +3,7 @@ import axios from 'axios'
 import router from '@/pages/index/router'
 import {Message} from 'element-ui'
 // 默认配置
-// axios.defaults.baseURL = process.env.VUE_APP_BASE_URL; // 不同环境下的BASE_URL
+// axiosAdmin.defaults.baseURL = process.env.VUE_APP_BASE_URL; // 不同环境下的BASE_URL
 // 创建axios实例
 var instance = axios.create({ timeout: 1000 * 12 })
 // 设置post请求头

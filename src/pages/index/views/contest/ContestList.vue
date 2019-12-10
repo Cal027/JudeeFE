@@ -147,7 +147,7 @@ export default {
       return util.time.resolveTime(time)
     },
     goContest (contest) {
-      const token = util.cookies.get('token')
+      const token = util.cookies.get('tokenOJ')
       if (contest.type !== 'public' && token === '') {
         this.$message.error('请先登录')
       } else {

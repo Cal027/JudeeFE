@@ -1,4 +1,4 @@
-import request from '@/plugin/axios'
+import request from '@/plugin/axiosOJ'
 
 export default {
   getContestWithLimit (limit, offset, searchText, ruleType, status) {
