@@ -139,7 +139,12 @@ export default {
       this.$confirm('确认删除题目？相关数据将被清除', '删除问题', {
         type: 'warning'
       }).then(() => {
-        problemAPI.deleteProblem(id)
+        problemAPI.deleteProblem(id).then(() => {
+          this.$message({
+            type: 'success',
+            message: '已删除题目'
+          })
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
