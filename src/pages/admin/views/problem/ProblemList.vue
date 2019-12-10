@@ -65,7 +65,6 @@
 
 <script>
 import problemAPI from '@admin/api/sys.problem'
-import util from '@/utils/util'
 import { mapState } from 'vuex'
 
 export default {
@@ -128,11 +127,14 @@ export default {
       }
     },
     downloadTestCase (id) {
-      problemAPI.getTestCase(id).then(res => {
-        this.$message({
-          type: 'success',
-          message: '下载成功'
-        })
+      problemAPI.getTestCase(id).then(resp => {
+        let headers = resp.headers
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(new window.Blob([resp.data], { type: headers['content-type'] }))
+        link.download = (headers['content-disposition'] || '').split('filename=')[1]
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
       })
     },
     deleteProblem (id) {

@@ -19,7 +19,6 @@ Vue.use(ElementUI)
 Vue.use(Sticky)
 
 Vue.prototype.$api = api
-
 Vue.directive('highlight', function (el) {
   let blocks = el.querySelectorAll('pre.ql-syntax')
   blocks.forEach((block) => {

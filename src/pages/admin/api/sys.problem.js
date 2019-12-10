@@ -46,7 +46,8 @@ export default {
   getTestCase (id) {
     return request({
       url: `/test_case_download/${id}`,
-      method: 'get'
+      method: 'get',
+      responseType: 'blob'
     })
   }
 

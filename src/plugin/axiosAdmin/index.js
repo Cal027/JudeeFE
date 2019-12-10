@@ -2,7 +2,6 @@ import store from '@/store'
 import axios from 'axios'
 import { Message } from 'element-ui'
 import util from '@/utils/util'
-
 // 创建一个错误
 // function errorCreate (msg) {
 //   const error = new Error(msg)
