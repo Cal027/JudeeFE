@@ -1,5 +1,5 @@
 <template>
-    <d2-container ref="container">
+    <d2-container>
         <d2-module-index-banner v-bind="banner"/>
         <el-form ref="form" style="margin: 0 auto;max-width: 90%"
                  :model="form" :rules="rules" label-position="top" label-width="90px">
@@ -217,7 +217,6 @@ export default {
     }
   },
   mounted () {
-    // this.$refs.container.scrollToTop()
     this.getTags()
     this.initUpload()
 

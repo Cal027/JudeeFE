@@ -61,7 +61,8 @@ export default {
           this.currentValue = val
           // 尝试更新
           if (this.Quill) {
-            this.Quill.pasteHTML(this.value)
+            // this.Quill.pasteHTML(this.value)
+            this.Quill.setContents(this.value)
           }
         }
       },
@@ -77,7 +78,8 @@ export default {
       // 初始化编辑器
       this.Quill = new Quill(editor, this.options)
       // 默认值
-      this.Quill.pasteHTML(this.currentValue)
+      // this.Quill.pasteHTML(this.currentValue)
+      this.Quill.setContents(this.currentValue)
       // 绑定事件
       this.Quill.on('text-change', (delta, oldDelta, source) => {
         const html = this.$refs.editor.children[0].innerHTML
