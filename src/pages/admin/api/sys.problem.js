@@ -42,6 +42,12 @@ export default {
       url: `/problem/${id}`,
       method: 'delete'
     })
+  },
+  getTestCase (id) {
+    return request({
+      url: `/test_case_download/${id}`,
+      method: 'get'
+    })
   }
 
 }

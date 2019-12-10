@@ -224,7 +224,7 @@ export default {
       this.isEdit = true
       this.continue_flag = true
       this.uploadTxt = '更新测试数据'
-      this.banner = { title: '修改题目', subTitle: '' }
+      this.banner = { title: '修改题目', subTitle: '在这里修改题目信息' }
       problemAPI.getProblem(this.$route.params.problemID).then(res => {
         this.form = res
       })

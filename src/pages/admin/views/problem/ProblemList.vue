@@ -17,7 +17,6 @@
                     v-loading="loading"
                     element-loading-text="正在加载"
                     ref="table"
-                    @row-dblclick="handleDblclick"
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column prop="ID" label="ID" sortable :width="70"/>
@@ -36,13 +35,13 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="created_by" label="作者"/>
-                <el-table-column prop="rate" label="正确率" :width="80"/>
-                <el-table-column prop="submission_number" label="提交数" :width="100"/>
-                <el-table-column prop="total_score" label="分数" :width="80"/>
-                <el-table-column fixed="right" label="操作" width="200">
+                <el-table-column prop="rate" label="正确率" :width="80" align="center"/>
+                <el-table-column prop="submission_number" label="提交数" :width="100" align="center"/>
+                <el-table-column prop="total_score" label="分数" :width="80" align="center"/>
+                <el-table-column fixed="right" label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button round size="mini" icon="el-icon-edit"
-                                   @click="editProblem(scope.row.ID)"/>
+                                   @click="editProblem(scope.row.ID,scope.row.created_by)"/>
                         <el-button round size="mini" icon="el-icon-download"
                                    @click="downloadTestCase(scope.row.ID)"/>
                         <el-button round type="danger" size="mini" icon="el-icon-delete"
@@ -67,9 +66,15 @@
 <script>
 import problemAPI from '@admin/api/sys.problem'
 import util from '@/utils/util'
+import { mapState } from 'vuex'
 
 export default {
   name: 'ProblemList',
+  computed: {
+    ...mapState('d2admin/user', [
+      'info'
+    ])
+  },
   data () {
     return {
       banner: {
@@ -89,9 +94,6 @@ export default {
     }
   },
   methods: {
-    handleDblclick (row) {
-      row.isEditing = true
-    },
     handleSizeChange (val) {
       this.pageSize = val
       this.getProblemList()
@@ -101,7 +103,6 @@ export default {
       this.getProblemList()
     },
     getProblemList () {
-      console.log(this.searchText)
       this.loading = true
       problemAPI.getProblemList(this.pageSize, (this.currentPage - 1) * this.pageSize,
         this.searchText).then(res => {
@@ -115,7 +116,11 @@ export default {
         this.loading = false
       })
     },
-    editProblem (id) {
+    editProblem (id, author) {
+      if (this.info.name !== author && this.info.type !== 3) {
+        this.$message.error('没有权限编辑该题目')
+        return
+      }
       if (this.$route.name === 'problem-list') {
         this.$router.push({ name: 'edit-problem', params: { problemID: id } })
       } else if (this.$route.name === 'contest-problem-list') {
@@ -123,8 +128,12 @@ export default {
       }
     },
     downloadTestCase (id) {
-      let url = '/test_case?problem_id=' + id
-      util.downloadFile(url)
+      problemAPI.getTestCase(id).then(res => {
+        this.$message({
+          type: 'success',
+          message: '下载成功'
+        })
+      })
     },
     deleteProblem (id) {
       this.$confirm('确认删除题目？相关数据将被清除', '删除问题', {

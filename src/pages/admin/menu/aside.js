@@ -24,7 +24,7 @@ export default [
     icon: 'trophy',
     children: [
       { path: '/contest/create', title: '添加竞赛', icon: 'plus' },
-      { path: '/contest-list', title: '竞赛列表', icon: 'list-ol' }
+      { path: '/contests', title: '竞赛管理', icon: 'list-ol' }
     ]
   },
   { path: '/statistics', title: '统计', icon: 'line-chart' }

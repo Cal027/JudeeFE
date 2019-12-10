@@ -1,22 +1,103 @@
 <template>
     <div>
-        <el-input
+        <el-row :gutter="20">
+            <el-col :span="19">
+                <el-button round @click="submit" type="success">提交题目</el-button>
+            </el-col>
+            <el-col :span="5">
+                <el-input size="small" v-model="searchText" @change="getProblemList"
+                          prefix-icon="el-icon-search" placeholder="题目关键词"/>
+            </el-col>
+        </el-row>
+        <el-table
+                v-loading="loading"
+                element-loading-text="正在加载"
+                ref="table"
+                :data="tableData">
+            <el-table-column prop="ID" label="ID" sortable :width="70"/>
+            <el-table-column prop="title" label="标题" :width="300">
+            </el-table-column>
+            <el-table-column prop="difficulty" sortable label="难度" :width="100">
+                <template slot-scope="scope1">
+                    <el-tag
+                            id="difficulty-tag"
+                            size="medium"
+                            :type="diffType[scope1.row.difficulty-1]"
+                            disable-transitions
+                            hit
+                    >{{diffOptions[scope1.row.difficulty-1] }}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column prop="created_by" label="作者"/>
+            <el-table-column fixed="right" label="操作" width="200" align="center">
+                <template slot-scope="scope">
+                    <el-button round size="mini" icon="el-icon-plus"
+                               @click="addProblem(scope.row.ID,scope.row.title)"/>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div style="text-align: center; margin-top: 20px">
+            <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    layout="total, prev, pager, next"
+                    :total="problemNum"/>
+        </div>
     </div>
 </template>
 
 <script>
+import problemAPI from '@admin/api/sys.problem'
+import contestAPI from '@admin/api/sys.contest'
+
 export default {
   name: 'AddProblemContest',
   props: ['contestID'],
   data () {
     return {
-      page: 1,
-      limit: 10,
-      total: 0,
+      currentPage: 1,
+      problemNum: 0,
+      diffOptions: ['简单', '普通', '中等', '困难', '非常困难'],
+      diffType: ['success', 'info', 'info', 'warning', 'danger'],
       loading: false,
+      tableData: [],
       problems: [],
-      contest: {},
-      keyword: ''
+      searchText: ''
+    }
+  },
+  methods: {
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.getProblemList()
+    },
+    addProblem (id, title) {
+      this.$message({
+        message: `添加题目：(${id}) ${title}`,
+        type: 'success'
+      })
+      this.problems.push(id)
+    },
+    submit () {
+      if (this.problems.length === 0) {
+        this.$message.error('提交不能为空！')
+        return
+      }
+      contestAPI.addContestProblem(this.contestID, this.problems).then(res => {
+        this.$message({
+          message: `添加${this.problems.length}个题目到竞赛成功！`,
+          type: 'success'
+        })
+      })
+    },
+    getProblemList () {
+      this.loading = true
+      problemAPI.getProblemList(this.pageSize, (this.currentPage - 1) * this.pageSize,
+        this.searchText).then(res => {
+        this.tableData = res.results
+        this.problemNum = res.count
+        this.loading = false
+      })
     }
   }
 }

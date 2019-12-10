@@ -13,5 +13,12 @@ export default {
       url: `/contest/${id}`,
       method: 'get'
     })
+  },
+  addContestProblem (cid, data) {
+    return request({
+      url: `/contest/${cid}/add-problem/`,
+      method: 'post',
+      data
+    })
   }
 }

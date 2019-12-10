@@ -66,6 +66,12 @@ const frameIn = [
         component: _import('contest/Contest')
       },
       {
+        path: 'contests',
+        name: 'contest-list',
+        meta: { title: '竞赛管理' },
+        component: _import('contest/ContestList')
+      },
+      {
         path: 'contest/:contestID/problems',
         name: 'contest-problem-list',
         meta: {

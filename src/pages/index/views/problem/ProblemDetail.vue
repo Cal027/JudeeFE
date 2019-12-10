@@ -11,8 +11,8 @@
                     <el-progress :width=66 type="circle" :percentage="25"/>
                 </div>
                 <div class="data" v-show="!isSticky">
-                    <p>提交人数：{{100}}</p>
-                    <p>通过人数：{{10}}</p>
+                    <p>提交人数：{{problemDetail.submission_number}}</p>
+                    <p>通过人数：{{problemDetail.accepted_number}}</p>
                 </div>
             </div>
             <el-menu
@@ -101,6 +101,7 @@ export default {
   },
   data () {
     return {
+      percent: 0,
       themeColor: '',
       problem: '',
       diffOptions: ['简单', '普通', '中等', '困难', '非常困难'],
