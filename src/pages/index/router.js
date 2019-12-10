@@ -33,7 +33,7 @@ VueRouter.prototype.replace = function replace (location) {
 const routes = [
   {
     path: '/',
-    name: 'intro',
+    name: 'home',
     component: Intro
   },
   {

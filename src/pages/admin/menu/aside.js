@@ -16,11 +16,11 @@ export default [
     icon: 'list-ul',
     children: [
       { path: '/problem/create', title: '添加题目', icon: 'plus' },
-      { path: '/problems', title: '题目列表', icon: 'list-ol' }
+      { path: '/problems', title: '题目管理', icon: 'list-ol' }
     ]
   },
   {
-    title: '比赛',
+    title: '竞赛',
     icon: 'trophy',
     children: [
       { path: '/contest/create', title: '添加竞赛', icon: 'plus' },

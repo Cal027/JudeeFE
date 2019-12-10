@@ -14,13 +14,26 @@ export default {
       data
     })
   },
+  updateProblem (id, data) {
+    return request({
+      url: `/problem/${id}/`,
+      method: 'put',
+      data
+    })
+  },
   getProblemList (limit, offset, searchText) {
     let url = `/problem/?limit=${limit}&offset=${offset}`
     if (searchText !== '') {
-      url += `&search=${searchText}`
+      url += `&keyword=${searchText}`
     }
     return request({
       url: url,
+      method: 'get'
+    })
+  },
+  getProblem (id) {
+    return request({
+      url: `/problem/${id}`,
       method: 'get'
     })
   },

@@ -21,6 +21,7 @@ const frameIn = [
         },
         component: _import('system/index')
       },
+      // 题目
       {
         path: 'problem/create',
         name: 'create-problem',
@@ -31,7 +32,7 @@ const frameIn = [
         component: _import('problem/Problem')
       },
       {
-        path: 'problem/edit/:problemId',
+        path: 'problem/edit/:problemID',
         name: 'edit-problem',
         meta: {
           title: '修改题目',
@@ -42,9 +43,10 @@ const frameIn = [
       {
         path: 'problems',
         name: 'problem-list',
-        meta: { title: '题目列表' },
+        meta: { title: '题目管理' },
         component: _import('problem/ProblemList')
       },
+      // 竞赛
       {
         path: 'contest/create',
         name: 'create-contest',
@@ -55,7 +57,7 @@ const frameIn = [
         component: _import('contest/Contest')
       },
       {
-        path: 'contest/edit:contestId',
+        path: 'contest/:contestID/edit',
         name: 'edit-contest',
         meta: {
           title: '修改竞赛',
@@ -63,6 +65,34 @@ const frameIn = [
         },
         component: _import('contest/Contest')
       },
+      {
+        path: 'contest/:contestID/problems',
+        name: 'contest-problem-list',
+        meta: {
+          title: '竞赛题目列表',
+          auth: true
+        },
+        component: _import('problem/ProblemList')
+      },
+      {
+        path: 'contest/:contestID/problem/create',
+        name: 'create-contest-problem',
+        meta: {
+          title: '添加竞赛题目',
+          auth: true
+        },
+        component: _import('problem/Problem')
+      },
+      {
+        path: 'contest/:contestID/problem/:problemID/edit',
+        name: 'edit-contest-problem',
+        meta: {
+          title: '修改竞赛题目',
+          auth: true
+        },
+        component: _import('problem/Problem')
+      },
+      // 用户
       {
         path: 'user',
         name: 'user',

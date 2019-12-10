@@ -6,7 +6,7 @@
                 <el-col :span="2">搜索:</el-col>
                 <el-col :span="8">
                     <el-input size="small" placeholder="搜索题目编号、标题、关键字..." v-model="searchText"
-                              @keyup.native.enter="getProblems">
+                              @change="getProblems">
                         <el-button slot="append" @click="getProblems" size="mini">
                             <d2-icon name="search"/>
                         </el-button>

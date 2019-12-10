@@ -8,7 +8,7 @@
                         <span style="font-size: 22px">题目列表</span>
                     </el-col>
                     <el-col :span="5">
-                        <el-input size="small" v-model="searchText"
+                        <el-input size="small" v-model="searchText" @change="getProblemList"
                                   prefix-icon="el-icon-search" placeholder="题目关键词"/>
                     </el-col>
                 </el-row>
@@ -17,7 +17,6 @@
                     v-loading="loading"
                     element-loading-text="正在加载"
                     ref="table"
-                    max-height="700"
                     @row-dblclick="handleDblclick"
                     :data="tableData"
                     style="width: 100%">
@@ -43,18 +42,31 @@
                 <el-table-column fixed="right" label="操作" width="200">
                     <template slot-scope="scope">
                         <el-button round size="mini" icon="el-icon-edit"
-                                   />
+                                   @click="editProblem(scope.row.ID)"/>
+                        <el-button round size="mini" icon="el-icon-download"
+                                   @click="downloadTestCase(scope.row.ID)"/>
                         <el-button round type="danger" size="mini" icon="el-icon-delete"
-                                   @click.native="deleteProblem(scope.row.ID)"/>
+                                   @click="deleteProblem(scope.row.ID)"/>
                     </template>
                 </el-table-column>
             </el-table>
+            <div style="text-align: center; margin-top: 20px">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[15, 20, 30, 50]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="problemNum"/>
+            </div>
         </el-card>
     </d2-container>
 </template>
 
 <script>
 import problemAPI from '@admin/api/sys.problem'
+import util from '@/utils/util'
 
 export default {
   name: 'ProblemList',
@@ -71,14 +83,25 @@ export default {
       currentPage: 1,
       pageSize: 20,
       problemNum: 0,
-      searchText: ''
+      searchText: '',
+      // 比赛相关
+      contestID: ''
     }
   },
   methods: {
     handleDblclick (row) {
       row.isEditing = true
     },
+    handleSizeChange (val) {
+      this.pageSize = val
+      this.getProblemList()
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.getProblemList()
+    },
     getProblemList () {
+      console.log(this.searchText)
       this.loading = true
       problemAPI.getProblemList(this.pageSize, (this.currentPage - 1) * this.pageSize,
         this.searchText).then(res => {
@@ -92,8 +115,18 @@ export default {
         this.loading = false
       })
     },
+    editProblem (id) {
+      if (this.$route.name === 'problem-list') {
+        this.$router.push({ name: 'edit-problem', params: { problemID: id } })
+      } else if (this.$route.name === 'contest-problem-list') {
+        this.$router.push({ name: 'edit-contest-problem', params: { problemID: id } })
+      }
+    },
+    downloadTestCase (id) {
+      let url = '/test_case?problem_id=' + id
+      util.downloadFile(url)
+    },
     deleteProblem (id) {
-      console.log(id)
       this.$confirm('确认删除题目？相关数据将被清除', '删除问题', {
         type: 'warning'
       }).then(() => {
@@ -107,6 +140,7 @@ export default {
     }
   },
   mounted () {
+    this.contestID = this.$route.params.contestID
     this.getProblemList()
   }
 }

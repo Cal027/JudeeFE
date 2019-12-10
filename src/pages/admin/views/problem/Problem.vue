@@ -65,7 +65,7 @@
                 <el-button @click="addTestScore" size="small" round type="primary">新增用例分数</el-button>
                 <el-button @click="delTestScore" circle icon="el-icon-minus" size="small"/>
             </el-form-item>
-            <el-form-item prop="hint" label="提示" size="mini" style="width: 70%">
+            <el-form-item label="提示" size="mini" style="width: 70%">
                 <d2-quill style="min-height: 200px;" v-model="form.hint"/>
             </el-form-item>
             <el-row :gutter="20">
@@ -140,10 +140,11 @@
                     <div slot="tip" class="el-upload__tip">只能上传zip文件,内部格式应为1.in,1.out以此类推</div>
                 </el-upload>
             </el-dialog>
-            <el-button round type="success" style="float:right;" @click="submitProblem">添加题目</el-button>
+            <el-button v-if="!isEdit" round type="success" style="float:right;" @click="submitProblem">添加题目</el-button>
+            <el-button v-if="isEdit" round type="success" style="float:right;" @click="updateProblem">更新题目</el-button>
             <el-button round type="primary"
                        v-show="continue_flag" style="float:right;margin-right: 20px"
-                       @click="test_case_dialog=true">继续上传
+                       @click="test_case_dialog=true">{{uploadTxt}}
             </el-button>
         </el-form>
     </d2-container>
@@ -180,6 +181,8 @@ export default {
       tagNames: [],
       activeItem: 0,
       isPublic: true,
+      isEdit: false,
+      submitName: '添加题目',
       form: {
         title: '',
         source: '',
@@ -208,15 +211,25 @@ export default {
       uploadURL: process.env.VUE_APP_API + '/upload_file/',
       uploadHeader: {},
       uploadArg: {},
+      uploadTxt: '继续上传',
       test_case_dialog: false,
       continue_flag: false
     }
   },
   mounted () {
-    this.$refs.container.scrollToTop()
+    // this.$refs.container.scrollToTop()
     this.getTags()
-    const token = cookies.get('tokenAdmin')
-    this.uploadHeader.Authorization = `JWT ${token}`
+    this.initUpload()
+
+    if (this.$route.name === 'edit-problem' || this.$route.name === 'edit-contest-problem') {
+      this.isEdit = true
+      this.continue_flag = true
+      this.uploadTxt = '更新测试数据'
+      this.banner = { title: '修改题目', subTitle: '' }
+      problemAPI.getProblem(this.$route.params.problemID).then(res => {
+        this.form = res
+      })
+    }
   },
   // 上传校验
   methods: {
@@ -239,6 +252,10 @@ export default {
       } else {
         this.form.test_case_score.splice(this.form.test_case_score.length - 1, 1)
       }
+    },
+    initUpload () {
+      const token = cookies.get('tokenAdmin')
+      this.uploadHeader.Authorization = `JWT ${token}`
     },
     uploadSucceeded (response) {
       if (response.error) {
@@ -314,6 +331,32 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消提交'
+        })
+      })
+    },
+    updateProblem () {
+      this.$confirm('是否确认更新题目？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            problemAPI.updateProblem(this.$route.params.problemID, this.form).then(res => {
+              this.$message({
+                message: '修改题目信息成功！',
+                type: 'success'
+              })
+            })
+          } else {
+            this.$message.error('添加失败!')
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消更新'
         })
       })
     }
