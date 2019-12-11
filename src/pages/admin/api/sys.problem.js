@@ -21,8 +21,14 @@ export default {
       data
     })
   },
+  getContestProblems (contestID) {
+    return request({
+      url: `/contest/${contestID}/problems`,
+      method: 'get'
+    })
+  },
   getProblemList (limit, offset, searchText) {
-    let url = `/problem/?limit=${limit}&offset=${offset}`
+    let url = `/problem/?limit=${limit}&offset=${offset}&is_public=True`
     if (searchText !== '') {
       url += `&search=${searchText}`
     }

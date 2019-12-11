@@ -4,12 +4,17 @@
         <el-card>
             <div slot="header" style="margin: -5px">
                 <el-row :gutter="20">
-                    <el-col :span="19">
-                        <span style="font-size: 22px">题目列表</span>
+                    <el-col :span="contestID? 22:19">
+                        <span style="font-size: 22px">{{title}}题目列表</span>
                     </el-col>
-                    <el-col :span="5">
+                    <el-col :span="5" v-if="!contestID">
                         <el-input size="small" v-model="searchText" @change="getProblemList"
                                   prefix-icon="el-icon-search" placeholder="题目关键词"/>
+                    </el-col>
+                    <el-col v-if="contestID" :span="2">
+                        <el-button icon="el-icon-plus" round type="success"
+                                   @click="contestDialog = true" size="small">添加题目
+                        </el-button>
                     </el-col>
                 </el-row>
             </div>
@@ -22,15 +27,14 @@
                 <el-table-column prop="ID" label="ID" sortable :width="70"/>
                 <el-table-column prop="title" label="标题" :width="300">
                 </el-table-column>
-                <el-table-column prop="difficulty" sortable label="难度" :width="100">
+                <el-table-column v-if="!contestID" prop="difficulty" sortable label="难度" :width="100">
                     <template slot-scope="scope1">
                         <el-tag
                                 id="difficulty-tag"
                                 size="medium"
                                 :type="diffType[scope1.row.difficulty-1]"
                                 disable-transitions
-                                hit
-                        >{{diffOptions[scope1.row.difficulty-1] }}
+                                hit>{{diffOptions[scope1.row.difficulty-1] }}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -45,17 +49,17 @@
                                        @click="editProblem(scope.row.ID,scope.row.created_by)"/>
                         </el-tooltip>
                         <el-tooltip content="下载测试用例">
-                        <el-button round size="mini" icon="el-icon-download"
-                                   @click="downloadTestCase(scope.row.ID)"/>
+                            <el-button round size="mini" icon="el-icon-download"
+                                       @click="downloadTestCase(scope.row.ID)"/>
                         </el-tooltip>
                         <el-tooltip content="删除题目">
-                        <el-button round type="danger" size="mini" icon="el-icon-delete"
-                                   @click="deleteProblem(scope.row.ID)"/>
+                            <el-button round type="danger" size="mini" icon="el-icon-delete"
+                                       @click="deleteProblem(scope.row.ID)"/>
                         </el-tooltip>
                     </template>
                 </el-table-column>
             </el-table>
-            <div style="text-align: center; margin-top: 20px">
+            <div v-if="!contestID" style="text-align: center; margin-top: 20px">
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
@@ -66,15 +70,21 @@
                         :total="problemNum"/>
             </div>
         </el-card>
+        <el-dialog title="添加竞赛题目" :before-close="handleClose" @close="getContestProblems"
+                   :visible.sync="contestDialog" destroy-on-close>
+            <AddProblemContest :contestID="contestID"/>
+        </el-dialog>
     </d2-container>
 </template>
 
 <script>
 import problemAPI from '@admin/api/sys.problem'
 import { mapState } from 'vuex'
+import AddProblemContest from '@admin/views/problem/AddProblemContest'
 
 export default {
   name: 'ProblemList',
+  components: { AddProblemContest },
   computed: {
     ...mapState('d2admin/user', [
       'info'
@@ -95,7 +105,9 @@ export default {
       problemNum: 0,
       searchText: '',
       // 比赛相关
-      contestID: ''
+      contestID: '',
+      title: '',
+      contestDialog: false
     }
   },
   methods: {
@@ -120,6 +132,34 @@ export default {
         this.problemNum = res.count
         this.loading = false
       })
+    },
+    getContestProblems () {
+      this.loading = true
+      problemAPI.getContestProblems(this.contestID).then(res => {
+        for (let i = 0; i < res.length; i++) {
+          let ac = res[i]['accepted_number']
+          let sub = res[i]['submission_number']
+          res[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+        }
+        this.tableData = res
+        this.loading = false
+      })
+    },
+    handleClose (done) {
+      this.$confirm('确认关闭？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {
+          this.$message({
+            type: 'info',
+            message: '已取消关闭'
+          })
+        })
     },
     editProblem (id, author) {
       if (this.info.name !== author && this.info.type !== 3) {
@@ -152,6 +192,7 @@ export default {
             type: 'success',
             message: '已删除题目'
           })
+          this.getProblemList()
         })
       }).catch(() => {
         this.$message({
@@ -162,8 +203,15 @@ export default {
     }
   },
   mounted () {
-    this.contestID = this.$route.params.contestID
-    this.getProblemList()
+    if (this.$route.name === 'contest-problem-list') {
+      this.title = '竞赛'
+      this.banner.title = '竞赛题目管理'
+      this.banner.subTitle = '在这里可以管理竞赛题目'
+      this.contestID = this.$route.params.contestID
+      this.getContestProblems()
+    } else {
+      this.getProblemList()
+    }
   }
 }
 </script>

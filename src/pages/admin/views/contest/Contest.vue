@@ -113,7 +113,6 @@ export default {
               }
             }
             data.allowed_ip_ranges = ranges
-            // TODO 添加竞赛API
             ContestAPI.addContest(data).then(res => {
               console.log(res)
               this.$message({
@@ -151,8 +150,9 @@ export default {
       this.banner.title = '修改竞赛'
       this.banner.subTitle = '在这里可以修改OJ竞赛'
       this.disableRule = true
-      ContestAPI.getContest(this.$route.params.contestId).then(res => {
+      ContestAPI.getContest(this.$route.params.contestID).then(res => {
         this.form = res
+        if (this.form.allowed_ip_ranges.length === 0) { this.form.allowed_ip_ranges = [{ value: '' }] }
       }).catch(() => {})
     }
   }

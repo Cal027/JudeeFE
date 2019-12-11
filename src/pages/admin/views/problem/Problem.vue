@@ -94,7 +94,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="12" v-if="!isContest">
                     <el-form-item prop="tags" label="题目标签">
                         <el-select v-model="form.tags" clearable
                                    allow-create multiple filterable
@@ -182,6 +182,7 @@ export default {
       activeItem: 0,
       isPublic: true,
       isEdit: false,
+      isContest: false,
       submitName: '添加题目',
       form: {
         title: '',
@@ -220,6 +221,9 @@ export default {
     this.getTags()
     this.initUpload()
 
+    if (this.$route.name === 'edit-contest-problem') {
+      this.isContest = true
+    }
     if (this.$route.name === 'edit-problem' || this.$route.name === 'edit-contest-problem') {
       this.isEdit = true
       this.continue_flag = true
@@ -228,6 +232,11 @@ export default {
       this.banner = { title: '修改题目', subTitle: '在这里修改题目信息' }
       problemAPI.getProblem(this.$route.params.problemID).then(res => {
         this.form = res
+        let tags = this.form.tags
+        this.form.tags = []
+        for (let tag of tags) {
+          this.form.tags.push(tag.name)
+        }
       })
     }
   },

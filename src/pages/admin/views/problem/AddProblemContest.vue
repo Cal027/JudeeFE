@@ -2,7 +2,9 @@
     <div>
         <el-row :gutter="20">
             <el-col :span="19">
-                <el-button round @click="submit" type="success">提交题目</el-button>
+                <el-popconfirm title="确定提交题目？" @onConfirm="submit">
+                    <el-button slot="reference" round size="small" type="success">提交题目</el-button>
+                </el-popconfirm>
             </el-col>
             <el-col :span="5">
                 <el-input size="small" v-model="searchText" @change="getProblemList"
@@ -13,6 +15,7 @@
                 v-loading="loading"
                 element-loading-text="正在加载"
                 ref="table"
+                max-height="500"
                 :data="tableData">
             <el-table-column prop="ID" label="ID" sortable :width="70"/>
             <el-table-column prop="title" label="标题" :width="300">
@@ -32,7 +35,7 @@
             <el-table-column prop="created_by" label="作者"/>
             <el-table-column fixed="right" label="操作" width="200" align="center">
                 <template slot-scope="scope">
-                    <el-button round size="mini" icon="el-icon-plus"
+                    <el-button circle size="mini" icon="el-icon-plus"
                                @click="addProblem(scope.row.ID,scope.row.title)"/>
                 </template>
             </el-table-column>
@@ -41,6 +44,7 @@
             <el-pagination
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
+                    :page-size="pageSize"
                     layout="total, prev, pager, next"
                     :total="problemNum"/>
         </div>
@@ -62,7 +66,8 @@ export default {
       diffType: ['success', 'info', 'info', 'warning', 'danger'],
       loading: false,
       tableData: [],
-      problems: [],
+      data: { 'problems': [] },
+      pageSize: 15,
       searchText: ''
     }
   },
@@ -72,22 +77,28 @@ export default {
       this.getProblemList()
     },
     addProblem (id, title) {
-      this.$message({
-        message: `添加题目：(${id}) ${title}`,
-        type: 'success'
-      })
-      this.problems.push(id)
+      if (this.data.problems.includes(id)) {
+        this.$message.error(`已存在问题: (${id}) ${title}`)
+      } else {
+        this.$message({
+          message: `添加题目：(${id}) ${title}`,
+          type: 'success'
+        })
+        this.data.problems.push(id)
+      }
     },
     submit () {
-      if (this.problems.length === 0) {
+      if (this.data.problems.length === 0) {
         this.$message.error('提交不能为空！')
         return
       }
-      contestAPI.addContestProblem(this.contestID, this.problems).then(res => {
+      console.log(this.data)
+      contestAPI.addContestProblem(this.contestID, this.data).then(res => {
         this.$message({
-          message: `添加${this.problems.length}个题目到竞赛成功！`,
+          message: `添加${this.data.problems.length}个题目到竞赛成功！`,
           type: 'success'
         })
+        this.data.problems = []
       })
     },
     getProblemList () {
@@ -99,6 +110,9 @@ export default {
         this.loading = false
       })
     }
+  },
+  mounted () {
+    this.getProblemList()
   }
 }
 </script>

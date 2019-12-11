@@ -47,7 +47,7 @@
                                 <el-badge :value="contest.rule_type" class="rule-badge"/>
                             </el-button>
                         </el-col>
-                        <el-col :span="18" class="contest-main">
+                        <el-col :span="20" class="contest-main">
                             <p class="title">
                                 <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
                                 <template v-if="contest.password!==''">
@@ -64,6 +64,9 @@
                                     {{getDuration(contest.start_time, contest.end_time)}}
                                 </li>
                             </ul>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-tag class="stat">{{getStatus(contest.start_time, contest.end_time)}}</el-tag>
                         </el-col>
                     </el-row>
                 </li>
@@ -131,7 +134,6 @@ export default {
       this.getContests()
     },
     getContests () {
-      // TODO 获取比赛列表
       this.loading = true
       contestAPI.getContestWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
         this.searchText, this.rule_type, this.status).then(res => {
@@ -142,6 +144,9 @@ export default {
     },
     getDuration (startTime, endTime) {
       return util.time.duration(startTime, endTime)
+    },
+    getStatus (begin, end) {
+      return util.time.compareTime(begin, end)
     },
     resolveTime (time) {
       return util.time.resolveTime(time)
@@ -207,6 +212,7 @@ export default {
                 .title {
                     margin-bottom: 0;
                     font-size: 18px;
+
                     .entry {
                         margin-left: 5px;
                         font-size: 18px;
@@ -226,6 +232,9 @@ export default {
                         padding: 10px 0 0 0;
                     }
                 }
+            }
+            .stat {
+                margin-top: 25px;
             }
         }
     }

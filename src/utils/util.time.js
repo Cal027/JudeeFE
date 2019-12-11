@@ -28,9 +28,22 @@ function resolveTime (time) {
   return moment(time).format('YYYY-MM-DD HH:mm')
 }
 
+function compareTime (begin, end) {
+  const opt = ['筹备中', '比赛中', '已结束']
+  let now = moment()
+  if (now.isBefore(begin)) {
+    return opt[0]
+  } else if (now.isAfter(end)) {
+    return opt[2]
+  } else {
+    return opt[1]
+  }
+}
+
 export default {
   utcToLocal: utcToLocal,
   duration: duration,
   secondFormat: secondFormat,
-  resolveTime: resolveTime
+  resolveTime: resolveTime,
+  compareTime: compareTime
 }
