@@ -8,7 +8,8 @@
                 >
                 <span class="header" style="font-size: 24px">{{problemDetail.title}}</span>
                 <div class="per" v-show="!isSticky">
-                    <el-progress :width=66 type="circle" :percentage="25"/>
+                    <el-progress :width=66 type="circle"
+                                 :percentage="percent"/>
                 </div>
                 <div class="data" v-show="!isSticky">
                     <p>提交人数：{{problemDetail.submission_number}}</p>
@@ -126,11 +127,16 @@ export default {
         this.top = -10
       }
     },
+    getPercent () {
+      this.percent = (this.problemDetail.accepted_number / this.problemDetail.submission_number).toFixed(3)
+      this.percent *= 100
+    },
     getProblem (id) {
       this.$api.problem.getProblem(id)
         .then(response => {
           this.problemDetail = response.data
           this.language = this.problemDetail.languages[0]
+          this.getPercent()
           util.title(this.problemDetail.title)
         })
     },
@@ -181,15 +187,8 @@ export default {
   },
   mounted () {
     let load = this.$loading()
-    if (this.$route.params.problemDetail && this.$route.params.problemDetail.ID === this.$route.params.id) {
-      this.problemDetail = this.$route.params.problemDetail
-      util.title(this.problemDetail.title)
-      this.language = this.problemDetail.languages[0]
-      load.close()
-    } else {
-      this.getProblem(this.$route.params.id)
-      load.close()
-    }
+    this.getProblem(this.$route.params.id)
+    load.close()
   },
   async created () {
     // 异步加载当前主题色

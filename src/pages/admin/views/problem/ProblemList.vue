@@ -40,12 +40,18 @@
                 <el-table-column prop="total_score" label="分数" :width="80" align="center"/>
                 <el-table-column fixed="right" label="操作" width="200" align="center">
                     <template slot-scope="scope">
-                        <el-button round size="mini" icon="el-icon-edit"
-                                   @click="editProblem(scope.row.ID,scope.row.created_by)"/>
+                        <el-tooltip content="编辑">
+                            <el-button round size="mini" icon="el-icon-edit"
+                                       @click="editProblem(scope.row.ID,scope.row.created_by)"/>
+                        </el-tooltip>
+                        <el-tooltip content="下载测试用例">
                         <el-button round size="mini" icon="el-icon-download"
                                    @click="downloadTestCase(scope.row.ID)"/>
+                        </el-tooltip>
+                        <el-tooltip content="删除题目">
                         <el-button round type="danger" size="mini" icon="el-icon-delete"
                                    @click="deleteProblem(scope.row.ID)"/>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
             </el-table>

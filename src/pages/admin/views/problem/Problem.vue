@@ -223,6 +223,7 @@ export default {
     if (this.$route.name === 'edit-problem' || this.$route.name === 'edit-contest-problem') {
       this.isEdit = true
       this.continue_flag = true
+      this.uploadArg.problem_ID = this.$route.params.problemID
       this.uploadTxt = '更新测试数据'
       this.banner = { title: '修改题目', subTitle: '在这里修改题目信息' }
       problemAPI.getProblem(this.$route.params.problemID).then(res => {
