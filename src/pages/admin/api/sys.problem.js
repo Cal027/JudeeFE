@@ -24,7 +24,7 @@ export default {
   getProblemList (limit, offset, searchText) {
     let url = `/problem/?limit=${limit}&offset=${offset}`
     if (searchText !== '') {
-      url += `&keyword=${searchText}`
+      url += `&search=${searchText}`
     }
     return request({
       url: url,

@@ -12,7 +12,7 @@ const problem = {
       url += `&tags=${tags}`
     }
     if (searchText !== '') {
-      url += `&keyword=${searchText}`
+      url += `&search=${searchText}`
     }
     if (diffs.length > 0) {
       url += `&diff=${diffs}`
