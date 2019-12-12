@@ -1,8 +1,9 @@
 <template>
     <d2-container type="ghost">
-        <div :class="isSticky? 'float': 'nav'"
+        <div v-if="routeName!=='Contest-problem-detail'"
+             :class="isSticky? 'float': 'nav'"
              :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
-             v-sticky on-stick="handleSticky" sticky-offset="{top:-44}">
+             :v-sticky="routeName!=='Contest-problem-detail'" on-stick="handleSticky" sticky-offset="{top:-44}">
             <div>
                 <router-link class="header" to="/problem" :style="{color:themeColor}">题目列表</router-link>
                 >
@@ -26,6 +27,17 @@
                 <el-menu-item index="2" class="menuItem">我的提交</el-menu-item>
                 <el-menu-item index="3" class="menuItem">所有提交</el-menu-item>
             </el-menu>
+        </div>
+        <div v-else class="mo2">
+            <span class="header">{{problemDetail.title}}</span>
+            <div class="per">
+                <el-progress :width=66 type="circle"
+                             :percentage="percent"/>
+            </div>
+            <div class="data">
+                <p>提交人数：{{problemDetail.submission_number}}</p>
+                <p>通过人数：{{problemDetail.accepted_number}}</p>
+            </div>
         </div>
         <div class="problem-status">
             <button disabled>尚未提交</button>
@@ -114,7 +126,8 @@ export default {
       language: '',
       submissionId: '',
       statusVisible: false,
-      submitLoading: false
+      submitLoading: false,
+      routeName: ''
     }
   },
   methods: {
@@ -128,7 +141,7 @@ export default {
       }
     },
     getPercent () {
-      this.percent = (this.problemDetail.accepted_number / this.problemDetail.submission_number).toFixed(3)
+      this.percent = (this.problemDetail.accepted_number / this.problemDetail.submission_number).toFixed(2)
       this.percent *= 100
     },
     getProblem (id) {
@@ -187,6 +200,7 @@ export default {
   },
   mounted () {
     let load = this.$loading()
+    this.routeName = this.$route.name
     this.getProblem(this.$route.params.id)
     load.close()
   },
@@ -204,9 +218,9 @@ export default {
 </script>
 
 <style lang="less">
-    .per{
-        .el-progress__text{
-            font-size: 16px!important;
+    .per {
+        .el-progress__text {
+            font-size: 16px !important;
         }
     }
 </style>
@@ -273,6 +287,16 @@ export default {
         width: 80%;
         padding: 30px 50px;
         margin: 0 auto 20px;
+    }
+
+    .mo2 {
+        width: 80%!important;
+        margin: 0 auto 10px;
+        span{
+            font-weight: 500;
+            color: #3e3e3e;
+            margin-left: -25px;
+        }
     }
 
     .title {

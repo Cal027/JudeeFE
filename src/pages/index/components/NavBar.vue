@@ -1,5 +1,5 @@
 <template>
-    <el-menu :default-active="activeIndex" text-color="#170317"
+    <el-menu :default-active="$route.path" text-color="#170317"
              router mode="horizontal" v-sticky class="nav">
         <el-menu-item index="/">
             <d2-icon-svg name="logo-text" class="logo"/>
@@ -64,14 +64,12 @@ export default {
     return {
       isAdmin: true,
       backShow: false,
-      activeIndex: '/home',
       nickname: localStorage.getItem('nickname'),
       loginShow: localStorage.getItem('username'),
       username: localStorage.getItem('username')
     }
   },
   mounted () {
-    this.activeIndex = this.$route.path
     this.isAdmin = localStorage.getItem('type') !== '1'
   },
   watch: {

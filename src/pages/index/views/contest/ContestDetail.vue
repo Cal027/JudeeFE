@@ -7,34 +7,47 @@
                 <span style="font-size: 24px">{{contestDetail.title}}</span>
             </div>
             <el-menu
-                    :default-active="activeIndex"
+                    :default-active="$route.name"
                     mode="horizontal"
+                    router
                     text-color="#1b153b"
                     class="menu"
                     background-color="transparent">
-                <el-menu-item index="1" class="menuItem">首页</el-menu-item>
-                <el-menu-item index="2" class="menuItem">问题列表</el-menu-item>
+                <el-menu-item index="Contest-detail" class="menuItem"
+                              :route="{name:'Contest-detail',params:{contestID:ID}}">首页
+                </el-menu-item>
+                <el-menu-item index="Contest-problems" class="menuItem"
+                              :route="{name:'Contest-problems',params:{contestID:ID}}">问题列表
+                </el-menu-item>
                 <el-menu-item index="3" class="menuItem">我的提交</el-menu-item>
                 <el-menu-item index="4" class="menuItem">所有提交</el-menu-item>
                 <el-menu-item index="5" class="menuItem">排名</el-menu-item>
                 <el-menu-item index="6" class="menuItem">公告</el-menu-item>
             </el-menu>
         </div>
-        <ul class="contest-info">
-            <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.start_time)}}</li>
-            <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.end_time)}}</li>
-            <li>
-                <i class="el-icon-alarm-clock" :style="{color:themeColor}"/>
-                {{getDuration(contestDetail.start_time,contestDetail.end_time)}}
-            </li>
-            <li><i class="el-icon-price-tag" :style="{color:themeColor}"/>{{contestDetail.rule_type}}</li>
-            <li><i class="el-icon-user" :style="{color:themeColor}"/>{{contestDetail.created_by}}</li>
-        </ul>
-        <el-card class="module">
-            <span class="title" :style="{color:themeColor}">竞赛说明</span>
-            <div class="content" v-highlight v-html="contestDetail.description"/>
-        </el-card>
-
+        <div>
+            <template v-if="routeName==='Contest-detail'">
+                <ul class="contest-info">
+                    <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.start_time)}}
+                    </li>
+                    <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.end_time)}}
+                    </li>
+                    <li>
+                        <i class="el-icon-alarm-clock" :style="{color:themeColor}"/>
+                        {{getDuration(contestDetail.start_time,contestDetail.end_time)}}
+                    </li>
+                    <li><i class="el-icon-price-tag" :style="{color:themeColor}"/>{{contestDetail.rule_type}}</li>
+                    <li><i class="el-icon-user" :style="{color:themeColor}"/>{{contestDetail.created_by}}</li>
+                </ul>
+                <el-card class="module">
+                    <span class="title" :style="{color:themeColor}">竞赛说明</span>
+                    <div class="content" v-highlight v-html="contestDetail.description"/>
+                </el-card>
+            </template>
+            <!--Children-->
+            <router-view/>
+            <!--ChildrenEnd-->
+        </div>
     </d2-container>
 </template>
 
@@ -48,6 +61,8 @@ export default {
     return {
       themeColor: '',
       contest: '',
+      ID: '',
+      routeName: '',
       contestDetail: {},
       activeIndex: '1',
       top: -10,
@@ -55,6 +70,15 @@ export default {
     }
   },
   methods: {
+    handleSticky (data) {
+      if (data.sticked) {
+        this.isSticky = true
+        this.top = 44
+      } else {
+        this.isSticky = false
+        this.top = -10
+      }
+    },
     getDuration (startTime, endTime) {
       return util.time.duration(startTime, endTime)
     },
@@ -63,11 +87,19 @@ export default {
     }
   },
   mounted () {
-    ContestAPI.getContest(this.$route.params.contestID).then(res => {
-      console.log(res)
+    this.ID = this.$route.params.contestID
+    this.routeName = this.$route.name
+    console.log(this.routeName)
+    ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
       util.title(this.contestDetail.title)
     })
+  },
+  watch: {
+    '$route' (newVal) {
+      this.routeName = newVal.name
+      this.ID = newVal.params.contestID
+    }
   },
   async created () {
     // 异步加载当前主题色
@@ -139,7 +171,7 @@ export default {
         width: 80%;
         padding: 5px 50px;
         margin: -10px auto 0;
-        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 
         li {
             display: inline-block;
@@ -149,7 +181,7 @@ export default {
             color: #3e3e3e;
             line-height: 33px;
 
-            i{
+            i {
                 margin-right: 5px;
             }
         }

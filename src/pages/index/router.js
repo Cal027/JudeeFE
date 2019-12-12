@@ -103,7 +103,19 @@ const routes = [
     path: '/contest/:contestID',
     name: 'Contest-detail',
     meta: { title: '竞赛详情' },
-    component: Contest.ContestDetail
+    component: Contest.ContestDetail,
+    children: [
+      {
+        path: 'problems',
+        name: 'Contest-problems',
+        component: Contest.ContestProblemList
+      },
+      {
+        path: 'problem/:id/',
+        name: 'Contest-problem-detail',
+        component: ProblemDetail
+      }
+    ]
   }
 ]
 

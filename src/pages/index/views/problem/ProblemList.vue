@@ -63,6 +63,7 @@
                                 class="tags"
                                 v-for="(name,index) in scope.row.tags"
                                 :key="index"
+                                type="warning"
                                 size="medium"
                                 disable-transitions
                                 hit

@@ -25,8 +25,7 @@
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column prop="ID" label="ID" sortable :width="70"/>
-                <el-table-column prop="title" label="标题" :width="300">
-                </el-table-column>
+                <el-table-column prop="title" label="标题" :width="300"/>
                 <el-table-column v-if="!contestID" prop="difficulty" sortable label="难度" :width="100">
                     <template slot-scope="scope1">
                         <el-tag

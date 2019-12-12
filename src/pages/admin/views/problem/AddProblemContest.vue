@@ -1,10 +1,5 @@
 <template>
     <div>
-<!--        <el-row :gutter="20" v-if="this.data.problems.length>0">-->
-<!--            <el-col :span="1" v-for="id in this.data.problems">-->
-<!--                <el-tag-->
-<!--            </el-col>-->
-<!--        </el-row>-->
         <el-row style="margin-bottom: 15px" v-show="data.problems.length>0">
             <el-col :span="2" v-show="data.problems.length>0">
                 已添加：

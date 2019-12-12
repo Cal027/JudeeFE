@@ -7,5 +7,11 @@ export default {
       method: 'post',
       data
     })
+  },
+  getContestProblems (contestID) {
+    return request({
+      url: `/contest/${contestID}/problems`,
+      method: 'get'
+    })
   }
 }

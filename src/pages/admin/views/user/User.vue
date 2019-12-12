@@ -44,11 +44,15 @@
                 <el-table-column prop="github_username" label="Github用户名"/>
                 <el-table-column prop="phone_number" label="手机号码"/>
                 <el-table-column fixed="right" label="操作" width="200">
-                    <template slot-scope="{row}">
-                        <el-button round size="mini" icon="el-icon-edit"
-                                   @click.native="openUserDialog(row.id)"/>
-                        <el-button round type="danger" size="mini" icon="el-icon-delete"
-                                   @click.native="deleteUsers([row.id])"/>
+                    <template slot-scope="scope">
+                        <el-tooltip content="编辑用户">
+                            <el-button round size="mini" icon="el-icon-edit"
+                                       @click.native="openUserDialog(scope.row.id)"/>
+                        </el-tooltip>
+                        <el-tooltip content="删除用户">
+                            <el-button round type="danger" size="mini" icon="el-icon-delete"
+                                       @click.native="deleteUsers(scope.row.id)"/>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
             </el-table>
@@ -187,6 +191,7 @@ export default {
           type: 'success',
           message: '删除成功!'
         })
+        this.getUserList()
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -201,7 +206,7 @@ export default {
           return
         }
         this.loadingGenerate = true
-        let data = Object.assign({}, this.formGenerateUser)
+        // let data = Object.assign({}, this.formGenerateUser)
         // TODO 生成用户API
       })
     },
