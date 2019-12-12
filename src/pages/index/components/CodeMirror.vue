@@ -67,7 +67,7 @@ export default {
     languages: {
       type: Array,
       default: () => {
-        return ['C', 'C++', 'Java', 'Python']
+        return ['C', 'C++', 'Java', 'Python3']
       }
     },
     language: {

@@ -173,14 +173,13 @@ export default {
       }
       const submitFunc = (data) => {
         api.submitCode(data).then(res => {
-          this.submitLoading = false
           this.submissionId = res
-          this.submitLoading = false
           this.$message({
             message: '提交代码成功！',
             type: 'success'
           })
         })
+        this.submitLoading = false
       }
       this.$confirm('是否确认提交代码', '提示', {
         confirmButtonText: '确定',
