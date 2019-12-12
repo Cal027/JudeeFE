@@ -28,6 +28,10 @@ function resolveTime (time) {
   return moment(time).format('YYYY-MM-DD HH:mm')
 }
 
+function resolveTimes (time) {
+  return moment(time).format('YYYY-MM-DD HH:mm:ss')
+}
+
 function compareTime (begin, end) {
   let now = moment()
   if (now.isBefore(begin)) {
@@ -44,5 +48,6 @@ export default {
   duration: duration,
   secondFormat: secondFormat,
   resolveTime: resolveTime,
+  resolveTimes: resolveTimes,
   compareTime: compareTime
 }

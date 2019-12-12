@@ -100,7 +100,7 @@ export default {
       mode: {
         'C': 'text/x-csrc',
         'C++': 'text/x-c++src',
-        'Python': 'text/x-python',
+        'Python3': 'text/x-python',
         'Java': 'text/x-java'
       },
       themes: [

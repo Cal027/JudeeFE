@@ -10,7 +10,7 @@
         <el-menu-item index="/problem">
             <i class="el-icon-tickets"/>题库
         </el-menu-item>
-        <el-menu-item index="/statue">
+        <el-menu-item index="/status">
             <i class="iconfont j-icon-tiku"/>评测记录
         </el-menu-item>
         <el-menu-item index="/contest">

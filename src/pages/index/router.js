@@ -17,6 +17,7 @@ const PasswordSetting = () => import('@oj/views/setting/PasswordSetting')
 const OiWiki = () => import('@oj/views/tutorial/OiWiki')
 const ProblemList = () => import('@oj/views/problem/ProblemList')
 const ProblemDetail = () => import('@oj/views/problem/ProblemDetail')
+const SubmissionList = () => import('@oj/views/submission/SubmissionList')
 
 Vue.use(VueRouter)
 
@@ -93,6 +94,7 @@ const routes = [
     meta: { title: '题目详情' },
     component: ProblemDetail
   },
+  // 竞赛相关
   {
     path: '/contest',
     name: 'Contest-list',
@@ -116,6 +118,13 @@ const routes = [
         component: ProblemDetail
       }
     ]
+  },
+  // 评测记录相关
+  {
+    path: '/status',
+    name: 'submission-list',
+    meta: { title: '全部评测记录' },
+    component: SubmissionList
   }
 ]
 
