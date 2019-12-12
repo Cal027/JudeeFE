@@ -1,5 +1,21 @@
 <template>
     <div>
+<!--        <el-row :gutter="20" v-if="this.data.problems.length>0">-->
+<!--            <el-col :span="1" v-for="id in this.data.problems">-->
+<!--                <el-tag-->
+<!--            </el-col>-->
+<!--        </el-row>-->
+        <el-row style="margin-bottom: 15px" v-show="data.problems.length>0">
+            <el-col :span="2" v-show="data.problems.length>0">
+                已添加：
+            </el-col>
+            <el-tooltip v-for="id in data.problems" :key="id" :content="titles[data.problems.indexOf(id)]">
+                <el-tag size="small" disable-transitions style="margin-left: 10px"
+                        closable @close="handleDel(id)">
+                    {{id}}
+                </el-tag>
+            </el-tooltip>
+        </el-row>
         <el-row :gutter="20">
             <el-col :span="19">
                 <el-popconfirm title="确定提交题目？" @onConfirm="submit">
@@ -67,6 +83,7 @@ export default {
       loading: false,
       tableData: [],
       data: { 'problems': [] },
+      titles: [],
       pageSize: 15,
       searchText: ''
     }
@@ -76,6 +93,16 @@ export default {
       this.currentPage = val
       this.getProblemList()
     },
+    handleDel (id) {
+      let i = this.data.problems.indexOf(id)
+      let title = this.titles[i]
+      this.data.problems.splice(i, 1)
+      this.titles.splice(i, 1)
+      this.$message({
+        message: `删除题目：(${id}) ${title}`,
+        type: 'warning'
+      })
+    },
     addProblem (id, title) {
       if (this.data.problems.includes(id)) {
         this.$message.error(`已存在问题: (${id}) ${title}`)
@@ -84,6 +111,7 @@ export default {
           message: `添加题目：(${id}) ${title}`,
           type: 'success'
         })
+        this.titles.push(title)
         this.data.problems.push(id)
       }
     },
@@ -99,6 +127,7 @@ export default {
           type: 'success'
         })
         this.data.problems = []
+        this.titles = []
       })
     },
     getProblemList () {

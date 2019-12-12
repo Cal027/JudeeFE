@@ -66,7 +66,10 @@
                             </ul>
                         </el-col>
                         <el-col :span="2">
-                            <el-tag class="stat">{{getStatus(contest.start_time, contest.end_time)}}</el-tag>
+                            <span v-show="false">
+                                {{statusCode = getStatus(contest.start_time, contest.end_time)}}
+                            </span>
+                            <el-tag effect="light" class="stat" :type="typ[statusCode]">{{opt[statusCode]}}</el-tag>
                         </el-col>
                     </el-row>
                 </li>
@@ -89,6 +92,8 @@
 import util from '@/utils/util'
 import contestAPI from '@oj/api/oj.contest'
 
+const opt = ['筹备中', '已结束', '比赛中']
+const typ = ['info', 'danger', 'success']
 export default {
   name: 'ContestList',
   data () {
@@ -101,7 +106,9 @@ export default {
       currentPage: 1,
       pageSize: 15,
       contestNum: 0,
-      loading: false
+      loading: false,
+      opt,
+      typ
     }
   },
   methods: {
@@ -233,6 +240,7 @@ export default {
                     }
                 }
             }
+
             .stat {
                 margin-top: 25px;
             }

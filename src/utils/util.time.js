@@ -29,14 +29,13 @@ function resolveTime (time) {
 }
 
 function compareTime (begin, end) {
-  const opt = ['筹备中', '比赛中', '已结束']
   let now = moment()
   if (now.isBefore(begin)) {
-    return opt[0]
+    return 0
   } else if (now.isAfter(end)) {
-    return opt[2]
+    return 1
   } else {
-    return opt[1]
+    return 2
   }
 }
 
