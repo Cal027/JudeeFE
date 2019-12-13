@@ -50,7 +50,7 @@
                         <el-col :span="20" class="contest-main">
                             <p class="title">
                                 <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
-                                <template v-if="contest.password!==''">
+                                <template v-if="contest.is_pwd">
                                     <el-icon class="el-icon-lock" style="margin-left: 5px"/>
                                 </template>
                             </p>
