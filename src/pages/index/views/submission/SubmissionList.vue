@@ -30,9 +30,14 @@
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
-                <el-col :span="10">
+                <el-col :span="8">
                     <el-switch style="float: right;margin-top: 15px" v-model="myself" active-text="我的"
                                inactive-text="全部" @change="getSubmissionList"/>
+                </el-col>
+                <el-col :span="2">
+                    <el-button icon="el-icon-refresh" @click="getSubmissionList">
+                        刷新
+                    </el-button>
                 </el-col>
             </el-row>
         </el-card>
@@ -66,12 +71,12 @@
                 </el-table-column>
                 <el-table-column label="时间" align="center">
                     <template slot-scope="scope">
-                        {{resolveRunTime(scope.row.statistic_info.cpu_time)}}
+                        {{resolveRunTime(scope.row.time_cost)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="内存" align="center">
                     <template slot-scope="scope">
-                        {{resolveMemory(scope.row.statistic_info.memory)}}
+                        {{resolveMemory(scope.row.memory_cost)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="递交时间"

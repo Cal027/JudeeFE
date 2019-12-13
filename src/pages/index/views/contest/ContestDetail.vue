@@ -93,6 +93,29 @@ export default {
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
       util.title(this.contestDetail.title)
+    }).catch(err => {
+      console.log(err)
+      // this.$message.error(err)
+      // this.$router.back()
+      this.$prompt('竞赛受保护，请输入密码加入竞赛', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        ContestAPI.joinContestWithPwd(this.ID, value).then(res => {
+          this.contestDetail = res
+          util.title(this.contestDetail.title)
+          this.$message({
+            type: 'success',
+            message: '成功加入竞赛'
+          })
+        })
+          .catch(() => {
+            this.$router.back()
+          }
+          )
+      }).catch(() => {
+        this.$router.back()
+      })
     })
   },
   watch: {

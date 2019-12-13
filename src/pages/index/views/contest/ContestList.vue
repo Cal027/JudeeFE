@@ -169,6 +169,7 @@ export default {
   },
   mounted () {
     this.getContests()
+    // this.$message.error(this.$route.params.errorMessgae)
   }
 }
 </script>
