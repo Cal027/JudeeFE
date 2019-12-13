@@ -109,7 +109,11 @@ export default {
             type: 'success',
             message: '成功加入竞赛'
           })
-        }).catch(() => {
+        }).catch(err => {
+          this.$message({
+            type: 'error',
+            message: err.response.data
+          })
           this.$router.back()
         })
       }).catch(() => {

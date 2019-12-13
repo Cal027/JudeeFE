@@ -178,6 +178,11 @@ export default {
             message: '提交代码成功！',
             type: 'success'
           })
+        }).catch(err => {
+          this.$message({
+            message: err.response.data,
+            type: 'error'
+          })
         })
         this.submitLoading = false
       }
