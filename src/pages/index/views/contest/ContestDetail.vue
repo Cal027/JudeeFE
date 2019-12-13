@@ -99,7 +99,8 @@ export default {
       // this.$router.back()
       this.$prompt('竞赛受保护，请输入密码加入竞赛', '提示', {
         confirmButtonText: '确定',
-        cancelButtonText: '取消'
+        cancelButtonText: '取消',
+        closeOnClickModal: false
       }).then(({ value }) => {
         ContestAPI.joinContestWithPwd(this.ID, value).then(res => {
           this.contestDetail = res
@@ -108,11 +109,9 @@ export default {
             type: 'success',
             message: '成功加入竞赛'
           })
+        }).catch(() => {
+          this.$router.back()
         })
-          .catch(() => {
-            this.$router.back()
-          }
-          )
       }).catch(() => {
         this.$router.back()
       })
