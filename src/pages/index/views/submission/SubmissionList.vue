@@ -10,7 +10,7 @@
             <el-row :gutter="20">
                 <el-col :span="5">
                     <el-input v-model="title" @change="getSubmissionList" size="medium"
-                              prefix-icon="el-icon-search" placeholder="搜索题目"/>
+                              prefix-icon="el-icon-search" placeholder="搜索题目编号"/>
                 </el-col>
                 <el-col :span="3">
                     <el-input v-model="username" @change="getSubmissionList" size="medium"
@@ -44,18 +44,16 @@
                     max-height="700"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
-                <el-table-column label="时间"
-                                 sortable
-                                 width="200px"
-                                 prop="create_time">
-                    <template slot-scope="scope">
-                        {{resolveTime(scope.row.create_time)}}
-                    </template>
-                </el-table-column>
-                <el-table-column prop="ID" label="ID" width="60px"/>
-                <el-table-column prop="problem" label="问题" width="80px" align="center">
+
+                <el-table-column prop="ID" label="递交ID" width="90px"/>
+                <el-table-column prop="problem" label="题目编号" width="80px" align="center">
                     <template slot-scope="scope">
                         <router-link :to="'/problem/'+scope.row.problem">{{scope.row.problem}}</router-link>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="username" label="用户" align="center">
+                    <template slot-scope="scope">
+                        <router-link :to="'/user/'+scope.row.username">{{scope.row.username}}</router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="language" label="语言" align="center"/>
@@ -76,9 +74,12 @@
                         {{resolveMemory(scope.row.statistic_info.memory)}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="username" label="用户" align="center">
+                <el-table-column label="递交时间"
+                                 sortable
+                                 width="200px"
+                                 prop="create_time">
                     <template slot-scope="scope">
-                        <router-link :to="'/user/'+scope.row.username">{{scope.row.username}}</router-link>
+                        {{resolveTime(scope.row.create_time)}}
                     </template>
                 </el-table-column>
             </el-table>

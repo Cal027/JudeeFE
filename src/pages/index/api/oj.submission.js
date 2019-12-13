@@ -16,7 +16,7 @@ export default {
       url += `&problem=${problem}`
     }
     if (myself) {
-      url += '?myself=true'
+      url += '&myself=true'
     }
     return request({
       url: url,
