@@ -18,6 +18,7 @@ const OiWiki = () => import('@oj/views/tutorial/OiWiki')
 const ProblemList = () => import('@oj/views/problem/ProblemList')
 const ProblemDetail = () => import('@oj/views/problem/ProblemDetail')
 const SubmissionList = () => import('@oj/views/submission/SubmissionList')
+const SubmissionDetail = () => import('@oj/views/submission/SubmissionDetail')
 
 Vue.use(VueRouter)
 
@@ -125,6 +126,12 @@ const routes = [
     name: 'submission-list',
     meta: { title: '全部评测记录' },
     component: SubmissionList
+  },
+  {
+    path: '/status/:id/',
+    name: 'submission-detail',
+    meta: { title: '评测详情' },
+    component: SubmissionDetail
   }
 ]
 

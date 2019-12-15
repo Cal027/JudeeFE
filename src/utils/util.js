@@ -2,12 +2,14 @@ import cookies from './util.cookies'
 import db from './util.db'
 import log from './util.log'
 import time from './util.time'
+import formatter from './util.formatter'
 
 const util = {
   cookies,
   db,
   log,
-  time
+  time,
+  formatter
 }
 
 /**
