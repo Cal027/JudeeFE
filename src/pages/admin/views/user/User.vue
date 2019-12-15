@@ -78,6 +78,11 @@
         <el-card style="margin-top: 25px">
             <div slot="header">
                 <span style="font-size: 22px">批量生成用户</span>
+<!--                TODO 美化图标-->
+                <el-button round type="primary"
+                           icon="el-icon-download" @click="handleDownload"
+                           :loading="loadingGenerate">下载生成的用户数据
+                </el-button>
             </div>
             <el-form :model="generateForm" ref="generateForm">
                 <el-row type="flex" justify="space-between">
@@ -202,14 +207,14 @@ export default {
       userAPI.bulkRegister(this.generateForm)
         .then(response => {
           this.loadingTable = false
-          this.$alert('请记住生成的文件ID，用于下载用户列表\n' + response.data['file_id'], '生成成功', {
-            confirmButtonText: '复制文件ID',
+          this.$alert('请记住生成的ID，用于下载用户列表\n' + response.data['file_id'], '生成成功', {
+            confirmButtonText: '复制ID',
             callback: action => {
               if (action === 'confirm') {
                 clipboard.writeText(response.data['file_id'])
                 this.$message({
                   type: 'success',
-                  message: '文件ID复制成功！'
+                  message: 'ID复制成功！'
                 })
               }
             }
@@ -217,6 +222,27 @@ export default {
         }).catch(() => {
           this.loadingTable = false
         })
+    },
+    handleDownload () {
+      this.$prompt('请输入生成ID', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        userAPI.downloadUserList(value)
+          .then(resp => {
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(resp)
+            link.download = `${value}.xlsx`
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
     },
     handleSelectionChange (val) {
       this.selectedUsers = val

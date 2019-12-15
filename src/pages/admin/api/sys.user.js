@@ -13,5 +13,12 @@ export default {
       method: 'post',
       data
     })
+  },
+  downloadUserList (id) {
+    return request({
+      url: `/bulk-registration/?file_id=${id}`,
+      method: 'get',
+      responseType: 'blob'
+    })
   }
 }
