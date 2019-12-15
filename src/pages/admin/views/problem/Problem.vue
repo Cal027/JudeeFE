@@ -137,7 +137,7 @@
                            :on-success="uploadSucceeded"
                            :on-error="uploadFailed">
                     <el-button round type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传zip文件,内部格式应为1.in,1.out以此类推</div>
+                    <div slot="tip" class="el-upload__tip">只能上传zip文件,内部格式应为1.in,1.out依此类推</div>
                 </el-upload>
             </el-dialog>
             <el-button v-if="!isEdit" round type="success" style="float:right;" @click="submitProblem">添加题目</el-button>

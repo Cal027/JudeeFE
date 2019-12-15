@@ -6,5 +6,12 @@ export default {
       url: `/user?limit=${limit}&offset=${offset}`,
       method: 'get'
     })
+  },
+  bulkRegister (data) {
+    return request({
+      url: `/bulk-registration/`,
+      method: 'post',
+      data
+    })
   }
 }

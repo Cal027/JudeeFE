@@ -79,7 +79,7 @@
             <div slot="header">
                 <span style="font-size: 22px">批量生成用户</span>
             </div>
-            <el-form :model="generateForm" ref="generateForm" :rules="generateRule">
+            <el-form :model="generateForm" ref="generateForm">
                 <el-row type="flex" justify="space-between">
                     <el-col :span="4">
                         <el-form-item label="前缀" prop="prefix">
@@ -93,17 +93,17 @@
                     </el-col>
                     <el-col :span="4">
                         <el-form-item label="开始序号" prop="num_from" required>
-                            <el-input-number v-model="generateForm.num_from" style="width: 100%"/>
+                            <el-input-number :min="0" v-model="generateForm.num_from" style="width: 100%"/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="4">
                         <el-form-item label="结束序号" prop="num_to" required>
-                            <el-input-number v-model="generateForm.num_to" style="width: 100%"/>
+                            <el-input-number :min="generateForm.num_from" v-model="generateForm.num_to" style="width: 100%"/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="4">
-                        <el-form-item label="初始密码" prop="password">
-                            <el-input v-model="generateForm.password" placeholder="初始密码"/>
+                        <el-form-item label="初始密码长度" prop="password_length" required>
+                            <el-input-number :min="6" v-model="generateForm.password_length" style="width: 100%"/>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -121,6 +121,7 @@
 
 <script>
 import userAPI from '@admin/api/sys.user'
+import * as clipboard from 'clipboard-polyfill'
 
 const typeMap = ['用户', '普通管理员', '超级管理员']
 const typeColor = ['info', '', 'warning']
@@ -146,13 +147,9 @@ export default {
       generateForm: {
         prefix: '',
         suffix: '',
-        password: '',
+        password_length: 8,
         num_from: 0,
         num_to: 0
-      },
-      generateRule: {
-        password: [{ required: true, message: '请输入初始密码', trigger: 'blur' },
-          { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }]
       },
       loadingTable: false,
       loadingGenerate: false
@@ -177,7 +174,7 @@ export default {
           this.loadingTable = false
           this.userList = response.results
           this.total = response.count
-          console.log(this.userList)
+          // console.log(this.userList)
         })
     },
     deleteUsers (ids) {
@@ -186,7 +183,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // TODO 删除用户API
         this.$message({
           type: 'success',
           message: '删除成功!'
@@ -200,15 +196,27 @@ export default {
       })
     },
     generateUser () {
-      this.$refs['generateForm'].validate((valid) => {
-        if (!valid) {
-          this.$message.error('表单校验失败')
-          return
-        }
-        this.loadingGenerate = true
-        // let data = Object.assign({}, this.formGenerateUser)
-        // TODO 生成用户API
-      })
+      this.loadingGenerate = true
+      // let data = Object.assign({}, this.formGenerateUser)
+      // FIXME 获取不到response
+      userAPI.bulkRegister(this.generateForm)
+        .then(response => {
+          this.loadingTable = false
+          this.$alert('请记住生成的文件ID，用于下载用户列表\n' + response.data['file_id'], '生成成功', {
+            confirmButtonText: '复制文件ID',
+            callback: action => {
+              if (action === 'confirm') {
+                clipboard.writeText(response.data['file_id'])
+                this.$message({
+                  type: 'success',
+                  message: '文件ID复制成功！'
+                })
+              }
+            }
+          })
+        }).catch(() => {
+          this.loadingTable = false
+        })
     },
     handleSelectionChange (val) {
       this.selectedUsers = val

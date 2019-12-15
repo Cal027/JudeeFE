@@ -173,10 +173,9 @@ export default {
     },
     downloadTestCase (id) {
       problemAPI.getTestCase(id).then(resp => {
-        let headers = resp.headers
         let link = document.createElement('a')
-        link.href = window.URL.createObjectURL(new window.Blob([resp.data], { type: headers['content-type'] }))
-        link.download = (headers['content-disposition'] || '').split('filename=')[1]
+        link.href = window.URL.createObjectURL(resp)
+        link.download = `problem_${id}_test_cases.zip`
         document.body.appendChild(link)
         link.click()
         link.remove()
