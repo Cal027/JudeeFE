@@ -3,8 +3,11 @@
         <el-card class="controlPanel">
             <div slot="header">
                 <span>筛选记录</span>
-                <el-button icon="el-icon-close" type="text" @click="clearFilter"
-                           style="float: right; padding: 3px 0">清空筛选条件
+                <el-button icon="el-icon-refresh" class="header-button" @click="getSubmissionList" type="text">
+                    刷新
+                </el-button>
+                <el-button icon="el-icon-close" type="text" @click="clearFilter" class="header-button">
+                    清空筛选
                 </el-button>
             </div>
             <el-row :gutter="20">
@@ -30,14 +33,9 @@
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="10">
                     <el-switch style="float: right;margin-top: 15px" v-model="myself" active-text="我的"
                                inactive-text="全部" @change="getSubmissionList"/>
-                </el-col>
-                <el-col :span="2">
-                    <el-button icon="el-icon-refresh" @click="getSubmissionList">
-                        刷新
-                    </el-button>
                 </el-col>
             </el-row>
         </el-card>
@@ -46,6 +44,7 @@
                     class="table"
                     :data="tableData"
                     v-loading="loadingTable"
+                    @row-click="goDetail"
                     max-height="700"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
@@ -64,7 +63,8 @@
                 <el-table-column prop="language" label="语言" align="center"/>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
-                        <el-tag size="small" effect="dark" :type="results[scope.row.result+2].type">
+                        <el-tag size="small" effect="light"
+                                :type="results[scope.row.result+2].type">
                             {{results[scope.row.result+2].msg}}
                         </el-tag>
                     </template>
@@ -136,13 +136,19 @@ export default {
       // 分页相关
       currentPage: 1,
       pageSize: 20,
-      totalNum: 0
+      totalNum: 0,
+      primary: {
+        'background-color': '#ecf5ff',
+        'border-color': '#d9ecff',
+        'color': '#409EFF'
+      }
     }
   },
   methods: {
     clearFilter () {
       this.language = ''
       this.title = ''
+      this.result = ''
       this.username = ''
       this.myself = false
       this.getSubmissionList()
@@ -155,20 +161,10 @@ export default {
       return util.time.resolveTimes(time)
     },
     resolveRunTime (time) {
-      if (!time) {
-        return '-'
-      } else {
-        return time + 'MS'
-      }
+      return util.formatter.resolveRunTime(time)
     },
     resolveMemory (memory) {
-      if (!memory) {
-        return '-'
-      } else if (memory > 1024 * 1024) {
-        return memory / (1024 * 1024) + 'MB'
-      } else {
-        return memory / 1024 + 'KB'
-      }
+      return util.formatter.resolveMemory(memory)
     },
     handleCurrentChange (val) {
       this.currentPage = val
@@ -181,7 +177,15 @@ export default {
         this.loadingTable = false
         this.totalNum = res.count
         this.tableData = res.results
+      }).catch(err => {
+        if (err.message === '请求错误') {
+          this.$message.error('没有该用户')
+          this.loadingTable = false
+        }
       })
+    },
+    goDetail (row) {
+      this.$router.push({ name: 'submission-detail', params: { id: row.ID } })
     }
   },
   mounted () {
@@ -195,6 +199,7 @@ export default {
         .el-card__body {
             padding: 16px;
         }
+
         .el-card__header {
             padding: 15px 18px;
         }
@@ -205,6 +210,12 @@ export default {
     .controlPanel {
         position: relative;
         margin-bottom: 20px;
+
+        .header-button {
+            float: right;
+            padding: 3px 0;
+            margin-left: 5px;
+        }
     }
 
     .table {
@@ -212,6 +223,7 @@ export default {
             color: #2d8cf0;
             text-decoration: none;
         }
+
         .router-link-active {
             color: #2d8cf0;
             text-decoration: none;

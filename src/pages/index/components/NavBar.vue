@@ -34,7 +34,7 @@
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="home">主页</el-dropdown-item>
                 <el-dropdown-item command="submit">提交</el-dropdown-item>
-                <el-link href="admin" v-show="isAdmin" :underline="false">
+                <el-link href="/admin" v-show="isAdmin" :underline="false">
                     <el-dropdown-item>管理</el-dropdown-item>
                 </el-link>
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
