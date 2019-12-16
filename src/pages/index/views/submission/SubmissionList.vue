@@ -1,6 +1,6 @@
 <template>
     <d2-container style="width: 90%; margin: 0 auto">
-        <el-card class="controlPanel">
+        <el-card class="controlPanel" v-if="$route.name!=='ProblemSubmissionsMine'">
             <div slot="header">
                 <span>筛选记录</span>
                 <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
@@ -11,29 +11,31 @@
                 </el-button>
             </div>
             <el-row :gutter="20">
-                <el-col :span="5">
-                    <el-input v-model="title" @change="filterSubmissionList" size="medium"
+                <el-col :span="5" v-show="!isProblem">
+                    <el-input v-model="problemID" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索题目编号"/>
                 </el-col>
                 <el-col :span="3">
                     <el-input v-model="username" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索用户"/>
                 </el-col>
-                <el-col :span="2">
-                    <el-select size="medium" clearable placeholder="语言" v-model="language" @change="filterSubmissionList">
+                <el-col :span="3">
+                    <el-select size="medium" clearable placeholder="语言" v-model="language"
+                               @change="filterSubmissionList">
                         <el-option
                                 v-for="lag in languageOpt"
                                 :key="lag" :label="lag" :value="lag"/>
                     </el-select>
                 </el-col>
                 <el-col :span="4">
-                    <el-select size="medium" clearable placeholder="评测状态" v-model="result" @change="filterSubmissionList">
+                    <el-select size="medium" clearable placeholder="评测状态" v-model="result"
+                               @change="filterSubmissionList">
                         <el-option
                                 v-for="(r,index) in results"
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
-                <el-col :span="10">
+                <el-col :span="9" v-show="!isProblem">
                     <el-switch style="float: right;margin-top: 15px" v-model="myself" active-text="我的"
                                inactive-text="全部" @change="filterSubmissionList"/>
                 </el-col>
@@ -45,7 +47,6 @@
                     :data="tableData"
                     v-loading="loadingTable"
                     @row-click="goDetail"
-                    max-height="700"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
 
@@ -127,7 +128,7 @@ export default {
       languageOpt: ['Java', 'C++', 'C', 'Python3'],
       language: '',
       myself: false,
-      title: '',
+      problemID: '',
       username: '',
       result: '',
       tableData: [],
@@ -147,10 +148,13 @@ export default {
   methods: {
     clearFilter () {
       this.language = ''
-      this.title = ''
       this.result = ''
       this.username = ''
+      this.currentPage = 1
       this.myself = false
+      if (!this.isProblem) {
+        this.problemID = ''
+      }
       this.getSubmissionList()
     },
     handleSizeChange (val) {
@@ -177,7 +181,7 @@ export default {
     getSubmissionList () {
       this.loadingTable = true
       submissionAPI.getSubmissionList(this.pageSize, (this.currentPage - 1) * this.pageSize,
-        this.username, this.language, this.title, this.result, this.myself).then(res => {
+        this.username, this.language, this.problemID, this.result, this.myself).then(res => {
         this.loadingTable = false
         this.totalNum = res.count
         this.tableData = res.results
@@ -193,7 +197,16 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.params.id) {
+      this.problemID = this.$route.params.id
+    }
+    this.myself = this.$route.name === 'ProblemSubmissionsMine'
     this.getSubmissionList()
+  },
+  computed: {
+    isProblem: function () {
+      return this.$route.name === 'ProblemSubmissions'
+    }
   }
 }
 </script>

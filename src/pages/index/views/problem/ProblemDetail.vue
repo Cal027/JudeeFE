@@ -1,12 +1,12 @@
 <template>
-    <d2-container type="ghost">
+    <div>
         <div v-if="notContest"
              :class="isSticky? 'float': 'nav'"
              :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
              v-sticky="notContest"
              on-stick="handleSticky"
              sticky-offset="{top:-44}">
-            <div>
+            <template>
                 <router-link class="header" to="/problem" :style="{color:themeColor}">题目列表</router-link>
                 >
                 <span class="header" style="font-size: 24px">{{problemDetail.title}}</span>
@@ -18,16 +18,23 @@
                     <p>提交人数：{{problemDetail.submission_number}}</p>
                     <p>通过人数：{{problemDetail.accepted_number}}</p>
                 </div>
-            </div>
+            </template>
             <el-menu
-                    :default-active="activeIndex"
+                    :default-active="$route.name"
                     mode="horizontal"
                     text-color="#1b153b"
+                    router
                     class="menu"
                     background-color="transparent">
-                <el-menu-item index="1" class="menuItem">做题</el-menu-item>
-                <el-menu-item index="2" class="menuItem">我的提交</el-menu-item>
-                <el-menu-item index="3" class="menuItem">所有提交</el-menu-item>
+                <el-menu-item index="ProblemDetail" class="menuItem"
+                              :route="{name: 'ProblemDetail',id:problemDetail.id}">做题
+                </el-menu-item>
+                <el-menu-item index="ProblemSubmissionsMine" class="menuItem"
+                              :route="{name:'ProblemSubmissionsMine',id:problemDetail.id}">我的提交
+                </el-menu-item>
+                <el-menu-item index="ProblemSubmissions" class="menuItem"
+                              :route="{name:'ProblemSubmissions',id:problemDetail.id}">所有提交
+                </el-menu-item>
             </el-menu>
         </div>
         <div v-else class="mo2">
@@ -41,65 +48,67 @@
                 <p>通过人数：{{problemDetail.accepted_number}}</p>
             </div>
         </div>
-        <div class="problem-status">
-            <button disabled>{{isPassed}}</button>
-            <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
-            <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
-            <button disabled>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
-        </div>
-        <el-card class="module">
-            <span class="title" :style="{color:themeColor}">题目描述</span>
-            <div class="content" v-highlight v-html="problemDetail.description"/>
-            <div v-if="problemDetail.source">
-                <span class="title" :style="{color:themeColor}">来源</span>
-                <div class="content">{{problemDetail.source}}</div>
+        <template v-if="$route.name === 'ProblemDetail'||$route.name === 'Contest-problem-detail'">
+            <div class="problem-status">
+                <button disabled>{{isPassed}}</button>
+                <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
+                <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
+                <button disabled>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
             </div>
-        </el-card>
-        <el-card class="module">
-            <span class="title" :style="{color:themeColor}">输入描述</span>
-            <div class="content" v-highlight v-html="problemDetail.input_description"/>
-            <span class="title" :style="{color:themeColor}">输出描述</span>
-            <div class="content" v-highlight v-html="problemDetail.output_description"/>
-            <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
-                <el-col :span="10">
-                    <span class="title" :style="{color:themeColor}">输入样例 {{index+1}} </span>
-                    <el-button icon="iconfont j-icon-clipboard" @click="copyText(sample.input)"
-                               class="icon-btn" type="text"/>
-                    <pre class="sample">{{sample.input}}</pre>
-                </el-col>
-                <el-col :span="10">
-                    <span class="title" :style="{color:themeColor}">输出样例 {{index+1}} </span>
-                    <pre class="sample">{{sample.output}}</pre>
-                </el-col>
-            </el-row>
-        </el-card>
-        <el-card class="module" v-if="problemDetail.hint">
-            <span class="title" :style="{color:themeColor}">提示</span>
-            <div class="content" v-highlight v-html="problemDetail.hint"/>
-        </el-card>
-
-        <el-card class="module">
-            <CodeMirror :value.sync="code"
-                        :languages="problemDetail.languages"
-                        :language="language"
-                        @changeLang="onChangeLang"
-                        @resetCode="onResetCode"/>
-            <el-row type="flex" justify="space-between">
-                <el-col :span="10">
-                    <div class="status" v-if="statusVisible">
-                        <span>提交状态</span>
-                    </div>
-                </el-col>
-                <el-col :span="12">
-                    <el-button type="warning" round icon="el-icon-edit" :loading="submitLoading"
-                               @click="submitCode" style="float: right" size="medium">
-                        <span v-if="submitLoading">正在提交</span>
-                        <span v-else>提交</span>
-                    </el-button>
-                </el-col>
-            </el-row>
-        </el-card>
-    </d2-container>
+            <el-card class="module">
+                <span class="title" :style="{color:themeColor}">题目描述</span>
+                <div class="content" v-highlight v-html="problemDetail.description"/>
+                <div v-if="problemDetail.source">
+                    <span class="title" :style="{color:themeColor}">来源</span>
+                    <div class="content">{{problemDetail.source}}</div>
+                </div>
+            </el-card>
+            <el-card class="module">
+                <span class="title" :style="{color:themeColor}">输入描述</span>
+                <div class="content" v-highlight v-html="problemDetail.input_description"/>
+                <span class="title" :style="{color:themeColor}">输出描述</span>
+                <div class="content" v-highlight v-html="problemDetail.output_description"/>
+                <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
+                    <el-col :span="10">
+                        <span class="title" :style="{color:themeColor}">输入样例 {{index+1}} </span>
+                        <el-button icon="iconfont j-icon-clipboard" @click="copyText(sample.input)"
+                                   class="icon-btn" type="text"/>
+                        <pre class="sample">{{sample.input}}</pre>
+                    </el-col>
+                    <el-col :span="10">
+                        <span class="title" :style="{color:themeColor}">输出样例 {{index+1}} </span>
+                        <pre class="sample">{{sample.output}}</pre>
+                    </el-col>
+                </el-row>
+            </el-card>
+            <el-card class="module" v-if="problemDetail.hint">
+                <span class="title" :style="{color:themeColor}">提示</span>
+                <div class="content" v-highlight v-html="problemDetail.hint"/>
+            </el-card>
+            <el-card class="module">
+                <CodeMirror :value.sync="code"
+                            :languages="problemDetail.languages"
+                            :language="language"
+                            @changeLang="onChangeLang"
+                            @resetCode="onResetCode"/>
+                <el-row type="flex" justify="space-between">
+                    <el-col :span="10">
+                        <div class="status" v-if="statusVisible">
+                            <span>提交状态</span>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-button type="warning" round icon="el-icon-edit" :loading="submitLoading"
+                                   @click="submitCode" style="float: right" size="medium">
+                            <span v-if="submitLoading">正在提交</span>
+                            <span v-else>提交</span>
+                        </el-button>
+                    </el-col>
+                </el-row>
+            </el-card>
+        </template>
+        <router-view v-else style="width: 88%"/>
+    </div>
 </template>
 
 <script>
@@ -121,7 +130,6 @@ export default {
       notContest: true,
       diffOptions: ['简单', '普通', '中等', '困难', '非常困难'],
       problemDetail: {},
-      activeIndex: '1',
       code: '',
       top: -10,
       isSticky: false,
@@ -213,7 +221,9 @@ export default {
   mounted () {
     this.notContest = this.$route.name !== 'Contest-problem-detail'
     this.getProblem(this.$route.params.id)
-    if (localStorage.getItem('ac_prob').indexOf(this.$route.params.id + '|')) { this.isPassed = '已通过' }
+    if (localStorage.getItem('ac_prob').indexOf(this.$route.params.id + '|')) {
+      this.isPassed = '已通过'
+    }
   },
   async created () {
     // 异步加载当前主题色
@@ -301,9 +311,10 @@ export default {
     }
 
     .mo2 {
-        width: 80%!important;
+        width: 80% !important;
         margin: 0 auto 10px;
-        span{
+
+        span {
             font-weight: 500;
             color: #3e3e3e;
             margin-left: -25px;

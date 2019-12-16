@@ -112,7 +112,7 @@ export default {
     }
   },
   mounted () {
-    this.editor.focus()
+    // this.editor.focus()
   },
   methods: {
     onEditorCodeChange (newCode) {

@@ -11,12 +11,16 @@ import util from '@/utils/util'
 const Login = () => import('@oj/views/user/Login')
 const Register = () => import('@oj/views/user/Register')
 const User = () => import('@oj/views/user/UserHome')
+
 const Tutorial = () => import('@oj/views/tutorial/Tutorial')
+const OiWiki = () => import('@oj/views/tutorial/OiWiki')
+
 const ProfileSetting = () => import('@oj/views/setting/ProfileSetting')
 const PasswordSetting = () => import('@oj/views/setting/PasswordSetting')
-const OiWiki = () => import('@oj/views/tutorial/OiWiki')
+
 const ProblemList = () => import('@oj/views/problem/ProblemList')
 const ProblemDetail = () => import('@oj/views/problem/ProblemDetail')
+
 const SubmissionList = () => import('@oj/views/submission/SubmissionList')
 const SubmissionDetail = () => import('@oj/views/submission/SubmissionDetail')
 
@@ -84,6 +88,7 @@ const routes = [
     meta: { title: 'OI-WiKi' },
     component: OiWiki
   },
+  // 题目相关
   {
     path: '/problem',
     name: 'ProblemList',
@@ -93,7 +98,19 @@ const routes = [
   { path: '/problem/:id',
     name: 'ProblemDetail',
     meta: { title: '题目详情' },
-    component: ProblemDetail
+    component: ProblemDetail,
+    children: [
+      {
+        path: 'submissions',
+        name: 'ProblemSubmissions',
+        component: SubmissionList
+      },
+      {
+        path: 'submissions-mine',
+        name: 'ProblemSubmissionsMine',
+        component: SubmissionList
+      }
+    ]
   },
   // 竞赛相关
   {

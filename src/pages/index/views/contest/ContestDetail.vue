@@ -89,7 +89,6 @@ export default {
   mounted () {
     this.ID = this.$route.params.contestID
     this.routeName = this.$route.name
-    console.log(this.routeName)
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
       util.title(this.contestDetail.title)
