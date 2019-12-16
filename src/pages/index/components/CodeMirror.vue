@@ -4,16 +4,16 @@
             <el-col :span=12>
                 <div>
                     <span>语言:</span>
-                    <el-select :value="language" @change="onLangChange" class="adjust">
+                    <el-select size="small" :value="language" @change="onLangChange" class="adjust">
                         <el-option v-for="item in languages" :key="item" :value="item"/>
                     </el-select>
 
                     <el-tooltip content="返回默认代码设置" placement="top" style="margin-left: 10px">
-                        <el-button icon="el-icon-refresh-left" @click="onResetClick"/>
+                        <el-button round size="small" icon="el-icon-refresh-left" @click="onResetClick"/>
                     </el-tooltip>
 
                     <el-tooltip content="上传代码" placement="top" style="margin-left: 10px">
-                        <el-button icon="el-icon-upload" @click="onUploadFile"/>
+                        <el-button round size="small" icon="el-icon-upload" @click="onUploadFile"/>
 
                     </el-tooltip>
                     <input type="file" id="file-uploader" style="display: none" @change="onUploadFileDone"/>
@@ -22,7 +22,7 @@
             <el-col :span=12>
                 <div class="fl-right">
                     <span>编辑器主题:</span>
-                    <el-select v-model="theme" @change="onThemeChange" class="adjust">
+                    <el-select size="small" v-model="theme" @change="onThemeChange" class="adjust">
                         <el-option v-for="item in themes" :key="item.value" :value="item.value" :label="item.label"/>
                     </el-select>
                 </div>

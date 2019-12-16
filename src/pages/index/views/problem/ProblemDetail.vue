@@ -1,9 +1,11 @@
 <template>
     <d2-container type="ghost">
-        <div v-if="routeName!=='Contest-problem-detail'"
+        <div v-if="notContest"
              :class="isSticky? 'float': 'nav'"
              :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
-             :v-sticky="routeName!=='Contest-problem-detail'" on-stick="handleSticky" sticky-offset="{top:-44}">
+             v-sticky="notContest"
+             on-stick="handleSticky"
+             sticky-offset="{top:-44}">
             <div>
                 <router-link class="header" to="/problem" :style="{color:themeColor}">题目列表</router-link>
                 >
@@ -40,7 +42,6 @@
             </div>
         </div>
         <div class="problem-status">
-<!--            <button disabled>尚未提交</button>-->
             <button disabled>{{isPassed}}</button>
             <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
             <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
@@ -117,6 +118,7 @@ export default {
       percent: 0,
       themeColor: '',
       problem: '',
+      notContest: true,
       diffOptions: ['简单', '普通', '中等', '困难', '非常困难'],
       problemDetail: {},
       activeIndex: '1',
@@ -127,7 +129,6 @@ export default {
       submissionId: '',
       statusVisible: false,
       submitLoading: false,
-      routeName: '',
       isPassed: '尚未通过'
     }
   },
@@ -142,12 +143,18 @@ export default {
       }
     },
     getPercent () {
-      this.percent = (this.problemDetail.accepted_number / this.problemDetail.submission_number).toFixed(2)
-      this.percent *= 100
+      if (this.problemDetail.submission_number === 0) {
+        this.percent = 0
+      } else {
+        this.percent = (this.problemDetail.accepted_number / this.problemDetail.submission_number).toFixed(2)
+        this.percent *= 100
+      }
     },
     getProblem (id) {
+      let load = this.$loading()
       this.$api.problem.getProblem(id)
         .then(response => {
+          load.close()
           this.problemDetail = response.data
           this.language = this.problemDetail.languages[0]
           this.getPercent()
@@ -204,11 +211,9 @@ export default {
     }
   },
   mounted () {
-    let load = this.$loading()
-    this.routeName = this.$route.name
+    this.notContest = this.$route.name !== 'Contest-problem-detail'
     this.getProblem(this.$route.params.id)
     if (localStorage.getItem('ac_prob').indexOf(this.$route.params.id + '|')) { this.isPassed = '已通过' }
-    load.close()
   },
   async created () {
     // 异步加载当前主题色

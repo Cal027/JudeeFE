@@ -152,7 +152,6 @@ export default {
     tableRowClassName ({ row, rowIndex }) {
       var acProb = localStorage.getItem('ac_prob')
       if (acProb && acProb.indexOf(row.ID + '|') !== -1) {
-        // console.log(acProb)
         return 'success-row'
       }
       return ''
@@ -205,7 +204,7 @@ export default {
     }
 
     .clear {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         margin-right: 20px;
         position: absolute;
         bottom: 0;
@@ -219,6 +218,7 @@ export default {
 
     .tags {
         margin-left: 6px;
+        margin-bottom: 3px;
     }
 
     .el-row {
