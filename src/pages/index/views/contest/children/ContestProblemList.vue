@@ -7,12 +7,13 @@
                 @row-click="goContestProblem"
                 :data="tableData"
                 style="width: 100%">
-            <el-table-column prop="ID" label="ID" sortable :width="80"/>
+            <el-table-column prop="contestproblem__name" label="#" sortable :width="80"/>
             <el-table-column prop="title" label="标题"/>
             <el-table-column prop="rate" label="正确率"  :width="100"/>
             <el-table-column prop="accepted_number" label="正确数" :width="100"/>
             <el-table-column prop="submission_number" label="提交数" :width="100"/>
             <el-table-column prop="total_score" label="分数" :width="100"/>
+            <el-table-column prop="contestproblem__first_ac" label="First Blood" :width="100"/>
         </el-table>
     </el-card>
 </template>

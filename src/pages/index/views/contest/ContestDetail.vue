@@ -20,9 +20,8 @@
                               :route="{name:'Contest-problems',params:{contestID:ID}}">问题列表
                 </el-menu-item>
                 <el-menu-item index="3" class="menuItem">我的提交</el-menu-item>
-                <el-menu-item index="4" class="menuItem">所有提交</el-menu-item>
-                <el-menu-item index="5" class="menuItem">排名</el-menu-item>
-                <el-menu-item index="6" class="menuItem">公告</el-menu-item>
+                <el-menu-item index="4" class="menuItem">排名</el-menu-item>
+                <el-menu-item index="5" class="menuItem">公告</el-menu-item>
             </el-menu>
         </div>
         <div>
