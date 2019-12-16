@@ -49,11 +49,18 @@
             </div>
         </div>
         <template v-if="$route.name === 'ProblemDetail'||$route.name === 'Contest-problem-detail'">
+            <el-dialog title="统计数据" :visible.sync="dialogTableVisible" center>
+                <ve-ring :data="chartData" :settings="chartSettings"/>
+            </el-dialog>
             <div class="problem-status">
                 <button disabled>{{isPassed}}</button>
                 <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
                 <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
                 <button disabled>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
+<!--                TODO 美化这个按钮-->
+                <button @click="dialogTableVisible = true" >
+                    查看统计数据
+                </button>
             </div>
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
@@ -123,7 +130,16 @@ export default {
     CodeMirror
   },
   data () {
+    this.chartSettings = {
+      roseType: 'radius'
+    }
     return {
+      dialogTableVisible: false,
+      direction: 'ttb',
+      chartData: {
+        columns: ['状态', '人次'],
+        rows: []
+      },
       percent: 0,
       themeColor: '',
       problem: '',
@@ -166,6 +182,9 @@ export default {
           this.problemDetail = response.data
           this.language = this.problemDetail.languages[0]
           this.getPercent()
+          for (var key in response.data.statistic_info) {
+            this.chartData.rows.push({ '状态': key, '人次': response.data.statistic_info[key] })
+          }
           util.title(this.problemDetail.title)
         })
     },

@@ -10,16 +10,17 @@ import Sticky from 'vue-sticky-directive'
 import hljs from 'highlight.js'
 import highlight from '@/plugin/highlight'
 import 'highlight.js/styles/atom-one-light.css'
+import VeRing from 'v-charts/lib/ring.common'
 
 // 组件
 import '@/components'
 // svg 图标
 import '@/assets/svg-icons'
 
+Vue.component(VeRing.name, VeRing)
 Vue.use(ElementUI)
 Vue.use(Sticky)
 Vue.use(highlight)
-
 Vue.prototype.$api = api
 Vue.directive('highlight', function (el) {
   let blocks = el.querySelectorAll('pre.ql-syntax')
