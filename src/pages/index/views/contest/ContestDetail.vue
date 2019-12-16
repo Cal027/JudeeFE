@@ -21,7 +21,7 @@
                 </el-menu-item>
                 <el-menu-item index="3" class="menuItem">我的提交</el-menu-item>
                 <el-menu-item index="4" class="menuItem">排名</el-menu-item>
-                <el-menu-item index="5" class="menuItem">公告</el-menu-item>
+                <el-menu-item index="Contest-announcement" class="menuItem" :route="{name:'Contest-announcement',params:{contestID:ID}}">公告</el-menu-item>
             </el-menu>
         </div>
         <div>
@@ -88,7 +88,7 @@ export default {
   mounted () {
     this.ID = this.$route.params.contestID
     this.routeName = this.$route.name
-    console.log(this.routeName)
+    // console.log(this.routeName)
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
       util.title(this.contestDetail.title)

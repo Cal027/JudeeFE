@@ -29,5 +29,11 @@ export default {
       method: 'post',
       data: { 'password': password }
     })
+  },
+  getContestAnnouncement (id) {
+    return request({
+      url: `/contest-announcement/?contest=${id}`,
+      method: 'get'
+    })
   }
 }

@@ -6,6 +6,7 @@
 export default {
   name: 'ContestRank'
 }
+
 </script>
 
 <style scoped>

@@ -117,6 +117,11 @@ const routes = [
         path: 'problem/:id/',
         name: 'Contest-problem-detail',
         component: ProblemDetail
+      },
+      {
+        path: 'announcement',
+        name: 'Contest-announcement',
+        component: Contest.ContestAnnouncement
       }
     ]
   },
