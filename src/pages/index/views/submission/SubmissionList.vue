@@ -44,12 +44,15 @@
                     class="table"
                     :data="tableData"
                     v-loading="loadingTable"
-                    @row-click="goDetail"
                     max-height="700"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
 
-                <el-table-column prop="ID" label="递交ID" width="90px"/>
+                <el-table-column prop="ID" label="递交ID" width="90px">
+                    <template slot-scope="scope">
+                        <router-link :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="problem" label="题目编号" width="80px" align="center">
                     <template slot-scope="scope">
                         <router-link :to="'/problem/'+scope.row.problem">{{scope.row.problem}}</router-link>
@@ -107,17 +110,17 @@ import submissionAPI from '@oj/api/oj.submission'
 import util from '@/utils/util'
 
 const results = [
-  { msg: 'COMPILE_ERROR', type: 'warning' },
-  { msg: 'WRONG_ANSWER', type: 'danger' },
-  { msg: 'ACCEPTED', type: 'success' },
-  { msg: 'CPU_TIME_LIMIT_EXCEEDED', type: 'warning' },
-  { msg: 'REAL_TIME_LIMIT_EXCEEDED', type: 'warning' },
-  { msg: 'MEMORY_LIMIT_EXCEEDED', type: 'warning' },
-  { msg: 'RUNTIME_ERROR', type: 'danger' },
-  { msg: 'SYSTEM_ERROR', type: 'danger' },
-  { msg: 'PENDING', type: 'info' },
-  { msg: 'JUDGING', type: 'info' },
-  { msg: 'PARTIALLY_ACCEPTED', type: 'warning' }
+  { msg: 'Compile Error', type: 'warning' },
+  { msg: 'Wrong Answer', type: 'danger' },
+  { msg: 'Accepted', type: 'success' },
+  { msg: 'CPU Time Limit Exceeded', type: 'warning' },
+  { msg: 'Real Time Limit Exceeded', type: 'warning' },
+  { msg: 'Memory Limit Exceeded', type: 'warning' },
+  { msg: 'Runtime Error', type: 'danger' },
+  { msg: 'System Error', type: 'danger' },
+  { msg: 'Pending', type: 'info' },
+  { msg: 'Judging', type: 'info' },
+  { msg: 'Partially Accepted', type: 'warning' }
 ]
 
 export default {
