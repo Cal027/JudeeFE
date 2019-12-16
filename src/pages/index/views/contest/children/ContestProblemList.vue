@@ -3,13 +3,19 @@
         <el-table
                 v-loading="loading"
                 element-loading-text="正在加载"
+                class="table"
                 ref="table"
-                @row-click="goContestProblem"
                 :data="tableData"
                 style="width: 100%">
             <el-table-column prop="contestproblem__name" label="#" sortable :width="80"/>
-            <el-table-column prop="title" label="标题"/>
-            <el-table-column prop="rate" label="正确率"  :width="100"/>
+            <el-table-column prop="title" label="标题">
+                <template slot-scope="scope">
+                    <router-link :to="{name: 'Contest-problem-detail',params: {contestID: contestID,id: scope.row.ID}}">
+                        {{scope.row.title}}
+                    </router-link>
+                </template>
+            </el-table-column>
+            <el-table-column prop="rate" label="正确率" :width="100"/>
             <el-table-column prop="accepted_number" label="正确数" :width="100"/>
             <el-table-column prop="submission_number" label="提交数" :width="100"/>
             <el-table-column prop="total_score" label="分数" :width="100"/>
@@ -42,15 +48,6 @@ export default {
         this.tableData = res
         this.loading = false
       })
-    },
-    goContestProblem (row) {
-      this.$router.push({
-        name: 'Contest-problem-detail',
-        params: {
-          contestID: this.contestID,
-          id: row.ID
-        }
-      })
     }
   },
   mounted () {
@@ -60,10 +57,24 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
     .module {
         width: 80%;
         padding: 30px 50px;
         margin: 0 auto 20px;
+    }
+
+    .table {
+
+    a {
+        color: #2d8cf0;
+        text-decoration: none;
+    }
+
+    .router-link-active {
+        color: #2d8cf0;
+        text-decoration: none;
+    }
+
     }
 </style>

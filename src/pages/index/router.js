@@ -139,6 +139,16 @@ const routes = [
         path: 'announcement',
         name: 'Contest-announcement',
         component: Contest.ContestAnnouncement
+      },
+      {
+        path: 'submissions-mine',
+        name: 'ContestSubmissionsMine',
+        component: SubmissionList
+      },
+      {
+        path: 'rank',
+        name: 'Contest-rank',
+        component: Contest.ContestRank
       }
     ]
   },

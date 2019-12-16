@@ -19,17 +19,23 @@
                 <el-menu-item index="Contest-problems" class="menuItem"
                               :route="{name:'Contest-problems',params:{contestID:ID}}">问题列表
                 </el-menu-item>
-                <el-menu-item index="3" class="menuItem">我的提交</el-menu-item>
+                <el-menu-item index="ContestSubmissionsMine" class="menuItem"
+                              :route="{name:'ContestSubmissionsMine',params:{contestID:ID}}">我的提交
+                </el-menu-item>
                 <el-menu-item index="4" class="menuItem">排名</el-menu-item>
-                <el-menu-item index="Contest-announcement" class="menuItem" :route="{name:'Contest-announcement',params:{contestID:ID}}">公告</el-menu-item>
+                <el-menu-item index="Contest-announcement" class="menuItem"
+                              :route="{name:'Contest-announcement',params:{contestID:ID}}">公告
+                </el-menu-item>
             </el-menu>
         </div>
         <div>
             <template v-if="routeName==='Contest-detail'">
                 <ul class="contest-info">
-                    <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.start_time)}}
+                    <li>
+                        <i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.start_time)}}
                     </li>
-                    <li><i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.end_time)}}
+                    <li>
+                        <i class="el-icon-date" :style="{color:themeColor}"/>{{resolveTime(contestDetail.end_time)}}
                     </li>
                     <li>
                         <i class="el-icon-alarm-clock" :style="{color:themeColor}"/>
@@ -44,7 +50,7 @@
                 </el-card>
             </template>
             <!--Children-->
-            <router-view/>
+            <router-view v-else/>
             <!--ChildrenEnd-->
         </div>
     </d2-container>

@@ -114,7 +114,7 @@
                 </el-row>
             </el-card>
         </template>
-        <router-view v-else style="width: 88%"/>
+        <router-view v-else :key="$route.name"/>
     </div>
 </template>
 
@@ -143,7 +143,7 @@ export default {
       percent: 0,
       themeColor: '',
       problem: '',
-      notContest: true,
+      notContest: false,
       diffOptions: ['简单', '普通', '中等', '困难', '非常困难'],
       problemDetail: {},
       code: '',

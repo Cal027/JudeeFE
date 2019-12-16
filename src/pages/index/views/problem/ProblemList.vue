@@ -1,5 +1,5 @@
 <template>
-    <d2-container style="width: 90%; margin: 0 auto">
+    <div style="width: 90%; margin: 0 auto">
         <el-card class="controlPanel">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
@@ -88,7 +88,7 @@
                         :total="problemNum"/>
             </div>
         </el-card>
-    </d2-container>
+    </div>
 </template>
 
 <script>

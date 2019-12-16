@@ -1,6 +1,6 @@
 <template>
-    <d2-container style="width: 90%; margin: 0 auto">
-        <el-card class="controlPanel" v-if="$route.name!=='ProblemSubmissionsMine'">
+    <div style="width: 85%; margin: 0 auto;">
+        <el-card class="controlPanel" v-if="showPanel">
             <div slot="header">
                 <span>筛选记录</span>
                 <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
@@ -46,7 +46,6 @@
                     class="table"
                     :data="tableData"
                     v-loading="loadingTable"
-                    @row-click="goDetail"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
 
@@ -104,7 +103,7 @@
                         :total="totalNum"/>
             </div>
         </el-card>
-    </d2-container>
+    </div>
 </template>
 
 <script>
@@ -133,8 +132,11 @@ export default {
       language: '',
       myself: false,
       problemID: '',
+      contestID: '',
       username: '',
       result: '',
+      isProblem: false,
+      showPanel: true,
       tableData: [],
       loadingTable: false,
       results,
@@ -185,7 +187,7 @@ export default {
     getSubmissionList () {
       this.loadingTable = true
       submissionAPI.getSubmissionList(this.pageSize, (this.currentPage - 1) * this.pageSize,
-        this.username, this.language, this.problemID, this.result, this.myself).then(res => {
+        this.username, this.language, this.problemID, this.result, this.myself, this.contestID).then(res => {
         this.loadingTable = false
         this.totalNum = res.count
         this.tableData = res.results
@@ -195,22 +197,24 @@ export default {
           this.loadingTable = false
         }
       })
-    },
-    goDetail (row) {
-      this.$router.push({ name: 'submission-detail', params: { id: row.ID } })
     }
   },
   mounted () {
     if (this.$route.params.id) {
       this.problemID = this.$route.params.id
     }
-    this.myself = this.$route.name === 'ProblemSubmissionsMine'
-    this.getSubmissionList()
-  },
-  computed: {
-    isProblem: function () {
-      return this.$route.name === 'ProblemSubmissions'
+    if (this.$route.params.contestID) {
+      this.showPanel = false
+      this.contestID = this.$route.params.contestID
+      this.myself = true
     }
+    if (this.$route.name === 'ProblemSubmissionsMine') {
+      this.showPanel = false
+      this.myself = true
+    }
+    this.isProblem = this.$route.name === 'ProblemSubmissions'
+    console.log(this.contestID)
+    this.getSubmissionList()
   }
 }
 </script>
