@@ -5,9 +5,8 @@
             <el-row>
                 <el-col :span="2">搜索:</el-col>
                 <el-col :span="8">
-                    <el-input size="small" placeholder="搜索题目编号、标题、关键字..." v-model="searchText"
-                              @change="getProblems">
-                        <el-button slot="append" @click="getProblems" size="mini">
+                    <el-input size="small" placeholder="搜索题目编号、标题、关键字..." v-model="searchText">
+                        <el-button slot="append" @click="filterProblems" size="mini">
                             <d2-icon name="search"/>
                         </el-button>
                     </el-input>
@@ -30,7 +29,7 @@
                 <el-col :span="8">
                     <el-cascader clearable placeholder="请选择算法标签" v-model="tags"
                                  :show-all-levels="false" filterable size="mini" style="width: 100%"
-                                 :props="{multiple:true}" @change="getProblems" :options="tagNames"/>
+                                 :props="{multiple:true}" @change="filterProblems" :options="tagNames"/>
                 </el-col>
             </el-row>
         </el-card>
@@ -130,7 +129,7 @@ export default {
       this.tags = []
       this.searchText = ''
       this.selectAll = true
-      this.getProblems()
+      this.filterProblems()
     },
     handleSizeChange (val) {
       this.pageSize = val
@@ -142,17 +141,17 @@ export default {
     },
     handleAllDiff () {
       this.difficulty = []
-      this.getProblems()
+      this.filterProblems()
     },
     // 处理难度变化
     handleDiff () {
       this.selectAll = this.difficulty.length === 0
-      this.getProblems()
+      this.filterProblems()
     },
     // ac 的题目就变颜色
     tableRowClassName ({ row, rowIndex }) {
       var acProb = localStorage.getItem('ac_prob')
-      if (acProb && acProb.indexOf(row.ID + '') !== -1) {
+      if (acProb && acProb.indexOf(row.ID + '|') !== -1) {
         // console.log(acProb)
         return 'success-row'
       }
@@ -165,6 +164,10 @@ export default {
         name: 'ProblemDetail',
         params: { id: row.ID }
       })
+    },
+    filterProblems () {
+      this.currentPage = 1
+      this.getProblems()
     },
     getProblems () {
       this.loadingTable = true

@@ -1,5 +1,5 @@
 function resolveRunTime (time) {
-  if (time > 0) {
+  if (time >= 0 && time !== null) {
     return time + 'MS'
   } else {
     return '-'

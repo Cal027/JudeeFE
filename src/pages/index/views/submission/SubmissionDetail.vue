@@ -14,7 +14,7 @@
                             <span>时间：{{resolveRunTime(detail.time_cost)}}</span>
                             <span>内存：{{resolveMemory(detail.memory_cost)}}</span>
                             <span>语言：{{detail.language}}</span>
-                            <span>分数：{{detail.score}}</span>
+                            <span>得分：{{detail.score}}</span>
                             <span>作者：{{detail.username}}</span>
                         </template>
                     </div>
@@ -22,7 +22,7 @@
                 <br/>
                 <el-card v-if="!isCE&&info.length>0">
                     <el-table :data="detail.info">
-                        <el-table-column label="ID">
+                        <el-table-column label="测试样例ID">
                             <template slot-scope="scope">
                                 {{scope.$index+1}}
                             </template>

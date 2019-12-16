@@ -3,7 +3,7 @@
         <el-card class="controlPanel">
             <div slot="header">
                 <span>筛选记录</span>
-                <el-button icon="el-icon-refresh" class="header-button" @click="getSubmissionList" type="text">
+                <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
                     刷新
                 </el-button>
                 <el-button icon="el-icon-close" type="text" @click="clearFilter" class="header-button">
@@ -12,22 +12,22 @@
             </div>
             <el-row :gutter="20">
                 <el-col :span="5">
-                    <el-input v-model="title" @change="getSubmissionList" size="medium"
+                    <el-input v-model="title" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索题目编号"/>
                 </el-col>
                 <el-col :span="3">
-                    <el-input v-model="username" @change="getSubmissionList" size="medium"
+                    <el-input v-model="username" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索用户"/>
                 </el-col>
                 <el-col :span="2">
-                    <el-select size="medium" clearable placeholder="语言" v-model="language" @change="getSubmissionList">
+                    <el-select size="medium" clearable placeholder="语言" v-model="language" @change="filterSubmissionList">
                         <el-option
                                 v-for="lag in languageOpt"
                                 :key="lag" :label="lag" :value="lag"/>
                     </el-select>
                 </el-col>
                 <el-col :span="4">
-                    <el-select size="medium" clearable placeholder="评测状态" v-model="result" @change="getSubmissionList">
+                    <el-select size="medium" clearable placeholder="评测状态" v-model="result" @change="filterSubmissionList">
                         <el-option
                                 v-for="(r,index) in results"
                                 :key="index" :label="r.msg" :value="index-2"/>
@@ -35,7 +35,7 @@
                 </el-col>
                 <el-col :span="10">
                     <el-switch style="float: right;margin-top: 15px" v-model="myself" active-text="我的"
-                               inactive-text="全部" @change="getSubmissionList"/>
+                               inactive-text="全部" @change="filterSubmissionList"/>
                 </el-col>
             </el-row>
         </el-card>
@@ -170,6 +170,10 @@ export default {
       this.currentPage = val
       this.getSubmissionList()
     },
+    filterSubmissionList () {
+      this.currentPage = 1
+      this.getSubmissionList()
+    },
     getSubmissionList () {
       this.loadingTable = true
       submissionAPI.getSubmissionList(this.pageSize, (this.currentPage - 1) * this.pageSize,
@@ -179,7 +183,7 @@ export default {
         this.tableData = res.results
       }).catch(err => {
         if (err.message === '请求错误') {
-          this.$message.error('没有该用户')
+          this.$message.error('不存在的用户或题目编号')
           this.loadingTable = false
         }
       })

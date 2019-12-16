@@ -40,9 +40,9 @@
             </div>
         </div>
         <div class="problem-status">
-            <button disabled>尚未提交</button>
-            <button disabled>尚未通过</button>
-            <button disabled>时间限制: {{problemDetail.time_limit}} s</button>
+<!--            <button disabled>尚未提交</button>-->
+            <button disabled>{{isPassed}}</button>
+            <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
             <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
             <button disabled>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
         </div>
@@ -127,7 +127,8 @@ export default {
       submissionId: '',
       statusVisible: false,
       submitLoading: false,
-      routeName: ''
+      routeName: '',
+      isPassed: '尚未通过'
     }
   },
   methods: {
@@ -206,6 +207,7 @@ export default {
     let load = this.$loading()
     this.routeName = this.$route.name
     this.getProblem(this.$route.params.id)
+    if (localStorage.getItem('ac_prob').indexOf(this.$route.params.id + '|')) { this.isPassed = '已通过' }
     load.close()
   },
   async created () {
