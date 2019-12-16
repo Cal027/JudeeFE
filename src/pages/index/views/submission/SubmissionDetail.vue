@@ -100,7 +100,7 @@ export default {
     getLanguage (lang) {
       if (lang === 'C++') {
         return 'cpp'
-      } else if (lang === 'Pyhont3') {
+      } else if (lang === 'Python3') {
         return 'python'
       } else {
         return 'java'

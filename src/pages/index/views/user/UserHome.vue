@@ -47,11 +47,20 @@
                         <p>AC问题数</p>
                         <p class="emphasis">{{ userData.ac }}</p>
                     </el-col>
-                    <el-col>
+                    <el-col class="middle">
                         <p>分数</p>
                         <p class="emphasis">{{ userData.score }}</p>
                     </el-col>
+                    <el-col>
+                        <p>排名</p>
+                        <p class="emphasis">{{ userData.ranking }}</p>
+                    </el-col>
                 </el-row>
+                <!--                FIXME 美化效果-->
+                <el-divider content-position="center">个人简介</el-divider>
+                <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了.^-^'}}</div>
+                <el-divider content-position="center">通过题目 ({{userData.ac_prob.length}}道)</el-divider>
+                <el-tag class="click" v-for="item in userData.ac_prob" v-bind:key="item" @click="clickProblem(item)">{{ item }}</el-tag>
             </el-card>
         </div>
     </div>
@@ -71,7 +80,14 @@ export default {
       // avatarUrl: require('/image/default.png'),
       username: '',
       profile: {},
-      userData: {},
+      userData: {
+        'username': '',
+        'ac': 0,
+        'submit': 0,
+        'score': 0,
+        'ranking': 10000,
+        'ac_prob': []
+      },
       github: '还没填写Github信息',
       qq: '还没填写QQ信息',
       phone_number: '还没填写电话号码',
@@ -95,7 +111,17 @@ export default {
       }
     })
     this.$api.user.getUserData(this.username).then(response => {
-      this.userData = response.data
+      this.userData.username = response.data['username']
+      this.userData.ac = response.data['ac']
+      this.userData.submit = response.data['submit']
+      this.userData.score = response.data['score']
+      this.userData.ranking = response.data['ranking']
+      if (response.data['ac_prob'] !== '') {
+        this.userData.ac_prob = response.data['ac_prob'].split('|')
+        // 删除最后一个空值
+        this.userData.ac_prob.splice(-1, 1)
+      }
+      if (this.isShowEdit) { localStorage.setItem('ac_prob', response.data['ac_prob']) }
     })
   },
   methods: {
@@ -104,6 +130,12 @@ export default {
       this.$message({
         message: '已复制到剪贴板！',
         type: 'success'
+      })
+    },
+    clickProblem (problem) {
+      this.$router.push({
+        name: 'ProblemDetail',
+        params: { id: problem }
       })
     }
   }
@@ -162,7 +194,7 @@ export default {
             border-left: 1px solid #DCDFE6;
             border-right: 1px solid #DCDFE6;
         }
-
     }
+    .click{cursor:pointer;}
 
 </style>
