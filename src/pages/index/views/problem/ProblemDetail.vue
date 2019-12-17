@@ -50,17 +50,15 @@
         </div>
         <template v-if="$route.name === 'ProblemDetail'||$route.name === 'Contest-problem-detail'">
             <el-dialog title="统计数据" :visible.sync="dialogTableVisible" center>
-                <ve-ring :data="chartData" :settings="chartSettings"/>
+                <ve-ring v-if="chartData.rows.length>0" :data="chartData" :settings="{roseType: 'radius'}"/>
+                <h4 v-else style="text-align: center">暂无数据</h4>
             </el-dialog>
             <div class="problem-status">
                 <button disabled>{{isPassed}}</button>
                 <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
                 <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
                 <button disabled>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
-<!--                TODO 美化这个按钮-->
-                <button @click="dialogTableVisible = true" >
-                    查看统计数据
-                </button>
+                <button id="showData" @click="dialogTableVisible = true" >查看统计数据</button>
             </div>
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
@@ -123,21 +121,20 @@ import * as clipboard from 'clipboard-polyfill'
 import CodeMirror from '@oj/components/CodeMirror.vue'
 import api from '@oj/api/oj.problem'
 import util from '@/utils/util'
+import VeRing from 'v-charts/lib/ring.common'
 
 export default {
   name: 'ProblemDetail',
   components: {
-    CodeMirror
+    CodeMirror,
+    VeRing
   },
   data () {
-    this.chartSettings = {
-      roseType: 'radius'
-    }
     return {
       dialogTableVisible: false,
       direction: 'ttb',
       chartData: {
-        columns: ['状态', '人次'],
+        columns: ['status', 'number'],
         rows: []
       },
       percent: 0,
@@ -182,9 +179,9 @@ export default {
           this.problemDetail = response.data
           this.language = this.problemDetail.languages[0]
           this.getPercent()
-          for (var key in response.data.statistic_info) {
-            this.chartData.rows.push({ '状态': key, '人次': response.data.statistic_info[key] })
-          }
+          Object.keys(response.data.statistic_info).forEach(key => {
+            this.chartData.rows.push({ 'status': key, 'number': response.data.statistic_info[key] })
+          })
           util.title(this.problemDetail.title)
         })
     },
@@ -378,6 +375,10 @@ export default {
             margin-bottom: 15px;
             margin-right: 10px;
             box-shadow: 0 2px 4px 0 rgba(146, 166, 231, .13);
+        }
+
+        #showData {
+            color: #6d6d6d;
         }
     }
 

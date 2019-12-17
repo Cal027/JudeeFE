@@ -58,7 +58,7 @@
                 </el-row>
                 <!--                FIXME 美化效果-->
                 <el-divider content-position="center">个人简介</el-divider>
-                <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了.^-^'}}</div>
+                <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了'}}</div>
                 <el-divider content-position="center">通过题目 ({{userData.ac_prob.length}}道)</el-divider>
                 <el-tag class="click" v-for="item in userData.ac_prob" v-bind:key="item" @click="clickProblem(item)">{{ item }}</el-tag>
             </el-card>
