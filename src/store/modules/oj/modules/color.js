@@ -48,8 +48,7 @@ export default {
           dbName: 'oj',
           path: 'color.value',
           // defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
-          // 修改默认为中环红
-          defaultValue: '#C41832',
+          defaultValue: process.env.VUE_APP_COLOR,
           user: true
         }, { root: true })
         // 应用

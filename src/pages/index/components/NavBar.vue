@@ -72,7 +72,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.info)
     this.isAdmin = this.info.type !== '1'
   },
   watch: {

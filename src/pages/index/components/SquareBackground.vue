@@ -11,12 +11,6 @@
 <script>
 export default {
   name: 'SquareBackground',
-  // props: {
-  //   color: {
-  //     type: String,
-  //     default: '#f2f1f6'
-  //   }
-  // },
   data () {
     return {
       color: '#f2f1f6'
@@ -25,9 +19,9 @@ export default {
   async created () {
     // 异步加载当前主题色
     this.color = await this.$store.dispatch('oj/db/get', {
-      dbName: 'sys',
+      dbName: 'oj',
       path: 'color.value',
-      defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+      defaultValue: process.env.VUE_APP_COLOR,
       user: true
     })
   }
@@ -61,8 +55,6 @@ export default {
             list-style: none;
             width: 20px;
             height: 20px;
-            /*background: #FFF;*/
-            /*background: #1b153b;*/
             animation: animate 25s linear infinite;
             bottom: -200px;
             @keyframes animate {
