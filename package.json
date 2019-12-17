@@ -17,7 +17,6 @@
     "clipboard-polyfill": "^2.8.6",
     "core-js": "^2.6.5",
     "dayjs": "^1.8.12",
-    "default-passive-events": "^1.0.10",
     "echarts": "^4.5.0",
     "element-ui": "^2.13.0",
     "fg-loadcss": "^2.1.0",

@@ -9,7 +9,6 @@ import axios from 'axios'
 import Sticky from 'vue-sticky-directive'
 import hljs from 'highlight.js'
 import highlight from '@/plugin/highlight'
-import 'default-passive-events'
 import 'highlight.js/styles/atom-one-light.css'
 
 // 组件
@@ -98,6 +97,6 @@ new Vue({
   store,
   render: h => h(App),
   mounted () {
-    this.$store.dispatch('oj/color/load', null, { root: true })
+    this.$store.dispatch('oj/account/load')
   }
 }).$mount('#app')

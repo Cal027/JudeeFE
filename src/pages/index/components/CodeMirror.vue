@@ -33,129 +33,131 @@
     </div>
 </template>
 <script>
-import { codemirror } from 'vue-codemirror-lite'
+  import { codemirror } from 'vue-codemirror-lite'
 
-// theme
-import 'codemirror/theme/monokai.css'
-import 'codemirror/theme/solarized.css'
-import 'codemirror/theme/material.css'
-import 'codemirror/theme/idea.css'
+  // theme
+  import 'codemirror/theme/darcula.css'
+  import 'codemirror/theme/solarized.css'
+  import 'codemirror/theme/material.css'
+  import 'codemirror/theme/3024-day.css'
+  import 'codemirror/theme/material-ocean.css'
 
-// mode
-import 'codemirror/mode/clike/clike.js'
-import 'codemirror/mode/python/python.js'
+  // mode
+  import 'codemirror/mode/clike/clike.js'
+  import 'codemirror/mode/python/python.js'
 
-// active-line.js
-import 'codemirror/addon/selection/active-line.js'
+  // active-line.js
+  import 'codemirror/addon/selection/active-line.js'
 
-// foldGutter
-import 'codemirror/addon/fold/foldgutter.css'
-import 'codemirror/addon/fold/foldgutter.js'
-import 'codemirror/addon/fold/brace-fold.js'
-import 'codemirror/addon/fold/indent-fold.js'
+  // foldGutter
+  import 'codemirror/addon/fold/foldgutter.css'
+  import 'codemirror/addon/fold/foldgutter.js'
+  import 'codemirror/addon/fold/brace-fold.js'
+  import 'codemirror/addon/fold/indent-fold.js'
 
-export default {
-  name: 'CodeMirror',
-  components: {
-    codemirror
-  },
-  props: {
-    value: {
-      type: String,
-      default: ''
+  export default {
+    name: 'CodeMirror',
+    components: {
+      codemirror
     },
-    languages: {
-      type: Array,
-      default: () => {
-        return ['C', 'C++', 'Java', 'Python3']
+    props: {
+      value: {
+        type: String,
+        default: ''
+      },
+      languages: {
+        type: Array,
+        default: () => {
+          return ['C', 'C++', 'Java', 'Python3']
+        }
+      },
+      language: {
+        type: String,
+        default: 'C++'
+      }
+      // theme: {
+      //   type: String,
+      //   default: 'material'
+      // }
+    },
+    data () {
+      return {
+        theme: '3024-day',
+        options: {
+          // codemirror options
+          tabSize: 4,
+          mode: 'text/x-c++src',
+          theme: '3024-day',
+          lineNumbers: true,
+          line: true,
+          // 代码折叠
+          foldGutter: true,
+          gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+          // 选中文本自动高亮，及高亮方式
+          styleSelectedText: true,
+          lineWrapping: true,
+          highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true }
+        },
+        mode: {
+          'C': 'text/x-csrc',
+          'C++': 'text/x-c++src',
+          'Python3': 'text/x-python',
+          'Java': 'text/x-java'
+        },
+        themes: [
+          { label: '3024-day', value: '3024-day' },
+          { label: 'Solarized', value: 'solarized' },
+          { label: 'Darcula', value: 'darcula' },
+          { label: 'Material', value: 'material' },
+          { label: 'Material-Ocean', value: 'material-ocean' }
+        ]
       }
     },
-    language: {
-      type: String,
-      default: 'C++'
-    }
-    // theme: {
-    //   type: String,
-    //   default: 'material'
-    // }
-  },
-  data () {
-    return {
-      theme: 'idea',
-      options: {
-        // codemirror options
-        tabSize: 4,
-        mode: 'text/x-c++src',
-        theme: 'idea',
-        lineNumbers: true,
-        line: true,
-        // 代码折叠
-        foldGutter: true,
-        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-        // 选中文本自动高亮，及高亮方式
-        styleSelectedText: true,
-        lineWrapping: true,
-        highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true }
+    mounted () {
+      // this.editor.focus()
+    },
+    methods: {
+      onEditorCodeChange (newCode) {
+        this.$emit('update:value', newCode)
       },
-      mode: {
-        'C': 'text/x-csrc',
-        'C++': 'text/x-c++src',
-        'Python3': 'text/x-python',
-        'Java': 'text/x-java'
+      onLangChange (newVal) {
+        this.editor.setOption('mode', this.mode[newVal])
+        this.$emit('changeLang', newVal)
       },
-      themes: [
-        { label: 'idea', value: 'idea' },
-        { label: 'Solarized', value: 'solarized' },
-        { label: 'Monokai', value: 'monokai' },
-        { label: 'Material', value: 'material' }
-      ]
-    }
-  },
-  mounted () {
-    // this.editor.focus()
-  },
-  methods: {
-    onEditorCodeChange (newCode) {
-      this.$emit('update:value', newCode)
-    },
-    onLangChange (newVal) {
-      this.editor.setOption('mode', this.mode[newVal])
-      this.$emit('changeLang', newVal)
-    },
-    onThemeChange (newTheme) {
-      this.editor.setOption('theme', newTheme)
-      this.$emit('changeTheme', newTheme)
-    },
-    onResetClick () {
-      this.$emit('resetCode')
-    },
-    onUploadFile () {
-      document.getElementById('file-uploader').click()
-    },
-    onUploadFileDone () {
-      let f = document.getElementById('file-uploader').files[0]
-      let fileReader = new window.FileReader()
-      let self = this
-      fileReader.onload = function (e) {
-        var text = e.target.result
-        self.editor.setValue(text)
-        document.getElementById('file-uploader').value = ''
+      onThemeChange (newTheme) {
+        this.editor.setOption('theme', newTheme)
+        this.$emit('changeTheme', newTheme)
+      },
+      onResetClick () {
+        this.$emit('resetCode')
+      },
+      onUploadFile () {
+        document.getElementById('file-uploader').click()
+      },
+      onUploadFileDone () {
+        let f = document.getElementById('file-uploader').files[0]
+        let fileReader = new window.FileReader()
+        let self = this
+        fileReader.onload = function (e) {
+          var text = e.target.result
+          self.editor.setValue(text)
+          document.getElementById('file-uploader').value = ''
+        }
+        fileReader.readAsText(f, 'UTF-8')
       }
-      fileReader.readAsText(f, 'UTF-8')
-    }
-  },
-  computed: {
-    editor () {
-      // get current editor object
-      return this.$refs.myEditor.editor
-    }
-  },
-  watch: {
-    'theme' (newVal, oldVal) {
-      this.editor.setOption('theme', newVal)
+    },
+    computed: {
+      editor () {
+        // get current editor object
+        return this.$refs.myEditor.editor
+      }
+    },
+    watch: {
+      'theme' (newVal, oldVal) {
+        this.editor.setOption('theme', newVal)
+      }
     }
   }
-}
 </script>
 
 <style lang="less" scoped>

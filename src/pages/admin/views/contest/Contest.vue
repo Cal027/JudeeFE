@@ -60,6 +60,7 @@
 
 <script>
 import ContestAPI from '@admin/api/sys.contest'
+import util from '@/utils/util'
 
 export default {
   name: 'Contest',
@@ -163,6 +164,8 @@ export default {
       this.disableRule = true
       ContestAPI.getContest(this.$route.params.contestID).then(res => {
         this.form = res
+        this.form.start_time = util.time.resolveTime(this.form.start_time)
+        this.form.end_time = util.time.resolveTime(this.form.end_time)
         if (this.form.allowed_ip_ranges.length === 0) {
           this.form.allowed_ip_ranges = [{ value: '' }]
         }
