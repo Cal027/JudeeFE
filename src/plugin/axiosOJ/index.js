@@ -1,5 +1,6 @@
 import axios from 'axios'
 import util from '@/utils/util'
+import { Message } from 'element-ui'
 
 // 创建一个 axiosAdmin 实例
 const service = axios.create({
@@ -71,6 +72,11 @@ service.interceptors.response.use(
           break
       }
     }
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 2000
+    })
     return Promise.reject(error)
   }
 )

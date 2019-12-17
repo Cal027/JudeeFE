@@ -43,7 +43,7 @@ const frameIn = [
       {
         path: 'problems',
         name: 'problem-list',
-        meta: { title: '题目管理' },
+        meta: { title: '题目管理', auth: true },
         component: _import('problem/ProblemList')
       },
       // 竞赛
@@ -68,7 +68,7 @@ const frameIn = [
       {
         path: 'contests',
         name: 'contest-list',
-        meta: { title: '竞赛管理' },
+        meta: { title: '竞赛管理', auth: true },
         component: _import('contest/ContestList')
       },
       {
@@ -83,7 +83,7 @@ const frameIn = [
       {
         path: 'contest/:contestID/announcement',
         name: 'contest-announcement',
-        meta: { title: '竞赛公告' },
+        meta: { title: '竞赛公告', auth: true },
         component: _import('contest/ContestAnnouncement')
       },
       {

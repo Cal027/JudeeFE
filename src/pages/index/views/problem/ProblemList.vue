@@ -92,8 +92,11 @@
 </template>
 
 <script>
+import problemAPI from '@oj/api/oj.problem'
+
 const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' }, { value: 3, label: '中等' },
   { value: 4, label: '困难' }, { value: 5, label: '非常困难' }]
+
 export default {
   name: 'ProblemList',
   data () {
@@ -173,26 +176,26 @@ export default {
     },
     getProblems () {
       this.loadingTable = true
-      this.$api.problem.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
+      problemAPI.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
         this.tags, this.searchText, this.difficulty).then(response => {
-        for (let i = 0; i < response.data.results.length; i++) {
-          let ac = response.data.results[i]['accepted_number']
-          let sub = response.data.results[i]['submission_number']
-          response.data.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+        for (let i = 0; i < response.results.length; i++) {
+          let ac = response.results[i]['accepted_number']
+          let sub = response.results[i]['submission_number']
+          response.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
         }
-        this.tableData = response.data.results
-        this.problemNum = response.data.count
+        this.tableData = response.results
+        this.problemNum = response.count
         this.loadingTable = false
       })
     }
   },
   mounted () {
     this.getProblems()
-    this.$api.problem.getTags().then(response => {
-      for (let i = 0; i < response.data.count; i++) {
+    problemAPI.getTags().then(response => {
+      for (let i = 0; i < response.count; i++) {
         let tmp = {}
-        tmp.value = response.data.results[i].id
-        tmp.label = response.data.results[i].name
+        tmp.value = response.results[i].id
+        tmp.label = response.results[i].name
         this.tagNames.push(tmp)
       }
     })

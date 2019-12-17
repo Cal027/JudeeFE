@@ -28,7 +28,7 @@
 
 <script>
 import SquareBackground from '@oj/components/SquareBackground'
-import util from '@/utils/util'
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   components: { SquareBackground },
@@ -41,42 +41,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions('oj/account', [
+      'login'
+    ]),
     loginClick () {
-      this.$api.user.login({
+      this.login({
         username: this.loginForm.username,
         password: this.loginForm.password
-      }).then(response => {
-        if (response.data === 'userError') {
-          this.$message.error('用户名或邮箱未注册')
-          return
-        }
-        if (response.data === 'pwdError') {
-          this.$message.error('密码错误')
-          return
-        }
+      }).then(() => {
         this.$message({
-          message: '登录成功！',
+          message: '登录成功！返回之前页面',
           type: 'success'
         })
-        localStorage.setItem('JWT_TOKEN', response.data.token)
-        util.cookies.set('tokenOJ', response.data.token)
-        localStorage.setItem('username', response.data.username)
-        localStorage.setItem('nickname', response.data.nickname)
-        localStorage.setItem('type', response.data.type)
-        localStorage.setItem('ac_prob', response.data.ac_prob)
-        this.$api.user.setLoginData({
-          username: this.loginForm.username,
-          msg: this.$store.state.loginInfo
-        }).then(response => {
-          this.$router.push('/')
-          this.$router.go(0)
-        }).catch(error => {
-          this.$message.error(
-            '服务器错误！' + '(' + JSON.stringify(error.response.data) + ')'
-          )
-          localStorage.removeItem('JWT_TOKEN')
-          util.cookies.remove('tokenOJ')
-        })
+        this.$router.replace(this.$route.query.redirect || '/')
       })
     }
   }

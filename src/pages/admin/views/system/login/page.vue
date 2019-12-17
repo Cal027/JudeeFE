@@ -60,7 +60,7 @@
                 </el-button>
               </el-form>
             </el-card>
-            <p
+            <p v-if="false"
               class="page-login--options"
               flex="main:justify cross:center">
               <span><d2-icon name="question-circle"/> 忘记密码</span>

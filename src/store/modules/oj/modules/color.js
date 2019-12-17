@@ -21,7 +21,7 @@ export default {
         state.value = color || process.env.VUE_APP_ELEMENT_COLOR
         // 持久化
         await dispatch('oj/db/set', {
-          dbName: 'sys',
+          dbName: 'oj',
           path: 'color.value',
           value: state.value,
           user: true
@@ -45,7 +45,7 @@ export default {
         const old = state.value
         // store 赋值
         state.value = await dispatch('oj/db/get', {
-          dbName: 'sys',
+          dbName: 'oj',
           path: 'color.value',
           // defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
           // 修改默认为中环红

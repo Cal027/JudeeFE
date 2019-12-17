@@ -23,14 +23,14 @@
             <i class="iconfont j-icon-wiki-"/>教程
         </el-menu-item>
         <el-dropdown
-                v-show="loginShow"
+                v-show="info.username"
                 class="user"
                 type="text"
                 :show-timeout="100"
                 :split-button="true"
                 @click="handleClick"
                 @command="handleCommand">
-            <span class="el-dropdown-link">{{ nickname }}</span>
+            <span class="el-dropdown-link">{{ info.nickname }}</span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="home">主页</el-dropdown-item>
                 <el-dropdown-item command="submit">提交</el-dropdown-item>
@@ -40,10 +40,10 @@
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <router-link v-if="!loginShow" to="/register">
+        <router-link v-if="!info.username" to="/register">
             <el-button type="text" class="button">注册</el-button>
         </router-link>
-        <router-link v-if="!loginShow" to="/login">
+        <router-link v-if="!info.username" to="/login">
             <el-button type="text" class="button">登录</el-button>
         </router-link>
         <el-tooltip content="Judee主题色">
@@ -55,22 +55,25 @@
 
 <script>
 import ColorPicker from '@oj/components/ColorPicker'
-import util from '@/utils/util'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'NavBar',
   components: { ColorPicker },
+  computed: {
+    ...mapState('oj/user', [
+      'info'
+    ])
+  },
   data () {
     return {
-      isAdmin: true,
-      backShow: false,
-      nickname: localStorage.getItem('nickname'),
-      loginShow: localStorage.getItem('username'),
-      username: localStorage.getItem('username')
+      isAdmin: false,
+      backShow: false
     }
   },
   mounted () {
-    this.isAdmin = localStorage.getItem('type') !== '1'
+    console.log(this.info)
+    this.isAdmin = this.info.type !== '1'
   },
   watch: {
     $route (now) {
@@ -78,38 +81,29 @@ export default {
     }
   },
   methods: {
+    ...mapActions('oj/account', [
+      'logout'
+    ]),
     handleClick () {
       this.$router.push({
         name: 'user',
-        params: { username: localStorage.username }
+        params: { username: this.info.username }
       })
     },
     handleCommand (command) {
       if (command === 'logout') {
-        this.$message({
-          message: '注销成功！',
-          type: 'success'
-        })
-        localStorage.removeItem('JWT_TOKEN')
-        util.cookies.remove('tokenOJ')
-        localStorage.removeItem('username')
-        localStorage.removeItem('nickname')
-        localStorage.removeItem('ac_prob')
-
-        this.loginShow = 0
-        this.username = ''
-        this.$router.push('/')
+        this.logout()
       }
       if (command === 'home') {
         this.$router.push({
           name: 'user',
-          params: { username: localStorage.username }
+          params: { username: this.info.username }
         })
       }
       if (command === 'submit') {
         this.$router.push({
           name: 'status',
-          params: { username: localStorage.username }
+          params: { username: this.info.username }
         })
       }
     },
