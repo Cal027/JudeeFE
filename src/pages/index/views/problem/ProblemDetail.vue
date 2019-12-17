@@ -230,6 +230,9 @@ export default {
           language: this.language,
           code: this.code
         }
+        if (this.$route.params.contestID) {
+          data.contest = this.$route.params.contestID
+        }
         submitFunc(data)
       })
     }
