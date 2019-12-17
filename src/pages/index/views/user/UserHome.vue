@@ -44,7 +44,7 @@
                         <p class="emphasis">{{ userData.submit }}</p>
                     </el-col>
                     <el-col class="middle">
-                        <p>AC问题数</p>
+                        <p>AC次数</p>
                         <p class="emphasis">{{ userData.ac }}</p>
                     </el-col>
                     <el-col class="middle">
@@ -115,7 +115,6 @@ export default {
       this.userData.ac = response.data['ac']
       this.userData.submit = response.data['submit']
       this.userData.score = response.data['score']
-      this.userData.ranking = response.data['ranking']
       if (response.data['ac_prob'] !== '') {
         this.userData.ac_prob = response.data['ac_prob'].split('|')
         // 删除最后一个空值

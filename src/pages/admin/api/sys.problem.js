@@ -28,7 +28,7 @@ export default {
     })
   },
   getProblemList (limit, offset, searchText) {
-    let url = `/problem/?limit=${limit}&offset=${offset}&is_public=True`
+    let url = `/problem/?limit=${limit}&offset=${offset}`
     if (searchText !== '') {
       url += `&search=${searchText}`
     }

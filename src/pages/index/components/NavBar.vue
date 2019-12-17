@@ -34,6 +34,8 @@
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="home">主页</el-dropdown-item>
                 <el-dropdown-item command="submit">提交</el-dropdown-item>
+                <el-dropdown-item command="updateRanking">更新个人排名</el-dropdown-item>
+
                 <el-link href="/admin" v-show="isAdmin" :underline="false">
                     <el-dropdown-item>管理</el-dropdown-item>
                 </el-link>
@@ -56,6 +58,7 @@
 <script>
 import ColorPicker from '@oj/components/ColorPicker'
 import { mapActions, mapState } from 'vuex'
+import userAPI from '@oj/api/oj.user'
 
 export default {
   name: 'NavBar',
@@ -104,6 +107,15 @@ export default {
           name: 'status',
           params: { username: this.info.username }
         })
+      }
+      if (command === 'updateRanking') {
+        userAPI.updateRanking().then(res => {
+          this.$message({
+            message: '更新成功，当前排名' + (res + 1),
+            type: 'success'
+          })
+        }
+        )
       }
     },
     handleBack () {

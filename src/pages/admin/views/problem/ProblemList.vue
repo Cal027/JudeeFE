@@ -38,8 +38,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="created_by" label="作者"/>
-                <el-table-column prop="rate" label="正确率" :width="80" align="center"/>
-                <el-table-column prop="submission_number" label="提交数" :width="100" align="center"/>
+                <el-table-column prop="rate" label="通过率" :width="80" align="center"/>
+                <el-table-column prop="submission_number" label="提交人数" :width="100" align="center"/>
                 <el-table-column prop="total_score" label="分数" :width="80" align="center"/>
                 <el-table-column fixed="right" label="操作" width="200" align="center">
                     <template slot-scope="scope">

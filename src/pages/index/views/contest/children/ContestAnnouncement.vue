@@ -19,8 +19,10 @@ export default {
   methods: {
     getAnnouncement () {
       this.loading = true
+      // FIXME Property or method "results" is not defined on the instance but referenced during render. Make sure that this property is reactive, either in the data option, or for class-based components, by initializing the property.
       contestAPI.getContestAnnouncement(this.contestID).then(res => {
-        this.announcements = res.results
+        console.log(res)
+        this.announcements = res['results']
         this.loading = false
       })
     }

@@ -56,7 +56,7 @@
                 </el-table-column>
                 <el-table-column prop="problem" label="题目编号" width="80px" align="center">
                     <template slot-scope="scope">
-                        <router-link :to="'/problem/'+scope.row.problem">{{scope.row.problem}}</router-link>
+                        <router-link :to="'/problem/'+scope.row.problem">{{scope.row.name?scope.row.name:scope.row.problem}}</router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="username" label="用户" align="center">
@@ -213,8 +213,8 @@ export default {
       this.myself = true
     }
     this.isProblem = this.$route.name === 'ProblemSubmissions'
-    console.log(this.contestID)
     this.getSubmissionList()
+    console.log(this.tableData)
   }
 }
 </script>

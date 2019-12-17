@@ -2,7 +2,12 @@ import request from '@/plugin/axiosOJ'
 
 export default {
   getSubmissionList (limit, offset, username, language, problem, result, myself, contest = '') {
-    let url = `/submission/?limit=${limit}&offset=${offset}`
+    let url = ``
+    if (contest !== '') {
+      url += `/contest-submission/?limit=${limit}&offset=${offset}&contest=${contest}`
+    } else {
+      url += `/submission/?limit=${limit}&offset=${offset}`
+    }
     if (username !== '') {
       url += `&username=${username}`
     }
@@ -17,9 +22,6 @@ export default {
     }
     if (myself) {
       url += '&myself=true'
-    }
-    if (contest !== '') {
-      url += `&contest=${contest}`
     }
     return request({
       url: url,

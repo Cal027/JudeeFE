@@ -73,8 +73,8 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="rate" label="正确率" :width="80"/>
-                <el-table-column prop="submission_number" label="提交数" :width="100"/>
+                <el-table-column prop="rate" label="通过率" :width="80"/>
+                <el-table-column prop="submission_number" label="提交人数" :width="100"/>
                 <el-table-column prop="total_score" label="分数" :width="80"/>
             </el-table>
             <div style="text-align: center; margin-top: 20px">

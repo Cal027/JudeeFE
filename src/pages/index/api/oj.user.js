@@ -16,6 +16,12 @@ export default {
   },
   changePwd (data) {
     return request.put('/change_pwd', data)
+  },
+  updateRanking () {
+    return request({
+      url: `/update-ranking/`,
+      method: 'get'
+    })
   }
 }
 
