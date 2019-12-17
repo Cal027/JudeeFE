@@ -28,6 +28,10 @@ function resolveTime (time) {
   return moment(time).format('YYYY-MM-DD HH:mm')
 }
 
+function getLocal () {
+  return moment()
+}
+
 function resolveTimes (time) {
   return moment(time).format('YYYY-MM-DD HH:mm:ss')
 }
@@ -49,5 +53,6 @@ export default {
   secondFormat: secondFormat,
   resolveTime: resolveTime,
   resolveTimes: resolveTimes,
-  compareTime: compareTime
+  compareTime: compareTime,
+  getLocal: getLocal
 }

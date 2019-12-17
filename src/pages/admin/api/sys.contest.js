@@ -14,6 +14,13 @@ export default {
       method: 'get'
     })
   },
+  editContest (id, data) {
+    return request({
+      url: `/contest/${id}/`,
+      method: 'put',
+      data
+    })
+  },
   deleteContest (id) {
     return request({
       url: `/contest/${id}`,
@@ -35,6 +42,33 @@ export default {
       url: `/contest/${cid}/add-problem/`,
       method: 'post',
       data
+    })
+  },
+  // 公告相关
+  getContestAnnouncement (id) {
+    return request({
+      url: `/contest-announcement/?contest=${id}`,
+      method: 'get'
+    })
+  },
+  updateAnnouncement (id, data) {
+    return request({
+      url: `/contest-announcement/${id}/`,
+      method: 'put',
+      data
+    })
+  },
+  addAnnouncement (data) {
+    return request({
+      url: `/contest-announcement/`,
+      method: 'post',
+      data
+    })
+  },
+  deleteAnnouncement (id) {
+    return request({
+      url: `/contest-announcement/${id}`,
+      method: 'delete'
     })
   }
 }

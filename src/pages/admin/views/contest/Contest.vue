@@ -52,7 +52,7 @@
                     </el-row>
                 </div>
             </el-form-item>
-            <el-button round type="success" style="float:right;" @click="submitContest">添加竞赛</el-button>
+            <el-button round type="success" style="float:right;" @click="submitContest">{{btnTitle}}</el-button>
         </el-form>
 
     </d2-container>
@@ -77,6 +77,7 @@ export default {
         title: '添加竞赛',
         subTitle: '在这里可以添加OJ竞赛'
       },
+      btnTitle: '添加竞赛',
       form: {
         title: '',
         description: '',
@@ -97,8 +98,7 @@ export default {
   },
   methods: {
     submitContest () {
-      console.log(this.form.start_time)
-      this.$confirm('是否确认提交竞赛？', '提示', {
+      this.$confirm(`是否确认${this.btnTitle}？`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -113,15 +113,25 @@ export default {
               }
             }
             data.allowed_ip_ranges = ranges
-            ContestAPI.addContest(data).then(res => {
-              console.log(res)
-              this.$message({
-                message: '添加竞赛信息成功！',
-                type: 'success'
+            if (this.disableRule) {
+              delete data.is_pwd
+              delete data.id
+              ContestAPI.editContest(this.$route.params.contestID, data).then(_ => {
+                this.$message({
+                  message: '修改竞赛信息成功！',
+                  type: 'success'
+                })
               })
-            })
+            } else {
+              ContestAPI.addContest(data).then(_ => {
+                this.$message({
+                  message: '添加竞赛信息成功！',
+                  type: 'success'
+                })
+              })
+            }
           } else {
-            this.$message.error('添加失败!')
+            this.$message.error('提交失败!')
             return false
           }
         })
@@ -149,11 +159,14 @@ export default {
     if (this.$route.name === 'edit-contest') {
       this.banner.title = '修改竞赛'
       this.banner.subTitle = '在这里可以修改OJ竞赛'
+      this.btnTitle = '修改竞赛'
       this.disableRule = true
       ContestAPI.getContest(this.$route.params.contestID).then(res => {
         this.form = res
-        if (this.form.allowed_ip_ranges.length === 0) { this.form.allowed_ip_ranges = [{ value: '' }] }
-      }).catch(() => {})
+        if (this.form.allowed_ip_ranges.length === 0) {
+          this.form.allowed_ip_ranges = [{ value: '' }]
+        }
+      })
     }
   }
 }

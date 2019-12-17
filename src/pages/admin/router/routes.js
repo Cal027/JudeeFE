@@ -81,6 +81,12 @@ const frameIn = [
         component: _import('problem/ProblemList')
       },
       {
+        path: 'contest/:contestID/announcement',
+        name: 'contest-announcement',
+        meta: { title: '竞赛公告' },
+        component: _import('contest/ContestAnnouncement')
+      },
+      {
         path: 'contest/:contestID/problem/create',
         name: 'create-contest-problem',
         meta: {

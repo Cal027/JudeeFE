@@ -38,6 +38,11 @@
                             <el-button circle size="small" icon="el-icon-edit"
                                        @click="editContest(scope.row.id,scope.row.created_by)"/>
                         </el-tooltip>
+                        <el-tooltip content="管理公告">
+                            <el-button circle size="small" @click="goAnnouncement(scope.row.id)">
+                                <d2-icon name="bullhorn"/>
+                            </el-button>
+                        </el-tooltip>
                         <el-tooltip content="查看竞赛题目">
                             <el-button circle size="small" icon="el-icon-postcard"
                                        @click="goContestProblems(scope.row.id)"/>
@@ -119,6 +124,9 @@ export default {
     },
     goContestProblems (id) {
       this.$router.push({ name: 'contest-problem-list', params: { contestID: id } })
+    },
+    goAnnouncement (id) {
+      this.$router.push({ name: 'contest-announcement', params: { contestID: id } })
     },
     deleteContest (id) {
       this.$confirm('确认删除竞赛？相关数据将被清除', '删除问题', {
