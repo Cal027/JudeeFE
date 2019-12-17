@@ -17,9 +17,13 @@ export default {
   changePwd (data) {
     return request.put('/change_pwd', data)
   },
-  updateRanking () {
+  updateRanking (username) {
+    let url = `/update-ranking/`
+    if (username !== '') {
+      url += `?username=${username}`
+    }
     return request({
-      url: `/update-ranking/`,
+      url: url,
       method: 'get'
     })
   }
