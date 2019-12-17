@@ -5,14 +5,13 @@ export default {
     return request.post('/register/', data)
   },
   getUserInfo (username) {
-    return request.get(`userdata/${username}`)
+    return request.get(`/user/${username}`)
+  },
+  getUserData (username) {
+    return request.get(`/userdata/${username}`)
   },
   updateUserProfile (username, newProfile) {
-    return request({
-      url: `/change_profile/${username}/`,
-      method: 'put',
-      newProfile
-    })
+    return request.put(`/change_profile/${username}/`, newProfile)
   },
   changePwd (data) {
     return request.put('/change_pwd', data)

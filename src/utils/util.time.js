@@ -25,7 +25,11 @@ function secondFormat (seconds) {
 }
 
 function resolveTime (time) {
-  return moment(time).format('YYYY-MM-DD HH:mm')
+  if (time) {
+    return moment(time).format('YYYY-MM-DD HH:mm')
+  } else {
+    return '-'
+  }
 }
 
 function getLocal () {
@@ -33,7 +37,11 @@ function getLocal () {
 }
 
 function resolveTimes (time) {
-  return moment(time).format('YYYY-MM-DD HH:mm:ss')
+  if (time) {
+    return moment(time).format('YYYY-MM-DD HH:mm:ss')
+  } else {
+    return '-'
+  }
 }
 
 function compareTime (begin, end) {

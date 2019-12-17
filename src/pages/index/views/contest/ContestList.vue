@@ -147,12 +147,6 @@ export default {
         this.contestNum = res.count
         this.contests = res.results
         this.loading = false
-      }).catch(error => {
-        this.$message.error(error.message)
-        if (error.response.status === 401) {
-          this.$router.push({ name: 'login' })
-        }
-        this.loading = false
       })
     },
     getDuration (startTime, endTime) {

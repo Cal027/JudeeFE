@@ -135,9 +135,9 @@ export default {
   async created () {
     // 异步加载当前主题色
     this.themeColor = await this.$store.dispatch('oj/db/get', {
-      dbName: 'sys',
+      dbName: 'oj',
       path: 'color.value',
-      defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+      defaultValue: process.env.VUE_APP_COLOR,
       user: true
     })
   }

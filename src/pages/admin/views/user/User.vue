@@ -38,8 +38,16 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="email" label="Email"/>
-                <el-table-column prop="last_login" label="最后登录"/>
-                <el-table-column prop="register_time" label="注册时间"/>
+                <el-table-column label="最后登录">
+                    <template slot-scope="scope">
+                        {{resolveTime(scope.row.last_login)}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="注册时间">
+                    <template slot-scope="scope">
+                        {{resolveTime(scope.row.register_time)}}
+                    </template>
+                </el-table-column>
                 <el-table-column prop="qq_number" label="QQ号码"/>
                 <el-table-column prop="github_username" label="Github用户名"/>
                 <el-table-column prop="phone_number" label="手机号码"/>
@@ -127,6 +135,7 @@
 <script>
 import userAPI from '@admin/api/sys.user'
 import * as clipboard from 'clipboard-polyfill'
+import util from '@/utils/util'
 
 const typeMap = ['用户', '普通管理员', '超级管理员']
 const typeColor = ['info', '', 'warning']
@@ -171,6 +180,9 @@ export default {
     },
     openUserDialog (id) {
 
+    },
+    resolveTime (time) {
+      return util.time.resolveTime(time)
     },
     getUserList () {
       this.loadingTable = true

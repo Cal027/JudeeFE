@@ -60,7 +60,10 @@
                 <el-divider content-position="center">个人简介</el-divider>
                 <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了'}}</div>
                 <el-divider content-position="center">通过题目 ({{userData.ac_prob.length}}道)</el-divider>
-                <el-tag class="click" v-for="item in userData.ac_prob" v-bind:key="item" @click="clickProblem(item)">{{ item }}</el-tag>
+                <el-tag class="click"
+                        v-for="item in userData.ac_prob" :key="item"
+                        @click="clickProblem(item)">{{item}}
+                </el-tag>
             </el-card>
         </div>
     </div>
@@ -70,14 +73,20 @@
 import * as clipboard from 'clipboard-polyfill'
 import SquareBackground from '@oj/components/SquareBackground'
 import util from '@/utils/util'
+import userAPI from '@oj/api/oj.user'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Profile',
   components: { SquareBackground },
+  computed: {
+    ...mapState('oj/user', [
+      'info'
+    ])
+  },
   data () {
     return {
       avatarUrl: `/image/default.png`,
-      // avatarUrl: require('/image/default.png'),
       username: '',
       profile: {},
       userData: {
@@ -94,12 +103,12 @@ export default {
       isShowEdit: false
     }
   },
-  created () {
+  mounted () {
     this.username = this.$route.params.username
     util.title(this.username)
-    this.isShowEdit = localStorage.getItem('username') === this.username
-    this.$api.user.getUserInfo(this.username).then(response => {
-      this.profile = response.data
+    this.isShowEdit = this.info.username === this.username
+    userAPI.getUserInfo(this.username).then(res => {
+      this.profile = res
       if (this.profile.qq_number) {
         this.qq = this.profile.qq_number
       }
@@ -110,17 +119,23 @@ export default {
         this.phone_number = this.profile.phone_number
       }
     })
-    this.$api.user.getUserData(this.username).then(response => {
-      this.userData.username = response.data['username']
-      this.userData.ac = response.data['ac']
-      this.userData.submit = response.data['submit']
-      this.userData.score = response.data['score']
-      if (response.data['ac_prob'] !== '') {
-        this.userData.ac_prob = response.data['ac_prob'].split('|')
+    userAPI.getUserData(this.username).then(res => {
+      this.userData.username = res.username
+      this.userData.ac = res.ac
+      this.userData.submit = res.submit
+      this.userData.score = res.score
+      this.userData.ranking = res.ranking
+      if (res.ac_prob) {
+        this.userData.ac_prob = res.ac_prob.split('|')
         // 删除最后一个空值
         this.userData.ac_prob.splice(-1, 1)
       }
-      if (this.isShowEdit) { localStorage.setItem('ac_prob', response.data['ac_prob']) }
+      if (this.isShowEdit) {
+        let info = Object.assign({}, this.info)
+        info.ac_prob = res.ac_prob
+        this.$store.dispatch('oj/user/set', info, { root: true })
+        localStorage.setItem('ac_prob', res.ac_prob)
+      }
     })
   },
   methods: {
@@ -194,6 +209,11 @@ export default {
             border-right: 1px solid #DCDFE6;
         }
     }
-    .click{cursor:pointer;}
+
+    .click {
+        cursor: pointer;
+        margin-bottom: 3px;
+        margin-right: 5px;
+    }
 
 </style>

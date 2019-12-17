@@ -130,6 +130,11 @@ export default {
       this.type = this.results[this.detail.result + 2].type
       this.msg = this.results[this.detail.result + 2].msg
       load.close()
+    }).catch(err => {
+      if (err.response.status === 403) {
+        load.close()
+        this.$router.back()
+      }
     })
   }
 }

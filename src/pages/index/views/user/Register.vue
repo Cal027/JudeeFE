@@ -40,10 +40,10 @@
           </el-form-item>
         </el-form>
         <el-row>
-          <el-button class="butt" @click="resetForm('regForm')">重 置</el-button>
+          <el-button class="butt" @click="resetForm">重 置</el-button>
         </el-row>
         <el-row>
-          <el-button type="primary" class="butt" @click="registerClick('regForm')">注 册</el-button>
+          <el-button type="primary" class="butt" @click="registerClick">注 册</el-button>
         </el-row>
       </el-card>
       <p class="signin">
@@ -56,6 +56,8 @@
 
 <script>
 import SquareBackground from '@oj/components/SquareBackground'
+import userAPI from '@oj/api/oj.user'
+
 export default {
   name: 'Register',
   components: { SquareBackground },
@@ -116,20 +118,20 @@ export default {
     }
   },
   methods: {
-    registerClick (formName) {
-      this.$refs[formName].validate((valid) => {
+    registerClick () {
+      this.$refs.regForm.validate((valid) => {
         if (valid) {
-          this.$api.user.register({
+          userAPI.register({
             username: this.regForm.username,
             password: this.regForm.password,
             nickname: this.regForm.nickname,
             email: this.regForm.email
-          }).then(response => {
-            if (response.data === 'userError') {
+          }).then(res => {
+            if (res === 'userError') {
               this.$message.error('用户名已存在！')
               return
             }
-            if (response.data === 'emailError') {
+            if (res === 'emailError') {
               this.$message.error('邮箱已存在！')
               return
             }
@@ -137,12 +139,8 @@ export default {
               message: '注册成功！',
               type: 'success'
             })
-            this.resetForm('regForm')
+            this.resetForm()
             this.$router.push('/login')
-          }).catch(Error => {
-            this.$message.error(
-              '服务器错误！' + '(' + JSON.stringify(Error.response.data) + ')'
-            )
           })
         } else {
           this.$message.error('注册失败!')
@@ -150,8 +148,8 @@ export default {
         }
       })
     },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
+    resetForm () {
+      this.$refs.regForm.resetFields()
     }
   }
 }
@@ -175,7 +173,6 @@ export default {
   }
 
   .butt {
-    margin-top: 15px;
     width: 100%;
   }
 

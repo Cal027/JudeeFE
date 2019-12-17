@@ -28,7 +28,7 @@
               placeholder="请再次输入密码"/>
           </el-form-item>
         </el-form>
-        <el-button class="button" type="primary" @click="updateClick('form')">更新</el-button>
+        <el-button class="button" type="primary" @click="updateClick">更新</el-button>
       </el-card>
     </el-main>
   </el-container>
@@ -36,6 +36,8 @@
 
 <script>
 import SquareBackground from '@oj/components/SquareBackground'
+import userAPI from '@oj/api/oj.user'
+
 export default {
   name: 'PasswordSetting',
   components: { SquareBackground },
@@ -64,9 +66,7 @@ export default {
       }
     }
     return {
-      username: localStorage.username,
       form: {
-        username: '',
         password: '',
         new_password: '',
         confirm: ''
@@ -77,12 +77,9 @@ export default {
       }
     }
   },
-  created () {
-    this.form.username = localStorage.username
-  },
   methods: {
-    updateClick (formName) {
-      this.$refs[formName].validate((valid) => {
+    updateClick () {
+      this.$refs.form.validate((valid) => {
         if (valid) {
           this.$confirm(
             '确定更新吗?',
@@ -92,18 +89,15 @@ export default {
               type: 'warning'
             }
           ).then(() => {
-            // FIXME 修改密码API
-            var pass = this.form.password
-            var newPass = this.form.new_password
-            this.$api.user.changePwd({
-              password: pass,
-              new_password: newPass
-            }).then(response => {
-              if (response.data === 'userError') {
+            userAPI.changePwd({
+              password: this.form.password,
+              new_password: this.form.new_password
+            }).then(res => {
+              if (res === 'userError') {
                 this.$message.error('非法访问！')
                 return
               }
-              if (response.data === 'pwdError') {
+              if (res === 'pwdError') {
                 this.$message.error('原密码不一致！')
                 return
               }
@@ -111,7 +105,7 @@ export default {
                 message: '修改密码成功！',
                 type: 'success'
               })
-              this.$router.go(-1)
+              this.$router.back()
             })
           })
         } else {

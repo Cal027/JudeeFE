@@ -119,15 +119,21 @@
 <script>
 import * as clipboard from 'clipboard-polyfill'
 import CodeMirror from '@oj/components/CodeMirror.vue'
-import api from '@oj/api/oj.problem'
+import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
 import VeRing from 'v-charts/lib/ring.common'
+import { mapState } from 'vuex'
 
 export default {
   name: 'ProblemDetail',
   components: {
     CodeMirror,
     VeRing
+  },
+  computed: {
+    ...mapState('oj/user', [
+      'info'
+    ])
   },
   data () {
     return {
@@ -173,14 +179,14 @@ export default {
     },
     getProblem (id) {
       let load = this.$loading()
-      this.$api.problem.getProblem(id)
-        .then(response => {
+      problemAPI.getProblem(id)
+        .then(res => {
           load.close()
-          this.problemDetail = response.data
+          this.problemDetail = res
           this.language = this.problemDetail.languages[0]
           this.getPercent()
-          Object.keys(response.data.statistic_info).forEach(key => {
-            this.chartData.rows.push({ 'status': key, 'number': response.data.statistic_info[key] })
+          Object.keys(res.statistic_info).forEach(key => {
+            this.chartData.rows.push({ 'status': key, 'number': res.statistic_info[key] })
           })
           util.title(this.problemDetail.title)
         })
@@ -204,7 +210,7 @@ export default {
         return
       }
       const submitFunc = (data) => {
-        api.submitCode(data).then(res => {
+        problemAPI.submitCode(data).then(res => {
           this.submissionId = res
           this.$message({
             message: '提交代码成功！',
@@ -240,16 +246,16 @@ export default {
   mounted () {
     this.notContest = this.$route.name !== 'Contest-problem-detail'
     this.getProblem(this.$route.params.id)
-    if (localStorage.getItem('ac_prob').indexOf(this.$route.params.id + '|')) {
+    if (this.info.ac_prob && this.info.ac_prob.indexOf(this.$route.params.id + '|')) {
       this.isPassed = '已通过'
     }
   },
   async created () {
     // 异步加载当前主题色
     this.themeColor = await this.$store.dispatch('oj/db/get', {
-      dbName: 'sys',
+      dbName: 'oj',
       path: 'color.value',
-      defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+      defaultValue: process.env.VUE_APP_COLOR,
       user: true
     })
   }

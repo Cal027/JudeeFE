@@ -1,6 +1,11 @@
 <template>
     <d2-container>
         <d2-module-index-banner v-bind="banner"/>
+        <el-card v-if="announcements.length===0">
+            <div slot="header" class="title">
+                <span>暂无公告</span>
+            </div>
+        </el-card>
         <el-card v-for="(item,index) in announcements" class="container"
                  :key="index" :name="index">
             <div slot="header" class="title">
@@ -39,7 +44,7 @@
 
         <div class="float-button">
             <el-tooltip content="添加公告">
-                <el-button @click="goAdd" type="primary" circle icon="el-icon-plus" size="small"/>
+                <el-button @click="goAdd" type="primary" circle icon="el-icon-plus" size="medium"/>
             </el-tooltip>
         </div>
     </d2-container>
@@ -111,6 +116,7 @@ export default {
             message: '添加公告成功！'
           })
           this.getAnnouncement()
+          this.showDialog = false
         })
       }).catch(() => {
         this.$message({
@@ -130,6 +136,7 @@ export default {
             type: 'success',
             message: '删除公告成功！'
           })
+          this.getAnnouncement()
         })
       }).catch(() => {
         this.$message({
@@ -186,8 +193,8 @@ export default {
 
     .float-button {
         position: fixed;
-        right: 40px;
-        bottom: 20px;
+        right: 45px;
+        bottom: 25px;
 
         .el-button {
             box-shadow: 0 3px 9px 2px #BFBFBF;

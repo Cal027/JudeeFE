@@ -29,7 +29,7 @@
             <el-input v-model="form.github_username" placeholder="还没留下Github用户名"/>
           </el-form-item>
         </el-form>
-        <el-button class="button" type="primary" @click="updateClick('form')">更新</el-button>
+        <el-button class="button" type="primary" @click="updateClick">更新</el-button>
       </el-card>
     </el-main>
   </el-container>
@@ -37,9 +37,17 @@
 
 <script>
 import SquareBackground from '@oj/components/SquareBackground'
+import userAPI from '@oj/api/oj.user'
+import { mapState } from 'vuex'
+
 export default {
   name: 'ProfileSetting',
   components: { SquareBackground },
+  computed: {
+    ...mapState('oj/user', [
+      'info'
+    ])
+  },
   data () {
     var checkQQ = (rule, value, callback) => {
       var qqPattern = /^[1-9][0-9]{4,10}$/
@@ -62,8 +70,6 @@ export default {
       }, 100)
     }
     return {
-      username: localStorage.username,
-      avatarUrl: 'image/default.png',
       form: {
         nickname: '',
         desc: '',
@@ -80,23 +86,23 @@ export default {
       }
     }
   },
-  created () {
-    if (this.username) {
-      this.$api.user.getUserInfo(localStorage.username).then(response => {
-        this.form.nickname = response.data.nickname
-        this.form.desc = response.data.desc
-        this.form.qq_number = response.data.qq_number
-        this.form.phone_number = response.data.phone_number
-        this.form.github_username = response.data.github_username
+  mounted () {
+    if (this.info.username) {
+      userAPI.getUserInfo(this.info.username).then(res => {
+        this.form.nickname = res.nickname
+        this.form.desc = res.desc
+        this.form.qq_number = res.qq_number
+        this.form.phone_number = res.phone_number
+        this.form.github_username = res.github_username
       })
     }
   },
 
   methods: {
-    updateClick (formName) {
-      this.$refs[formName].validate((valid) => {
+    updateClick () {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          if (!this.username) {
+          if (!this.info.username) {
             this.$message.error('非法访问！')
             return
           }
@@ -108,18 +114,13 @@ export default {
               type: 'warning'
             }
           ).then(() => {
-            console.log(this.form)
-            this.$api.user.updateUserProfile(this.username, this.form)
-              .then(response => {
+            userAPI.updateUserProfile(this.info.username, this.form)
+              .then(_ => {
                 this.$message({
                   message: '修改个人信息成功！',
                   type: 'success'
                 })
-                this.$router.go(-1)
-              }).catch(Error => {
-                this.$message.error(
-                  '服务器错误！ (' + Error.response.data.detail + ')'
-                )
+                this.$router.back()
               })
           })
         } else {
