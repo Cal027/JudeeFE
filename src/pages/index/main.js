@@ -93,7 +93,6 @@ try {
 
 new Vue({
   router,
-  el: '#app',
   store,
   render: h => h(App),
   mounted () {
