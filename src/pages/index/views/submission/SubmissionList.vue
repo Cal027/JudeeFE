@@ -214,7 +214,7 @@ export default {
     }
     this.isProblem = this.$route.name === 'ProblemSubmissions'
     this.getSubmissionList()
-    console.log(this.tableData)
+    // console.log(this.tableData)
   }
 }
 </script>

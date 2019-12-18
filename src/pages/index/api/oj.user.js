@@ -18,7 +18,7 @@ export default {
   },
   updateRanking (username) {
     let url = `/update-ranking/`
-    if (username !== '') {
+    if (username) {
       url += `?username=${username}`
     }
     return request({

@@ -59,13 +59,13 @@ const routes = [
   {
     path: '/problem',
     name: 'ProblemList',
-    meta: { title: '题目列表', auth: true },
+    meta: { title: '题目列表' },
     component: _import('problem/ProblemList')
   },
   {
     path: '/problem/:id',
     name: 'ProblemDetail',
-    meta: { title: '题目详情', auth: true },
+    meta: { title: '题目详情' },
     component: _import('problem/ProblemDetail'),
     children: [
       {
@@ -139,6 +139,12 @@ const routes = [
     name: 'submission-detail',
     meta: { title: '评测详情', auth: true },
     component: _import('submission/SubmissionDetail')
+  },
+  {
+    path: '/rank',
+    name: 'rank',
+    meta: { title: '排名' },
+    component: _import('rank/Rank')
   }
 ]
 

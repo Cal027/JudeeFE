@@ -124,7 +124,8 @@ export default {
       this.userData.ac = res.ac
       this.userData.submit = res.submit
       this.userData.score = res.score
-      this.userData.ranking = res.ranking
+      this.userData.ranking = res.ranking + 1
+      // this.userData.ranking = res.ranking
       if (res.ac_prob) {
         this.userData.ac_prob = res.ac_prob.split('|')
         // 删除最后一个空值
@@ -135,6 +136,10 @@ export default {
         info.ac_prob = res.ac_prob
         this.$store.dispatch('oj/user/set', info, { root: true })
         localStorage.setItem('ac_prob', res.ac_prob)
+        userAPI.updateRanking().then(res => {
+          this.userData.ranking = res + 1
+          this.$message.success('更新排名成功！')
+        })
       }
     })
   },
