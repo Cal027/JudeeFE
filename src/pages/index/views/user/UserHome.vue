@@ -59,6 +59,11 @@
                 <!--                FIXME 美化效果-->
                 <el-divider content-position="center">个人简介</el-divider>
                 <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了'}}</div>
+                <ve-line :data="chartData" :settings="                {
+                axisSite: { right: ['rate'] },
+                yAxisType: ['normal', 'percent'],
+                yAxisName: ['次数', '比率']
+                }"/>
                 <el-divider content-position="center">通过题目 ({{userData.ac_prob.length}}道)</el-divider>
                 <el-tag class="click"
                         v-for="item in userData.ac_prob" :key="item"
@@ -75,10 +80,11 @@ import SquareBackground from '@oj/components/SquareBackground'
 import util from '@/utils/util'
 import userAPI from '@oj/api/oj.user'
 import { mapState } from 'vuex'
+import VeLine from 'v-charts/lib/line.common'
 
 export default {
   name: 'Profile',
-  components: { SquareBackground },
+  components: { SquareBackground, VeLine },
   computed: {
     ...mapState('oj/user', [
       'info'
@@ -86,6 +92,7 @@ export default {
   },
   data () {
     return {
+      chartData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
       avatarUrl: `/image/default.png`,
       username: '',
       profile: {},
@@ -142,6 +149,7 @@ export default {
         })
       }
     })
+    this.getStatisticInfo(7)
   },
   methods: {
     copyText (text) {
@@ -155,6 +163,12 @@ export default {
       this.$router.push({
         name: 'ProblemDetail',
         params: { id: problem }
+      })
+    },
+    getStatisticInfo (offset) {
+      userAPI.getStatisticInfo(this.username, offset).then(res => {
+        this.chartData.rows = res
+        console.log(res)
       })
     }
   }

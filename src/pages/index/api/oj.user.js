@@ -25,6 +25,16 @@ export default {
       url: url,
       method: 'get'
     })
+  },
+  getStatisticInfo (username, offset) {
+    let url = `/statistics/?username=${username}`
+    if (offset) {
+      url += `&offset=${offset}`
+    }
+    return request({
+      url: url,
+      method: 'get'
+    })
   }
 }
 
