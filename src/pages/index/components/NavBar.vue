@@ -39,9 +39,9 @@
                         管理
                     </el-dropdown-item>
                 </el-link>
-                <el-dropdown-item>
+                <el-dropdown-item class="picker">
                     主题色
-                    <ColorPicker style="margin-left: -40px"/>
+                    <ColorPicker/>
                 </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
@@ -158,7 +158,7 @@ export default {
 
     .back-button {
         float: right;
-        padding: 6px!important;
+        padding: 6px !important;
         font-size: 16px;
         background-color: transparent;
         margin-top: 16px;
@@ -173,5 +173,19 @@ export default {
     .iconfont {
         font-size: 18px;
         margin-right: 5px
+    }
+</style>
+
+<style lang="less">
+    .picker{
+        .el-color-picker--mini .el-color-picker__trigger {
+            filter: opacity(0);
+            padding: 0;
+            margin-bottom: -10px;
+            margin-left: -65px;
+            height: 30px;
+            border: none;
+            width: 90px;
+        }
     }
 </style>

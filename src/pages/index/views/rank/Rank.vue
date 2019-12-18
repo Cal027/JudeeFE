@@ -1,15 +1,15 @@
 <template>
-    <el-card v-loading="loading">
-        <el-row :gutter="15">
-            <el-carousel :autoplay="false" arrow="never" trigger="click" type="card">
-                <el-carousel-item v-for="(item,index) in carouselData" :key="index">
+    <div class="container">
+        <el-carousel autoplay arrow="hover" type="card" height="200px" :interval="5000">
+            <el-carousel-item v-for="(item,index) in carouselData" :key="index">
+                <div  class="content">
                     <h2>{{ item.username }}</h2>
-                    <h2>得分：{{ item.score }}</h2>
-                </el-carousel-item>
-            </el-carousel>
-        </el-row>
-        <el-row>
-            <el-table :data="tableData" @cell-click="userClick" size="small">
+                    <h3>得分：{{ item.score }}</h3>
+                </div>
+            </el-carousel-item>
+        </el-carousel>
+        <el-card>
+            <el-table :data="tableData" @cell-click="userClick" size="medium">
                 <el-table-column prop="ranking" label="排名"/>
                 <el-table-column prop="username" label="用户名"/>
                 <el-table-column prop="score" label="分数"/>
@@ -17,17 +17,19 @@
                 <el-table-column prop="submit" label="提交次数"/>
                 <el-table-column prop="rate" label="通过率"/>
             </el-table>
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                    :page-sizes="[10, 20, 30, 50]"
-                    :page-size="pageSize"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="totalUser"
-            />
-        </el-row>
-    </el-card>
+            <div style="text-align: center; margin-top: 20px">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 30, 50]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="totalUser"
+                />
+            </div>
+        </el-card>
+    </div>
 </template>
 
 <script>
@@ -88,5 +90,32 @@ export default {
 </script>
 
 <style scoped>
+    .container {
+        margin: 0 auto;
+        width: 80%;
+    }
 
+    .content{
+        margin-top: 50px;
+        text-align: center;
+    }
+    .el-carousel {
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    .el-carousel__item {
+        opacity: 0.8;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #EFEFEF ;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #F0F2F5;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+
+    }
 </style>
