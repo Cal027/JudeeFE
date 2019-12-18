@@ -102,28 +102,32 @@ export default {
       console.log(err)
       // this.$message.error(err)
       // this.$router.back()
+      // let that = this
       this.$prompt('竞赛受保护，请输入密码加入竞赛', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        closeOnClickModal: false
-      }).then(({ value }) => {
-        ContestAPI.joinContestWithPwd(this.ID, value).then(res => {
-          this.contestDetail = res
-          util.title(this.contestDetail.title)
-          this.$message({
-            type: 'success',
-            message: '成功加入竞赛'
-          })
-        }).catch(err => {
-          this.$message({
-            type: 'error',
-            message: err.response.data
-          })
-          this.$router.back()
-        })
-      }).catch(() => {
-        this.$router.back()
-      })
+        closeOnClickModal: false,
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            ContestAPI.joinContestWithPwd(this.ID, instance.inputValue).then(res => {
+              this.contestDetail = res
+              util.title(this.contestDetail.title)
+              this.$message({
+                type: 'success',
+                message: '成功加入竞赛'
+              })
+              done()
+            }).catch(err => {
+              this.$message({
+                type: 'error',
+                message: err.response.data
+              })
+            })
+          } else {
+            done()
+            this.$router.back()
+          }
+        } })
     })
   },
   watch: {

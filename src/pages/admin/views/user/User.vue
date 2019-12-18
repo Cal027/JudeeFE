@@ -129,6 +129,17 @@
             </el-form>
         </el-card>
 
+        <el-dialog
+                title="生成成功"
+                :visible.sync="dialogVisible"
+                destroy-on-close
+                width="30%">
+            <span>请记住生成的ID，用于下载用户列表</span>
+            <span>{{fileID}}</span>
+            <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="handleClose">复制ID</el-button>
+  </span>
+        </el-dialog>
     </d2-container>
 </template>
 
@@ -166,13 +177,23 @@ export default {
         num_to: 0
       },
       loadingTable: false,
-      loadingGenerate: false
+      loadingGenerate: false,
+      fileID: '',
+      dialogVisible: false
     }
   },
   mounted () {
     this.getUserList()
   },
   methods: {
+    handleClose () {
+      clipboard.writeText(this.fileID)
+      this.$message({
+        type: 'success',
+        message: 'ID复制成功！'
+      })
+      this.dialogVisible = false
+    },
     // 切换页码回调
     handleCurrentChange (page) {
       this.currentPage = page
@@ -213,35 +234,12 @@ export default {
       })
     },
     generateUser () {
-      // this.loadingGenerate = true
-      // this.$alert('请记住生成的ID，用于下载用户列表\n', '生成成功', {
-      //   confirmButtonText: '复制ID',
-      //   callback: action => {
-      //     if (action === 'confirm') {
-      //       clipboard.writeText('xxx')
-      //       this.$message({
-      //         type: 'success',
-      //         message: 'ID复制成功！'
-      //       })
-      //     }
-      //   }
-      // })
-      // let data = Object.assign({}, this.formGenerateUser)
-      // FIXME 获取不到response
+      // FIXME 在response里只能执行一行
       userAPI.bulkRegister(this.generateForm)
         .then(response => {
-          this.$alert('请记住生成的ID，用于下载用户列表\n' + response.data['file_id'], '生成成功', {
-            confirmButtonText: '复制ID',
-            callback: action => {
-              if (action === 'confirm') {
-                clipboard.writeText(response.data['file_id'])
-                this.$message({
-                  type: 'success',
-                  message: 'ID复制成功！'
-                })
-              }
-            }
-          })
+          this.fileID = response.data['file_id']
+          this.dialogVisible = true
+          // console.log(this.dialogVisible)
           this.loadingGenerate = false
         }).catch(() => {
           this.loadingGenerate = false
