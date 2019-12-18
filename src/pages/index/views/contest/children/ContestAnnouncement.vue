@@ -1,11 +1,22 @@
 <template>
     <div>
-        <el-card v-for="(r,index) in results" :key="index" v-html="r"/>
+        <el-card v-for="(item,index) in announcements" :key="index" :name="index" class="content">
+            <div slot="header" style="font-size: 24px">
+                <d2-icon name="bullhorn" style="margin-right: 10px;color: #C41832"/>
+                <span style="color: #C41832;">{{total-index}}: </span>{{item.title}}
+                <span class="right time">
+                    <d2-icon name="clock-o"/>
+                    {{resolveTime(item.create_time)}}
+                </span>
+            </div>
+            <div style="font-size: 16px" v-html="item.content"/>
+        </el-card>
     </div>
 </template>
 
 <script>
 import contestAPI from '@oj/api/oj.contest'
+import util from '@/utils/util'
 
 export default {
   name: 'ContestAnnouncement',
@@ -13,22 +24,24 @@ export default {
     return {
       loading: false,
       announcements: [],
-      contestID: null
+      contestID: null,
+      total: 0
     }
   },
   methods: {
     getAnnouncement () {
       this.loading = true
-      // FIXME Property or method "results" is not defined on the instance but referenced during render. Make sure that this property is reactive, either in the data option, or for class-based components, by initializing the property.
       contestAPI.getContestAnnouncement(this.contestID).then(res => {
-        console.log(res)
-        this.announcements = res['results']
+        this.total = res.count
+        this.announcements = res.results
         this.loading = false
       })
+    },
+    resolveTime (time) {
+      return util.time.resolveTime(time)
     }
   },
   mounted () {
-    console.log('xxx')
     this.contestID = this.$route.params.contestID
     this.getAnnouncement()
   }
@@ -37,5 +50,20 @@ export default {
 </script>
 
 <style scoped>
+    .content{
+        width: 80%;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin: 0 auto 20px;
+    }
 
+    .right {
+        float: right;
+        margin-left: 10px;
+    }
+
+    .time {
+        padding: 10px 10px;
+        font-size: 14px;
+    }
 </style>

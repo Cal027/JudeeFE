@@ -137,9 +137,8 @@ export default {
     }
 
     .logo {
-        width: 100px;
-        height: 55px;
-        /*margin-bottom: 8px;*/
+        width: 120px;
+        height: 45px;
     }
 
     .icon-color {
