@@ -38,7 +38,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      pageSize: 50,
+      pageSize: 30,
       totalUser: 10,
       tableData: [],
       carouselData: [],

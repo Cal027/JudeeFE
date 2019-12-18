@@ -76,21 +76,16 @@
             </div>
         </el-card>
 
-        <el-card style="margin-top: 25px">
-            <div slot="header">
-                <span style="font-size: 22px">导入用户</span>
-            </div>
-            <el-button round type="primary" icon="fa fa-upload">点击上传(还没实现)</el-button>
-        </el-card>
+<!--        <el-card style="margin-top: 25px">-->
+<!--            <div slot="header">-->
+<!--                <span style="font-size: 22px">导入用户</span>-->
+<!--            </div>-->
+<!--            <el-button round type="primary" icon="fa fa-upload">点击上传(还没实现)</el-button>-->
+<!--        </el-card>-->
 
         <el-card style="margin-top: 25px">
             <div slot="header">
                 <span style="font-size: 22px">批量生成用户</span>
-<!--                TODO 美化图标-->
-                <el-button round type="primary"
-                           icon="el-icon-download" @click="handleDownload"
-                           :loading="loadingGenerate">下载生成的用户数据
-                </el-button>
             </div>
             <el-form :model="generateForm" ref="generateForm">
                 <el-row type="flex" justify="space-between">
@@ -124,6 +119,11 @@
                     <el-button round type="primary"
                                icon="fa fa-user-plus" @click="generateUser"
                                :loading="loadingGenerate">批量生成
+                    </el-button>
+                    <!--                TODO 美化图标-->
+                    <el-button round type="primary"
+                               icon="fa fa-download" @click="handleDownload"
+                               :loading="loadingGenerate">下载生成数据
                     </el-button>
                 </el-form-item>
             </el-form>
@@ -213,12 +213,23 @@ export default {
       })
     },
     generateUser () {
-      this.loadingGenerate = true
+      // this.loadingGenerate = true
+      // this.$alert('请记住生成的ID，用于下载用户列表\n', '生成成功', {
+      //   confirmButtonText: '复制ID',
+      //   callback: action => {
+      //     if (action === 'confirm') {
+      //       clipboard.writeText('xxx')
+      //       this.$message({
+      //         type: 'success',
+      //         message: 'ID复制成功！'
+      //       })
+      //     }
+      //   }
+      // })
       // let data = Object.assign({}, this.formGenerateUser)
       // FIXME 获取不到response
       userAPI.bulkRegister(this.generateForm)
         .then(response => {
-          this.loadingTable = false
           this.$alert('请记住生成的ID，用于下载用户列表\n' + response.data['file_id'], '生成成功', {
             confirmButtonText: '复制ID',
             callback: action => {
@@ -231,8 +242,9 @@ export default {
               }
             }
           })
+          this.loadingGenerate = false
         }).catch(() => {
-          this.loadingTable = false
+          this.loadingGenerate = false
         })
     },
     handleDownload () {
