@@ -80,7 +80,7 @@
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
-            SUSTech Judee小组出品
+            2019 SUSTech Judee小组出品
           </p>
           <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
@@ -283,8 +283,8 @@ export default {
       }
     }
     .page-login--content-footer-options {
-      padding: 0px;
-      margin: 0px;
+      padding: 0;
+      margin: 0;
       font-size: 12px;
       line-height: 12px;
       text-align: center;
@@ -302,8 +302,8 @@ export default {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     li {
       position: absolute;
       display: block;

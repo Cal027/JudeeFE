@@ -40,7 +40,6 @@
             <el-table :data="tableData"
                       :row-class-name="tableRowClassName"
                       v-loading="loadingTable"
-                      max-height="700"
                       element-loading-text="正在加载"
                       @cell-mouse-enter="changeStatistics"
                       @cell-click="problemClick"

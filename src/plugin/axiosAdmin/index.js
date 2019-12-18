@@ -81,7 +81,7 @@ service.interceptors.response.use(
           error.message = '请求超时'
           break
         case 500:
-          error.message = '服务器内部错误'
+          // error.message = '服务器内部错误'
           break
         case 501:
           error.message = '服务未实现'

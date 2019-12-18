@@ -1,26 +1,29 @@
 <template>
-    <el-menu :default-active="$route.path" text-color="#170317"
-             router mode="horizontal" v-sticky class="nav">
+    <el-menu :default-active="$route.path" text-color="#608290"
+             background-color="#E3E8E7"
+             v-sticky
+             on-stick="handleSticky"
+             router mode="horizontal" class="nav">
         <el-menu-item index="/">
-            <d2-icon-svg name="logo-text" class="logo"/>
+            <d2-icon-svg name="logo" class="logo"/>
         </el-menu-item>
         <el-menu-item index="/home">
-            <i class="el-icon-data-board"/>首页
+            <i class="el-icon-data-board icon-color"/>首页
         </el-menu-item>
         <el-menu-item index="/problem">
-            <i class="el-icon-tickets"/>题库
+            <i class="el-icon-tickets icon-color"/>题库
         </el-menu-item>
         <el-menu-item index="/status">
-            <i class="iconfont j-icon-tiku"/>评测记录
+            <i class="iconfont j-icon-tiku icon-color"/>评测记录
         </el-menu-item>
         <el-menu-item index="/contest">
-            <i class="el-icon-trophy"/>竞赛
+            <i class="el-icon-trophy icon-color"/>竞赛
         </el-menu-item>
         <el-menu-item index="/rank">
-            <i class="iconfont j-icon-paiming"/>排名
+            <i class="iconfont j-icon-paiming icon-color"/>排名
         </el-menu-item>
         <el-menu-item index="/tutorial">
-            <i class="iconfont j-icon-wiki-"/>教程
+            <i class="iconfont j-icon-wiki- icon-color"/>教程
         </el-menu-item>
         <el-dropdown
                 v-show="info.username"
@@ -34,11 +37,16 @@
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="home">主页</el-dropdown-item>
                 <el-dropdown-item command="submit">提交</el-dropdown-item>
-                <el-dropdown-item command="updateRanking">更新个人排名</el-dropdown-item>
-
+                <el-dropdown-item command="updateRanking">更新排名</el-dropdown-item>
                 <el-link href="/admin" v-show="isAdmin" :underline="false">
-                    <el-dropdown-item>管理</el-dropdown-item>
+                    <el-dropdown-item>
+                        管理
+                    </el-dropdown-item>
                 </el-link>
+                <el-dropdown-item>
+                    主题色
+                    <ColorPicker/>
+                </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
@@ -48,9 +56,6 @@
         <router-link v-if="!info.username" to="/login">
             <el-button type="text" class="button">登录</el-button>
         </router-link>
-        <el-tooltip content="Judee主题色">
-            <ColorPicker style="float: right; margin: 15px 5px"/>
-        </el-tooltip>
         <el-button v-show="backShow" size="small" class="back-button" icon="el-icon-back" circle @click="handleBack"/>
     </el-menu>
 </template>
@@ -86,6 +91,9 @@ export default {
     ...mapActions('oj/account', [
       'logout'
     ]),
+    handleSticky (data) {
+      console.log(data)
+    },
     handleClick () {
       this.$router.push({
         name: 'user',
@@ -128,7 +136,7 @@ export default {
 
 <style scoped>
     .nav {
-        min-width: 1100px;
+        /*min-width: 1100px;*/
         z-index: 888;
         width: 100%;
         height: 60px;
@@ -136,9 +144,13 @@ export default {
     }
 
     .logo {
-        width: 96px;
-        height: 54px;
-        margin-bottom: 8px;
+        width: 100px;
+        height: 55px;
+        /*margin-bottom: 8px;*/
+    }
+
+    .icon-color {
+        color: #608290;
     }
 
     .el-dropdown-link {
