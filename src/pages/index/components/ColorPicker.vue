@@ -3,7 +3,6 @@
             :value="value"
             :predefine="predefine"
             size="mini"
-            style="filter:opacity(0)"
             @change="set"/>
 </template>
 
