@@ -10,11 +10,6 @@ const routes = [
     component: _import('Intro')
   },
   {
-    path: '/home',
-    name: 'intro',
-    component: _import('Intro')
-  },
-  {
     path: '/user/:username',
     name: 'user',
     component: _import('user/UserHome')

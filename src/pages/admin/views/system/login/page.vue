@@ -24,7 +24,7 @@
           flex="dir:top main:center cross:center">
           <!-- logo -->
           <a href="/">
-            <d2-icon-svg class="page-login--logo" name="logo-text"/>
+            <d2-icon-svg class="page-login--logo" name="logo"/>
           </a>
           <!-- form -->
           <div class="page-login--form">
@@ -202,8 +202,8 @@ export default {
   .page-login--content-header {
     padding: 1em 0;
     .page-login--content-header-motto {
-      margin: 0px;
-      padding: 0px;
+      margin: 0;
+      padding: 0;
       color: $color-text-normal;
       text-align: center;
       font-size: 12px;
@@ -228,7 +228,7 @@ export default {
     }
     // 输入框左边的图表区域缩窄
     .el-input-group__prepend {
-      padding: 0px 14px;
+      padding: 0 14px;
     }
     .login-code {
       height: 40px - 2px;
@@ -239,11 +239,10 @@ export default {
     }
     // 登陆选项
     .page-login--options {
-      margin: 0px;
-      padding: 0px;
+      padding: 0;
       font-size: 14px;
       color: $color-primary;
-      margin-bottom: 15px;
+      margin: 0 0 15px;
       font-weight: bold;
     }
     .page-login--quick {
@@ -255,9 +254,8 @@ export default {
   .page-login--content-footer {
     padding: 1em 0;
     .page-login--content-footer-locales {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 15px;
+      padding: 0;
+      margin: 0 0 15px;
       font-size: 12px;
       line-height: 12px;
       text-align: center;
@@ -271,9 +269,8 @@ export default {
       }
     }
     .page-login--content-footer-copyright {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 10px;
+      padding: 0;
+      margin: 0 0 10px;
       font-size: 12px;
       line-height: 12px;
       text-align: center;

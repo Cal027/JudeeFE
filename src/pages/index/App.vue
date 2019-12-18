@@ -20,9 +20,9 @@
                     2019 SUSTech Judee小组出品
                 </p>
                 <p class="page-login--content-footer-options">
-                    <a href="#">帮助</a>
-                    <a href="#">隐私</a>
-                    <a href="#">条款</a>
+                    <a href="https://github.com/Cal027/JudeeFE">帮助</a>
+                    <a href="https://github.com/Cal027/JudeeFE">隐私</a>
+                    <a href="https://github.com/Cal027/JudeeFE">条款</a>
                 </p>
             </div>
         </div>
@@ -61,13 +61,15 @@ export default {
     }
 
     .view{
-        min-height: 90%;
         padding-bottom: 30px;
     }
 
     .footer {
+        height: 108px;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
         background: #E3E8E7;
-        padding-bottom: 15px;
 
         .logo {
             margin-top: 30px;
@@ -104,9 +106,17 @@ export default {
 
 </style>
 <style lang="scss">
-    #app{
-        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    html, body{
+        height: 100%;
+        #app{
+            position: relative;
+            min-height: 100%;
+            padding-bottom: 108px;
+            box-sizing: border-box;
+            font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        }
     }
+
     #nprogress .bar {
         background: #446B84 !important;
     }

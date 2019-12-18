@@ -2,13 +2,9 @@
     <el-menu :default-active="$route.path" text-color="#608290"
              background-color="#E3E8E7"
              v-sticky
-             on-stick="handleSticky"
              router mode="horizontal" class="nav">
         <el-menu-item index="/">
             <d2-icon-svg name="logo" class="logo"/>
-        </el-menu-item>
-        <el-menu-item index="/home">
-            <i class="el-icon-data-board icon-color"/>首页
         </el-menu-item>
         <el-menu-item index="/problem">
             <i class="el-icon-tickets icon-color"/>题库
@@ -45,7 +41,7 @@
                 </el-link>
                 <el-dropdown-item>
                     主题色
-                    <ColorPicker/>
+                    <ColorPicker style="margin-left: -40px"/>
                 </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
@@ -91,9 +87,6 @@ export default {
     ...mapActions('oj/account', [
       'logout'
     ]),
-    handleSticky (data) {
-      console.log(data)
-    },
     handleClick () {
       this.$router.push({
         name: 'user',
@@ -166,8 +159,11 @@ export default {
 
     .back-button {
         float: right;
-        margin-top: 15px;
-        margin-right: 5px;
+        padding: 6px!important;
+        font-size: 16px;
+        background-color: transparent;
+        margin-top: 16px;
+        margin-right: 3px;
     }
 
     .user {

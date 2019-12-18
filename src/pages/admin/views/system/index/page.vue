@@ -1,7 +1,7 @@
 <template>
     <d2-container class="page">
         <el-card class="logo">
-            <d2-icon-svg name="logo-text"/>
+            <d2-icon-svg name="logo"/>
         </el-card>
         <div class="te">
             <span>Judee OJ后台管理面板</span>
@@ -14,7 +14,6 @@ export default {
   components: {},
   data () {
     return {
-      filename: __filename
     }
   }
 }
