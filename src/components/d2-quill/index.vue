@@ -4,7 +4,7 @@
 
 <script>
 import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-dark.css'
+import '@/assets/style/nord.css'
 import Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -28,23 +28,29 @@ export default {
         bounds: document.body,
         debug: 'warn',
         modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],
-            // [{ 'indent': '-1' }, { 'indent': '+1' }],
-            // [{ 'direction': 'rtl' }],
-            [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'header': [1, 2, 3, 4, false] }],
-            [{ 'color': [] }, { 'background': [] }],
-            // [{ 'font': [] }],
-            [{ 'align': [] }],
-            ['clean'],
-            // ['link', 'image']
-            ['link'],
-            ['formula']
-          ],
+          toolbar:
+             {
+               container: [
+                 ['bold', 'italic', 'underline', 'strike'],
+                 ['blockquote', 'code-block'],
+                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                 [{ 'script': 'sub' }, { 'script': 'super' }],
+                 // [{ 'indent': '-1' }, { 'indent': '+1' }],
+                 // [{ 'direction': 'rtl' }],
+                 [{ 'size': ['small', false, 'large', 'huge'] }],
+                 [{ 'header': [1, 2, 3, 4, false] }],
+                 [{ 'color': [] }, { 'background': [] }],
+                 // [{ 'font': [] }],
+                 [{ 'align': [] }],
+                 ['clean'],
+                 ['link', 'image'],
+                 // ['link'],
+                 ['formula']
+               ],
+               handlers: {
+                 image: this.imageHandler
+               }
+             },
           syntax: { highlight: text => hljs.highlightAuto(text).value },
           formula: true
         },
@@ -101,6 +107,27 @@ export default {
       })
       this.Quill.on('editor-change', (eventName, ...args) => {
         this.$emit('editor-change', eventName, ...args)
+      })
+    },
+    imageHandler: function () {
+      var range = this.Quill.getSelection()
+      // var value = prompt('What is the image URL')
+      this.$prompt('请输入图片URL',
+        {
+          inputPattern: /https?:\/\/.+\.(jpg|gif|png)/,
+          inputErrorMessage: '图片地址格式不正确',
+          closeOnClickModal: false
+        }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message: '已添加图片 ' + value
+        })
+        this.Quill.insertEmbed(range.index, 'image', value, Quill.sources.USER)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
       })
     }
   }

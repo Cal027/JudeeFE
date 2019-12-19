@@ -7,7 +7,8 @@ import store from '@/store'
 import Sticky from 'vue-sticky-directive'
 import hljs from 'highlight.js'
 import highlight from '@/plugin/highlight'
-import 'highlight.js/styles/atom-one-light.css'
+// import 'highlight.js/styles/atom-one-light.css'
+import '@/assets/style/nord.css'
 
 // 组件
 import '@/components'

@@ -1,5 +1,5 @@
 <template>
-    <d2-container style="width: 75%; margin: 0 auto">
+    <div style="width: 75%; margin: 0 auto">
         <el-card class="controlPanel">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
@@ -44,14 +44,15 @@
                     <el-row>
                         <el-col :span="1">
                             <el-button @click="changeRule(contest.rule_type)" type="text">
-                                <el-badge :value="contest.rule_type" class="rule-badge"/>
+                                <el-badge :value="contest.rule_type" class="rule-badge"
+                                          :type="ruleTypeColor[contest.rule_type]"/>
                             </el-button>
                         </el-col>
                         <el-col :span="20" class="contest-main">
                             <p class="title">
                                 <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
                                 <template v-if="contest.is_pwd">
-                                    <el-icon class="el-icon-lock" style="margin-left: 5px"/>
+                                    <i class="el-icon-lock" style="margin-left: 5px;"/>
                                 </template>
                             </p>
                             <ul class="detail">
@@ -85,7 +86,7 @@
                         :total="contestNum"/>
             </div>
         </el-card>
-    </d2-container>
+    </div>
 </template>
 
 <script>
@@ -94,6 +95,7 @@ import contestAPI from '@oj/api/oj.contest'
 
 const opt = ['筹备中', '已结束', '比赛中']
 const typ = ['info', 'danger', 'success']
+const ruleTypeColor = { 'ACM': 'primary', 'OI': 'warning' }
 export default {
   name: 'ContestList',
   data () {
@@ -108,7 +110,8 @@ export default {
       contestNum: 0,
       loading: false,
       opt,
-      typ
+      typ,
+      ruleTypeColor
     }
   },
   methods: {
