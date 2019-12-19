@@ -3,6 +3,7 @@ import { getBrowserInfo } from '@/utils/getBroswerInfo'
 import { Message, MessageBox } from 'element-ui'
 import util from '@/utils/util'
 import router from '@oj/router'
+import md5 from 'js-md5'
 
 // 注释见store/modules/d2admin/modules/account.js
 export default {
@@ -30,7 +31,8 @@ export default {
                 username: res.username,
                 nickname: res.nickname,
                 type: res.type,
-                ac_prob: res.ac_prob
+                ac_prob: res.ac_prob,
+                avatarUrl: `https://www.gravatar.com/avatar/${md5(res.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
               }, { root: true })
               await dispatch('load')
               resolve()

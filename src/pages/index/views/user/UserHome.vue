@@ -5,7 +5,6 @@
             <div class="avatar-container">
                 <el-avatar :src="avatarUrl" :size="140"/>
             </div>
-
             <el-card :body-style="{ padding: '100px' }">
                 <router-link to="/setting/profile">
                     <el-button icon="el-icon-edit-outline" v-if="isShowEdit" type="text" class="editProf">修改信息
@@ -81,6 +80,7 @@ import util from '@/utils/util'
 import userAPI from '@oj/api/oj.user'
 import { mapState } from 'vuex'
 import VeLine from 'v-charts/lib/line.common'
+import md5 from 'js-md5'
 
 export default {
   name: 'Profile',
@@ -93,7 +93,7 @@ export default {
   data () {
     return {
       chartData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
-      avatarUrl: `/image/default.png`,
+      avatarUrl: ``,
       username: '',
       profile: {},
       userData: {
@@ -116,6 +116,7 @@ export default {
     this.isShowEdit = this.info.username === this.username
     userAPI.getUserInfo(this.username).then(res => {
       this.profile = res
+      console.log(this.avatarUrl)
       if (this.profile.qq_number) {
         this.qq = this.profile.qq_number
       }
@@ -141,12 +142,15 @@ export default {
       if (this.isShowEdit) {
         let info = Object.assign({}, this.info)
         info.ac_prob = res.ac_prob
+        this.avatarUrl = info.avatarUrl
         this.$store.dispatch('oj/user/set', info, { root: true })
         localStorage.setItem('ac_prob', res.ac_prob)
-        userAPI.updateRanking().then(res => {
-          this.userData.ranking = res + 1
-          this.$message.success('更新排名成功！')
-        })
+        // userAPI.updateRanking().then(res => {
+        //   this.userData.ranking = res
+        //   this.$message.success('更新排名成功！')
+        // })
+      } else {
+        this.avatarUrl = `https://www.gravatar.com/avatar/${md5(this.profile.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
       }
     })
     this.getStatisticInfo(7)
@@ -168,7 +172,7 @@ export default {
     getStatisticInfo (offset) {
       userAPI.getStatisticInfo(this.username, offset).then(res => {
         this.chartData.rows = res
-        console.log(res)
+        // console.log(res)
       })
     }
   }

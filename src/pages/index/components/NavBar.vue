@@ -52,6 +52,8 @@
         <router-link v-if="!info.username" to="/login">
             <el-button type="text" class="button">登录</el-button>
         </router-link>
+<!--        FIXME 美化头像布局-->
+        <el-avatar v-if="info.username" :src="info.avatarUrl" :size="40"/>
         <el-button v-show="backShow" size="small" class="back-button" icon="el-icon-back" circle @click="handleBack"/>
     </el-menu>
 </template>
@@ -72,7 +74,8 @@ export default {
   data () {
     return {
       isAdmin: false,
-      backShow: false
+      backShow: false,
+      avatarUrl: ''
     }
   },
   mounted () {

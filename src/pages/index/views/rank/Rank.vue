@@ -5,17 +5,19 @@
                 <div  class="content">
                     <h2>{{ item.username }}</h2>
                     <h3>得分：{{ item.score }}</h3>
+                    <h3>通过题数：{{ item.ac_prob_num }}</h3>
                 </div>
             </el-carousel-item>
         </el-carousel>
         <el-card>
-            <el-table :data="tableData" @cell-click="userClick" size="medium">
-                <el-table-column prop="ranking" label="排名"/>
-                <el-table-column prop="username" label="用户名"/>
-                <el-table-column prop="score" label="分数"/>
-                <el-table-column prop="ac" label="通过次数"/>
-                <el-table-column prop="submit" label="提交次数"/>
-                <el-table-column prop="rate" label="通过率"/>
+            <el-table :data="tableData" @cell-click="userClick" size="medium" >
+                <el-table-column prop="ranking" label="排名" align="center"/>
+                <el-table-column prop="username" label="用户名" align="center"/>
+                <el-table-column prop="score" label="分数" align="center"/>
+                <el-table-column prop="ac_prob_num" label="通过题数" align="center"/>
+                <el-table-column prop="ac" label="通过次数" align="center"/>
+                <el-table-column prop="submit" label="提交次数" align="center"/>
+                <el-table-column prop="rate" label="通过率" align="center"/>
             </el-table>
             <div style="text-align: center; margin-top: 20px">
                 <el-pagination

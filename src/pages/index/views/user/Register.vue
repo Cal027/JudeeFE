@@ -14,6 +14,7 @@
 
           <el-form-item prop="email" label="Email">
             <el-input v-model="regForm.email" type="email" placeholder="abc@example.com"/>
+            <p>我们使用 Gravatar 服务来呈现您的头像</p>
           </el-form-item>
 
           <el-form-item prop="username" label="用户名">

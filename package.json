@@ -26,6 +26,7 @@
     "highlight.js": "^9.16.2",
     "hotkeys-js": "^3.7.3",
     "js-cookie": "^2.2.0",
+    "js-md5": "^0.7.3",
     "katex": "^0.11.1",
     "lodash": "^4.17.11",
     "lowdb": "^1.0.0",
