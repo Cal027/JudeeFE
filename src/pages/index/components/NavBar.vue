@@ -33,7 +33,7 @@
                 <el-dropdown-item command="home">主页</el-dropdown-item>
                 <el-dropdown-item command="submit">提交</el-dropdown-item>
                 <el-dropdown-item command="updateRanking">更新排名</el-dropdown-item>
-                <el-dropdown-item command="admin" v-if="isAdmin">管理</el-dropdown-item>
+                <el-dropdown-item v-if="isAdmin" command="admin">管理</el-dropdown-item>
                 <el-dropdown-item class="picker">
                     主题色
                     <ColorPicker/>
@@ -63,16 +63,15 @@ export default {
   computed: {
     ...mapState('oj/user', [
       'info'
-    ])
+    ]),
+    isAdmin: function () {
+      return this.info.type !== 1
+    }
   },
   data () {
     return {
-      isAdmin: false,
       backShow: false
     }
-  },
-  mounted () {
-    this.isAdmin = this.info.type !== '1'
   },
   watch: {
     $route (now) {
@@ -120,6 +119,7 @@ export default {
     },
     handleBack () {
       this.$router.back()
+      console.log(this.isAdmin)
     }
   }
 

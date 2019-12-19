@@ -103,6 +103,7 @@ export default {
 
 </style>
 <style lang="less">
+    @import '~@/assets/style/quill.css';
     html, body {
         height: 100%;
         background-color: #F2F4F8;

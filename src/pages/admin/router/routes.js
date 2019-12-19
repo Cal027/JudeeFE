@@ -32,6 +32,15 @@ const frameIn = [
         component: _import('problem/Problem')
       },
       {
+        path: 'problem/import',
+        name: 'import-problem',
+        meta: {
+          title: '导入题目',
+          auth: true
+        },
+        component: _import('problem/ProblemImport')
+      },
+      {
         path: 'problem/edit/:problemID',
         name: 'edit-problem',
         meta: {
@@ -68,7 +77,10 @@ const frameIn = [
       {
         path: 'contests',
         name: 'contest-list',
-        meta: { title: '竞赛管理', auth: true },
+        meta: {
+          title: '竞赛管理',
+          auth: true
+        },
         component: _import('contest/ContestList')
       },
       {

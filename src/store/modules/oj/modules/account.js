@@ -27,7 +27,6 @@ export default {
               msg: info
             }).then(async _ => {
               util.cookies.set('tokenOJ', res.token)
-              console.log(res)
               await dispatch('oj/user/set', {
                 username: res.username,
                 nickname: res.nickname,

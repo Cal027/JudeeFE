@@ -16,6 +16,7 @@ export default [
     icon: 'list-ul',
     children: [
       { path: '/problem/create', title: '添加题目', icon: 'plus' },
+      { path: '/problem/import', title: '导入题目', icon: 'cloud-upload' },
       { path: '/problems', title: '题目管理', icon: 'list-ol' }
     ]
   },

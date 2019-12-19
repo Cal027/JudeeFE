@@ -47,7 +47,7 @@ export default {
         state.value = await dispatch('d2admin/db/get', {
           dbName: 'sys',
           path: 'color.value',
-          defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
+          defaultValue: process.env.VUE_APP_COLOR,
           user: true
         }, { root: true })
         // 应用

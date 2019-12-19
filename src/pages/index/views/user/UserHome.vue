@@ -115,7 +115,6 @@ export default {
     this.isShowEdit = this.info.username === this.username
     userAPI.getUserInfo(this.username).then(res => {
       this.profile = res
-      console.log(this.avatarUrl)
       if (this.profile.qq_number) {
         this.qq = this.profile.qq_number
       }
@@ -167,7 +166,6 @@ export default {
     getStatisticInfo (offset) {
       userAPI.getStatisticInfo(this.username, offset).then(res => {
         this.chartData.rows = res
-        // console.log(res)
       })
     }
   }

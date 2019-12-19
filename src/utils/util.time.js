@@ -32,10 +32,6 @@ function resolveTime (time) {
   }
 }
 
-function getLocal () {
-  return moment()
-}
-
 function resolveTimes (time) {
   if (time) {
     return moment(time).format('YYYY-MM-DD HH:mm:ss')
@@ -62,5 +58,4 @@ export default {
   resolveTime: resolveTime,
   resolveTimes: resolveTimes,
   compareTime: compareTime,
-  getLocal: getLocal
 }
