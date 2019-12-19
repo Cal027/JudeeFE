@@ -110,7 +110,7 @@ const routes = [
       },
       {
         path: 'submissions-mine',
-        name: 'ContestSubmissionsMine',
+        name: 'Contest-submissions-mine',
         meta: { auth: true },
         component: _import('submission/SubmissionList')
       },

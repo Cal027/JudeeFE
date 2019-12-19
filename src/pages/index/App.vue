@@ -6,13 +6,13 @@
                 <i class="el-icon-top"/>
             </div>
         </el-backtop>
-        <div :style="{ 'margin-top': height + 'px'}" class="view">
+        <div class="view">
             <transition name="el-fade-in-linear" mode="out-in">
                 <router-view/>
             </transition>
         </div>
-        <WaveFooter/>
         <div class="footer">
+            <WaveFooter/>
             <d2-icon-svg name="logo" class="logo"/>
             <div>
                 <p class="page-login--content-footer-copyright">
@@ -36,12 +36,7 @@ import WaveFooter from '@oj/components/WaveFooter'
 
 export default {
   name: 'App',
-  components: { WaveFooter, NavBar },
-  data () {
-    return {
-      height: 20
-    }
-  }
+  components: { WaveFooter, NavBar }
 }
 </script>
 
@@ -63,14 +58,14 @@ export default {
     }
 
     .view {
-        padding-bottom: 30px;
+        margin-top: 85px;
+        flex: 1 0 auto;
     }
 
     .footer {
-        height: 108px;
-        position: absolute;
+        padding-bottom: 20px;
         width: 100%;
-        bottom: 0;
+        flex-shrink: 0;
         background: #fbfbfc;
 
         .logo {
@@ -114,10 +109,9 @@ export default {
         color: #4C566A;
 
         #app {
-            position: relative;
-            min-height: 100%;
-            padding-bottom: 108px;
-            box-sizing: border-box;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
             font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
         }
     }

@@ -19,10 +19,11 @@ export default {
     .wave {
         display: block;
         bottom: -1px;
-        left: 0px;
-        right: 0px;
+        left: 0;
+        right: 0;
         width: 100%;
-        background-color: transparent;
+        background-color: #F2F4F8;
+        /*background-color: transparent;*/
         pointer-events: none;
         user-select: none;
         vertical-align: middle;

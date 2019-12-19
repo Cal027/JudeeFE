@@ -3,6 +3,7 @@
         <div v-if="notContest"
              :class="isSticky? 'float': 'nav'"
              :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
+             :sticky-z-index="999"
              v-sticky="notContest"
              on-stick="handleSticky"
              sticky-offset="{top:-44}">
@@ -63,7 +64,7 @@
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
                 <div class="content" v-highlight v-html="problemDetail.description"/>
-                <div v-if="problemDetail.source">
+                <div>
                     <span class="title" :style="{color:themeColor}">来源</span>
                     <div class="content">{{problemDetail.source}}</div>
                 </div>

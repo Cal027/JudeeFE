@@ -1,7 +1,6 @@
 <template>
     <el-menu :default-active="$route.path" text-color="#4C566A"
              background-color="#ECEFF4"
-             v-sticky
              router mode="horizontal" class="nav">
         <el-menu-item index="/">
             <d2-icon-svg name="logo" class="logo"/>
@@ -131,6 +130,8 @@ export default {
     .nav {
         z-index: 888;
         width: 100%;
+        position: fixed;
+        top: 0;
         height: 60px;
         box-shadow: rgba(216, 222, 233, 0.15) 0 5px 10px 0;
         /*box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);*/

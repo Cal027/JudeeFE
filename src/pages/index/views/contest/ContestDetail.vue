@@ -2,6 +2,7 @@
     <d2-container type="ghost">
         <div :class="isSticky? 'float': 'nav'"
              :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
+             :sticky-z-index="999"
              v-sticky on-stick="handleSticky" sticky-offset="{top:-44}">
             <div class="header">
                 <span style="font-size: 24px">{{contestDetail.title}}</span>
@@ -19,10 +20,12 @@
                 <el-menu-item index="Contest-problems" class="menuItem"
                               :route="{name:'Contest-problems',params:{contestID:ID}}">问题列表
                 </el-menu-item>
-                <el-menu-item index="ContestSubmissionsMine" class="menuItem"
-                              :route="{name:'ContestSubmissionsMine',params:{contestID:ID}}">我的提交
+                <el-menu-item index="Contest-submissions-mine" class="menuItem"
+                              :route="{name:'Contest-submissions-mine',params:{contestID:ID}}">我的提交
                 </el-menu-item>
-                <el-menu-item index="4" class="menuItem">排名</el-menu-item>
+                <el-menu-item index="Contest-rank" class="menuItem"
+                :route="{name:'Contest-rank',params:{contestID:ID,type:type}}">排名
+                </el-menu-item>
                 <el-menu-item index="Contest-announcement" class="menuItem"
                               :route="{name:'Contest-announcement',params:{contestID:ID}}">公告
                 </el-menu-item>
@@ -67,6 +70,7 @@ export default {
       themeColor: '',
       contest: '',
       ID: '',
+      type: '',
       routeName: '',
       contestDetail: {},
       activeIndex: '1',
@@ -94,15 +98,11 @@ export default {
   mounted () {
     this.ID = this.$route.params.contestID
     this.routeName = this.$route.name
-    // console.log(this.routeName)
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
+      this.type = this.contestDetail.rule_type
       util.title(this.contestDetail.title)
-    }).catch(err => {
-      console.log(err)
-      // this.$message.error(err)
-      // this.$router.back()
-      // let that = this
+    }).catch(_ => {
       this.$prompt('竞赛受保护，请输入密码加入竞赛', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
