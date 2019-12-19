@@ -55,11 +55,11 @@
                 <h4 v-else style="text-align: center">暂无数据</h4>
             </el-dialog>
             <div class="problem-status">
-                <button disabled>{{isPassed}}</button>
-                <button disabled>时间限制: {{problemDetail.time_limit}} ms</button>
-                <button disabled>内存限制: {{problemDetail.memory_limit}} MB</button>
-                <button disabled>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
-                <button id="showData" @click="dialogTableVisible = true" >查看统计数据</button>
+                <button>{{isPassed}}</button>
+                <button>时间限制: {{problemDetail.time_limit}} ms</button>
+                <button>内存限制: {{problemDetail.memory_limit}} MB</button>
+                <button>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
+                <button class="showData" @click="dialogTableVisible = true" >查看统计数据</button>
             </div>
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
@@ -375,11 +375,11 @@ export default {
         margin-left: 8%;
 
         button {
-            cursor: pointer;
             background: #fff;
             padding: 3px 15px;
             border-radius: 5px;
             border: 0;
+            color: #6d6d6d;
             font-size: 16px;
             margin-top: -5px;
             margin-bottom: 15px;
@@ -387,8 +387,8 @@ export default {
             box-shadow: 0 2px 4px 0 rgba(146, 166, 231, .13);
         }
 
-        #showData {
-            color: #6d6d6d;
+        .showData {
+            cursor: pointer;
         }
     }
 
