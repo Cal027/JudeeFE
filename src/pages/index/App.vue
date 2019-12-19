@@ -110,7 +110,7 @@ export default {
 <style lang="less">
     html, body {
         height: 100%;
-        background-color: #f8f9fb;
+        background-color: #F2F4F8;
         color: #4C566A;
 
         #app {

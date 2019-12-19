@@ -75,14 +75,6 @@
                 </el-pagination>
             </div>
         </el-card>
-
-<!--        <el-card style="margin-top: 25px">-->
-<!--            <div slot="header">-->
-<!--                <span style="font-size: 22px">导入用户</span>-->
-<!--            </div>-->
-<!--            <el-button round type="primary" icon="fa fa-upload">点击上传(还没实现)</el-button>-->
-<!--        </el-card>-->
-
         <el-card style="margin-top: 25px">
             <div slot="header">
                 <span style="font-size: 22px">批量生成用户</span>
@@ -115,15 +107,14 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-form-item>
-                    <el-button round type="primary"
+                <el-form-item align="right">
+                    <el-button round type="primary" size="medium"
                                icon="fa fa-user-plus" @click="generateUser"
                                :loading="loadingGenerate">批量生成
                     </el-button>
-                    <!--                TODO 美化图标-->
-                    <el-button round type="primary"
+                    <el-button round  size="medium"
                                icon="fa fa-download" @click="handleDownload"
-                               :loading="loadingGenerate">下载生成数据
+                               :loading="loadingGenerate">下载数据
                     </el-button>
                 </el-form-item>
             </el-form>
@@ -234,16 +225,14 @@ export default {
       })
     },
     generateUser () {
-      // FIXME 在response里只能执行一行
-      userAPI.bulkRegister(this.generateForm)
-        .then(response => {
-          this.fileID = response.data['file_id']
-          this.dialogVisible = true
-          // console.log(this.dialogVisible)
-          this.loadingGenerate = false
-        }).catch(() => {
-          this.loadingGenerate = false
-        })
+      this.loadingGenerate = true
+      userAPI.bulkRegister(this.generateForm).then(response => {
+        this.fileID = response.file_id
+        this.dialogVisible = true
+        this.loadingGenerate = false
+      }).catch(_ => {
+        this.loadingGenerate = false
+      })
     },
     handleDownload () {
       this.$prompt('请输入生成ID', '提示', {

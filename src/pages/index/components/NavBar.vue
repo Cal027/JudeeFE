@@ -1,6 +1,6 @@
 <template>
     <el-menu :default-active="$route.path" text-color="#4C566A"
-             background-color="#FBFBFC"
+             background-color="#ECEFF4"
              v-sticky
              router mode="horizontal" class="nav">
         <el-menu-item index="/">
@@ -42,7 +42,7 @@
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <el-avatar v-if="info.username" :src="info.avatarUrl?info.avatarUrl:defaultUrl" :size="35" class="avatar"/>
+        <el-avatar v-if="info.username" :src="info.avatarUrl" :size="35" class="avatar"/>
         <router-link v-if="!info.username" to="/register">
             <el-button type="text" class="button">注册</el-button>
         </router-link>
@@ -69,8 +69,7 @@ export default {
   data () {
     return {
       isAdmin: false,
-      backShow: false,
-      defaultUrl: `/image/default.png`
+      backShow: false
     }
   },
   mounted () {
@@ -163,7 +162,7 @@ export default {
         font-size: 16px;
         background-color: transparent;
         margin-top: 16px;
-        margin-right: 3px;
+        margin-right: 8px;
     }
 
     .user {
@@ -179,7 +178,8 @@ export default {
     .avatar {
         float: right;
         margin-top: 13px;
-        margin-right: 5px;
+        margin-right: 3px;
+        box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
     }
 </style>
 

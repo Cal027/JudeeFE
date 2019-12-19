@@ -32,7 +32,8 @@ export default {
                 username: res.username,
                 nickname: res.nickname,
                 type: res.type,
-                ac_prob: res.ac_prob
+                ac_prob: res.ac_prob,
+                avatarUrl: `https://www.gravatar.com/avatar/${md5(res.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
               }, { root: true })
               await dispatch('load')
               resolve()
@@ -45,7 +46,6 @@ export default {
       })
     },
     // 注销
-    //avatarUrl: `https://www.gravatar.com/avatar/${md5(res.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
     logout ({ dispatch }) {
       async function logout () {
         // 删除cookie

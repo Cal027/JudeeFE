@@ -9,7 +9,7 @@ export default {
   },
   bulkRegister (data) {
     return request({
-      url: `/bulk-registration/`,
+      url: '/bulk-registration/',
       method: 'post',
       data
     })
