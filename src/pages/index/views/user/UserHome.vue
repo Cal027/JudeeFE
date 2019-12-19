@@ -93,7 +93,7 @@ export default {
   data () {
     return {
       chartData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
-      avatarUrl: ``,
+      avatarUrl: `/image/default.png`,
       username: '',
       profile: {},
       userData: {
@@ -127,13 +127,15 @@ export default {
         this.phone_number = this.profile.phone_number
       }
     })
+    if (this.info.avatarUrl) {
+      this.avatarUrl = this.info.avatarUrl
+    }
     userAPI.getUserData(this.username).then(res => {
       this.userData.username = res.username
       this.userData.ac = res.ac
       this.userData.submit = res.submit
       this.userData.score = res.score
       this.userData.ranking = res.ranking + 1
-      // this.userData.ranking = res.ranking
       if (res.ac_prob) {
         this.userData.ac_prob = res.ac_prob.split('|')
         // 删除最后一个空值
@@ -142,9 +144,8 @@ export default {
       if (this.isShowEdit) {
         let info = Object.assign({}, this.info)
         info.ac_prob = res.ac_prob
-        this.avatarUrl = info.avatarUrl
         this.$store.dispatch('oj/user/set', info, { root: true })
-        localStorage.setItem('ac_prob', res.ac_prob)
+        // localStorage.setItem('ac_prob', res.ac_prob)
         // userAPI.updateRanking().then(res => {
         //   this.userData.ranking = res
         //   this.$message.success('更新排名成功！')

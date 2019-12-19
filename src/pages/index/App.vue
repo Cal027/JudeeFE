@@ -11,6 +11,7 @@
                 <router-view/>
             </transition>
         </div>
+        <WaveFooter/>
         <div class="footer">
             <d2-icon-svg name="logo" class="logo"/>
             <div>
@@ -31,10 +32,11 @@
 
 <script>
 import NavBar from './components/NavBar'
+import WaveFooter from '@oj/components/WaveFooter'
 
 export default {
   name: 'App',
-  components: { NavBar },
+  components: { WaveFooter, NavBar },
   data () {
     return {
       height: 20
@@ -43,7 +45,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
     .el-dropdown-link {
         cursor: pointer;
         color: #409eff;
@@ -60,7 +62,7 @@ export default {
         color: #1989fa;
     }
 
-    .view{
+    .view {
         padding-bottom: 30px;
     }
 
@@ -69,7 +71,7 @@ export default {
         position: absolute;
         width: 100%;
         bottom: 0;
-        background: #E3E8E7;
+        background: #fbfbfc;
 
         .logo {
             margin-top: 30px;
@@ -105,10 +107,13 @@ export default {
     }
 
 </style>
-<style lang="scss">
-    html, body{
+<style lang="less">
+    html, body {
         height: 100%;
-        #app{
+        background-color: #f8f9fb;
+        color: #4C566A;
+
+        #app {
             position: relative;
             min-height: 100%;
             padding-bottom: 108px;

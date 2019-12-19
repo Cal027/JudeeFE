@@ -27,12 +27,12 @@ export default {
               msg: info
             }).then(async _ => {
               util.cookies.set('tokenOJ', res.token)
+              console.log(res)
               await dispatch('oj/user/set', {
                 username: res.username,
                 nickname: res.nickname,
                 type: res.type,
-                ac_prob: res.ac_prob,
-                avatarUrl: `https://www.gravatar.com/avatar/${md5(res.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
+                ac_prob: res.ac_prob
               }, { root: true })
               await dispatch('load')
               resolve()
@@ -45,6 +45,7 @@ export default {
       })
     },
     // 注销
+    //avatarUrl: `https://www.gravatar.com/avatar/${md5(res.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
     logout ({ dispatch }) {
       async function logout () {
         // 删除cookie

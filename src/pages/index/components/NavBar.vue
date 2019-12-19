@@ -1,6 +1,6 @@
 <template>
-    <el-menu :default-active="$route.path" text-color="#608290"
-             background-color="#E3E8E7"
+    <el-menu :default-active="$route.path" text-color="#4C566A"
+             background-color="#FBFBFC"
              v-sticky
              router mode="horizontal" class="nav">
         <el-menu-item index="/">
@@ -34,11 +34,7 @@
                 <el-dropdown-item command="home">主页</el-dropdown-item>
                 <el-dropdown-item command="submit">提交</el-dropdown-item>
                 <el-dropdown-item command="updateRanking">更新排名</el-dropdown-item>
-                <el-link href="/admin" v-show="isAdmin" :underline="false">
-                    <el-dropdown-item>
-                        管理
-                    </el-dropdown-item>
-                </el-link>
+                <el-dropdown-item command="admin" v-if="isAdmin">管理</el-dropdown-item>
                 <el-dropdown-item class="picker">
                     主题色
                     <ColorPicker/>
@@ -46,14 +42,13 @@
                 <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
+        <el-avatar v-if="info.username" :src="info.avatarUrl?info.avatarUrl:defaultUrl" :size="35" class="avatar"/>
         <router-link v-if="!info.username" to="/register">
             <el-button type="text" class="button">注册</el-button>
         </router-link>
         <router-link v-if="!info.username" to="/login">
             <el-button type="text" class="button">登录</el-button>
         </router-link>
-<!--        FIXME 美化头像布局-->
-        <el-avatar v-if="info.username" :src="info.avatarUrl" :size="40"/>
         <el-button v-show="backShow" size="small" class="back-button" icon="el-icon-back" circle @click="handleBack"/>
     </el-menu>
 </template>
@@ -75,7 +70,7 @@ export default {
     return {
       isAdmin: false,
       backShow: false,
-      avatarUrl: ''
+      defaultUrl: `/image/default.png`
     }
   },
   mounted () {
@@ -112,6 +107,9 @@ export default {
           params: { username: this.info.username }
         })
       }
+      if (command === 'admin') {
+        window.open('/admin')
+      }
       if (command === 'updateRanking') {
         userAPI.updateRanking().then(res => {
           this.$message({
@@ -132,11 +130,11 @@ export default {
 
 <style scoped>
     .nav {
-        /*min-width: 1100px;*/
         z-index: 888;
         width: 100%;
         height: 60px;
-        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: rgba(216, 222, 233, 0.15) 0 5px 10px 0;
+        /*box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);*/
     }
 
     .logo {
@@ -145,7 +143,7 @@ export default {
     }
 
     .icon-color {
-        color: #608290;
+        color: #4C566A;
     }
 
     .el-dropdown-link {
@@ -177,10 +175,16 @@ export default {
         font-size: 18px;
         margin-right: 5px
     }
+
+    .avatar {
+        float: right;
+        margin-top: 13px;
+        margin-right: 5px;
+    }
 </style>
 
 <style lang="less">
-    .picker{
+    .picker {
         .el-color-picker--mini .el-color-picker__trigger {
             filter: opacity(0);
             padding: 0;
