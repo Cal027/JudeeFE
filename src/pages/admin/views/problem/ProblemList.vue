@@ -4,16 +4,16 @@
         <el-card class="panel">
             <div slot="header">
                 <el-row :gutter="20">
-                    <el-col :span="contestID? 21:19">
+                    <el-col :span="contestID? 22:19">
                         <span style="font-size: 22px">{{title}}题目列表</span>
                     </el-col>
                     <el-col :span="5" v-if="!contestID">
                         <el-input size="small" v-model="searchText" @change="getProblemList"
                                   prefix-icon="el-icon-search" placeholder="题目关键词"/>
                     </el-col>
-                    <el-col v-if="contestID" :span="3">
+                    <el-col v-if="contestID" :span="2">
                         <el-button icon="el-icon-plus" round type="success"
-                                   @click="contestDialog = true" size="small">添加题目
+                                   @click="contestDialog = true" size="mini">添加
                         </el-button>
                     </el-col>
                 </el-row>
@@ -25,10 +25,11 @@
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column prop="ID" label="ID" sortable width="70"/>
+                <el-table-column v-show="contestID" prop="contestproblem__name" label="编号" sortable width="80"/>
                 <el-table-column label="标题" width="250">
                     <template slot-scope="scope">
                         {{scope.row.title}}
-                        <d2-icon :name="scope.row.is_public? 'unlock-alt' : 'lock' "/>
+                        <d2-icon :name="scope.row.is_public? 'unlock' : 'lock' "/>
                     </template>
                 </el-table-column>
                 <el-table-column v-if="!contestID" prop="difficulty" sortable label="难度" width="100">
@@ -84,8 +85,8 @@
                    :before-close="handleClose"
                    @close="getContestProblems"
                    width="65%"
-                   :visible.sync="contestDialog" destroy-on-close>
-            <AddProblemContest :contestID="contestID"/>
+                   :visible.sync="contestDialog">
+            <AddProblemContest :contestID="contestID" :contest-num="contestNum"/>
         </el-dialog>
     </d2-container>
 </template>
@@ -120,7 +121,8 @@ export default {
       // 比赛相关
       contestID: '',
       title: '',
-      contestDialog: false
+      contestDialog: false,
+      contestNum: 0
     }
   },
   methods: {
@@ -165,7 +167,9 @@ export default {
           let ac = res[i]['accepted_number']
           let sub = res[i]['submission_number']
           res[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          // this.contestName.push(res[i].contestproblem__name)
         }
+        this.contestNum = res.length
         this.tableData = res
         this.loading = false
       })
