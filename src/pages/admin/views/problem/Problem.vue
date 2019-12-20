@@ -204,8 +204,8 @@ export default {
       rules: {
         title: { required: true, message: '标题不能为空', trigger: 'blur' },
         description: { required: true, message: '描述不能为空', trigger: 'blur' },
-        input_description: { required: true, message: '输入描述不能为空', trigger: 'blur' },
-        output_description: { required: true, message: '输出描述不能为空', trigger: 'blur' },
+        // input_description: { required: true, message: '输入描述不能为空', trigger: 'blur' },
+        // output_description: { required: true, message: '输出描述不能为空', trigger: 'blur' },
         samples: { validator: checkSample, trigger: 'blur' },
         languages: { required: true, message: '语言不能为空', trigger: 'blur' }
       },

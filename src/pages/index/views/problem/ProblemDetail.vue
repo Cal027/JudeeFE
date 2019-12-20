@@ -72,8 +72,10 @@
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">输入描述</span>
                 <div class="content" v-highlight v-html="problemDetail.input_description"/>
+                <br/>
                 <span class="title" :style="{color:themeColor}">输出描述</span>
                 <div class="content" v-highlight v-html="problemDetail.output_description"/>
+                <br/>
                 <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
                     <el-col :span="10">
                         <span class="title" :style="{color:themeColor}">输入样例 {{index+1}} </span>

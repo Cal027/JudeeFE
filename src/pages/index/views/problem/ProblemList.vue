@@ -7,7 +7,7 @@
                 <el-col :span="8">
                     <el-input size="small"
                               @change="filterProblems"
-                              placeholder="搜索题目编号、标题、关键字..."
+                              placeholder="搜索题目编号、标题、来源..."
                               v-model="searchText">
                         <el-button slot="append" @click="filterProblems" size="mini">
                             <d2-icon name="search"/>
@@ -44,9 +44,9 @@
                       @cell-mouse-enter="changeStatistics"
                       @cell-click="problemClick"
                       size="medium">
-                <el-table-column prop="ID" label="ID" sortable :width="70"/>
-                <el-table-column prop="title" label="题目" :width="250"/>
-                <el-table-column prop="difficulty" sortable label="难度" :width="100">
+                <el-table-column prop="ID" label="#" sortable width="70"/>
+                <el-table-column prop="title" label="标题" width="250"/>
+                <el-table-column prop="difficulty" sortable label="难度" width="100">
                     <template slot-scope="scope1">
                         <el-tag
                                 id="difficulty-tag"
@@ -72,9 +72,10 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="rate" label="通过率" :width="80"/>
-                <el-table-column prop="submission_number" label="提交人数" :width="100"/>
-                <el-table-column prop="total_score" label="分数" :width="80"/>
+                <el-table-column prop="source" label="来源" width="350" align="center"/>
+                <el-table-column prop="rate" label="通过率" width="80"/>
+                <el-table-column prop="submission_number" label="提交人数" width="100"/>
+                <el-table-column prop="total_score" label="分数" width="80"/>
             </el-table>
             <div style="text-align: center; margin-top: 20px">
                 <el-pagination

@@ -1,5 +1,6 @@
 <template>
     <d2-container>
+
         <d2-module-index-banner v-bind="banner"/>
         <el-card class="content">
             <div slot="header">
@@ -15,6 +16,34 @@
                 <i class="el-icon-upload"/>
                 <div class="el-upload__text">只能上传xml格式文件。将文件拖到此处，或<em>点击上传</em></div>
             </el-upload>
+        </el-card>
+        <el-card v-for="(item, index) in testCasesInfo" :key="index" class="box-card">
+            <span v-if="item.length===0">此题为Special judge，暂不支持</span>
+            <div v-else >
+                <el-table
+                        :data="item"
+                        stripe
+                        style="width: 100%">
+                    <el-table-column
+                            prop="input_name"
+                            label="输入文件名"
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="input_size"
+                            label="输入文件大小"
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="output_name"
+                            label="输出文件名">
+                    </el-table-column>
+                    <el-table-column
+                            prop="output_size"
+                            label="输出文件大小">
+                    </el-table-column>
+                </el-table>
+            </div>
         </el-card>
     </d2-container>
 </template>
@@ -33,18 +62,29 @@ export default {
       uploadURL: process.env.VUE_APP_API + '/fps-import/',
       header: {
         Authorization: `JWT ${cookies.get('tokenAdmin')}`
-      }
+      },
+      // showDialog: false,
+      testCasesInfo: []
     }
   },
   methods: {
-    onBeforeUpload () {
-
+    onBeforeUpload (file) {
+      const isXml = file.type === 'text/xml'
+      if (!isXml) {
+        this.$message.error('必须为xml文件')
+      }
+      return isXml
     },
-    uploadSucceeded () {
-
+    uploadSucceeded (response) {
+      if (response.error) {
+        this.$message.error(response.data)
+      }
+      this.$message.success(`成功导入${response.import_count}道题！`)
+      this.testCasesInfo = response.info
+      // this.showDialog = true
     },
-    uploadFailed () {
-
+    uploadFailed (err) {
+      this.$message.error(err.message)
     }
   }
 }
@@ -56,5 +96,25 @@ export default {
         height: 400px;
         margin: 0 auto;
         text-align: center;
+    }
+    .text {
+        font-size: 14px;
+    }
+
+    .item {
+        margin-bottom: 18px;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+    .clearfix:after {
+        clear: both
+    }
+
+    .box-card {
+        width: 480px;
     }
 </style>
