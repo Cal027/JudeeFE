@@ -40,7 +40,7 @@ import 'codemirror/theme/darcula.css'
 import 'codemirror/theme/solarized.css'
 import 'codemirror/theme/material.css'
 import 'codemirror/theme/3024-day.css'
-import 'codemirror/theme/material-ocean.css'
+import 'codemirror/theme/nord.css'
 
 // mode
 import 'codemirror/mode/clike/clike.js'
@@ -82,12 +82,12 @@ export default {
   },
   data () {
     return {
-      theme: '3024-day',
+      theme: 'nord',
       options: {
         // codemirror options
         tabSize: 4,
         mode: 'text/x-c++src',
-        theme: '3024-day',
+        theme: 'nord',
         lineNumbers: true,
         line: true,
         // 代码折叠
@@ -105,11 +105,11 @@ export default {
         'Java': 'text/x-java'
       },
       themes: [
+        { label: 'Nord', value: 'nord' },
         { label: '3024-day', value: '3024-day' },
         { label: 'Solarized', value: 'solarized' },
         { label: 'Darcula', value: 'darcula' },
         { label: 'Material', value: 'material' },
-        { label: 'Material-Ocean', value: 'material-ocean' }
       ]
     }
   },
