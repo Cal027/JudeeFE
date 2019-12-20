@@ -98,23 +98,25 @@ export default {
       return util.formatter.resolveRunTime(time)
     },
     getLanguage (lang) {
-      if (lang === 'C++') {
-        return 'cpp'
-      } else if (lang === 'Python3') {
-        return 'python'
-      } else {
-        return 'java'
+      switch (lang) {
+        case 'C++':
+          return 'cpp'
+        case 'Python3':
+          return 'python'
+        default:
+          return 'java'
       }
     },
     getColor (type) {
-      if (type === 'primary') {
-        return 'gray'
-      } else if (type === 'success') {
-        return 'green'
-      } else if (type === 'warning') {
-        return 'orange'
-      } else {
-        return 'red'
+      switch (type) {
+        case 'primary':
+          return 'gray'
+        case 'success':
+          return 'green'
+        case 'warning':
+          return 'orange'
+        default:
+          return 'red'
       }
     }
   },
