@@ -58,10 +58,12 @@
                 <!--                FIXME 美化效果-->
                 <el-divider content-position="center">个人简介</el-divider>
                 <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了'}}</div>
-                <ve-line :data="chartData" :settings="{
-                    axisSite: { right: ['rate'] },
-                    yAxisType: ['normal', 'percent'],
-                    yAxisName: ['次数', '比率']}"/>
+                <el-divider content-position="center">近七天统计数据</el-divider>
+                <ve-line :data="chartData" :settings="                {
+                axisSite: { right: ['rate'] },
+                yAxisType: ['normal', 'percent'],
+                yAxisName: ['次数', '比率']
+                }"/>
                 <el-divider content-position="center">通过题目 ({{userData.ac_prob.length}}道)</el-divider>
                 <el-tag class="click"
                         v-for="item in userData.ac_prob" :key="item"
@@ -92,7 +94,7 @@ export default {
   data () {
     return {
       chartData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
-      avatarUrl: `/image/default.png`,
+      avatarUrl: ``,
       username: '',
       profile: {},
       userData: {
@@ -125,9 +127,7 @@ export default {
         this.phone_number = this.profile.phone_number
       }
     })
-    if (this.info.avatarUrl) {
-      this.avatarUrl = this.info.avatarUrl
-    }
+
     userAPI.getUserData(this.username).then(res => {
       this.userData.username = res.username
       this.userData.ac = res.ac
@@ -142,7 +142,13 @@ export default {
       if (this.isShowEdit) {
         let info = Object.assign({}, this.info)
         info.ac_prob = res.ac_prob
+        this.avatarUrl = info.avatarUrl
         this.$store.dispatch('oj/user/set', info, { root: true })
+        // localStorage.setItem('ac_prob', res.ac_prob)
+        // userAPI.updateRanking().then(res => {
+        //   this.userData.ranking = res
+        //   this.$message.success('更新排名成功！')
+        // })
       } else {
         this.avatarUrl = `https://www.gravatar.com/avatar/${md5(this.profile.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
       }

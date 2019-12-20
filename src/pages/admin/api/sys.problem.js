@@ -56,5 +56,4 @@ export default {
       responseType: 'blob'
     })
   }
-
 }

@@ -28,10 +28,18 @@ export default {
       method: 'get'
     })
   },
-  getSubmission (id) {
-    return request({
-      url: `/submission/${id}`,
-      method: 'get'
-    })
+  getSubmission (id, contest) {
+    if (contest) {
+      return request({
+        url: `/contest-submission/${id}`,
+        method: 'get'
+      })
+    } else {
+      return request({
+        url: `/submission/${id}`,
+        method: 'get'
+      })
+    }
+
   }
 }

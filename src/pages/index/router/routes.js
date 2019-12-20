@@ -119,6 +119,12 @@ const routes = [
         name: 'Contest-rank',
         meta: { auth: true },
         component: Contest.ContestRank
+      },
+      {
+        path: 'status',
+        name: 'Contest-submission-status',
+        meta: { auth: true },
+        component: _import('submission/SubmissionDetail')
       }
     ]
   },

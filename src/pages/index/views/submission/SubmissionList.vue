@@ -51,7 +51,8 @@
 
                 <el-table-column prop="ID" label="递交ID" width="90px">
                     <template slot-scope="scope">
-                        <router-link :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
+                        <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
+                        <router-link v-else :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="problem" label="题目编号" width="80px" align="center">

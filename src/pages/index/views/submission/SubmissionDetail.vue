@@ -63,17 +63,17 @@ import util from '@/utils/util'
 import Highlight from '@oj/components/Highlight'
 
 const results = [
-  { msg: 'COMPILE_ERROR', type: 'warning' },
-  { msg: 'WRONG_ANSWER', type: 'error' },
-  { msg: 'ACCEPTED', type: 'success' },
-  { msg: 'CPU_TIME_LIMIT_EXCEEDED', type: 'warning' },
-  { msg: 'REAL_TIME_LIMIT_EXCEEDED', type: 'warning' },
-  { msg: 'MEMORY_LIMIT_EXCEEDED', type: 'warning' },
-  { msg: 'RUNTIME_ERROR', type: 'error' },
-  { msg: 'SYSTEM_ERROR', type: 'error' },
-  { msg: 'PENDING', type: 'primary' },
-  { msg: 'JUDGING', type: 'primary' },
-  { msg: 'PARTIALLY_ACCEPTED', type: 'warning' }
+  { msg: 'COMPILE_ERROR', type: 'warning', tag: 'warning' },
+  { msg: 'WRONG_ANSWER', type: 'danger', tag: 'error' },
+  { msg: 'ACCEPTED', type: 'success', tag: 'success' },
+  { msg: 'CPU_TIME_LIMIT_EXCEEDED', type: 'warning', tag: 'warning' },
+  { msg: 'REAL_TIME_LIMIT_EXCEEDED', type: 'warning', tag: 'warning' },
+  { msg: 'MEMORY_LIMIT_EXCEEDED', type: 'warning', tag: 'warning' },
+  { msg: 'RUNTIME_ERROR', type: 'danger', tag: 'error' },
+  { msg: 'SYSTEM_ERROR', type: 'danger', tag: 'error' },
+  { msg: 'PENDING', type: 'primary', tag: 'primary' },
+  { msg: 'JUDGING', type: 'primary', tag: 'primary' },
+  { msg: 'PARTIALLY_ACCEPTED', type: 'warning', tag: 'warning' }
 ]
 export default {
   name: 'SubmissionDetail',
@@ -107,7 +107,6 @@ export default {
       }
     },
     getColor (type) {
-      console.log(type)
       if (type === 'primary') {
         return 'gray'
       } else if (type === 'success') {
@@ -120,14 +119,15 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$route)
     let load = this.$loading()
     this.ID = this.$route.params.id
-    submissionAPI.getSubmission(this.ID).then(res => {
+    submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
       this.detail = res
       this.code = res.code
       this.info = res.info
       this.isCE = this.detail.compile_error_info !== null
-      this.type = this.results[this.detail.result + 2].type
+      this.type = this.results[this.detail.result + 2].tag
       this.msg = this.results[this.detail.result + 2].msg
       load.close()
     }).catch(err => {

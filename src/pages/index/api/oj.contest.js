@@ -35,5 +35,11 @@ export default {
       url: `/contest-announcement/?contest=${id}`,
       method: 'get'
     })
+  },
+  getContestRankList (id) {
+    return request({
+      url: `/contest-rank/?contest=${id}`,
+      method: 'get'
+    })
   }
 }

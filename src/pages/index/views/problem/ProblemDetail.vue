@@ -62,12 +62,12 @@
                 <button class="showData" @click="dialogTableVisible = true" >查看统计数据</button>
             </div>
             <el-card class="module">
+                <span class="title" :style="{color:themeColor}">来源</span>
+                <div class="content">{{problemDetail.source}}</div>
+            </el-card>
+            <el-card class="module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
                 <div class="content" v-highlight v-html="problemDetail.description"/>
-                <div>
-                    <span class="title" :style="{color:themeColor}">来源</span>
-                    <div class="content">{{problemDetail.source}}</div>
-                </div>
             </el-card>
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">输入描述</span>
@@ -87,7 +87,7 @@
                     </el-col>
                 </el-row>
             </el-card>
-            <el-card class="module" v-if="problemDetail.hint">
+            <el-card class="module">
                 <span class="title" :style="{color:themeColor}">提示</span>
                 <div class="content" v-highlight v-html="problemDetail.hint"/>
             </el-card>
