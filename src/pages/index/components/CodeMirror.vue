@@ -90,6 +90,8 @@ export default {
         theme: 'nord',
         lineNumbers: true,
         line: true,
+        // 括号匹配
+        matchBrackets: true,
         // 代码折叠
         foldGutter: true,
         gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
@@ -109,7 +111,7 @@ export default {
         { label: '3024-day', value: '3024-day' },
         { label: 'Solarized', value: 'solarized' },
         { label: 'Darcula', value: 'darcula' },
-        { label: 'Material', value: 'material' },
+        { label: 'Material', value: 'material' }
       ]
     }
   },

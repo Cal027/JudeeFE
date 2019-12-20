@@ -11,13 +11,13 @@
                 </el-tag>
             </el-tooltip>
         </el-row>
-        <el-row :gutter="20">
-            <el-col :span="19">
+        <el-row :gutter="10">
+            <el-col :span="18">
                 <el-popconfirm title="确定提交题目？" @onConfirm="submit">
                     <el-button slot="reference" round size="small" type="success">提交题目</el-button>
                 </el-popconfirm>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-input size="small" v-model="searchText" @change="getProblemList"
                           prefix-icon="el-icon-search" placeholder="题目关键词"/>
             </el-col>
@@ -28,10 +28,14 @@
                 ref="table"
                 max-height="500"
                 :data="tableData">
-            <el-table-column prop="ID" label="ID" sortable :width="70"/>
-            <el-table-column prop="title" label="标题" :width="300">
+            <el-table-column prop="ID" label="ID" sortable width="70px"/>
+            <el-table-column label="标题" width="300px">
+                <template slot-scope="scope">
+                    {{scope.row.title}}
+                    <d2-icon :name="scope.row.is_public? 'unlock-alt' : 'lock' "/>
+                </template>
             </el-table-column>
-            <el-table-column prop="difficulty" sortable label="难度" :width="100">
+            <el-table-column prop="difficulty" sortable label="难度" width="100px">
                 <template slot-scope="scope1">
                     <el-tag
                             id="difficulty-tag"
@@ -44,7 +48,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="created_by" label="作者"/>
-            <el-table-column fixed="right" label="操作" width="200" align="center">
+            <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button circle size="mini" icon="el-icon-plus"
                                @click="addProblem(scope.row.ID,scope.row.title)"/>

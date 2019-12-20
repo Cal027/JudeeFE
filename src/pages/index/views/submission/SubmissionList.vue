@@ -1,6 +1,6 @@
 <template>
-    <div style="width: 85%; margin: 0 auto;">
-        <el-card class="controlPanel" v-if="showPanel">
+    <div class="sl">
+        <el-card class="controlPanel-sl" v-if="showPanel">
             <div slot="header">
                 <span>筛选记录</span>
                 <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
@@ -51,13 +51,17 @@
 
                 <el-table-column prop="ID" label="递交ID" width="90px">
                     <template slot-scope="scope">
-                        <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
+                        <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
+                            {{scope.row.ID}}
+                        </router-link>
                         <router-link v-else :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="problem" label="题目编号" width="80px" align="center">
                     <template slot-scope="scope">
-                        <router-link :to="'/problem/'+scope.row.problem">{{scope.row.name?scope.row.name:scope.row.problem}}</router-link>
+                        <router-link :to="'/problem/'+scope.row.problem">
+                            {{scope.row.name?scope.row.name:scope.row.problem}}
+                        </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="username" label="用户" align="center">
@@ -221,19 +225,25 @@ export default {
 </script>
 
 <style lang="less">
-    .controlPanel {
-        .el-card__body {
-            padding: 16px;
-        }
+    .sl {
+        width: 85%;
+        margin: 0 auto;
 
-        .el-card__header {
-            padding: 15px 18px;
+        .controlPanel-sl {
+            .el-card__body {
+                padding: 16px;
+            }
+
+            .el-card__header {
+                padding: 15px 18px;
+            }
         }
     }
+
 </style>
 
 <style scoped lang="less">
-    .controlPanel {
+    .controlPanel-sl {
         position: relative;
         margin-bottom: 20px;
 

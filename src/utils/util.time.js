@@ -57,5 +57,5 @@ export default {
   secondFormat: secondFormat,
   resolveTime: resolveTime,
   resolveTimes: resolveTimes,
-  compareTime: compareTime,
+  compareTime: compareTime
 }

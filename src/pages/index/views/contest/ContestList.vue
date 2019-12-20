@@ -1,6 +1,6 @@
 <template>
     <div style="width: 75%; margin: 0 auto">
-        <el-card class="controlPanel">
+        <el-card class="controlPanel-sl">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
@@ -177,7 +177,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .controlPanel {
+    .controlPanel-sl {
         position: relative;
         margin-bottom: 20px;
 

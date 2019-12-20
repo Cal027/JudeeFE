@@ -197,7 +197,7 @@ export default {
             }
         }
 
-        .el-row {
+        #608290 {
             margin-bottom: 20px;
         }
 

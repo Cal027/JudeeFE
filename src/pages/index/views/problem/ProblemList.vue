@@ -1,6 +1,6 @@
 <template>
-    <div style="width: 90%; margin: 0 auto">
-        <el-card class="controlPanel">
+    <div style="" class="p-list">
+        <el-card class="controlPanel-sl">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
@@ -208,35 +208,40 @@ export default {
 }
 </script>
 
-<style>
-    .controlPanel {
-        position: relative;
-        margin-bottom: 20px;
-    }
+<style lang="less" scoped>
+    .p-list {
+        width: 90%;
+        margin: 0 auto;
 
-    .clear {
-        margin-bottom: 5px;
-        margin-right: 20px;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
+        .controlPanel-sl {
+            position: relative;
+            margin-bottom: 20px;
 
-    #difficulty-tag {
-        text-align: center;
-        font-weight: bold;
-    }
+            .el-row {
+                margin-bottom: 20px;
+            }
 
-    .tags {
-        margin-left: 6px;
-        margin-bottom: 3px;
-    }
+            .clear {
+                margin-bottom: 5px;
+                margin-right: 20px;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+        }
 
-    .el-row {
-        margin-bottom: 20px;
-    }
+        #difficulty-tag {
+            text-align: center;
+            font-weight: bold;
+        }
 
-    .el-table .success-row {
-        background: #f0f9eb;
+        .tags {
+            margin-left: 6px;
+            margin-bottom: 3px;
+        }
+
+        .el-table.success-row {
+            background: #f0f9eb;
+        }
     }
 </style>

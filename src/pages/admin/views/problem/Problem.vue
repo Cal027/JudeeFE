@@ -1,5 +1,5 @@
 <template>
-    <d2-container>
+    <d2-container class="add-problem">
         <d2-module-index-banner v-bind="banner"/>
         <el-form ref="form" style="margin: 0 auto;max-width: 90%"
                  :model="form" :rules="rules" label-position="top" label-width="90px">
@@ -373,30 +373,32 @@ export default {
 }
 </script>
 
-<style lang="scss">
-    .el-form-item__label {
-        font-weight: 300;
-        font-size: 18px;
-    }
-
-    .el-button--mini.is-circle {
-        padding: 4px;
-    }
-
+<style lang="less">
     .banner {
         margin-bottom: 30px;
     }
 
-    .add-btn {
-        position: absolute;
-        bottom: 30%;
-        right: 30px;
-    }
+    .add-problem{
+        .el-form-item__label {
+            font-weight: 300;
+            font-size: 18px;
+        }
 
-    .del-btn {
-        position: absolute;
-        bottom: 30%;
-        right: 0;
+        .el-button--mini.is-circle {
+            padding: 4px;
+        }
+
+        .add-btn {
+            position: absolute;
+            bottom: 30%;
+            right: 30px;
+        }
+
+        .del-btn {
+            position: absolute;
+            bottom: 30%;
+            right: 0;
+        }
     }
 
 </style>

@@ -59,7 +59,7 @@
                 <button>时间限制: {{problemDetail.time_limit}} ms</button>
                 <button>内存限制: {{problemDetail.memory_limit}} MB</button>
                 <button>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
-                <button class="showData" @click="dialogTableVisible = true" >查看统计数据</button>
+                <button class="showData" @click="dialogTableVisible = true">查看统计数据</button>
             </div>
             <el-card class="module">
                 <span class="title" :style="{color:themeColor}">来源</span>
@@ -97,20 +97,16 @@
                             :language="language"
                             @changeLang="onChangeLang"
                             @resetCode="onResetCode"/>
-                <el-row type="flex" justify="space-between">
-                    <el-col :span="10">
-                        <div class="status" v-if="statusVisible">
-                            <span>提交状态</span>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-button type="warning" round icon="el-icon-edit" :loading="submitLoading"
-                                   @click="submitCode" style="float: right" size="medium">
-                            <span v-if="submitLoading">正在提交</span>
-                            <span v-else>提交</span>
-                        </el-button>
-                    </el-col>
-                </el-row>
+                <el-button type="warning" round icon="el-icon-edit" :loading="submitLoading"
+                           @click="submitCode" style="float: right" size="medium">
+                    <span v-if="submitLoading">正在提交</span>
+                    <span v-else>提交</span>
+                </el-button>
+                <el-button v-if="statusVisible" type="primary" round @click="goStatus"
+                           style="float: right;margin-right: 10px"
+                           size="medium">
+                    查看提交结果
+                </el-button>
             </el-card>
         </template>
         <router-view v-else :key="$route.name"/>
@@ -205,6 +201,14 @@ export default {
     onChangeLang (newLang) {
       this.language = newLang
     },
+    goStatus () {
+      let name = this.notContest ? 'submission-detail' : 'Contest-submission-status'
+      let params = {
+        contestID: this.$route.params.contestID,
+        id: this.submissionId
+      }
+      this.$router.push({ name: name, params: params })
+    },
     submitCode () {
       if (this.code.trim() === '') {
         this.$message.error('不能提交空代码')
@@ -213,6 +217,7 @@ export default {
       const submitFunc = (data) => {
         problemAPI.submitCode(data).then(res => {
           this.submissionId = res
+          this.statusVisible = true
           this.$message({
             message: '提交代码成功！',
             type: 'success'

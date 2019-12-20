@@ -1,17 +1,17 @@
 <template>
     <d2-container>
         <d2-module-index-banner v-bind="banner"/>
-        <el-card>
-            <div slot="header" style="margin: -5px">
+        <el-card class="panel">
+            <div slot="header">
                 <el-row :gutter="20">
-                    <el-col :span="contestID? 22:19">
+                    <el-col :span="contestID? 21:19">
                         <span style="font-size: 22px">{{title}}题目列表</span>
                     </el-col>
                     <el-col :span="5" v-if="!contestID">
                         <el-input size="small" v-model="searchText" @change="getProblemList"
                                   prefix-icon="el-icon-search" placeholder="题目关键词"/>
                     </el-col>
-                    <el-col v-if="contestID" :span="2">
+                    <el-col v-if="contestID" :span="3">
                         <el-button icon="el-icon-plus" round type="success"
                                    @click="contestDialog = true" size="small">添加题目
                         </el-button>
@@ -24,9 +24,14 @@
                     ref="table"
                     :data="tableData"
                     style="width: 100%">
-                <el-table-column prop="ID" label="ID" sortable :width="70"/>
-                <el-table-column prop="title" label="标题" :width="300"/>
-                <el-table-column v-if="!contestID" prop="difficulty" sortable label="难度" :width="100">
+                <el-table-column prop="ID" label="ID" sortable width="70"/>
+                <el-table-column label="标题" width="250">
+                    <template slot-scope="scope">
+                        {{scope.row.title}}
+                        <d2-icon :name="scope.row.is_public? 'unlock-alt' : 'lock' "/>
+                    </template>
+                </el-table-column>
+                <el-table-column v-if="!contestID" prop="difficulty" sortable label="难度" width="100">
                     <template slot-scope="scope1">
                         <el-tag
                                 id="difficulty-tag"
@@ -38,21 +43,27 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="created_by" label="作者"/>
-                <el-table-column prop="rate" label="通过率" :width="80" align="center"/>
-                <el-table-column prop="submission_number" label="提交人数" :width="100" align="center"/>
-                <el-table-column prop="total_score" label="分数" :width="80" align="center"/>
-                <el-table-column fixed="right" label="操作" width="200" align="center">
+                <el-table-column prop="rate" label="通过率" width="80" align="center"/>
+                <el-table-column prop="submission_number" label="提交人数" width="100" align="center"/>
+                <el-table-column prop="total_score" label="分数" width="80" align="center"/>
+                <el-table-column fixed="right" label="操作" width="180" align="center">
                     <template slot-scope="scope">
+                        <el-tooltip :content="scope.row.is_public? '私密':'公开'">
+                            <el-button circle size="mini"
+                                       @click="makePublicORNot(scope.$index,scope.row.ID,scope.row.is_public)">
+                                <d2-icon :name="scope.row.is_public?'eye-slash':'eye'"/>
+                            </el-button>
+                        </el-tooltip>
                         <el-tooltip content="编辑">
-                            <el-button round size="mini" icon="el-icon-edit"
+                            <el-button circle size="mini" icon="el-icon-edit"
                                        @click="editProblem(scope.row.ID,scope.row.created_by)"/>
                         </el-tooltip>
                         <el-tooltip content="下载测试用例">
-                            <el-button round size="mini" icon="el-icon-download"
+                            <el-button circle size="mini" icon="el-icon-download"
                                        @click="downloadTestCase(scope.row.ID)"/>
                         </el-tooltip>
                         <el-tooltip content="删除题目">
-                            <el-button round type="danger" size="mini" icon="el-icon-delete"
+                            <el-button circle type="danger" size="mini" icon="el-icon-delete"
                                        @click="deleteProblem(scope.row.ID)"/>
                         </el-tooltip>
                     </template>
@@ -69,7 +80,10 @@
                         :total="problemNum"/>
             </div>
         </el-card>
-        <el-dialog title="添加竞赛题目" :before-close="handleClose" @close="getContestProblems"
+        <el-dialog title="添加竞赛题目"
+                   :before-close="handleClose"
+                   @close="getContestProblems"
+                   width="65%"
                    :visible.sync="contestDialog" destroy-on-close>
             <AddProblemContest :contestID="contestID"/>
         </el-dialog>
@@ -117,6 +131,18 @@ export default {
     handleCurrentChange (val) {
       this.currentPage = val
       this.getProblemList()
+    },
+    makePublicORNot (index, id, now) {
+      const data = {
+        is_public: !now
+      }
+      problemAPI.updateProblem(id, data).then(_ => {
+        this.$message({
+          type: 'success',
+          message: '成功'
+        })
+      })
+      this.tableData[index].is_public = !now
     },
     getProblemList () {
       this.loading = true
@@ -214,6 +240,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+    .panel {
+        .el-card__header {
+            /*padding: 10px;*/
+        }
+    }
 
 </style>
