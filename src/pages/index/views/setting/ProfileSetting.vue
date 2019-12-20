@@ -115,7 +115,7 @@ export default {
             }
           ).then(() => {
             userAPI.updateUserProfile(this.info.username, this.form)
-              .then(_ => {
+              .then(() => {
                 this.$message({
                   message: '修改个人信息成功！',
                   type: 'success'

@@ -90,7 +90,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        API.updateAnnouncement(this.form.id, this.form).then(_ => {
+        API.updateAnnouncement(this.form.id, this.form).then(() => {
           this.$message({
             type: 'success',
             message: '更新公告成功！'
@@ -110,7 +110,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        API.addAnnouncement(this.form).then(_ => {
+        API.addAnnouncement(this.form).then(() => {
           this.$message({
             type: 'success',
             message: '添加公告成功！'
@@ -131,7 +131,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        API.deleteAnnouncement(id).then(_ => {
+        API.deleteAnnouncement(id).then(() => {
           this.$message({
             type: 'success',
             message: '删除公告成功！'

@@ -25,7 +25,7 @@ export default {
             setLoginInfo({
               username: res.username,
               msg: info
-            }).then(async _ => {
+            }).then(async () => {
               util.cookies.set('tokenOJ', res.token)
               await dispatch('oj/user/set', {
                 username: res.username,
@@ -59,7 +59,7 @@ export default {
       MessageBox.confirm('确定要注销当前用户吗', '注销用户', {
         type: 'warning'
       }).then(() => {
-        logout().then(_ => {
+        logout().then(() => {
           Message({
             message: '注销成功！',
             type: 'success'

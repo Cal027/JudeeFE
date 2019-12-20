@@ -49,6 +49,13 @@ export default {
       method: 'delete'
     })
   },
+  deleteContestProblem (cid, data) {
+    return request({
+      url: `/contest/${cid}/remove-problem/`,
+      method: 'post',
+      data
+    })
+  },
   getTestCase (id) {
     return request({
       url: `/test_case_download/${id}`,

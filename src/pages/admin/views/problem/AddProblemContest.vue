@@ -4,11 +4,11 @@
             <el-col :span="2" v-show="data.problems.length>0">
                 已添加：
             </el-col>
-            <el-tooltip v-for="(item,index) in data.problems" :key="index" :content="item.title">
+            <el-tooltip v-for="(id,index) in data.problems" :key="index" :content="titles[index]">
                 <el-tag size="small" disable-transitions style="margin-left: 10px"
-                        :closable="index===data.problems.length - 1"
+                        closable
                         @close="handleDel(index)">
-                    {{item.name}}:{{item.problem}}
+                    {{toLetter(index+contestNum+1)}}:{{id}}
                 </el-tag>
             </el-tooltip>
         </el-row>
@@ -70,10 +70,11 @@
 <script>
 import problemAPI from '@admin/api/sys.problem'
 import contestAPI from '@admin/api/sys.contest'
+import util from '@/utils/util'
 
 export default {
   name: 'AddProblemContest',
-  props: ['contestID', 'contest-num'],
+  props: ['contestID', 'contestNum'],
   data () {
     return {
       currentPage: 1,
@@ -82,6 +83,7 @@ export default {
       diffType: ['success', 'info', 'info', 'warning', 'danger'],
       loading: false,
       tableData: [],
+      titles: [],
       data: { 'problems': [] },
       pageSize: 15,
       searchText: ''
@@ -93,35 +95,24 @@ export default {
       this.getProblemList()
     },
     handleDel (index) {
-      let tmp = this.data.problems[index]
-      this.data.problems.splice(index, 1)
       this.$message({
-        message: `删除题目${tmp.name}：(ID: ${tmp.problem}) ${tmp.title}`,
+        message: `删除题目：(ID: ${this.data.problems[index]}) ${this.titles[index]}`,
         type: 'warning'
       })
+      this.data.problems.splice(index, 1)
+      this.titles.splice(index, 1)
     },
     addProblem (id, title) {
-      let flag = true
-      this.data.problems.every(item => {
-        if (item.problem === id) {
-          this.$message.error(`已存在问题${item.name}: (${id}) ${title}`)
-          flag = false
-          return false
-        } else {
-          return true
-        }
-      })
-      if (flag) {
-        let name = this.toChar(this.contestNum + this.data.problems.length + 1)
+      if (this.data.problems.includes(id)) {
+        this.$message.error(`已存在问题: (${id}) ${title}`)
+      } else {
+        let name = this.toLetter(this.contestNum + this.data.problems.length + 1)
         this.$message({
           message: `添加题目${name}：(${id}) ${title}`,
           type: 'success'
         })
-        this.data.problems.push({
-          name: name,
-          problem: id,
-          title: title
-        })
+        this.data.problems.push(id)
+        this.titles.push(title)
       }
     },
     submit () {
@@ -129,16 +120,13 @@ export default {
         this.$message.error('提交不能为空！')
         return
       }
-      this.data.problems.forEach(item => {
-        delete item.title
-      })
-      console.log(this.data)
-      contestAPI.addContestProblem(this.contestID, this.data).then(_ => {
+      contestAPI.addContestProblem(this.contestID, this.data).then(() => {
         this.$message({
           message: `添加${this.data.problems.length}个题目到竞赛成功！`,
           type: 'success'
         })
         this.data.problems = []
+        this.titles = []
       })
     },
     getProblemList () {
@@ -150,8 +138,8 @@ export default {
         this.loading = false
       })
     },
-    toChar (index) {
-      return String.fromCharCode(64 + parseInt(index))
+    toLetter (index) {
+      return util.formatter.toLetter(index)
     }
   },
   mounted () {

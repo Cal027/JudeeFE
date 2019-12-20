@@ -40,6 +40,10 @@ function resolveTimes (time) {
   }
 }
 
+function resolveSecond (second) {
+  return moment('1900-01-01 00:00:00').add(second, 'seconds').format('HH:mm:ss')
+}
+
 function compareTime (begin, end) {
   let now = moment()
   if (now.isBefore(begin)) {
@@ -57,5 +61,6 @@ export default {
   secondFormat: secondFormat,
   resolveTime: resolveTime,
   resolveTimes: resolveTimes,
-  compareTime: compareTime
+  compareTime: compareTime,
+  resolveSecond: resolveSecond
 }

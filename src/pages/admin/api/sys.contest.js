@@ -44,13 +44,6 @@ export default {
       data
     })
   },
-  deleteContestProblem (cid, data) {
-    return request({
-      url: `/contest/${cid}/remove-problem/`,
-      method: 'post',
-      data
-    })
-  },
   // 公告相关
   getContestAnnouncement (id) {
     return request({

@@ -298,10 +298,10 @@ export default {
       return isZip
     },
     handleClose (done) {
-      this.$confirm('确认放弃上传？').then(_ => {
+      this.$confirm('确认放弃上传？').then(() => {
         done()
         this.continue_flag = true
-      }).catch(_ => {
+      }).catch(() => {
       })
     },
     // 获取标签

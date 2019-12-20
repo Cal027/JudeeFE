@@ -4,12 +4,13 @@
         <el-card class="panel">
             <div slot="header">
                 <el-row :gutter="20">
-                    <el-col :span="19">
-                        <span style="font-size: 22px">题目列表</span>
+                    <el-col :span="22">
+                        <span style="font-size: 22px">竞赛题目列表</span>
                     </el-col>
-                    <el-col :span="5">
-                        <el-input size="small" v-model="searchText" @change="getProblemList"
-                                  prefix-icon="el-icon-search" placeholder="题目关键词"/>
+                    <el-col v-if="contestID" :span="2">
+                        <el-button icon="el-icon-plus" round type="success"
+                                   @click="contestDialog = true" size="mini">添加
+                        </el-button>
                     </el-col>
                 </el-row>
             </div>
@@ -20,21 +21,15 @@
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column prop="ID" label="ID" sortable width="70"/>
+                <el-table-column label="#" sortable width="80">
+                    <template slot-scope="scope">
+                        {{toLetter(scope.$index+1)}}
+                    </template>
+                </el-table-column>
                 <el-table-column label="标题" width="250">
                     <template slot-scope="scope">
                         {{scope.row.title}}
                         <d2-icon :name="scope.row.is_public? 'unlock' : 'lock' "/>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="difficulty" sortable label="难度" width="100">
-                    <template slot-scope="scope1">
-                        <el-tag
-                                id="difficulty-tag"
-                                size="medium"
-                                :type="diffType[scope1.row.difficulty-1]"
-                                disable-transitions
-                                hit>{{diffOptions[scope1.row.difficulty-1] }}
-                        </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="created_by" label="作者"/>
@@ -59,31 +54,31 @@
                         </el-tooltip>
                         <el-tooltip content="删除题目">
                             <el-button circle type="danger" size="mini" icon="el-icon-delete"
-                                       @click="deleteProblem(scope.row.ID)"/>
+                                       @click="removeProblem(scope.row.ID)"/>
                         </el-tooltip>
                     </template>
                 </el-table-column>
             </el-table>
-            <div style="text-align: center; margin-top: 20px">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="currentPage"
-                        :page-sizes="[15, 20, 30, 50]"
-                        :page-size="pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="problemNum"/>
-            </div>
         </el-card>
+        <el-dialog title="添加竞赛题目"
+                   :before-close="handleClose"
+                   @close="getContestProblems"
+                   width="65%"
+                   :visible.sync="contestDialog">
+            <AddProblemContest :contestID="contestID" :contestNum="contestNum"/>
+        </el-dialog>
     </d2-container>
 </template>
 
 <script>
 import problemAPI from '@admin/api/sys.problem'
 import { mapState } from 'vuex'
+import AddProblemContest from '@admin/views/problem/AddProblemContest'
+import util from '@/utils/util'
 
 export default {
-  name: 'ProblemList',
+  name: 'ContestProblemList',
+  components: { AddProblemContest },
   computed: {
     ...mapState('d2admin/user', [
       'info'
@@ -92,27 +87,19 @@ export default {
   data () {
     return {
       banner: {
-        title: '题目管理',
-        subTitle: '在这里可以管理题目'
+        title: '竞赛题目管理',
+        subTitle: '在这里可以管理竞赛题目'
       },
-      diffOptions: ['简单', '普通', '中等', '困难', '非常困难'],
-      diffType: ['success', 'info', 'info', 'warning', 'danger'],
       loading: false,
       tableData: [],
-      currentPage: 1,
-      pageSize: 20,
-      problemNum: 0,
-      searchText: ''
+      contestID: '',
+      contestDialog: false,
+      contestNum: 0
     }
   },
   methods: {
-    handleSizeChange (val) {
-      this.pageSize = val
-      this.getProblemList()
-    },
-    handleCurrentChange (val) {
-      this.currentPage = val
-      this.getProblemList()
+    toLetter (index) {
+      return util.formatter.toLetter(index)
     },
     makePublicORNot (index, id, now) {
       const data = {
@@ -126,26 +113,41 @@ export default {
       })
       this.tableData[index].is_public = !now
     },
-    getProblemList () {
+    getContestProblems () {
       this.loading = true
-      problemAPI.getProblemList(this.pageSize, (this.currentPage - 1) * this.pageSize,
-        this.searchText).then(res => {
-        for (let i = 0; i < res.results.length; i++) {
-          let ac = res.results[i]['accepted_number']
-          let sub = res.results[i]['submission_number']
-          res.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+      problemAPI.getContestProblems(this.contestID).then(res => {
+        for (let i = 0; i < res.length; i++) {
+          let ac = res[i]['accepted_number']
+          let sub = res[i]['submission_number']
+          res[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
         }
-        this.tableData = res.results
-        this.problemNum = res.count
+        this.contestNum = res.length
+        this.tableData = res
         this.loading = false
       })
+    },
+    handleClose (done) {
+      this.$confirm('确认关闭？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          done()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消关闭'
+          })
+        })
     },
     editProblem (id, author) {
       if (this.info.name !== author && this.info.type !== 3) {
         this.$message.error('没有权限编辑该题目')
         return
       }
-      this.$router.push({ name: 'edit-problem', params: { problemID: id } })
+      this.$router.push({ name: 'edit-contest-problem', params: { problemID: id } })
     },
     downloadTestCase (id) {
       problemAPI.getTestCase(id).then(resp => {
@@ -157,16 +159,17 @@ export default {
         link.remove()
       })
     },
-    deleteProblem (id) {
-      this.$confirm('确认删除题目？相关数据将被清除', '删除问题', {
+    removeProblem (id) {
+      this.$confirm('确认删除竞赛题目？相关数据将被清除', '删除问题', {
         type: 'warning'
       }).then(() => {
-        problemAPI.deleteProblem(id).then(() => {
+        const data = { 'problems': [id] }
+        problemAPI.deleteContestProblem(this.contestID, data).then(() => {
           this.$message({
             type: 'success',
             message: '已删除题目'
           })
-          this.getProblemList()
+          this.getContestProblems()
         })
       }).catch(() => {
         this.$message({
@@ -177,7 +180,8 @@ export default {
     }
   },
   mounted () {
-    this.getProblemList()
+    this.contestID = this.$route.params.contestID
+    this.getContestProblems()
   }
 }
 </script>

@@ -231,7 +231,7 @@ export default {
         this.fileID = response.file_id
         this.dialogVisible = true
         this.loadingGenerate = false
-      }).catch(_ => {
+      }).catch(() => {
         this.loadingGenerate = false
       })
     },

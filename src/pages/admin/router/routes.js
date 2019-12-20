@@ -90,7 +90,7 @@ const frameIn = [
           title: '竞赛题目列表',
           auth: true
         },
-        component: _import('problem/ProblemList')
+        component: _import('contest/ContestProblemList')
       },
       {
         path: 'contest/:contestID/announcement',

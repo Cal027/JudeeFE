@@ -117,14 +117,14 @@ export default {
             if (this.disableRule) {
               delete data.is_pwd
               delete data.id
-              ContestAPI.editContest(this.$route.params.contestID, data).then(_ => {
+              ContestAPI.editContest(this.$route.params.contestID, data).then(() => {
                 this.$message({
                   message: '修改竞赛信息成功！',
                   type: 'success'
                 })
               })
             } else {
-              ContestAPI.addContest(data).then(_ => {
+              ContestAPI.addContest(data).then(() => {
                 this.$message({
                   message: '添加竞赛信息成功！',
                   type: 'success'

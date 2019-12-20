@@ -16,7 +16,12 @@ function resolveMemory (memory) {
   }
 }
 
+function toLetter (index) {
+  return String.fromCharCode(64 + parseInt(index))
+}
+
 export default {
   resolveMemory: resolveMemory,
-  resolveRunTime: resolveRunTime
+  resolveRunTime: resolveRunTime,
+  toLetter: toLetter
 }

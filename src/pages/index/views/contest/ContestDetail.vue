@@ -102,7 +102,7 @@ export default {
       this.contestDetail = res
       this.type = this.contestDetail.rule_type
       util.title(this.contestDetail.title)
-    }).catch(_ => {
+    }).catch(() => {
       this.$prompt('竞赛受保护，请输入密码加入竞赛', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
