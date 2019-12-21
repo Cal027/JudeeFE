@@ -6,6 +6,8 @@
              v-sticky on-stick="handleSticky" sticky-offset="{top:-44}">
             <div class="header">
                 <span style="font-size: 24px">{{contestDetail.title}}</span>
+                <span v-if="contestDetail.is_in" style="font-size: 18px;float:right">已加入</span>
+                <el-button v-else class="d2-mr btn-text can-hover" type="text" style="font-size: 18px;float:right" @click="joinContest">点击加入</el-button>
             </div>
             <el-menu
                     :default-active="$route.name"
@@ -93,6 +95,15 @@ export default {
     },
     resolveTime (time) {
       return util.time.resolveTime(time)
+    },
+    joinContest () {
+      ContestAPI.joinContest(this.ID).then(response => {
+        // eslint-disable-next-line no-undef
+        if (response.is_in) {
+          this.contestDetail.is_in = true
+        }
+        // if response
+      })
     }
   },
   mounted () {

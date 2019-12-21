@@ -21,9 +21,9 @@
                     2019 SUSTech Judee小组出品
                 </p>
                 <p class="page-login--content-footer-options">
-                    <a href="https://github.com/Cal027/JudeeFE">帮助</a>
-                    <a href="https://github.com/Cal027/JudeeFE">隐私</a>
-                    <a href="https://github.com/Cal027/JudeeFE">条款</a>
+                    <a href="https://github.com/Cal027/JudeeFE">前端</a>
+                    <a href="https://github.com/darkliang/JudeeBE">后端</a>
+                    <a href="https://github.com/wht-github/JudeeJudger">测评机</a>
                 </p>
             </div>
         </div>

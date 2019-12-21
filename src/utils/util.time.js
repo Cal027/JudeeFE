@@ -40,10 +40,12 @@ function resolveTimes (time) {
   }
 }
 
-function resolveSecond (second) {
-  return moment('1900-01-01 00:00:00').add(second, 'seconds').format('HH:mm:ss')
+function resolveSecond (seconds) {
+  const hour = Math.floor(seconds / 3600)
+  const minute = Math.floor(seconds / 60 % 60)
+  const second = seconds % 60
+  return `${hour < 100 ? (Array(2).join(0) + hour).slice(-2) : hour}:${(Array(2).join(0) + minute).slice(-2)}:${(Array(2).join(0) + second).slice(-2)}`
 }
-
 function compareTime (begin, end) {
   let now = moment()
   if (now.isBefore(begin)) {

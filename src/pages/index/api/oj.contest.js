@@ -30,6 +30,12 @@ export default {
       data: { 'password': password }
     })
   },
+  joinContest (id) {
+    return request({
+      url: `/contest/${id}/join/`,
+      method: 'post'
+    })
+  },
   getContestAnnouncement (id) {
     return request({
       url: `/contest-announcement/?contest=${id}`,

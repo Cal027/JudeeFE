@@ -72,6 +72,8 @@
                             </span>
                             <el-tag effect="light" class="stat" :type="typ[statusCode]">{{opt[statusCode]}}</el-tag>
                         </el-col>
+                        <span v-if="contest.is_in">已加入</span>
+                        <span v-else>未加入</span>
                     </el-row>
                 </li>
             </ol>
