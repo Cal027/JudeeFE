@@ -1,13 +1,14 @@
 <template>
-    <el-card class="module">
+    <el-card class="card-module">
         <el-table
                 v-loading="loading"
                 element-loading-text="正在加载"
                 class="table"
                 ref="table"
+                :header-cell-style="{background: '#E5E9F0'}"
                 :data="tableData"
                 style="width: 100%">
-            <el-table-column label="#" sortable width="80">
+            <el-table-column label="#" width="80">
                 <template slot-scope="scope">
                     {{toLetter(scope.$index+1)}}
                 </template>
@@ -45,7 +46,6 @@ export default {
     getContestProblems () {
       this.loading = true
       problemAPI.getContestProblems(this.contestID).then(res => {
-        console.log(res)
         for (let i = 0; i < res.length; i++) {
           let ac = res[i]['accepted_number']
           let sub = res[i]['submission_number']
@@ -67,23 +67,17 @@ export default {
 </script>
 
 <style scoped lang="less">
-    .module {
-        width: 80%;
-        padding: 30px 50px;
-        margin: 0 auto 20px;
-    }
-
     .table {
 
-    a {
-        color: #0078D7;
-        text-decoration: none;
-    }
+        a {
+            color: #76a3cd;
+            text-decoration: none;
+        }
 
-    .router-link-active {
-        color: #0078D7;
-        text-decoration: none;
-    }
+        .router-link-active {
+            color: #76a3cd;
+            text-decoration: none;
+        }
 
     }
 </style>

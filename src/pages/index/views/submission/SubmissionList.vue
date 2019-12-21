@@ -1,5 +1,5 @@
 <template>
-    <div class="sl">
+    <div :class="contestID? '':'sl'">
         <el-card class="controlPanel-sl" v-if="showPanel">
             <div slot="header">
                 <span>筛选记录</span>
@@ -41,11 +41,12 @@
                 </el-col>
             </el-row>
         </el-card>
-        <el-card>
+        <el-card :class="contestID? 'card-module':''">
             <el-table
                     class="table"
                     :data="tableData"
                     v-loading="loadingTable"
+                    :header-cell-style="{background: '#E5E9F0'}"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
                 <el-table-column prop="ID" label="递交ID" width="90px">
@@ -56,10 +57,19 @@
                         <router-link v-else :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
                 </el-table-column>
-                <el-table-column prop="problem" label="题目编号" width="80" align="center">
+                <el-table-column v-if="contestID" prop="problem" label="题目编号" width="80" align="center">
+                    <template slot-scope="scope">
+                        <router-link :to="
+                        {name: 'Contest-problem-detail',
+                        params:{contestID: $route.params.contestID, id:scope.row.problem}}">
+                            {{scope.row.problem}}
+                        </router-link>
+                    </template>
+                </el-table-column>
+                <el-table-column v-else prop="problem" label="题目编号" width="80" align="center">
                     <template slot-scope="scope">
                         <router-link :to="'/problem/'+scope.row.problem">
-                            {{scope.row.name?scope.row.name:scope.row.problem}}
+                            {{scope.row.problem}}
                         </router-link>
                     </template>
                 </el-table-column>
@@ -218,7 +228,6 @@ export default {
     }
     this.isProblem = this.$route.name === 'ProblemSubmissions'
     this.getSubmissionList()
-    // console.log(this.tableData)
   }
 }
 </script>
@@ -255,12 +264,12 @@ export default {
 
     .table {
         a {
-            color: #2d8cf0;
+            color: #76a3cd;
             text-decoration: none;
         }
 
         .router-link-active {
-            color: #2d8cf0;
+            color: #76a3cd;
             text-decoration: none;
         }
     }

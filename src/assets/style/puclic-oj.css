@@ -5,3 +5,8 @@
   margin-top: 20px
 }
 
+.card-module {
+  width: 80%;
+  padding: 30px 50px;
+  margin: 0 auto 20px;
+}

@@ -10,7 +10,9 @@
             </el-carousel-item>
         </el-carousel>
         <el-card>
-            <el-table :data="tableData" @cell-click="userClick" size="medium" >
+            <el-table :data="tableData"
+                      :header-cell-style="{background: '#E5E9F0'}"
+                      @cell-click="userClick" size="medium" >
                 <el-table-column prop="ranking" label="排名" align="center"/>
                 <el-table-column prop="username" label="用户名" align="center"/>
                 <el-table-column prop="score" label="分数" align="center"/>

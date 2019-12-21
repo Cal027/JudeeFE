@@ -1,6 +1,5 @@
 export function getBrowserInfo () {
   var agent = navigator.userAgent.toLowerCase()
-  // console.log(agent)
   var arr = []
   var system = agent.split(' ')[1].split(' ')[0].split('(')[1]
   arr.push(system)

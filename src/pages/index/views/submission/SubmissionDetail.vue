@@ -121,7 +121,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route)
     let load = this.$loading()
     this.ID = this.$route.params.id
     submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {

@@ -40,6 +40,7 @@
             <el-table :data="tableData"
                       :row-class-name="tableRowClassName"
                       v-loading="loadingTable"
+                      :header-cell-style="{background: '#E5E9F0'}"
                       element-loading-text="正在加载"
                       @cell-mouse-enter="changeStatistics"
                       @cell-click="problemClick"

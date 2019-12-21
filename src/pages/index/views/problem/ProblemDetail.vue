@@ -61,15 +61,15 @@
                 <button>难度: {{diffOptions[problemDetail.difficulty-1]}}</button>
                 <button class="showData" @click="dialogTableVisible = true">查看统计数据</button>
             </div>
-            <el-card class="module">
+            <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">来源</span>
                 <div class="content">{{problemDetail.source}}</div>
             </el-card>
-            <el-card class="module">
+            <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
                 <div class="content" v-highlight v-html="problemDetail.description"/>
             </el-card>
-            <el-card class="module">
+            <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">输入描述</span>
                 <div class="content" v-highlight v-html="problemDetail.input_description"/>
                 <br/>
@@ -89,11 +89,11 @@
                     </el-col>
                 </el-row>
             </el-card>
-            <el-card class="module">
+            <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">提示</span>
                 <div class="content" v-highlight v-html="problemDetail.hint"/>
             </el-card>
-            <el-card class="module">
+            <el-card class="card-module">
                 <CodeMirror :value.sync="code"
                             :languages="problemDetail.languages"
                             :language="language"
@@ -334,12 +334,6 @@ export default {
 
     .menuItem {
         font-size: 16px;
-    }
-
-    .module {
-        width: 80%;
-        padding: 30px 50px;
-        margin: 0 auto 20px;
     }
 
     .mo2 {

@@ -52,7 +52,7 @@
                     </li>
                     <li><i class="el-icon-user" :style="{color:themeColor}"/>{{contestDetail.created_by}}</li>
                 </ul>
-                <el-card class="module">
+                <el-card class="card-module">
                     <span class="title" :style="{color:themeColor}">竞赛说明</span>
                     <div class="content" v-highlight v-html="contestDetail.description"/>
                 </el-card>
@@ -199,12 +199,6 @@ export default {
 
     .menuItem {
         font-size: 16px;
-    }
-
-    .module {
-        width: 80%;
-        padding: 30px 50px;
-        margin: 0 auto 20px;
     }
 
     .title {
