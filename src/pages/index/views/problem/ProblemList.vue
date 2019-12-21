@@ -58,7 +58,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="tags" label="标签" width="200">
+                <el-table-column prop="tags" label="标签">
                     <template slot-scope="scope">
                         <el-tag
                                 class="tags"
