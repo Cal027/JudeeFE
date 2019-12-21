@@ -19,7 +19,7 @@
                 <el-table-column prop="submit" label="提交次数" align="center"/>
                 <el-table-column prop="rate" label="通过率" align="center"/>
             </el-table>
-            <div style="text-align: center; margin-top: 20px">
+            <div class="pagination">
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"

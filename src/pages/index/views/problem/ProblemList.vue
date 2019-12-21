@@ -77,7 +77,7 @@
                 <el-table-column prop="submission_number" label="提交人数" width="90"/>
                 <el-table-column prop="total_score" label="分数" width="80"/>
             </el-table>
-            <div style="text-align: center; margin-top: 20px">
+            <div class="pagination">
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"

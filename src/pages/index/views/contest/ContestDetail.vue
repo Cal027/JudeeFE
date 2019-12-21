@@ -6,8 +6,7 @@
              v-sticky on-stick="handleSticky" sticky-offset="{top:-44}">
             <div class="header">
                 <span style="font-size: 24px">{{contestDetail.title}}</span>
-                <span v-if="contestDetail.is_in" style="font-size: 18px;float:right">已加入</span>
-                <el-button v-else class="d2-mr btn-text can-hover" type="text" style="font-size: 18px;float:right" @click="joinContest">点击加入</el-button>
+                <el-button v-if="!contestDetail.is_in" type="text" style="font-size:16px; float: right" @click="joinContest">加入竞赛</el-button>
             </div>
             <el-menu
                     :default-active="$route.name"
@@ -26,7 +25,7 @@
                               :route="{name:'Contest-submissions-mine',params:{contestID:ID}}">我的提交
                 </el-menu-item>
                 <el-menu-item index="Contest-rank" class="menuItem"
-                :route="{name:'Contest-rank',params:{contestID:ID,type:type}}">排名
+                              :route="{name:'Contest-rank',params:{contestID:ID,type:type}}">排名
                 </el-menu-item>
                 <el-menu-item index="Contest-announcement" class="menuItem"
                               :route="{name:'Contest-announcement',params:{contestID:ID}}">公告
@@ -47,6 +46,10 @@
                         {{getDuration(contestDetail.start_time,contestDetail.end_time)}}
                     </li>
                     <li><i class="el-icon-price-tag" :style="{color:themeColor}"/>{{contestDetail.rule_type}}</li>
+                    <li>
+                        <i class="el-icon-connection" :style="{color:themeColor}"/>
+                        {{contestDetail.is_in? '已加入':'未加入'}}
+                    </li>
                     <li><i class="el-icon-user" :style="{color:themeColor}"/>{{contestDetail.created_by}}</li>
                 </ul>
                 <el-card class="module">
@@ -97,12 +100,10 @@ export default {
       return util.time.resolveTime(time)
     },
     joinContest () {
-      ContestAPI.joinContest(this.ID).then(response => {
-        // eslint-disable-next-line no-undef
-        if (response.is_in) {
+      ContestAPI.joinContest(this.ID).then(res => {
+        if (res.is_in) {
           this.contestDetail.is_in = true
         }
-        // if response
       })
     }
   },
@@ -138,7 +139,8 @@ export default {
             done()
             this.$router.back()
           }
-        } })
+        }
+      })
     })
   },
   watch: {

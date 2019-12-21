@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 75%; margin: 0 auto">
+    <div style="width: 80%; margin: 0 auto">
         <el-card class="controlPanel-sl">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
@@ -41,14 +41,14 @@
             <p id="no-contest" v-if="contests.length===0&&!loading">暂时没有比赛</p>
             <ol id="contest-list">
                 <li v-for="contest in contests" :key="contest.title">
-                    <el-row>
+                    <el-row :gutter="20">
                         <el-col :span="1">
                             <el-button @click="changeRule(contest.rule_type)" type="text">
                                 <el-badge :value="contest.rule_type" class="rule-badge"
                                           :type="ruleTypeColor[contest.rule_type]"/>
                             </el-button>
                         </el-col>
-                        <el-col :span="20" class="contest-main">
+                        <el-col :span="19" class="contest-main">
                             <p class="title">
                                 <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
                                 <template v-if="contest.is_pwd">
@@ -72,12 +72,14 @@
                             </span>
                             <el-tag effect="light" class="stat" :type="typ[statusCode]">{{opt[statusCode]}}</el-tag>
                         </el-col>
-                        <span v-if="contest.is_in">已加入</span>
-                        <span v-else>未加入</span>
+                        <el-col :span="1" style="margin-left: -30px">
+                            <el-tag v-if="contest.is_in" class="stat" type="primary">已加入</el-tag>
+                            <el-tag v-else class="stat" type="info">未加入</el-tag>
+                        </el-col>
                     </el-row>
                 </li>
             </ol>
-            <div style="text-align: center; margin-top: 20px">
+            <div class="pagination">
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"

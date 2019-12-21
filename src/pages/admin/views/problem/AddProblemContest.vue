@@ -56,7 +56,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div style="text-align: center; margin-top: 20px">
+        <div class="pagination">
             <el-pagination
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
