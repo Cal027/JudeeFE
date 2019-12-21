@@ -48,7 +48,6 @@
                     v-loading="loadingTable"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
-
                 <el-table-column prop="ID" label="递交ID" width="90px">
                     <template slot-scope="scope">
                         <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
@@ -57,7 +56,7 @@
                         <router-link v-else :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
                 </el-table-column>
-                <el-table-column prop="problem" label="题目编号" width="80px" align="center">
+                <el-table-column prop="problem" label="题目编号" width="80" align="center">
                     <template slot-scope="scope">
                         <router-link :to="'/problem/'+scope.row.problem">
                             {{scope.row.name?scope.row.name:scope.row.problem}}
