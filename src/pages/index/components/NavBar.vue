@@ -133,7 +133,6 @@ export default {
         top: 0;
         height: 60px;
         box-shadow: rgba(216, 222, 233, 0.15) 0 5px 10px 0;
-        /*box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);*/
     }
 
     .logo {

@@ -28,14 +28,8 @@ const routes = [
   },
   {
     path: '/tutorial',
-    name: 'Tutorial',
-    meta: { title: '教程' },
-    component: _import('tutorial/Tutorial')
-  },
-  {
-    path: '/tutorial/oi-wiki',
     name: 'OiWiki',
-    meta: { title: 'OI-WiKi' },
+    meta: { title: '教程' },
     component: _import('tutorial/OiWiki')
   },
   {
