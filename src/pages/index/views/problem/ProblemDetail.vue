@@ -132,7 +132,10 @@ export default {
   computed: {
     ...mapState('oj/user', [
       'info'
-    ])
+    ]),
+    isPassed: function () {
+      return (this.info.ac_prob && this.info.ac_prob.indexOf(this.$route.params.id + '|') !== -1) ? '已通过' : '尚未通过'
+    }
   },
   data () {
     return {
@@ -154,8 +157,7 @@ export default {
       language: '',
       submissionId: '',
       statusVisible: false,
-      submitLoading: false,
-      isPassed: '尚未通过'
+      submitLoading: false
     }
   },
   methods: {
@@ -254,9 +256,6 @@ export default {
   mounted () {
     this.notContest = this.$route.name !== 'Contest-problem-detail'
     this.getProblem(this.$route.params.id)
-    if (this.info.ac_prob && this.info.ac_prob.indexOf(this.$route.params.id + '|')) {
-      this.isPassed = '已通过'
-    }
   },
   async created () {
     // 异步加载当前主题色

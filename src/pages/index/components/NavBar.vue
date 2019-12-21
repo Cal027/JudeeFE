@@ -119,7 +119,6 @@ export default {
     },
     handleBack () {
       this.$router.back()
-      console.log(this.isAdmin)
     }
   }
 

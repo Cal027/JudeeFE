@@ -1,5 +1,5 @@
 <template>
-    <div style="" class="p-list">
+    <div class="p-list">
         <el-card class="controlPanel-sl">
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
@@ -162,11 +162,7 @@ export default {
     },
     // ac 的题目就变颜色
     tableRowClassName ({ row, rowIndex }) {
-      let acProb = this.info.ac_prob
-      if (acProb && acProb.indexOf(row.ID + '|') !== -1) {
-        return 'success-row'
-      }
-      return ''
+      return (this.info.ac_prob && this.info.ac_prob.indexOf(row.ID + '|') !== -1) ? 'success-row' : ''
     },
     changeStatistics (row, column, cell, event) {
     },
@@ -209,6 +205,16 @@ export default {
 }
 </script>
 
+<style lang="less">
+    .p-list{
+        .el-table {
+            .success-row {
+                background: #f0f9eb;
+            }
+        }
+    }
+</style>
+
 <style lang="less" scoped>
     .p-list {
         width: 90%;
@@ -239,10 +245,6 @@ export default {
         .tags {
             margin-left: 6px;
             margin-bottom: 3px;
-        }
-
-        .el-table.success-row {
-            background: #f0f9eb;
         }
     }
 </style>
