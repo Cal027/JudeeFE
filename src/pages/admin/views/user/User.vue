@@ -5,30 +5,28 @@
             <template #header>
                 <div style="margin: -5px">
                     <el-row :gutter="20">
-                        <el-col :span="1">
-                            <el-button circle v-show="selectedUsers.length"
-                                       type="danger" size="small"
-                                       @click="deleteUsers(selectedUserIDs)"
-                                       icon="el-icon-delete-solid">
-                            </el-button>
-                        </el-col>
-                        <el-col :span="selectedUsers.length ? 18: 19">
+                        <el-col :span="18">
                             <span style="font-size: 22px">用户列表</span>
                         </el-col>
-                        <el-col :span="5">
-                            <el-input size="small" v-model="keyword" prefix-icon="el-icon-search" placeholder="关键词"/>
+                        <el-col :span="2">
+                            <el-button size="medium" icon="el-icon-close" type="text"
+                                       style="margin-left: 20px;margin-top: -1px" @click="clearFilter">
+                                清空筛选
+                            </el-button>
+                        </el-col>
+                        <el-col :span="4">
+                            <el-input @change="searchUser" size="small" v-model="keyword"
+                                      prefix-icon="el-icon-search" placeholder="用户名关键词"/>
                         </el-col>
                     </el-row>
                 </div>
             </template>
 
             <el-table :data="userList"
-                      max-height="400"
+                      max-height="450"
                       v-loading="loadingTable"
-                      @selection-change="handleSelectionChange"
-                      element-loading-text="Loading"
+                      element-loading-text="正在加载"
                       style="width: 100%">
-                <el-table-column type="selection" width="55"/>
                 <el-table-column prop="username" label="用户名" width="90"/>
                 <el-table-column prop="nickname" label="昵称" width="90"/>
                 <el-table-column prop="type" label="用户类型">
@@ -110,7 +108,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-form-item align="right">
+                <el-form-item align="right" style="margin-top: 10px">
                     <el-button round type="primary" size="medium"
                                icon="fa fa-user-plus" @click="generateUser"
                                :loading="loadingGenerate">批量生成
@@ -222,7 +220,7 @@ export default {
       typeMap,
       typeColor,
       userList: [],
-      selectedUsers: [],
+      tableData: [],
       keyword: '',
       generateForm: {
         prefix: '',
@@ -285,10 +283,20 @@ export default {
       userAPI.getUserList(this.pageSize, (this.currentPage - 1) * this.pageSize)
         .then(response => {
           this.loadingTable = false
-          this.userList = response.results
+          this.tableData = response.results
+          this.userList = this.tableData.slice()
           this.total = response.count
-          // console.log(this.userList)
         })
+    },
+    searchUser () {
+      // 忽略大小写模糊搜索
+      this.userList = this.tableData.filter(item => {
+        return item.username.toLowerCase().indexOf(this.keyword.toLowerCase()) > -1
+      })
+    },
+    clearFilter () {
+      this.keyword = ''
+      this.userList = this.tableData
     },
     deleteUser (username) {
       // console.log(username)
@@ -353,18 +361,6 @@ export default {
           message: '取消输入'
         })
       })
-    },
-    handleSelectionChange (val) {
-      this.selectedUsers = val
-    }
-  },
-  computed: {
-    selectedUserIDs () {
-      let ids = []
-      for (let user of this.selectedUsers) {
-        ids.push(user.id)
-      }
-      return ids
     }
   }
 }
