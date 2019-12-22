@@ -57,11 +57,11 @@
                 <el-table-column fixed="right" label="操作" width="200">
                     <template v-slot="scope">
                         <el-tooltip content="编辑用户">
-                            <el-button round size="mini" icon="el-icon-edit"
+                            <el-button circle size="small" icon="el-icon-edit"
                                        @click.native="openUserDialog(scope.row)"/>
                         </el-tooltip>
                         <el-tooltip content="删除用户">
-                            <el-button round type="danger" size="mini" icon="el-icon-delete"
+                            <el-button circle type="danger" size="small" icon="el-icon-delete"
                                        @click.native="deleteUser(scope.row.username)"/>
                         </el-tooltip>
                     </template>

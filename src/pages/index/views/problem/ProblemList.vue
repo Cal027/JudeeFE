@@ -45,9 +45,13 @@
                       @cell-mouse-enter="changeStatistics"
                       @cell-click="problemClick"
                       size="medium">
-                <el-table-column prop="ID" label="#" sortable width="70"/>
+                <el-table-column prop="ID" label="#" sortable width="70">
+                    <template v-slot="scope">
+                        <span style="color: #81A1C1;font-weight: 500">{{scope.row.ID}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="title" label="标题" width="200"/>
-                <el-table-column prop="difficulty" sortable label="难度" width="80">
+                <el-table-column prop="difficulty" sortable label="难度" width="85">
                     <template v-slot="scope1">
                         <el-tag
                                 id="difficulty-tag"
@@ -75,8 +79,8 @@
                 </el-table-column>
                 <el-table-column prop="source" label="来源" width="250" align="center"/>
                 <el-table-column prop="rate" label="通过率" width="80"/>
-                <el-table-column prop="submission_number" label="提交人数" width="90"/>
-                <el-table-column prop="total_score" label="分数" width="80"/>
+                <el-table-column prop="submission_number" label="提交人数" width="90" align="center"/>
+                <el-table-column prop="total_score" label="分数" width="80" align="center"/>
             </el-table>
             <div class="pagination">
                 <el-pagination

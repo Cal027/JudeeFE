@@ -20,8 +20,27 @@ function toLetter (index) {
   return String.fromCharCode(64 + parseInt(index))
 }
 
+function getRankColor (rank) {
+  let color = ''
+  switch (rank) {
+    case 1:
+      color = '#BF616A'
+      break
+    case 2:
+      color = '#D08770'
+      break
+    case 3:
+      color = '#EBCB8B'
+      break
+    default:
+      color = '#B48EAD'
+  }
+  return { color: color, 'font-weight': 600 }
+}
+
 export default {
   resolveMemory: resolveMemory,
   resolveRunTime: resolveRunTime,
-  toLetter: toLetter
+  toLetter: toLetter,
+  getRankColor: getRankColor
 }

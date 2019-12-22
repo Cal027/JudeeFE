@@ -9,11 +9,15 @@
                 </div>
             </el-carousel-item>
         </el-carousel>
-        <el-card>
+        <el-card class="rank-table">
             <el-table :data="tableData"
                       :header-cell-style="{background: '#E5E9F0'}"
                       @cell-click="userClick" size="medium" >
-                <el-table-column prop="ranking" label="排名" align="center" sortable/>
+                <el-table-column prop="ranking" label="排名" align="center" sortable>
+                    <template v-slot="scope">
+                        <span :style="getRankColor(scope.row.ranking)">{{scope.row.ranking}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="username" label="用户名" align="center"/>
                 <el-table-column prop="score" label="分数" align="center"/>
                 <el-table-column prop="ac_prob_num" label="通过题数" align="center" sortable/>
@@ -29,8 +33,7 @@
                         :page-sizes="[10, 20, 30, 50]"
                         :page-size="pageSize"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="totalUser"
-                />
+                        :total="totalUser"/>
             </div>
         </el-card>
     </div>
@@ -38,6 +41,7 @@
 
 <script>
 import rankAPI from '@oj/api/oj.rank'
+import util from '@/utils/util'
 
 export default {
   name: 'Rank',
@@ -65,6 +69,9 @@ export default {
         name: 'user',
         params: { username: row.username }
       })
+    },
+    getRankColor (rank) {
+      return util.formatter.getRankColor(rank)
     },
     getRank () {
       rankAPI.getRankList(this.pageSize, (this.currentPage - 1) * this.pageSize).then(res => {
@@ -103,6 +110,7 @@ export default {
         margin-top: 50px;
         text-align: center;
     }
+
     .el-carousel {
         margin: 0 auto;
         width: 80%;

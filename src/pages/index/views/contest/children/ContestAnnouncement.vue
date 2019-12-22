@@ -1,6 +1,11 @@
 <template>
     <div>
-        <el-card v-for="(item,index) in announcements" :key="index" :name="index" class="content">
+        <el-card v-if="total===0"  class="content">
+            <template #header>
+                暂无公告
+            </template>
+        </el-card>
+        <el-card v-else v-for="(item,index) in announcements" :key="index" :name="index" class="content">
             <template #header>
                 <div style="font-size: 24px">
                     <d2-icon name="bullhorn" style="margin-right: 10px;color: #C41832"/>

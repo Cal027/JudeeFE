@@ -19,27 +19,27 @@
 
                 </el-row>
             </template>
-            <el-table v-if="ruleType==='ACM'"
-                      :data="rankList"
-                      border
+            <el-table :data="rankList"
                       :cell-style="getColor"
                       :header-cell-style="{background: '#E5E9F0'}"
                       style="width: 100%">
-                <el-table-column type="index" label="排位" width="60" align="center"/>
-                <el-table-column prop="user"
-                                 label="选手"
-                                 width="180"/>
-                <el-table-column prop="accepted_number" label="解题数" width="80" align="center"/>
+                <el-table-column prop="rank" label="排位" width="80" align="center" sortable>
+                    <template v-slot="scope">
+                        <span :style="getRankColor(scope.row.rank)">{{scope.row.rank}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="user" label="选手" width="180"/>
+                <el-table-column v-if="ruleType==='ACM'" prop="accepted_number" label="解题数" width="80" align="center"/>
+                <el-table-column v-else prop="total_score" label="总分数" width="80" align="center"/>
                 <el-table-column prop="submission_number" label="提交次数" width="80" align="center"/>
-                <el-table-column prop="total_time" label="总罚时">
+                <el-table-column v-if="ruleType==='ACM'" prop="total_time" label="总罚时">
                     <template v-slot="scope">
                         {{resolveSecond(scope.row.total_time)}}
                     </template>
                 </el-table-column>
-                <el-table-column v-for="(item,index) in problems"
-                                 prop="submission_info[item]"
-                                 :key="index"
-                                 align="center">
+                <!--题目数据-->
+                <el-table-column v-for="(item,index) in problems" prop="submission_info[item]"
+                                 :key="index" align="center" :sortable="ruleType!=='ACM'">
                     <template #header>
                         <router-link :to="
                         {name: 'Contest-problem-detail',
@@ -47,7 +47,8 @@
                             {{toLetter(index+1)}}
                         </router-link>
                     </template>
-                    <template v-slot="scope">
+                    <!--ACM-->
+                    <template v-slot="scope" v-if="ruleType==='ACM'">
                         <span v-if="scope.row.submission_info[item.ID] && scope.row.submission_info[item.ID].is_ac">
                             {{resolveSecond(scope.row.submission_info[item.ID].ac_time)}}
                         </span>
@@ -55,31 +56,8 @@
                             (-{{scope.row.submission_info[item.ID].error_number}})
                         </span>
                     </template>
-                </el-table-column>
-            </el-table>
-            <el-table v-else-if="ruleType==='OI'"
-                      :data="rankList"
-                      border
-                      :header-cell-style="{background: '#E5E9F0'}"
-                      style="width: 100%">
-                <el-table-column type="index" label="排位" width="60" align="center"/>
-                <el-table-column prop="user"
-                                 label="选手"
-                                 width="180"/>
-                <el-table-column prop="total_score" label="总分数" width="80" align="center"/>
-                <el-table-column prop="submission_number" label="提交次数" width="80" align="center"/>
-                <el-table-column v-for="(item,index) in problems"
-                                 prop="submission_info[item]"
-                                 :key="index"
-                                 align="center">
-                    <template #header>
-                        <router-link :to="
-                        {name: 'Contest-problem-detail',
-                        params:{contestID: $route.params.contestID, id:item.ID}}">
-                            {{toLetter(index+1)}}
-                        </router-link>
-                    </template>
-                    <template v-slot="scope">
+                    <!--OI-->
+                    <template v-slot="scope" v-else>
                         <span v-if="scope.row.submission_info[item.ID]">
                             {{scope.row.submission_info[item.ID]}}
                         </span>
@@ -109,13 +87,14 @@ export default {
     }
   },
   mounted () {
-    // this.type = this.$route.params.id
-    // console.log(this.type)
     contestAPI.getContestRankList(this.$route.params.contestID).then(res => {
       this.ruleType = res.rule_type
       this.problems = res.problems
       this.tableData = res.rank_list
-      this.rankList = res.rank_list
+      res.rank_list.forEach((item, index) => {
+        this.tableData[index].rank = index + 1
+      })
+      this.rankList = this.tableData.slice()
     })
   },
   methods: {
@@ -130,9 +109,13 @@ export default {
       this.rankList = this.tableData
     },
     searchUser () {
+      // 忽略大小写模糊搜索
       this.rankList = this.tableData.filter(item => {
-        return String(item.user).toLowerCase().indexOf(this.filterUser) > -1
+        return item.user.toLowerCase().indexOf(this.filterUser.toLowerCase()) > -1
       })
+    },
+    getRankColor (rank) {
+      return util.formatter.getRankColor(rank)
     },
     getColor ({ row, column, rowIndex, columnIndex }) {
       let color = ''
@@ -163,6 +146,12 @@ export default {
     .contest-rank {
         .el-card__header {
             padding: 5px 10px !important;
+        }
+
+        .el-table__body tr,
+        .el-table__body td {
+            padding: 0;
+            height: 40px;
         }
     }
 </style>

@@ -10,3 +10,14 @@
   padding: 30px 50px;
   margin: 0 auto 20px;
 }
+
+.el-table__header tr,
+.el-table__header th {
+  padding: 5px 0!important;
+  height: 40px;
+}
+
+.el-table .caret-wrapper {
+  width: 10px!important;
+}
+
