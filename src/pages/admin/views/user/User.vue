@@ -55,11 +55,11 @@
                     <template slot-scope="scope">
                         <el-tooltip content="编辑用户">
                             <el-button round size="mini" icon="el-icon-edit"
-                                       @click.native="openUserDialog(scope.row.id)"/>
+                                       @click.native="openUserDialog(scope.row)"/>
                         </el-tooltip>
                         <el-tooltip content="删除用户">
                             <el-button round type="danger" size="mini" icon="el-icon-delete"
-                                       @click.native="deleteUsers(scope.row.id)"/>
+                                       @click.native="deleteUser(scope.row.username)"/>
                         </el-tooltip>
                     </template>
                 </el-table-column>
@@ -128,8 +128,49 @@
             <span>请记住生成的ID，用于下载用户列表</span>
             <span>{{fileID}}</span>
             <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click="handleClose">复制ID</el-button>
-  </span>
+                 <el-button type="primary" @click="handleClose">复制ID</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog
+                :title="'编辑用户：'+currentUser.username"
+                :visible.sync="editUser"
+                destroy-on-close
+                width="30%">
+            <el-form ref="form" :model="currentUser" :rules="rules">
+                <el-form-item prop="nickname" label="昵称">
+                    <el-input v-model="currentUser.nickname"/>
+                </el-form-item>
+                <el-form-item prop="email" label="邮箱">
+                    <el-input v-model="currentUser.email"/>
+                </el-form-item>
+                <el-form-item prop="desc" label="个人介绍">
+                    <el-input v-model="currentUser.desc"
+                              placeholder="你这个人很懒，什么都没有留下"/>
+                </el-form-item>
+
+                <el-form-item prop="phone_number" label="电话号码">
+                    <el-input v-model="currentUser.phone_number"
+                              placeholder="还没留下电话号码"/>
+                </el-form-item>
+
+                <el-form-item prop="qq_number" label="QQ">
+                    <el-input v-model="currentUser.qq_number" placeholder="还没留下QQ号码"/>
+                </el-form-item>
+
+                <el-form-item prop="github" label="Github用户名">
+                    <el-input v-model="currentUser.github_username" placeholder="还没留下Github用户名"/>
+                </el-form-item>
+                <el-form-item prop="type" label="用户权限">
+                    <el-select v-model="currentUser.type" placeholder="请选择用户权限">
+                        <el-option label="普通用户" :value="1"/>
+                        <el-option label="管理员" :value="2"/>
+                        <el-option label="超级管理员" :value="3"/>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                 <el-button class="button" type="primary" @click="updateClick">更新</el-button>
+            </span>
         </el-dialog>
     </d2-container>
 </template>
@@ -144,6 +185,26 @@ const typeColor = ['info', '', 'warning']
 export default {
   name: 'User',
   data () {
+    var checkQQ = (rule, value, callback) => {
+      var qqPattern = /^[1-9][0-9]{4,10}$/
+      setTimeout(() => {
+        if (qqPattern.test(value) || !value) {
+          callback()
+        } else {
+          callback(new Error('非法QQ号码'))
+        }
+      }, 100)
+    }
+    var checkPhone = (rule, value, callback) => {
+      var pPattern = /^1[34578]\d{9}$/
+      setTimeout(() => {
+        if (pPattern.test(value) || !value) {
+          callback()
+        } else {
+          callback(new Error('非法手机号码'))
+        }
+      }, 100)
+    }
     return {
       banner: {
         title: '用户管理',
@@ -170,7 +231,17 @@ export default {
       loadingTable: false,
       loadingGenerate: false,
       fileID: '',
-      dialogVisible: false
+      dialogVisible: false,
+      editUser: false,
+      currentUser: {},
+      rules: {
+        email: { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' },
+        nickname: [
+          { min: 3, max: 16, message: '长度在 3 到 8 个字符', trigger: 'blur' },
+          { required: true, message: '请输入昵称', trigger: 'blur' }],
+        qq_number: { validator: checkQQ, trigger: 'blur' },
+        phone_number: { validator: checkPhone, trigger: 'blur' }
+      }
     }
   },
   mounted () {
@@ -190,8 +261,18 @@ export default {
       this.currentPage = page
       this.getUserList()
     },
-    openUserDialog (id) {
-
+    openUserDialog (user) {
+      this.editUser = true
+      this.currentUser = {
+        'username': user.username,
+        'nickname': user.nickname,
+        'email': user.email,
+        'phone_number': user.phone_number,
+        'qq_number': user.qq_number,
+        'github_username': user.github_username,
+        'desc': user.desc,
+        'type': user.type
+      }
     },
     resolveTime (time) {
       return util.time.resolveTime(time)
@@ -206,16 +287,19 @@ export default {
           // console.log(this.userList)
         })
     },
-    deleteUsers (ids) {
+    deleteUser (username) {
+      // console.log(username)
       this.$confirm('此操作将永久删除用户及其资料, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // TODO 删除用户API
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
+        userAPI.deleteUser(username).then(_ => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.currentPage = 1
         })
         this.getUserList()
       }).catch(() => {
@@ -223,6 +307,17 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
+      })
+    },
+    updateClick () {
+      userAPI.patchUser(this.currentUser.username, this.currentUser).then(_ => {
+        this.$message({
+          type: 'success',
+          message: '更新成功!'
+        })
+        this.currentPage = 1
+        this.editUser = false
+        this.getUserList()
       })
     },
     generateUser () {

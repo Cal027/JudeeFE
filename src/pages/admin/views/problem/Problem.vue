@@ -207,7 +207,7 @@ export default {
         samples: { validator: checkSample, trigger: 'blur' },
         languages: { required: true, message: '语言不能为空', trigger: 'blur' }
       },
-      uploadURL: process.env.VUE_APP_API + '/upload_file/',
+      uploadURL: process.env.VUE_APP_BASE_URL + '/upload_file/',
       uploadHeader: {},
       uploadArg: {},
       uploadTxt: '继续上传',

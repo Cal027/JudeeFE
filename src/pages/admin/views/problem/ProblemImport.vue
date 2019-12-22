@@ -59,7 +59,7 @@ export default {
         title: '导入题目',
         subTitle: '在这里可以添加FPS格式的题目'
       },
-      uploadURL: process.env.VUE_APP_API + '/fps-import/',
+      uploadURL: process.env.VUE_APP_BASE_URL + '/fps-import/',
       header: {
         Authorization: `JWT ${cookies.get('tokenAdmin')}`
       },

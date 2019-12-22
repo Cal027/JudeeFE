@@ -34,7 +34,7 @@ function errorLog (error) {
 
 // 创建一个 axiosAdmin 实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_API,
+  baseURL: process.env.VUE_APP_BASE_URL,
   timeout: 5000 // 请求超时时间
 })
 

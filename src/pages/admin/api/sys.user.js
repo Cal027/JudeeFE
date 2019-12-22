@@ -20,5 +20,18 @@ export default {
       method: 'get',
       responseType: 'blob'
     })
+  },
+  deleteUser (username) {
+    return request({
+      url: `/change-all/${username}/`,
+      method: 'delete'
+    })
+  },
+  patchUser (username, data) {
+    return request({
+      url: `/change-all/${username}/`,
+      method: 'patch',
+      data
+    })
   }
 }
