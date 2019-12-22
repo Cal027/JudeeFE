@@ -22,18 +22,18 @@
                 <el-table-column prop="id" label="ID" sortable :width="70"/>
                 <el-table-column prop="title" label="标题"/>
                 <el-table-column label="开始时间">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveTime(scope.row.start_time)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="结束时间">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveTime(scope.row.end_time)}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="created_by" label="作者"/>
                 <el-table-column fixed="right" label="操作" width="200" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <el-tooltip content="编辑">
                             <el-button circle size="small" icon="el-icon-edit"
                                        @click="editContest(scope.row.id,scope.row.created_by)"/>

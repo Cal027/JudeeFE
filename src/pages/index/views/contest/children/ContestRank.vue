@@ -31,7 +31,7 @@
                                  width="180"/>
                 <el-table-column prop="accepted_number" label="解题数" width="80" align="center"/>
                 <el-table-column prop="total_time" label="总罚时">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveSecond(scope.row.total_time)}}
                     </template>
                 </el-table-column>
@@ -39,14 +39,14 @@
                                  prop="submission_info[item]"
                                  :key="index"
                                  align="center">
-                    <template slot-scope="scope" slot="header">
+                    <template #header>
                         <router-link :to="
                         {name: 'Contest-problem-detail',
                         params:{contestID: $route.params.contestID, id:item.ID}}">
                             {{toLetter(index+1)}}
                         </router-link>
                     </template>
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <span v-if="scope.row.submission_info[item.ID] && scope.row.submission_info[item.ID].is_ac">
                             {{resolveSecond(scope.row.submission_info[item.ID].ac_time)}}
                         </span>

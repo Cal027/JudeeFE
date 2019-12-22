@@ -21,13 +21,13 @@
                     style="width: 100%">
                 <el-table-column prop="ID" label="ID" sortable width="70"/>
                 <el-table-column label="标题" width="250">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{scope.row.title}}
                         <d2-icon :name="scope.row.is_public? 'unlock' : 'lock' "/>
                     </template>
                 </el-table-column>
                 <el-table-column prop="difficulty" sortable label="难度" width="100">
-                    <template slot-scope="scope1">
+                    <template v-slot="scope1">
                         <el-tag
                                 id="difficulty-tag"
                                 size="medium"
@@ -42,7 +42,7 @@
                 <el-table-column prop="submission_number" label="提交人数" width="100" align="center"/>
                 <el-table-column prop="total_score" label="分数" width="80" align="center"/>
                 <el-table-column fixed="right" label="操作" width="180" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <el-tooltip :content="scope.row.is_public? '私密':'公开'">
                             <el-button circle size="mini"
                                        @click="makePublicORNot(scope.$index,scope.row.ID,scope.row.is_public)">

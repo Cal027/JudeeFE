@@ -31,13 +31,13 @@
                 :data="tableData">
             <el-table-column prop="ID" label="ID" sortable width="70px"/>
             <el-table-column label="标题" width="300px">
-                <template slot-scope="scope">
+                <template v-slot="scope">
                     {{scope.row.title}}
                     <d2-icon :name="scope.row.is_public? 'unlock-alt' : 'lock' "/>
                 </template>
             </el-table-column>
             <el-table-column prop="difficulty" sortable label="难度" width="100px">
-                <template slot-scope="scope1">
+                <template v-slot="scope1">
                     <el-tag
                             id="difficulty-tag"
                             size="medium"
@@ -50,7 +50,7 @@
             </el-table-column>
             <el-table-column prop="created_by" label="作者"/>
             <el-table-column fixed="right" label="操作" align="center">
-                <template slot-scope="scope">
+                <template v-slot="scope">
                     <el-button circle size="mini" icon="el-icon-plus"
                                @click="addProblem(scope.row.ID,scope.row.title)"/>
                 </template>

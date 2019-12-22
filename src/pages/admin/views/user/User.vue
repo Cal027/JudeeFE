@@ -29,7 +29,7 @@
                 <el-table-column prop="username" label="用户名" width="90"/>
                 <el-table-column prop="nickname" label="昵称" width="90"/>
                 <el-table-column prop="type" label="用户类型">
-                    <template slot-scope="scopeT">
+                    <template v-slot="scopeT">
                         <el-tag
                                 :type="typeColor[scopeT.row.type-1]"
                                 effect="plain">
@@ -39,12 +39,12 @@
                 </el-table-column>
                 <el-table-column prop="email" label="Email"/>
                 <el-table-column label="最后登录">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveTime(scope.row.last_login)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="注册时间">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveTime(scope.row.register_time)}}
                     </template>
                 </el-table-column>
@@ -52,7 +52,7 @@
                 <el-table-column prop="github_username" label="Github用户名"/>
                 <el-table-column prop="phone_number" label="手机号码"/>
                 <el-table-column fixed="right" label="操作" width="200">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <el-tooltip content="编辑用户">
                             <el-button round size="mini" icon="el-icon-edit"
                                        @click.native="openUserDialog(scope.row)"/>

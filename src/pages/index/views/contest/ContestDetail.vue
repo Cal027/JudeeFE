@@ -58,7 +58,9 @@
                 </el-card>
             </template>
             <!--Children-->
-            <router-view v-else/>
+            <transition v-else name="el-fade-in-linear" mode="out-in">
+                <router-view/>
+            </transition>
             <!--ChildrenEnd-->
         </div>
     </d2-container>

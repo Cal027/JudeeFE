@@ -22,7 +22,7 @@
         label="Url"
         align="center"
         min-width="200">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           {{get(scope.row, 'meta.url')}}
         </template>
       </el-table-column>
@@ -31,7 +31,7 @@
         label="Tag"
         align="center"
         min-width="120">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-tag
             v-if="get(scope.row, 'meta.instance.$vnode.componentOptions.tag')"
             type="info"
@@ -46,7 +46,7 @@
         align="center"
         label="More"
         width="100">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="primary"
             size="mini"

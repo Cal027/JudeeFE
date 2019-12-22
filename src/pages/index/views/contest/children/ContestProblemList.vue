@@ -9,12 +9,12 @@
                 :data="tableData"
                 style="width: 100%">
             <el-table-column label="#" width="80">
-                <template slot-scope="scope">
+                <template v-slot="scope">
                     {{toLetter(scope.$index+1)}}
                 </template>
             </el-table-column>
             <el-table-column prop="title" label="标题">
-                <template slot-scope="scope">
+                <template v-slot="scope">
                     <router-link :to="{name: 'Contest-problem-detail',params: {contestID: contestID,id: scope.row.ID}}">
                         {{scope.row.title}}
                     </router-link>

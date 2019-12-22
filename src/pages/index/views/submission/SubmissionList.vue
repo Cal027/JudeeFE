@@ -50,7 +50,7 @@
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
                 <el-table-column prop="ID" label="递交ID" width="90px">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
                             {{scope.row.ID}}
                         </router-link>
@@ -58,7 +58,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column v-if="contestID" prop="problem" label="题目编号" width="80" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <router-link :to="
                         {name: 'Contest-problem-detail',
                         params:{contestID: $route.params.contestID, id:scope.row.problem}}">
@@ -67,20 +67,20 @@
                     </template>
                 </el-table-column>
                 <el-table-column v-else prop="problem" label="题目编号" width="80" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <router-link :to="'/problem/'+scope.row.problem">
                             {{scope.row.problem}}
                         </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="username" label="用户" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <router-link :to="'/user/'+scope.row.username">{{scope.row.username}}</router-link>
                     </template>
                 </el-table-column>
                 <el-table-column prop="language" label="语言" align="center"/>
                 <el-table-column label="状态" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <el-tag size="small" effect="light"
                                 :type="results[scope.row.result+2].type">
                             {{results[scope.row.result+2].msg}}
@@ -88,12 +88,12 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="时间" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveRunTime(scope.row.time_cost)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="内存" align="center">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveMemory(scope.row.memory_cost)}}
                     </template>
                 </el-table-column>
@@ -101,7 +101,7 @@
                                  sortable
                                  width="200px"
                                  prop="create_time">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         {{resolveTime(scope.row.create_time)}}
                     </template>
                 </el-table-column>
@@ -214,13 +214,13 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.params.id) {
-      this.problemID = this.$route.params.id
-    }
     if (this.$route.params.contestID) {
       this.showPanel = false
       this.contestID = this.$route.params.contestID
       this.myself = true
+    }
+    if (this.$route.params.id) {
+      this.problemID = this.$route.params.id
     }
     if (this.$route.name === 'ProblemSubmissionsMine') {
       this.showPanel = false

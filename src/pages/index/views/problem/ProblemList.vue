@@ -48,7 +48,7 @@
                 <el-table-column prop="ID" label="#" sortable width="70"/>
                 <el-table-column prop="title" label="标题" width="200"/>
                 <el-table-column prop="difficulty" sortable label="难度" width="80">
-                    <template slot-scope="scope1">
+                    <template v-slot="scope1">
                         <el-tag
                                 id="difficulty-tag"
                                 size="medium"
@@ -60,7 +60,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="tags" label="标签">
-                    <template slot-scope="scope">
+                    <template v-slot="scope">
                         <el-tag
                                 class="tags"
                                 v-for="(name,index) in scope.row.tags"

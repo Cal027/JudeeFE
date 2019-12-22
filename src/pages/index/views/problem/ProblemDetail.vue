@@ -111,7 +111,9 @@
                 </el-button>
             </el-card>
         </template>
-        <router-view v-else :key="$route.name"/>
+        <transition v-else name="el-fade-in-linear" mode="out-in">
+            <router-view :key="$route.name"/>
+        </transition>
     </div>
 </template>
 

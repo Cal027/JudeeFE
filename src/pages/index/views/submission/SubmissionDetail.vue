@@ -23,12 +23,12 @@
                 <el-card v-if="!isCE&&info.length>0">
                     <el-table :data="detail.info">
                         <el-table-column label="测试样例ID">
-                            <template slot-scope="scope">
+                            <template v-slot="scope">
                                 {{scope.$index+1}}
                             </template>
                         </el-table-column>
                         <el-table-column label="状态" align="center">
-                            <template slot-scope="scope">
+                            <template v-slot="scope">
                                 <el-tag size="small" effect="light"
                                         :type="results[scope.row.result+2].type">
                                     {{results[scope.row.result+2].msg}}
@@ -36,12 +36,12 @@
                             </template>
                         </el-table-column>
                         <el-table-column label="时间" align="center">
-                            <template slot-scope="scope">
+                            <template v-slot="scope">
                                 {{resolveRunTime(scope.row.cpu_time)}}
                             </template>
                         </el-table-column>
                         <el-table-column label="内存" align="center">
-                            <template slot-scope="scope">
+                            <template v-slot="scope">
                                 {{resolveMemory(scope.row.memory)}}
                             </template>
                         </el-table-column>
