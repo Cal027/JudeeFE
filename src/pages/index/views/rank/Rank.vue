@@ -13,13 +13,13 @@
             <el-table :data="tableData"
                       :header-cell-style="{background: '#E5E9F0'}"
                       @cell-click="userClick" size="medium" >
-                <el-table-column prop="ranking" label="排名" align="center"/>
+                <el-table-column prop="ranking" label="排名" align="center" sortable/>
                 <el-table-column prop="username" label="用户名" align="center"/>
                 <el-table-column prop="score" label="分数" align="center"/>
-                <el-table-column prop="ac_prob_num" label="通过题数" align="center"/>
-                <el-table-column prop="ac" label="通过次数" align="center"/>
-                <el-table-column prop="submit" label="提交次数" align="center"/>
-                <el-table-column prop="rate" label="通过率" align="center"/>
+                <el-table-column prop="ac_prob_num" label="通过题数" align="center" sortable/>
+                <el-table-column prop="ac" label="通过次数" align="center" sortable/>
+                <el-table-column prop="submit" label="提交次数" align="center" sortable/>
+                <el-table-column prop="rate" label="通过率" align="center" sortable/>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -54,11 +54,11 @@ export default {
   methods: {
     handleSizeChange (val) {
       this.pageSize = val
-      this.getSubmissionList()
+      this.getRank()
     },
     handleCurrentChange (val) {
       this.currentPage = val
-      this.getSubmissionList()
+      this.getRank()
     },
     userClick (row) {
       this.$router.push({
@@ -73,7 +73,7 @@ export default {
         for (let i = 0; i < res.results.length; i++) {
           let ac = res.results[i]['ac']
           let sub = res.results[i]['submit']
-          this.tableData[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          this.tableData[i]['rate'] = (sub === 0 ? '0' : Math.round(ac / sub * 10000) / 100.00) + '%'
           this.tableData[i]['ranking'] = (this.currentPage - 1) * this.pageSize + i + 1
         }
         if (this.currentPage === 1) {
