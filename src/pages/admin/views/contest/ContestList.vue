@@ -2,17 +2,19 @@
     <d2-container>
         <d2-module-index-banner v-bind="banner"/>
         <el-card>
-            <div slot="header" style="margin: -5px">
-                <el-row :gutter="20">
-                    <el-col :span="19">
-                        <span style="font-size: 22px">竞赛列表</span>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-input size="small" v-model="searchText" @change="getContests"
-                                  prefix-icon="el-icon-search" placeholder="竞赛关键词"/>
-                    </el-col>
-                </el-row>
-            </div>
+            <template #header>
+                <div style="margin: -5px">
+                    <el-row :gutter="20">
+                        <el-col :span="19">
+                            <span style="font-size: 22px">竞赛列表</span>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-input size="small" v-model="searchText" @change="getContests"
+                                      prefix-icon="el-icon-search" placeholder="竞赛关键词"/>
+                        </el-col>
+                    </el-row>
+                </div>
+            </template>
             <el-table
                     v-loading="loading"
                     element-loading-text="正在加载"

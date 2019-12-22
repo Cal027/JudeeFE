@@ -47,11 +47,14 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-                <div style="margin-top: 30px">
+                <el-card style="margin-top: 30px">
+                   <template #header>
+                       提交代码
+                   </template>
                     <Highlight :code="code"
                                :border-color="getColor(type)"
                                :language="getLanguage(detail.language)"/>
-                </div>
+                </el-card>
             </el-col>
         </el-row>
     </div>

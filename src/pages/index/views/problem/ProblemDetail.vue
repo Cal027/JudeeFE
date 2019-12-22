@@ -67,7 +67,7 @@
             </el-card>
             <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
-                <div class="content" v-highlight v-html="problemDetail.description"/>
+                <div class="content" v-highlight  v-html="problemDetail.description"/>
             </el-card>
             <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">输入描述</span>

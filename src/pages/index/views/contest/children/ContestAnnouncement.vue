@@ -1,14 +1,16 @@
 <template>
     <div>
         <el-card v-for="(item,index) in announcements" :key="index" :name="index" class="content">
-            <div slot="header" style="font-size: 24px">
-                <d2-icon name="bullhorn" style="margin-right: 10px;color: #C41832"/>
-                <span style="color: #C41832;">{{total-index}}: </span>{{item.title}}
-                <span class="right time">
+            <template #header>
+                <div style="font-size: 24px">
+                    <d2-icon name="bullhorn" style="margin-right: 10px;color: #C41832"/>
+                    <span style="color: #C41832;">{{total-index}}: </span>{{item.title}}
+                    <span class="right time">
                     <d2-icon name="clock-o"/>
                     {{resolveTime(item.create_time)}}
                 </span>
-            </div>
+                </div>
+            </template>
             <div style="font-size: 16px" v-html="item.content"/>
         </el-card>
     </div>
@@ -50,7 +52,7 @@ export default {
 </script>
 
 <style scoped>
-    .content{
+    .content {
         width: 80%;
         padding-left: 50px;
         padding-right: 50px;

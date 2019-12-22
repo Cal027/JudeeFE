@@ -1,7 +1,7 @@
 <template>
     <div class="contest-rank">
         <el-card class="card-module">
-            <div slot="header">
+            <template #header>
                 <el-row>
                     <el-col :span="1">
                         <span style="font-size: 18px">排名</span>
@@ -18,7 +18,7 @@
                     </el-col>
 
                 </el-row>
-            </div>
+            </template>
             <el-table v-if="ruleType==='ACM'"
                       :data="rankList"
                       border

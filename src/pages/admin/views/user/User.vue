@@ -2,23 +2,26 @@
     <d2-container>
         <d2-module-index-banner v-bind="banner"/>
         <el-card>
-            <div slot="header" style="margin: -5px">
-                <el-row :gutter="20">
-                    <el-col :span="1">
-                        <el-button circle v-show="selectedUsers.length"
-                                   type="danger" size="small"
-                                   @click="deleteUsers(selectedUserIDs)"
-                                   icon="el-icon-delete-solid">
-                        </el-button>
-                    </el-col>
-                    <el-col :span="selectedUsers.length ? 18: 19">
-                        <span style="font-size: 22px">用户列表</span>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-input size="small" v-model="keyword" prefix-icon="el-icon-search" placeholder="关键词"/>
-                    </el-col>
-                </el-row>
-            </div>
+            <template #header>
+                <div style="margin: -5px">
+                    <el-row :gutter="20">
+                        <el-col :span="1">
+                            <el-button circle v-show="selectedUsers.length"
+                                       type="danger" size="small"
+                                       @click="deleteUsers(selectedUserIDs)"
+                                       icon="el-icon-delete-solid">
+                            </el-button>
+                        </el-col>
+                        <el-col :span="selectedUsers.length ? 18: 19">
+                            <span style="font-size: 22px">用户列表</span>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-input size="small" v-model="keyword" prefix-icon="el-icon-search" placeholder="关键词"/>
+                        </el-col>
+                    </el-row>
+                </div>
+            </template>
+
             <el-table :data="userList"
                       max-height="400"
                       v-loading="loadingTable"
@@ -76,9 +79,9 @@
             </div>
         </el-card>
         <el-card style="margin-top: 25px">
-            <div slot="header">
+            <template #header>
                 <span style="font-size: 22px">批量生成用户</span>
-            </div>
+            </template>
             <el-form :model="generateForm" ref="generateForm">
                 <el-row type="flex" justify="space-between">
                     <el-col :span="4">

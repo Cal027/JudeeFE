@@ -2,26 +2,28 @@
     <d2-container>
         <d2-module-index-banner v-bind="banner"/>
         <el-card v-if="announcements.length===0">
-            <div slot="header" class="title">
-                <span>暂无公告</span>
-            </div>
+            <template #header>
+                <span class="title">暂无公告</span>
+            </template>
         </el-card>
         <el-card v-for="(item,index) in announcements" class="container"
                  :key="index" :name="index">
-            <div slot="header" class="title">
-                <d2-icon name="bullhorn" style="margin-right: 10px;color: #0078D7"/>
-                <span style="color: #0078D7;">{{total-index}}: </span>{{item.title}}
-                <el-button class="right" @click="deleteAnn(item.id)" type="text"
-                           icon="el-icon-close" size="medium">删除
-                </el-button>
-                <el-button class="right" @click="goEdit(item)" type="text"
-                           icon="el-icon-edit" size="medium">编辑
-                </el-button>
-                <span class="right time">
+            <template #header>
+                <div  class="title">
+                    <d2-icon name="bullhorn" style="margin-right: 10px;color: #0078D7"/>
+                    <span style="color: #0078D7;">{{total-index}}: </span>{{item.title}}
+                    <el-button class="right" @click="deleteAnn(item.id)" type="text"
+                               icon="el-icon-close" size="medium">删除
+                    </el-button>
+                    <el-button class="right" @click="goEdit(item)" type="text"
+                               icon="el-icon-edit" size="medium">编辑
+                    </el-button>
+                    <span class="right time">
                     <d2-icon name="clock-o"/>
                     {{resolveTime(item.create_time)}}
                 </span>
-            </div>
+                </div>
+            </template>
             <div class="content" v-html="item.content"/>
         </el-card>
         <el-dialog :visible.sync="showDialog"

@@ -1,7 +1,7 @@
 <template>
     <div :class="contestID? '':'sl'">
         <el-card class="controlPanel-sl" v-if="showPanel">
-            <div slot="header">
+            <template #header>
                 <span>筛选记录</span>
                 <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
                     刷新
@@ -9,7 +9,7 @@
                 <el-button icon="el-icon-close" type="text" @click="clearFilter" class="header-button">
                     清空筛选
                 </el-button>
-            </div>
+            </template>
             <el-row :gutter="20">
                 <el-col :span="5" v-show="!isProblem">
                     <el-input v-model="problemID" @change="filterSubmissionList" size="medium"
@@ -62,7 +62,7 @@
                         <router-link :to="
                         {name: 'Contest-problem-detail',
                         params:{contestID: $route.params.contestID, id:scope.row.problem}}">
-                            {{scope.row.problem}}
+                            {{Letter[scope.row.problem]}}
                         </router-link>
                     </template>
                 </el-table-column>
@@ -122,6 +122,7 @@
 
 <script>
 import submissionAPI from '@oj/api/oj.submission'
+import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
 
 const results = [
@@ -158,11 +159,7 @@ export default {
       currentPage: 1,
       pageSize: 20,
       totalNum: 0,
-      primary: {
-        'background-color': '#ecf5ff',
-        'border-color': '#d9ecff',
-        'color': '#409EFF'
-      }
+      Letter: {}
     }
   },
   methods: {
@@ -211,6 +208,14 @@ export default {
           this.loadingTable = false
         }
       })
+    },
+    getProblemList () {
+      problemAPI.getContestProblems(this.contestID).then(res => {
+        res.forEach((item, index) => {
+          this.Letter[item.ID] = util.formatter.toLetter(index + 1)
+        })
+        this.getSubmissionList()
+      })
     }
   },
   mounted () {
@@ -218,16 +223,18 @@ export default {
       this.showPanel = false
       this.contestID = this.$route.params.contestID
       this.myself = true
+      this.getProblemList()
+    } else {
+      if (this.$route.params.id) {
+        this.problemID = this.$route.params.id
+      }
+      if (this.$route.name === 'ProblemSubmissionsMine') {
+        this.showPanel = false
+        this.myself = true
+      }
+      this.isProblem = this.$route.name === 'ProblemSubmissions'
+      this.getSubmissionList()
     }
-    if (this.$route.params.id) {
-      this.problemID = this.$route.params.id
-    }
-    if (this.$route.name === 'ProblemSubmissionsMine') {
-      this.showPanel = false
-      this.myself = true
-    }
-    this.isProblem = this.$route.name === 'ProblemSubmissions'
-    this.getSubmissionList()
   }
 }
 </script>

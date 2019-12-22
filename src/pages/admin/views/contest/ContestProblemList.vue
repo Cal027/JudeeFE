@@ -2,7 +2,7 @@
     <d2-container>
         <d2-module-index-banner v-bind="banner"/>
         <el-card class="panel">
-            <div slot="header">
+            <template #header>
                 <el-row :gutter="20">
                     <el-col :span="22">
                         <span style="font-size: 22px">竞赛题目列表</span>
@@ -13,7 +13,7 @@
                         </el-button>
                     </el-col>
                 </el-row>
-            </div>
+            </template>
             <el-table
                     v-loading="loading"
                     element-loading-text="正在加载"

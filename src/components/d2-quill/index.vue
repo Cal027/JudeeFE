@@ -110,8 +110,7 @@ export default {
       })
     },
     imageHandler: function () {
-      var range = this.Quill.getSelection()
-      // var value = prompt('What is the image URL')
+      let range = this.Quill.getSelection()
       this.$prompt('请输入图片URL',
         {
           inputPattern: /https?:\/\/.+\.(jpg|gif|png)/,

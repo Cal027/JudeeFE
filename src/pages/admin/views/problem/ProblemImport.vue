@@ -3,9 +3,9 @@
 
         <d2-module-index-banner v-bind="banner"/>
         <el-card class="content">
-            <div slot="header">
+            <template #header>
                 上传文件
-            </div>
+            </template>
             <el-upload
                     drag
                     :headers="header"
