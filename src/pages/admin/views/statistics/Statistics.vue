@@ -30,12 +30,19 @@
             <el-col :span="16">
                 <el-card style="width: 100%;height: 600px">
                     <!--提交线图-->
+                    <ve-line :data="submissionData" :settings="                {
+                axisSite: { right: ['rate'] },
+                yAxisType: ['normal', 'percent'],
+                yAxisName: ['次数', '比率']
+                }"/>
                 </el-card>
             </el-col>
             <el-col :span="8">
                 <el-row>
                     <el-card style="width: 100%;height: 295px">
                         <!--统计数据扇形图-->
+                        <ve-ring v-if="recentSubmission.rows.length>0" :data="recentSubmission" :settings="{roseType: 'radius'}"/>
+                        <h4 v-else style="text-align: center">暂无数据</h4>
                     </el-card>
                 </el-row>
                 <el-row style="margin-top: 10px">
@@ -50,16 +57,35 @@
 
 <script>
 import statisticAPI from '@admin/api/sys.statistics'
+import VeRing from 'v-charts/lib/ring.common'
 import { mapState } from 'vuex'
 import InfoCard from '@admin/components/infoCard'
+import VeLine from 'v-charts/lib/line.common'
 
+const results = {
+  '-1': 'Compile Error',
+  '0': 'Wrong Answer',
+  '1': 'Accepted',
+  '2': 'CPU Time Limit Exceeded',
+  '3': 'Real Time Limit Exceeded',
+  '4': 'Memory Limit Exceeded',
+  '5': 'Runtime Error',
+  '6': 'System Error',
+  '7': 'Pending',
+  '8': 'Judging',
+  '9': 'Partially Accepted'
+}
 export default {
   name: 'Statistics',
-  components: { InfoCard },
+  components: { InfoCard, VeRing, VeLine },
   data () {
     return {
       overallData: {},
-      submissionData: []
+      submissionData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
+      recentSubmission: {
+        columns: ['status', 'number'],
+        rows: []
+      }
     }
   },
   computed: {
@@ -84,6 +110,8 @@ export default {
   created () {
     this.getOverall()
     this.getSubmissionStatistics()
+    this.getSubmissionResults()
+    console.log(this.recentSubmission)
   },
   methods: {
     getOverall () {
@@ -93,7 +121,14 @@ export default {
     },
     getSubmissionStatistics (offset) {
       statisticAPI.getSubmissionStatistics(offset).then(res => {
-        this.submissionData = res
+        this.submissionData.rows = res
+      })
+    },
+    getSubmissionResults (offset) {
+      statisticAPI.getSubmissionResults(offset).then(res => {
+        Object.keys(res).forEach(key => {
+          this.recentSubmission.rows.push({ 'status': results[key], 'number': res[key].count })
+        })
       })
     }
   }
