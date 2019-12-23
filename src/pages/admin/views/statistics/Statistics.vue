@@ -1,6 +1,6 @@
 <template>
     <d2-container>
-        <el-row type="flex" justify="space-between" v-if="isSuperAdmin">
+        <el-row type="flex" justify="space-between" v-if="isSuperAdmin" style="margin-bottom: 20px">
             <el-col>
                 <info-card color="#909399" icon="users" message="用户数" iconSize="35px"
                            class="info-item" :value="overallData.user_number"/>
@@ -20,11 +20,29 @@
                     <info-card color="#909399" icon="trophy" message="已结束" iconSize="35px"
                                class="info-item" :value="overallData.contest_number.ended"/>
                 </el-popover>
-
             </el-col>
             <el-col>
                 <info-card color="#909399" icon="codepen" message="提交数" iconSize="35px"
                            class="info-item" :value="overallData.submission_number"/>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <el-card style="width: 100%;height: 600px">
+                    <!--提交线图-->
+                </el-card>
+            </el-col>
+            <el-col :span="8">
+                <el-row>
+                    <el-card style="width: 100%;height: 295px">
+                        <!--统计数据扇形图-->
+                    </el-card>
+                </el-row>
+                <el-row style="margin-top: 10px">
+                    <el-card style="width: 100%;height: 295px">
+                        <!--柱状图-->
+                    </el-card>
+                </el-row>
             </el-col>
         </el-row>
     </d2-container>
