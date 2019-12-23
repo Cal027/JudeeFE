@@ -4,7 +4,7 @@
             <el-carousel-item v-for="(item,index) in carouselData" :key="index">
                 <div  class="content">
                     <h2>{{ item.username }}</h2>
-                    <h3>得分：{{ item.score }}</h3>
+                    <h2>得分：{{ item.score }}</h2>
                     <h3>通过题数：{{ item.ac_prob_num }}</h3>
                 </div>
             </el-carousel-item>

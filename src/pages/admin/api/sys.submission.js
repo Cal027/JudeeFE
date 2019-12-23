@@ -1,31 +1,21 @@
 import request from '@/plugin/axiosAdmin'
 
 export default {
-  getSubmission (id, contest) {
-    if (contest) {
-      return request({
-        url: `/contest-submission/${id}`,
-        method: 'get'
-      })
-    } else {
-      return request({
-        url: `/submission/${id}`,
-        method: 'get'
-      })
-    }
+  getSubmission (id) {
+    return request({
+      url: `/manager-submission/${id}`,
+      method: 'get'
+    })
   },
-  getSubmissionList (limit, offset, username, language, problem, result, contest = '') {
+  getSubmissionList (limit, offset, username, language, problem, result, contest) {
     let url = ``
-    if (contest !== '') {
-      url += `/contest-submission/?limit=${limit}&offset=${offset}&contest=${contest}`
-    } else {
-      url += `/submission/?limit=${limit}&offset=${offset}`
-    }
+    url += `/manager-submission/?limit=${limit}&offset=${offset}`
+
     if (username !== '') {
       url += `&username=${username}`
     }
     if (language !== '') {
-      url = url + '&language=' + encodeURIComponent(language)
+      url += '&language=' + encodeURIComponent(language)
     }
     if (result !== '') {
       url += `&result=${result}`
@@ -33,10 +23,12 @@ export default {
     if (problem !== '') {
       url += `&problem=${problem}`
     }
+    if (contest !== '') {
+      url += `&contest=${contest}`
+    }
     return request.get(url)
   },
   rejudgeSubmission (idList) {
-    // TODO Rejudge的API
-    return request.post('', idList)
+    return request.post('rejudge/', { 'submissions': idList })
   }
 }

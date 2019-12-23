@@ -12,13 +12,17 @@
                 </el-button>
             </template>
             <el-row :gutter="20">
-                <el-col :span="5">
+                <el-col :span="3">
+                    <el-input v-model="contestID" @change="filterSubmissionList" size="medium"
+                              prefix-icon="el-icon-search" placeholder="搜索竞赛编号"/>
+                </el-col>
+                <el-col :span="3">
                     <el-input v-model="problemID" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索题目编号"/>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="3">
                     <el-input v-model="username" @change="filterSubmissionList" size="medium"
-                              prefix-icon="el-icon-search" placeholder="搜索用户"/>
+                              prefix-icon="el-icon-search" placeholder="搜索用户名"/>
                 </el-col>
                 <el-col :span="3">
                     <el-select size="medium" clearable placeholder="语言" v-model="language"
@@ -62,6 +66,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="problem" label="题目编号" width="80" align="center"/>
+                <el-table-column prop="contest" label="竞赛编号" width="80" align="center"/>
                 <el-table-column prop="username" label="用户" align="center"/>
                 <el-table-column prop="language" label="语言" align="center"/>
                 <el-table-column label="状态" align="center">
