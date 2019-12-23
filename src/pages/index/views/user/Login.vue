@@ -4,7 +4,7 @@
         <el-header>
             <h1>登录Judee OJ</h1>
         </el-header>
-        <el-main>
+        <el-main style="z-index: 10">
             <el-card class="login-box">
                 <el-form :model="loginForm">
                     <el-form-item prop="username" label="用户名或邮箱">

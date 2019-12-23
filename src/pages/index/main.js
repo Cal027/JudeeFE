@@ -7,8 +7,7 @@ import store from '@/store'
 import Sticky from 'vue-sticky-directive'
 import hljs from 'highlight.js'
 import highlight from '@/plugin/highlight'
-// import 'highlight.js/styles/atom-one-light.css'
-import '@/assets/style/nord.css'
+import 'highlight.js/styles/atom-one-light.css'
 
 // 组件
 import '@/components'
@@ -18,6 +17,7 @@ import '@/assets/svg-icons'
 Vue.use(ElementUI)
 Vue.use(Sticky)
 Vue.use(highlight)
+
 Vue.directive('highlight', function (el) {
   let blocks = el.querySelectorAll('pre.ql-syntax')
   blocks.forEach((block) => {

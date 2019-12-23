@@ -13,8 +13,11 @@ import menuHeader from '@admin/menu/header'
 import menuAside from '@admin/menu/aside'
 import { frameInRoutes } from '@admin/router/routes'
 
+import highlight from '@/plugin/highlight'
+
 // 核心插件
 Vue.use(d2Admin)
+Vue.use(highlight)
 
 new Vue({
   router,

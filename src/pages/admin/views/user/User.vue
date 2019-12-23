@@ -136,7 +136,7 @@
                 :title="'编辑用户：'+currentUser.username"
                 :visible.sync="editUser"
                 destroy-on-close
-                width="30%">
+                width="40%">
             <el-form ref="form" :model="currentUser" :rules="rules">
                 <el-form-item prop="nickname" label="昵称">
                     <el-input v-model="currentUser.nickname"/>

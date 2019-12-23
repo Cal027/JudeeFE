@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <d2-container>
         <el-row type="flex" justify="space-around">
             <el-col :span="20" id="status">
                 <el-alert show-icon
@@ -48,22 +48,23 @@
                     </el-table>
                 </el-card>
                 <el-card style="margin-top: 30px">
-                   <template #header>
-                       提交代码
-                   </template>
+                    <template #header>
+                        提交代码
+                    </template>
                     <Highlight :code="code"
                                :border-color="getColor(type)"
                                :language="getLanguage(detail.language)"/>
                 </el-card>
             </el-col>
         </el-row>
-    </div>
+
+    </d2-container>
 </template>
 
 <script>
-import submissionAPI from '@oj/api/oj.submission'
-import util from '@/utils/util'
 import Highlight from '@/components/Highlight/index'
+import submissionAPI from '@admin/api/sys.submission'
+import util from '@/utils/util'
 
 const results = [
   { msg: 'COMPILE_ERROR', type: 'warning', tag: 'warning' },
@@ -93,6 +94,22 @@ export default {
       msg: 'PENDING'
     }
   },
+  mounted () {
+    let load = this.$loading()
+    this.ID = this.$route.params.id
+    submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
+      this.detail = res
+      this.code = res.code
+      this.info = res.info
+      this.isCE = this.detail.compile_error_info !== null
+      this.type = this.results[this.detail.result + 2].tag
+      this.msg = this.results[this.detail.result + 2].msg
+      load.close()
+    }).catch(() => {
+      load.close()
+      this.$router.back()
+    })
+  },
   methods: {
     resolveMemory (memory) {
       return util.formatter.resolveMemory(memory)
@@ -106,24 +123,6 @@ export default {
     getColor (type) {
       return util.formatter.getCodeColor(type)
     }
-  },
-  mounted () {
-    let load = this.$loading()
-    this.ID = this.$route.params.id
-    submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
-      this.detail = res
-      this.code = res.code
-      this.info = res.info
-      this.isCE = this.detail.compile_error_info !== null
-      this.type = this.results[this.detail.result + 2].tag
-      this.msg = this.results[this.detail.result + 2].msg
-      load.close()
-    }).catch(err => {
-      if (err.response.status === 403) {
-        load.close()
-        this.$router.back()
-      }
-    })
   }
 }
 </script>

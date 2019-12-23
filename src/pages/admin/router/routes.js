@@ -126,6 +126,24 @@ const frameIn = [
         },
         component: _import('user/User')
       },
+      {
+        path: 'submissions',
+        name: 'submission-list',
+        meta: {
+          title: '评测记录',
+          auth: true
+        },
+        component: _import('submission/SubmissionList')
+      },
+      {
+        path: 'status/:id',
+        name: 'submission-detail',
+        meta: {
+          title: '评测详情',
+          auth: true
+        },
+        component: _import('submission/SubmissionDetail')
+      },
       // 系统 前端日志
       {
         path: 'log',

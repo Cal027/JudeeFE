@@ -1,21 +1,22 @@
 <template>
-    <div :class="contestID? 'submission-card':'sl'">
-        <el-card class="controlPanel-sl" v-if="showPanel">
+    <d2-container>
+        <!--筛选面板-->
+        <el-card class="panel">
             <template #header>
                 <span>筛选记录</span>
                 <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
                     刷新
                 </el-button>
-                <el-button icon="el-icon-close" type="text" @click="clearFilter" class="header-button">
+                <el-button icon="el-icon-close" class="header-button" type="text" @click="clearFilter">
                     清空筛选
                 </el-button>
             </template>
             <el-row :gutter="20">
-                <el-col :span="5" v-show="!isProblem">
+                <el-col :span="5">
                     <el-input v-model="problemID" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索题目编号"/>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="4">
                     <el-input v-model="username" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索用户"/>
                 </el-col>
@@ -35,54 +36,33 @@
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
-                <el-col :span="9" v-show="!isProblem">
-                    <el-switch style="float: right;margin-top: 15px" v-model="myself" active-text="我的"
-                               inactive-text="全部" @change="filterSubmissionList"/>
+                <el-col :span="2" :offset="6">
+                    <el-popconfirm title="确定重新评测选中题目？" @onConfirm="rejudge">
+                        <template #reference>
+                            <el-button type="primary" round size="small">重新评测</el-button>
+                        </template>
+                    </el-popconfirm>
                 </el-col>
             </el-row>
         </el-card>
-        <el-card :class="contestID? 'card-module':''">
-            <template #header v-if="!showPanel">
-                <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
-                    刷新
-                </el-button>
-            </template>
+        <!--记录表格-->
+        <el-card>
             <el-table
                     class="table"
                     :data="tableData"
                     v-loading="loadingTable"
                     :header-cell-style="{background: '#E5E9F0'}"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
+                    @selection-change="handleSelectionChange"
                     element-loading-text="正在加载">
+                <el-table-column type="selection" width="55"/>
                 <el-table-column prop="ID" label="递交ID" width="90px">
                     <template v-slot="scope">
-                        <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
-                            {{scope.row.ID}}
-                        </router-link>
-                        <router-link v-else :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
+                        <router-link :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
                 </el-table-column>
-                <el-table-column v-if="contestID" prop="problem" label="题目编号" width="80" align="center">
-                    <template v-slot="scope">
-                        <router-link :to="
-                        {name: 'Contest-problem-detail',
-                        params:{contestID: $route.params.contestID, id:scope.row.problem}}">
-                            {{Letter[scope.row.problem]}}
-                        </router-link>
-                    </template>
-                </el-table-column>
-                <el-table-column v-else prop="problem" label="题目编号" width="80" align="center">
-                    <template v-slot="scope">
-                        <router-link :to="'/problem/'+scope.row.problem">
-                            {{scope.row.problem}}
-                        </router-link>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="username" label="用户" align="center">
-                    <template v-slot="scope">
-                        <router-link :to="'/user/'+scope.row.username">{{scope.row.username}}</router-link>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="problem" label="题目编号" width="80" align="center"/>
+                <el-table-column prop="username" label="用户" align="center"/>
                 <el-table-column prop="language" label="语言" align="center"/>
                 <el-table-column label="状态" align="center">
                     <template v-slot="scope">
@@ -122,13 +102,12 @@
                         :total="totalNum"/>
             </div>
         </el-card>
-    </div>
+    </d2-container>
 </template>
 
 <script>
-import submissionAPI from '@oj/api/oj.submission'
-import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
+import submissionAPI from '@admin/api/sys.submission'
 
 const results = [
   { msg: 'Compile Error', type: 'warning' },
@@ -143,14 +122,12 @@ const results = [
   { msg: 'Judging', type: 'info' },
   { msg: 'Partially Accepted', type: 'warning' }
 ]
-
 export default {
-  name: 'SubmissionList',
+  name: 'submissionList',
   data () {
     return {
       languageOpt: ['Java', 'C++', 'C', 'Python3'],
       language: '',
-      myself: false,
       problemID: '',
       contestID: '',
       username: '',
@@ -159,6 +136,7 @@ export default {
       showPanel: true,
       tableData: [],
       loadingTable: false,
+      selection: [],
       results,
       // 分页相关
       currentPage: 1,
@@ -167,20 +145,28 @@ export default {
       Letter: {}
     }
   },
+  mounted () {
+    this.getSubmissionList()
+  },
   methods: {
     clearFilter () {
       this.language = ''
       this.result = ''
       this.username = ''
       this.currentPage = 1
-      this.myself = false
-      if (!this.isProblem) {
-        this.problemID = ''
-      }
+      this.problemID = ''
       this.getSubmissionList()
     },
     handleSizeChange (val) {
       this.pageSize = val
+      this.getSubmissionList()
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.getSubmissionList()
+    },
+    filterSubmissionList () {
+      this.currentPage = 1
       this.getSubmissionList()
     },
     resolveTime (time) {
@@ -192,18 +178,10 @@ export default {
     resolveMemory (memory) {
       return util.formatter.resolveMemory(memory)
     },
-    handleCurrentChange (val) {
-      this.currentPage = val
-      this.getSubmissionList()
-    },
-    filterSubmissionList () {
-      this.currentPage = 1
-      this.getSubmissionList()
-    },
     getSubmissionList () {
       this.loadingTable = true
       submissionAPI.getSubmissionList(this.pageSize, (this.currentPage - 1) * this.pageSize,
-        this.username, this.language, this.problemID, this.result, this.myself, this.contestID).then(res => {
+        this.username, this.language, this.problemID, this.result, this.contestID).then(res => {
         this.loadingTable = false
         this.totalNum = res.count
         this.tableData = res.results
@@ -214,63 +192,39 @@ export default {
         }
       })
     },
-    getProblemList () {
-      problemAPI.getContestProblems(this.contestID).then(res => {
-        res.forEach((item, index) => {
-          this.Letter[item.ID] = util.formatter.toLetter(index + 1)
-        })
-        this.getSubmissionList()
+    rejudge () {
+      let data = []
+      this.selection.forEach((item, index) => {
+        data[index] = item.ID
       })
-    }
-  },
-  mounted () {
-    if (this.$route.params.contestID) {
-      this.showPanel = false
-      this.contestID = this.$route.params.contestID
-      this.myself = true
-      this.getProblemList()
-    } else {
-      if (this.$route.params.id) {
-        this.problemID = this.$route.params.id
-      }
-      if (this.$route.name === 'ProblemSubmissionsMine') {
-        this.showPanel = false
-        this.myself = true
-      }
-      this.isProblem = this.$route.name === 'ProblemSubmissions'
-      this.getSubmissionList()
+      submissionAPI.rejudgeSubmission(data).then(() => {
+        this.$message({
+          type: 'success',
+          message: '重新评测' + data.length + '项记录'
+        })
+      })
+    },
+    handleSelectionChange (val) {
+      this.selection = val
     }
   }
 }
 </script>
 
 <style lang="less">
-    .sl {
-        width: 85%;
-        margin: 0 auto;
-
-        .controlPanel-sl {
-            .el-card__body {
-                padding: 16px;
-            }
-
-            .el-card__header {
-                padding: 15px 18px;
-            }
+    .panel {
+        .el-card__body {
+            padding: 16px;
         }
-    }
 
-    .submission-card{
         .el-card__header {
-            padding: 0;
-            text-align: right;
+            padding: 15px 18px;
         }
     }
-
 </style>
 
 <style scoped lang="less">
-    .controlPanel-sl {
+    .panel {
         position: relative;
         margin-bottom: 20px;
 
@@ -279,17 +233,16 @@ export default {
             padding: 3px 0;
             margin-left: 5px;
         }
+
     }
 
-    .table {
-        a {
-            color: #76a3cd;
-            text-decoration: none;
-        }
+    a {
+        color: #76a3cd;
+        text-decoration: none;
+    }
 
-        .router-link-active {
-            color: #76a3cd;
-            text-decoration: none;
-        }
+    .router-link-active {
+        color: #76a3cd;
+        text-decoration: none;
     }
 </style>

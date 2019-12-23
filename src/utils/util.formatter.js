@@ -38,9 +38,35 @@ function getRankColor (rank) {
   return { color: color, 'font-weight': 600 }
 }
 
+function getLanguage (lang) {
+  switch (lang) {
+    case 'C++':
+      return 'cpp'
+    case 'Python3':
+      return 'python'
+    default:
+      return 'java'
+  }
+}
+
+function getCodeColor (type) {
+  switch (type) {
+    case 'primary':
+      return 'gray'
+    case 'success':
+      return 'green'
+    case 'warning':
+      return 'orange'
+    default:
+      return 'red'
+  }
+}
+
 export default {
   resolveMemory: resolveMemory,
   resolveRunTime: resolveRunTime,
   toLetter: toLetter,
-  getRankColor: getRankColor
+  getRankColor: getRankColor,
+  getLanguage: getLanguage,
+  getCodeColor: getCodeColor
 }

@@ -1,5 +1,5 @@
 <template>
-  <pre v-hl="code"><code :class="language" :style="styleObject"/></pre>
+    <pre v-hl="code"><code :class="language" :style="styleObject"/></pre>
 </template>
 
 <script>
@@ -34,12 +34,12 @@ export default {
 </script>
 
 <style scoped lang="less">
-  pre {
-    padding: 0;
-    display: block;
-    code {
-      padding: 20px;
-      font-size: 1.1em;
+    pre {
+        padding: 0;
+        display: block;
+        code {
+            padding: 20px;
+            font-size: 1.1em;
+        }
     }
-  }
 </style>

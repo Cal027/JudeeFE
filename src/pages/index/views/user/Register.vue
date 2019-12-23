@@ -4,7 +4,8 @@
     <el-header>
       <h1>加入Judee OJ</h1>
     </el-header>
-    <el-main>
+    <el-main style="z-index: 10">
+      <span>我们使用 Gravatar 服务来呈现您的头像</span>
       <el-card class="reg-box">
         <el-form ref="regForm"
                  :model="regForm"
@@ -14,7 +15,6 @@
 
           <el-form-item prop="email" label="Email">
             <el-input v-model="regForm.email" type="email" placeholder="abc@example.com"/>
-            <p>我们使用 Gravatar 服务来呈现您的头像</p>
           </el-form-item>
 
           <el-form-item prop="username" label="用户名">
@@ -162,6 +162,17 @@ export default {
     font-size: 24px;
     font-weight: 300;
     letter-spacing: -.5px;
+  }
+
+  .el-main span{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: -.5px;
+  }
+
+  .el-row{
+    margin-bottom: 20px;
   }
 
   .el-main {

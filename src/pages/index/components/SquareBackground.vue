@@ -1,5 +1,5 @@
 <template>
-    <div style="z-index: -100;">
+    <div style="z-index: 0;">
         <div class="page-login--layer page-login--layer-area">
             <ul class="circles">
                 <li v-for="n in 10" :key="n" :style="{background: color}"/>

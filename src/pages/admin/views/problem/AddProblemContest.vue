@@ -15,7 +15,9 @@
         <el-row :gutter="10">
             <el-col :span="18">
                 <el-popconfirm title="确定提交题目？" @onConfirm="submit">
-                    <el-button slot="reference" round size="small" type="success">提交题目</el-button>
+                    <template #reference>
+                        <el-button round size="small" type="success">提交题目</el-button>
+                    </template>
                 </el-popconfirm>
             </el-col>
             <el-col :span="6">

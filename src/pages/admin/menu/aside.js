@@ -6,8 +6,7 @@ export default [
     icon: 'inbox',
     children: [
       { path: '/announce', title: '公告', icon: 'bullhorn' },
-      { path: '/judge', title: '评测机', icon: 'steam' },
-      { path: '/setting', title: '设置', icon: 'gear' }
+      { path: '/judge', title: '评测机', icon: 'steam' }
     ]
   },
   { path: '/user', title: '用户', icon: 'user-circle-o' },
@@ -28,5 +27,6 @@ export default [
       { path: '/contests', title: '竞赛管理', icon: 'list-ol' }
     ]
   },
+  { path: '/submissions', title: '评测', icon: 'codepen' },
   { path: '/statistics', title: '统计', icon: 'line-chart' }
 ]
