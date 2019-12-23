@@ -144,6 +144,15 @@ const frameIn = [
         },
         component: _import('submission/SubmissionDetail')
       },
+      {
+        path: 'statistics',
+        name: 'statistics',
+        meta: {
+          title: '统计数据',
+          auth: true
+        },
+        component: _import('statistics/Statistics')
+      },
       // 系统 前端日志
       {
         path: 'log',
