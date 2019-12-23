@@ -41,14 +41,14 @@
             <p id="no-contest" v-if="contests.length===0&&!loading">暂时没有比赛</p>
             <ol id="contest-list">
                 <li v-for="contest in contests" :key="contest.title">
-                    <el-row :gutter="20">
+                    <el-row :gutter="10">
                         <el-col :span="1">
                             <el-button @click="changeRule(contest.rule_type)" type="text">
                                 <el-badge :value="contest.rule_type" class="rule-badge"
                                           :type="ruleTypeColor[contest.rule_type]"/>
                             </el-button>
                         </el-col>
-                        <el-col :span="19" class="contest-main">
+                        <el-col :span="18" class="contest-main">
                             <p class="title">
                                 <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
                                 <template v-if="contest.is_pwd">
@@ -72,7 +72,7 @@
                             </span>
                             <el-tag effect="light" class="stat" :type="typ[statusCode]">{{opt[statusCode]}}</el-tag>
                         </el-col>
-                        <el-col :span="1" style="margin-left: -30px">
+                        <el-col :span="2" style="margin-left: 0px">
                             <el-tag v-if="contest.is_in" class="stat" type="primary">已加入</el-tag>
                             <el-tag v-else class="stat" type="info">未加入</el-tag>
                         </el-col>

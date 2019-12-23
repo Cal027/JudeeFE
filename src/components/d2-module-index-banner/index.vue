@@ -1,10 +1,6 @@
 <template>
-    <div
-            class="banner"
-            :class="{
-      'with-link': link
-    }"
-            flex="dir:top main:center cross:top">
+    <div class="banner" :class="{'with-link': link}"
+         flex="dir:top main:center cross:top">
         <p class="banner--title">{{title}}</p>
         <p class="banner--sub-title">{{subTitle}}</p>
         <p v-if="link" class="banner--link" @click="handleLinkClick">
@@ -51,16 +47,19 @@ export default {
             font-weight: bold;
             color: #FFF;
         }
+
         .banner--sub-title {
             margin: 0px;
             padding: 0px;
             font-size: 14px;
             color: #FFF;
         }
+
         .banner--link {
             margin: 0px;
             padding: 0px;
             margin-top: 10px;
+
             .banner--link-button {
                 font-size: 12px;
                 color: #FFF;
@@ -68,14 +67,17 @@ export default {
                 border-radius: 2px;
                 background-color: rgba(#000, .5);
                 transition: all .3s;
+
                 &:hover {
                     background-color: rgba(#000, 1);
                 }
             }
         }
+
         &.with-link {
             height: 220px;
         }
+
         @extend %unable-select;
         height: 120px;
         padding-left: 20px;

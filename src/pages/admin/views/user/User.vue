@@ -299,7 +299,6 @@ export default {
       this.userList = this.tableData
     },
     deleteUser (username) {
-      // console.log(username)
       this.$confirm('此操作将永久删除用户及其资料, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

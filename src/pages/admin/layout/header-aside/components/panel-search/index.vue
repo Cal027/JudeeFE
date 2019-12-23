@@ -9,7 +9,7 @@
       @click.self="handlePanelClick">
       <d2-icon-svg
         class="panel-search__logo"
-        name="d2-admin-text"/>
+        name="logo"/>
       <el-autocomplete
         class="panel-search__input"
         ref="input"
@@ -191,8 +191,7 @@ export default {
   .panel-search__input-group {
     height: 240px;
     .panel-search__logo {
-      width: 80px;
-      height: 80px;
+      height: 60px;
       margin-bottom: 20px;
     }
     .panel-search__input {

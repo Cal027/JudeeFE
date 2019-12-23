@@ -1,5 +1,6 @@
 <template>
     <d2-container>
+        <d2-module-index-banner v-bind="banner"/>
         <!--筛选面板-->
         <el-card class="panel">
             <template #header>
@@ -12,15 +13,15 @@
                 </el-button>
             </template>
             <el-row :gutter="20">
-                <el-col :span="3">
+                <el-col :span="4">
                     <el-input v-model="contestID" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索竞赛编号"/>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="4">
                     <el-input v-model="problemID" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索题目编号"/>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="4">
                     <el-input v-model="username" @change="filterSubmissionList" size="medium"
                               prefix-icon="el-icon-search" placeholder="搜索用户名"/>
                 </el-col>
@@ -40,8 +41,8 @@
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
-                <el-col :span="2" :offset="6">
-                    <el-popconfirm title="确定重新评测选中题目？" @onConfirm="rejudge">
+                <el-col :span="3" :offset="2">
+                    <el-popconfirm title="确定重新评测选中提交？" @onConfirm="rejudge">
                         <template #reference>
                             <el-button type="primary" round size="small">重新评测</el-button>
                         </template>
@@ -54,13 +55,14 @@
             <el-table
                     class="table"
                     :data="tableData"
+                    ref="table"
                     v-loading="loadingTable"
                     :header-cell-style="{background: '#E5E9F0'}"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     @selection-change="handleSelectionChange"
                     element-loading-text="正在加载">
-                <el-table-column type="selection" width="55"/>
-                <el-table-column prop="ID" label="递交ID" width="90px">
+                <el-table-column type="selection" width="55" :selectable="checkSelectable"/>
+                <el-table-column prop="ID" label="递交ID">
                     <template v-slot="scope">
                         <router-link :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
@@ -69,7 +71,7 @@
                 <el-table-column prop="contest" label="竞赛编号" width="80" align="center"/>
                 <el-table-column prop="username" label="用户" align="center"/>
                 <el-table-column prop="language" label="语言" align="center"/>
-                <el-table-column label="状态" align="center">
+                <el-table-column label="状态" align="center" width="120">
                     <template v-slot="scope">
                         <el-tag size="small" effect="light"
                                 :type="results[scope.row.result+2].type">
@@ -131,6 +133,10 @@ export default {
   name: 'submissionList',
   data () {
     return {
+      banner: {
+        title: '评测管理',
+        subTitle: '在这里可以管理所有评测记录'
+      },
       languageOpt: ['Java', 'C++', 'C', 'Python3'],
       language: '',
       problemID: '',
@@ -161,6 +167,7 @@ export default {
       this.currentPage = 1
       this.problemID = ''
       this.getSubmissionList()
+      this.$refs.table.clearSelection()
     },
     handleSizeChange (val) {
       this.pageSize = val
@@ -197,16 +204,22 @@ export default {
         }
       })
     },
+    checkSelectable (row) {
+      return row.result !== 6 && row.result !== 7
+    },
     rejudge () {
       let data = []
       this.selection.forEach((item, index) => {
         data[index] = item.ID
       })
-      submissionAPI.rejudgeSubmission(data).then(() => {
-        this.$message({
+      submissionAPI.rejudgeSubmission(data).then(res => {
+        this.$notify({
+          title: '重新评测成功',
           type: 'success',
-          message: '重新评测' + data.length + '项记录'
+          message: res.length + '项测评记录 ' + res + ' 已重新评测',
+          duration: 3000
         })
+        this.filterSubmissionList()
       })
     },
     handleSelectionChange (val) {
@@ -231,7 +244,7 @@ export default {
 <style scoped lang="less">
     .panel {
         position: relative;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         .header-button {
             float: right;

@@ -1,38 +1,15 @@
 <template>
-  <el-table
-    :data="list"
-    v-bind="table">
-    <el-table-column
-      prop="title"
-      align="center"
-      width="160"/>
-    <el-table-column
-      label="预览"
-      width="120">
-      <template v-slot="scope"
-        class="theme-preview"
-        :style="{
-          backgroundImage: `url(${$baseUrl}${scope.row.preview})`
-        }">
+  <el-table :data="list" v-bind="table">
+    <el-table-column prop="title" align="center" width="160"/>
+    <el-table-column label="预览" width="120">
+      <template v-slot="scope">
+        <div class="theme-preview" :style="{ backgroundImage: `url(${$baseUrl}${scope.row.preview})` }"/>
       </template>
     </el-table-column>
-    <el-table-column
-      prop="address"
-      align="center">
+    <el-table-column prop="address" align="center">
       <template v-slot="scope">
-        <el-button
-          v-if="activeName === scope.row.name"
-          type="success"
-          icon="el-icon-check"
-          round>
-          已激活
-        </el-button>
-        <el-button
-          v-else
-          round
-          @click="handleSelectTheme(scope.row.name)">
-          使用
-        </el-button>
+        <el-button v-if="activeName === scope.row.name" type="success" icon="el-icon-check" round>已激活</el-button>
+        <el-button v-else round @click="handleSelectTheme(scope.row.name)">使用</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -68,11 +45,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.theme-preview {
-  height: 50px;
-  width: 100px;
-  border-radius: 4px;
-  background-size: cover;
-  border: 1px solid $color-border-1;
-}
+  .theme-preview {
+    height: 50px;
+    width: 100px;
+    border-radius: 4px;
+    background-size: cover;
+    border: 1px solid $color-border-1;
+  }
 </style>
