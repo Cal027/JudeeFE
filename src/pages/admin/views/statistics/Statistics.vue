@@ -86,17 +86,17 @@ import VeRing from 'v-charts/lib/ring.common'
 import VeWordCloud from 'v-charts/lib/wordcloud.common'
 
 const results = {
-  '-1': 'Compile Error',
-  '0': 'Wrong Answer',
-  '1': 'Accepted',
-  '2': 'CPU Time Limit Exceeded',
-  '3': 'Real Time Limit Exceeded',
-  '4': 'Memory Limit Exceeded',
-  '5': 'Runtime Error',
-  '6': 'System Error',
-  '7': 'Pending',
-  '8': 'Judging',
-  '9': 'Partially Accepted'
+  '-2': 'Compile Error',
+  '-1': 'Wrong Answer',
+  '0': 'Accepted',
+  '1': 'CPU Time Limit Exceeded',
+  '2': 'Real Time Limit Exceeded',
+  '3': 'Memory Limit Exceeded',
+  '4': 'Runtime Error',
+  '5': 'System Error',
+  '6': 'Pending',
+  '7': 'Judging',
+  '8': 'Partially Accepted'
 }
 export default {
   name: 'Statistics',
