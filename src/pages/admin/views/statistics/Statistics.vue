@@ -1,6 +1,6 @@
 <template>
     <d2-container>
-        <el-row type="flex" justify="space-between" v-if="isSuperAdmin" style="margin-bottom: 20px">
+        <el-row type="flex" justify="space-around" v-if="isSuperAdmin" >
             <el-col>
                 <info-card color="#909399" icon="users" message="用户数" iconSize="35px"
                            class="info-item" :value="overallData.user_number"/>
@@ -26,41 +26,60 @@
                            class="info-item" :value="overallData.submission_number"/>
             </el-col>
         </el-row>
-        <el-row :gutter="20">
-            <el-col :span="16">
-                <el-card style="width: 100%;height: 600px">
-                    <!--提交线图-->
-                    <ve-line :data="submissionData" :settings="                {
-                axisSite: { right: ['rate'] },
-                yAxisType: ['normal', 'percent'],
-                yAxisName: ['次数', '比率']
-                }"/>
-                </el-card>
-            </el-col>
+        <el-divider/>
+        <el-row :gutter="20" class="board">
             <el-col :span="8">
                 <el-row>
-                    <el-card style="width: 100%;height: 295px">
+                    <el-card style="width: 100%;" :body-style="{padding: 5}">
+                        <template #header>
+                            <el-input-number style="width: 40px" @change="getSubmissionResults"
+                                             v-model="resultOffset"
+                                             min="1" :controls="false" size="mini"/>
+                            小时提交结果统计
+                        </template>
                         <!--统计数据扇形图-->
-                        <ve-ring v-if="recentSubmission.rows.length>0" :data="recentSubmission" :settings="{roseType: 'radius'}"/>
+                        <ve-ring v-if="recentSubmission.rows.length>0" :data="recentSubmission"
+                                 :settings="{roseType: 'radius',labelLine:{length:15,length2:10}}"/>
                         <h4 v-else style="text-align: center">暂无数据</h4>
                     </el-card>
                 </el-row>
-                <el-row style="margin-top: 10px">
-                    <el-card style="width: 100%;height: 295px">
-                        <!--柱状图-->
+                <el-row style="margin-top: 20px">
+                    <el-card style="width: 100%;" :body-style="{padding: 0}">
+                        <template #header>
+                            <el-input-number style="width: 40px" @change="getLoginData"
+                                             v-model="loginOffset"
+                                             min="1" :controls="false" size="mini"/>
+                            天活跃用户数: {{totalActive}}
+                        </template>
+                        <!--词云图-->
+                        <ve-word-cloud :data="loginData" :setting="cloudSetting"/>
                     </el-card>
                 </el-row>
             </el-col>
+            <el-col :span="15">
+                <el-card style="width: 100%;">
+                    <template #header>
+                        <el-input-number style="width: 40px" @change="getSubmissionStatistics"
+                                         v-model="submitOffset"
+                                         min="1" :controls="false" size="mini"/>
+                        天提交统计
+                    </template>
+                    <!--提交线图-->
+                    <ve-line :data="submissionData" :settings="submissionSetting"/>
+                </el-card>
+            </el-col>
+
         </el-row>
     </d2-container>
 </template>
 
 <script>
 import statisticAPI from '@admin/api/sys.statistics'
-import VeRing from 'v-charts/lib/ring.common'
 import { mapState } from 'vuex'
 import InfoCard from '@admin/components/infoCard'
 import VeLine from 'v-charts/lib/line.common'
+import VeRing from 'v-charts/lib/ring.common'
+import VeWordCloud from 'v-charts/lib/wordcloud.common'
 
 const results = {
   '-1': 'Compile Error',
@@ -77,15 +96,38 @@ const results = {
 }
 export default {
   name: 'Statistics',
-  components: { InfoCard, VeRing, VeLine },
+  components: { InfoCard, VeRing, VeLine, VeWordCloud },
   data () {
     return {
+      // 统计数据
       overallData: {},
-      submissionData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
+      submissionData: {
+        columns: ['date', 'submit', 'ac', 'rate'],
+        rows: []
+      },
+      submissionSetting: {
+        axisSite: { right: ['rate'] },
+        yAxisType: ['normal', 'percent'],
+        yAxisName: ['次数', '比率']
+      },
       recentSubmission: {
         columns: ['status', 'number'],
         rows: []
-      }
+      },
+      loginData: {
+        columns: ['username', 'count'],
+        rows: []
+      },
+      cloudSetting: {
+        shape: 'star',
+        sizeMin: 10,
+        sizeMax: 42
+      },
+      totalActive: 0,
+      // offset
+      resultOffset: 24,
+      loginOffset: 7,
+      submitOffset: 7
     }
   },
   computed: {
@@ -111,7 +153,7 @@ export default {
     this.getOverall()
     this.getSubmissionStatistics()
     this.getSubmissionResults()
-    console.log(this.recentSubmission)
+    this.getLoginData()
   },
   methods: {
     getOverall () {
@@ -119,16 +161,22 @@ export default {
         this.overallData = res
       })
     },
-    getSubmissionStatistics (offset) {
-      statisticAPI.getSubmissionStatistics(offset).then(res => {
+    getSubmissionStatistics () {
+      statisticAPI.getSubmissionStatistics(this.submitOffset).then(res => {
         this.submissionData.rows = res
       })
     },
-    getSubmissionResults (offset) {
-      statisticAPI.getSubmissionResults(offset).then(res => {
+    getSubmissionResults () {
+      statisticAPI.getSubmissionResults(this.resultOffset).then(res => {
         Object.keys(res).forEach(key => {
           this.recentSubmission.rows.push({ 'status': results[key], 'number': res[key].count })
         })
+      })
+    },
+    getLoginData () {
+      statisticAPI.getLoginData(this.loginOffset).then(res => {
+        this.totalActive = res.week_activists
+        this.loginData.rows = res.most_active
       })
     }
   }
@@ -140,6 +188,16 @@ export default {
         .info-item {
             min-width: 200px;
             margin-bottom: 10px;
+        }
+    }
+
+</style>
+
+<style lang="less">
+    .board{
+        .el-input-number.is-without-controls .el-input__inner {
+            padding-left: 3px;
+            padding-right: 3px;
         }
     }
 
