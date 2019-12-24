@@ -11,6 +11,30 @@ function duration (startTime, endTime) {
   return start.to(end, true)
 }
 
+function countdown (now, endTime) {
+  const endDate = dayjs(endTime)
+  const _ms = endDate.diff(now)
+  if (_ms > 0) {
+    const _dd = endDate.diff(now, 'day')
+    const _hh = endDate.diff(now, 'hour')
+    const _mm = endDate.diff(now, 'minute')
+    const _ss = endDate.diff(now, 'second')
+
+    // 转换
+    const hh = _hh - (_dd * 24)
+    const mm = _mm - (_hh * 60)
+    const ss = _ss - (_mm * 60)
+
+    // 格式化
+    const DD = ('00' + _dd).slice(-2)
+    const HH = ('00' + hh).slice(-2)
+    const MM = ('00' + mm).slice(-2)
+    const SS = ('00' + ss).slice(-2)
+
+    return `${DD}天${HH}小时${MM}分钟${SS}秒`
+  }
+}
+
 function resolveTime (time) {
   if (time) {
     return dayjs(time).format('YYYY-MM-DD HH:mm')
@@ -50,5 +74,6 @@ export default {
   resolveTime: resolveTime,
   resolveTimes: resolveTimes,
   compareTime: compareTime,
-  resolveSecond: resolveSecond
+  resolveSecond: resolveSecond,
+  countdown: countdown
 }

@@ -49,6 +49,9 @@
                                           :type="ruleTypeColor[contest.rule_type]"/>
                             </el-button>
                         </el-col>
+                        <span v-show="false">
+                                {{statusCode = getStatus(contest.start_time, contest.end_time)}}
+                            </span>
                         <el-col :span="18" class="contest-main">
                             <p class="title">
                                 <el-link class="entry" @click.stop="goContest(contest)">{{contest.title}}</el-link>
@@ -58,19 +61,20 @@
                             </p>
                             <ul class="detail">
                                 <li>
-                                    <el-icon class="el-icon-date"/>
+                                    <i class="el-icon-date"/>
                                     {{resolveTime(contest.start_time)}}
                                 </li>
                                 <li>
-                                    <el-icon class="el-icon-alarm-clock"/>
+                                    <i class="el-icon-alarm-clock"/>
                                     {{getDuration(contest.start_time, contest.end_time)}}
+                                </li>
+                                <li v-if="statusCode===2">
+                                    <d2-icon name="arrow-right"/>
+                                    剩余: {{getCountdown(contest.end_time)}}
                                 </li>
                             </ul>
                         </el-col>
                         <el-col :span="2">
-                            <span v-show="false">
-                                {{statusCode = getStatus(contest.start_time, contest.end_time)}}
-                            </span>
                             <el-tag effect="light" class="stat" :type="typ[statusCode]">{{opt[statusCode]}}</el-tag>
                         </el-col>
                         <el-col :span="2" style="margin-left: 0px">
@@ -98,6 +102,7 @@
 import util from '@/utils/util'
 import contestAPI from '@oj/api/oj.contest'
 import MountainFooter from '@oj/components/MountainFooter'
+import dayjs from 'dayjs'
 
 const opt = ['筹备中', '已结束', '比赛中']
 const typ = ['info', 'danger', 'success']
@@ -105,6 +110,13 @@ const ruleTypeColor = { 'ACM': 'primary', 'OI': 'warning' }
 export default {
   name: 'ContestList',
   components: { MountainFooter },
+  computed: {
+    getCountdown () {
+      return function (endTime) {
+        return util.time.countdown(this.now, endTime)
+      }
+    }
+  },
   data () {
     return {
       searchText: '',
@@ -117,6 +129,7 @@ export default {
       contestNum: 0,
       loading: false,
       opt,
+      now: null,
       typ,
       ruleTypeColor
     }
@@ -179,6 +192,9 @@ export default {
   },
   mounted () {
     this.getContests()
+    setInterval(() => {
+      this.now = dayjs()
+    }, 1000)
   }
 }
 </script>

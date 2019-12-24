@@ -18,7 +18,7 @@
                     </div>
                 </el-alert>
                 <br/>
-                <el-card v-if="!isCE&&info.length>0">
+                <el-card v-if="!isCE&&detail.info.length>0">
                     <el-table :data="detail.info">
                         <el-table-column label="测试样例ID">
                             <template v-slot="scope">
@@ -48,14 +48,14 @@
                 <el-card style="margin-top: 30px;position: relative">
                     <template #header>
                         提交代码
-                        <span style="right: 15px;position: absolute">
+                        <span v-if="detail.username===info.username" style="right: 15px;position: absolute">
                             <el-switch v-model="shared" slot="reference"
                                        active-text="公开" inactive-text="私密"
                                        active-color="#A3BE8C" inactive-color="#D08770"
                                        @change="changeShare"/>
                         </span>
                     </template>
-                    <Highlight :code="code"
+                    <Highlight :code="detail.code"
                                :border-color="getColor(type)"
                                :language="getLanguage(detail.language)"/>
                 </el-card>
@@ -68,6 +68,7 @@
 import submissionAPI from '@oj/api/oj.submission'
 import util from '@/utils/util'
 import Highlight from '@/components/Highlight/index'
+import { mapState } from 'vuex'
 
 const results = [
   { msg: 'COMPILE_ERROR', type: 'warning', tag: 'warning' },
@@ -89,14 +90,17 @@ export default {
     return {
       ID: '',
       detail: '',
-      info: [],
-      code: '',
       results,
       isCE: null,
       type: '',
       shared: false,
       msg: 'PENDING'
     }
+  },
+  computed: {
+    ...mapState('oj/user', [
+      'info'
+    ])
   },
   methods: {
     resolveMemory (memory) {
@@ -140,12 +144,10 @@ export default {
     this.ID = this.$route.params.id
     submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
       this.detail = res
-      this.code = res.code
-      this.info = res.info
+      this.shared = res.shared
       this.isCE = this.detail.compile_error_info !== null
       this.type = this.results[this.detail.result + 2].tag
       this.msg = this.results[this.detail.result + 2].msg
-      this.shared = res.shared
       load.close()
     }).catch(err => {
       load.close()

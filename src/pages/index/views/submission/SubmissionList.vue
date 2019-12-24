@@ -84,7 +84,9 @@
                 </el-table-column>
                 <el-table-column prop="username" label="用户" align="center">
                     <template v-slot="scope">
-                        <router-link :to="'/user/'+scope.row.username">{{scope.row.username}}</router-link>
+                        <div :class="getNameColor(scope.row.username)">
+                            <router-link :to="'/user/'+scope.row.username">{{scope.row.username}}</router-link>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="language" label="语言" align="center"/>
@@ -134,6 +136,7 @@ import submissionAPI from '@oj/api/oj.submission'
 import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
 import MountainFooter from '@oj/components/MountainFooter'
+import { mapState } from 'vuex'
 
 const results = [
   { msg: 'Compile Error', type: 'warning' },
@@ -152,6 +155,11 @@ const results = [
 export default {
   name: 'SubmissionList',
   components: { MountainFooter },
+  computed: {
+    ...mapState('oj/user', [
+      'info'
+    ])
+  },
   data () {
     return {
       languageOpt: ['Java', 'C++', 'C', 'Python3'],
@@ -188,6 +196,13 @@ export default {
     handleSizeChange (val) {
       this.pageSize = val
       this.getSubmissionList()
+    },
+    getNameColor (username) {
+      if (username === this.info.username) {
+        return 'own-submission'
+      } else {
+        return ''
+      }
     },
     resolveTime (time) {
       return util.time.resolveTimes(time)
@@ -296,6 +311,18 @@ export default {
         .router-link-active {
             color: #76a3cd;
             text-decoration: none;
+        }
+    }
+
+    .own-submission{
+        a {
+            font-weight: 600;
+            color: #BF616A;
+        }
+
+        .router-link-active {
+            font-weight: 600;
+            color: #BF616A;
         }
     }
 </style>

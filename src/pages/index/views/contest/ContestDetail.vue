@@ -30,6 +30,11 @@
                 <el-menu-item index="Contest-announcement" class="menuItem"
                               :route="{name:'Contest-announcement',params:{contestID:ID}}">公告
                 </el-menu-item>
+                <span   v-if="getStatus(contestDetail.start_time,contestDetail.end_time)===2"
+                        :style="{right: isSticky? '100px':'0'}"
+                        style="position: absolute;bottom: 15px">
+                    <d2-icon style="margin-right: 2px" name="clock-o"/>倒计时: {{getCountdown()}}
+                </span>
             </el-menu>
         </div>
         <div>
@@ -69,15 +74,24 @@
 <script>
 import util from '@/utils/util'
 import ContestAPI from '@oj/api/oj.contest'
+import dayjs from 'dayjs'
 
 export default {
   name: 'ContestDetail',
+  computed: {
+    getCountdown () {
+      return function () {
+        return util.time.countdown(this.now, this.contestDetail.end_time)
+      }
+    }
+  },
   data () {
     return {
       themeColor: '',
       contest: '',
       ID: '',
       type: '',
+      now: null,
       routeName: '',
       contestDetail: {},
       activeIndex: '1',
@@ -101,6 +115,9 @@ export default {
     resolveTime (time) {
       return util.time.resolveTime(time)
     },
+    getStatus (begin, end) {
+      return util.time.compareTime(begin, end)
+    },
     joinContest () {
       ContestAPI.joinContest(this.ID).then(res => {
         if (res.is_in) {
@@ -112,6 +129,9 @@ export default {
   mounted () {
     this.ID = this.$route.params.contestID
     this.routeName = this.$route.name
+    setInterval(() => {
+      this.now = dayjs()
+    }, 1000)
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
       this.type = this.contestDetail.rule_type
