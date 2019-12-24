@@ -176,7 +176,7 @@ export default {
     getSubmissionResults () {
       statisticAPI.getSubmissionResults(this.resultOffset).then(res => {
         Object.keys(res).forEach(key => {
-          this.recentSubmission.rows.push({ 'status': results[key], 'number': res[key].count })
+          this.recentSubmission.rows.push({ 'status': results[res[key].result], 'number': res[key].count })
         })
       })
     },
