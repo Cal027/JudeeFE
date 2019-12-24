@@ -1,7 +1,7 @@
 <template>
     <d2-container>
         <el-row type="flex" justify="space-around">
-            <el-col :span="20" id="status">
+            <el-col :span="22" id="status">
                 <el-alert show-icon
                           :closable="false"
                           :type="type">

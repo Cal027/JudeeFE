@@ -10,6 +10,7 @@
                     清空筛选
                 </el-button>
             </template>
+            <MountainFooter bottom="-20px"/>
             <el-row :gutter="20">
                 <el-col :span="5" v-show="!isProblem">
                     <el-input v-model="problemID" @change="filterSubmissionList" size="medium"
@@ -59,7 +60,10 @@
                         <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
                             {{scope.row.ID}}
                         </router-link>
-                        <router-link v-else :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
+                        <router-link v-else :to="'/status/'+scope.row.ID">
+                            {{scope.row.ID}}
+                            <d2-icon v-if="scope.row.shared" name="unlock" style="margin-left: 1px"/>
+                        </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column v-if="contestID" prop="problem" label="题目编号" width="80" align="center">
@@ -129,6 +133,7 @@
 import submissionAPI from '@oj/api/oj.submission'
 import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
+import MountainFooter from '@oj/components/MountainFooter'
 
 const results = [
   { msg: 'Compile Error', type: 'warning' },
@@ -146,6 +151,7 @@ const results = [
 
 export default {
   name: 'SubmissionList',
+  components: { MountainFooter },
   data () {
     return {
       languageOpt: ['Java', 'C++', 'C', 'Python3'],

@@ -2,9 +2,7 @@
     <div>
         <el-row type="flex" justify="space-around">
             <el-col :span="20" id="status">
-                <el-alert show-icon
-                          :closable="false"
-                          :type="type">
+                <el-alert show-icon :closable="false" :type="type">
                     <span class="title">{{msg}}</span>
                     <div class="content">
                         <template v-if="isCE">
@@ -47,10 +45,16 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-                <el-card style="margin-top: 30px">
-                   <template #header>
-                       提交代码
-                   </template>
+                <el-card style="margin-top: 30px;position: relative">
+                    <template #header>
+                        提交代码
+                        <span style="right: 15px;position: absolute">
+                            <el-switch v-model="shared" slot="reference"
+                                       active-text="公开" inactive-text="私密"
+                                       active-color="#A3BE8C" inactive-color="#D08770"
+                                       @change="changeShare"/>
+                        </span>
+                    </template>
                     <Highlight :code="code"
                                :border-color="getColor(type)"
                                :language="getLanguage(detail.language)"/>
@@ -90,6 +94,7 @@ export default {
       results,
       isCE: null,
       type: '',
+      shared: false,
       msg: 'PENDING'
     }
   },
@@ -105,6 +110,29 @@ export default {
     },
     getColor (type) {
       return util.formatter.getCodeColor(type)
+    },
+    changeShare () {
+      this.$confirm('是否修改分享状态?', {
+        type: 'warning'
+      }).then(() => {
+        submissionAPI.setSharing(this.ID, this.shared).then(() => {
+          const msg = this.shared ? '现在你的评测记录详情将对所有人可见' : '现在你的评测详情仅自己可见'
+          this.$notify({
+            title: '修改成功',
+            type: 'success',
+            message: msg,
+            duration: 3000
+          })
+        }).catch(() => {
+          this.shared = !this.shared
+        })
+      }).catch(() => {
+        this.shared = !this.shared
+        this.$message({
+          type: 'info',
+          message: '已取消修改'
+        })
+      })
     }
   },
   mounted () {
@@ -117,10 +145,11 @@ export default {
       this.isCE = this.detail.compile_error_info !== null
       this.type = this.results[this.detail.result + 2].tag
       this.msg = this.results[this.detail.result + 2].msg
+      this.shared = res.shared
       load.close()
     }).catch(err => {
+      load.close()
       if (err.response.status === 403) {
-        load.close()
         this.$router.back()
       }
     })

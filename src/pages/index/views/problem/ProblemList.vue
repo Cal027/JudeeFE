@@ -1,6 +1,7 @@
 <template>
     <div class="p-list">
         <el-card class="controlPanel-sl">
+            <MountainFooter/>
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
@@ -99,12 +100,14 @@
 <script>
 import problemAPI from '@oj/api/oj.problem'
 import { mapState } from 'vuex'
+import MountainFooter from '@oj/components/MountainFooter'
 
 const diffOptions = [{ value: 1, label: '简单' }, { value: 2, label: '普通' }, { value: 3, label: '中等' },
   { value: 4, label: '困难' }, { value: 5, label: '非常困难' }]
 
 export default {
   name: 'ProblemList',
+  components: { MountainFooter },
   computed: {
     ...mapState('oj/user', [
       'info'

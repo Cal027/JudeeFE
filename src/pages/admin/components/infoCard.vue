@@ -54,7 +54,8 @@ export default {
     .info-card {
         display: inline-block;
         margin-right: 10px;
-        width: 300px;
+        /*width: 300px;*/
+        width: 100%;
         height: @card-height;
         text-align: center;
         vertical-align: middle;

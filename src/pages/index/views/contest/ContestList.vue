@@ -1,6 +1,7 @@
 <template>
     <div style="width: 80%; margin: 0 auto">
         <el-card class="controlPanel-sl">
+            <MountainFooter bottom="-5px"/>
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
@@ -96,12 +97,14 @@
 <script>
 import util from '@/utils/util'
 import contestAPI from '@oj/api/oj.contest'
+import MountainFooter from '@oj/components/MountainFooter'
 
 const opt = ['筹备中', '已结束', '比赛中']
 const typ = ['info', 'danger', 'success']
 const ruleTypeColor = { 'ACM': 'primary', 'OI': 'warning' }
 export default {
   name: 'ContestList',
+  components: { MountainFooter },
   data () {
     return {
       searchText: '',

@@ -10,7 +10,7 @@
                         </el-col>
                         <el-col :span="2">
                             <el-button size="medium" icon="el-icon-close" type="text"
-                                       style="margin-left: 20px;margin-top: -1px" @click="clearFilter">
+                                       style="margin-top: -1px" @click="clearFilter">
                                 清空筛选
                             </el-button>
                         </el-col>
@@ -29,7 +29,7 @@
                       style="width: 100%">
                 <el-table-column prop="username" label="用户名" width="90"/>
                 <el-table-column prop="nickname" label="昵称" width="90"/>
-                <el-table-column prop="type" label="用户类型">
+                <el-table-column prop="type" label="用户类型" width="110">
                     <template v-slot="scopeT">
                         <el-tag
                                 :type="typeColor[scopeT.row.type-1]"
@@ -52,15 +52,15 @@
                 <el-table-column prop="qq_number" label="QQ号码"/>
                 <el-table-column prop="github_username" label="Github用户名"/>
                 <el-table-column prop="phone_number" label="手机号码"/>
-                <el-table-column fixed="right" label="操作" width="200">
+                <el-table-column fixed="right" label="操作" align="center">
                     <template v-slot="scope">
                         <el-tooltip content="编辑用户">
-                            <el-button circle size="small" icon="el-icon-edit"
-                                       @click.native="openUserDialog(scope.row)"/>
+                            <el-button circle size="mini" icon="el-icon-edit"
+                                       @click="openUserDialog(scope.row)"/>
                         </el-tooltip>
                         <el-tooltip content="删除用户">
-                            <el-button circle type="danger" size="small" icon="el-icon-delete"
-                                       @click.native="deleteUser(scope.row.username)"/>
+                            <el-button circle type="danger" size="mini" icon="el-icon-delete"
+                                       @click="deleteUser(scope.row.username)"/>
                         </el-tooltip>
                     </template>
                 </el-table-column>
