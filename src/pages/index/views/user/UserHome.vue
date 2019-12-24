@@ -150,7 +150,7 @@ export default {
         //   this.$message.success('更新排名成功！')
         // })
       } else {
-        this.avatarUrl = `https://www.gravatar.com/avatar/${md5(this.profile.email.toLowerCase())}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
+        this.avatarUrl = `https://www.gravatar.com/avatar/${md5(this.profile.email ? this.profile.email.toLowerCase() : '')}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
       }
     })
     this.getStatisticInfo(7)

@@ -40,5 +40,12 @@ export default {
         method: 'get'
       })
     }
+  },
+  setSharing (id, shared) {
+    return request({
+      url: `/sharing/${id}/`,
+      method: 'put',
+      data: { 'shared': shared }
+    })
   }
 }
