@@ -188,6 +188,7 @@ export default {
           this.problemDetail = res
           this.language = this.problemDetail.languages[0]
           this.getPercent()
+          this.chartData.rows.length = 0
           Object.keys(res.statistic_info).forEach(key => {
             this.chartData.rows.push({ 'status': key, 'number': res.statistic_info[key] })
           })

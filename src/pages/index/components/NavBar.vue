@@ -109,8 +109,11 @@ export default {
       }
       if (command === 'updateRanking') {
         userAPI.updateRanking().then(res => {
+          let info = Object.assign({}, this.info)
+          info.ac_prob = res.ac_prob
+          this.$store.dispatch('oj/user/set', info, { root: true })
           this.$message({
-            message: '更新成功，当前排名' + (res + 1),
+            message: '更新成功，当前排名' + (res.ranking + 1),
             type: 'success'
           })
         }
