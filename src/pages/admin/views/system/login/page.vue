@@ -107,8 +107,8 @@ export default {
       time: dayjs().format('HH:mm:ss'),
       // 表单
       formLogin: {
-        username: 'admin',
-        password: 'ljh123456'
+        username: '',
+        password: ''
       },
       // 表单校验
       rules: {

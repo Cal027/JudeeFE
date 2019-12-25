@@ -30,16 +30,22 @@ export default {
             // token 代表用户当前登录状态 建议在网络请求中携带 token
             // 如有必要 token 需要定时更新，默认保存一天
             // util.cookies.set('uuid', res.uuid)
-            util.cookies.set('tokenAdmin', res.token)
-            // 设置 vuex 用户信息
-            await dispatch('d2admin/user/set', {
-              name: res.username,
-              type: res.type
-            }, { root: true })
-            // 用户登录后从持久化数据加载一系列的设置
-            await dispatch('load')
-            // 结束
-            resolve()
+            if (res === 'userError') {
+              Message.error('不存在该管理员')
+            } else if (res === 'pwdError') {
+              Message.error('密码错误')
+            } else {
+              util.cookies.set('tokenAdmin', res.token)
+              // 设置 vuex 用户信息
+              await dispatch('d2admin/user/set', {
+                name: res.username,
+                type: res.type
+              }, { root: true })
+              // 用户登录后从持久化数据加载一系列的设置
+              await dispatch('load')
+              // 结束
+              resolve()
+            }
           })
           .catch(err => {
             console.log('err: ', err)
