@@ -8,7 +8,7 @@
                     <span class="title">{{msg}}</span>
                     <div class="content">
                         <template v-if="isCE">
-                            <pre>{{detail.compile_error_info}}</pre>
+                            <div>{{detail.compile_error_info}}</div>
                         </template>
                         <template v-else>
                             <span>时间：{{resolveRunTime(detail.time_cost)}}</span>
@@ -20,7 +20,7 @@
                     </div>
                 </el-alert>
                 <br/>
-                <el-card v-if="!isCE&&info.length>0">
+                <el-card v-if="detail.info&&detail.info.length>0&&!isCE">
                     <el-table :data="detail.info">
                         <el-table-column type="expand">
                             <template v-slot="props">
@@ -71,11 +71,13 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-                <el-card style="margin-top: 30px">
+                <el-card class="code-card">
                     <template #header>
                         提交代码
+                        <el-button icon="iconfont j-icon-clipboard" @click="copyText(detail.code)"
+                                   class="icon-btn" type="text"/>
                     </template>
-                    <Highlight :code="code"
+                    <Highlight :code="detail.code? detail.code: ''"
                                :border-color="getColor(type)"
                                :language="getLanguage(detail.language)"/>
                 </el-card>
@@ -93,6 +95,7 @@
 import Highlight from '@/components/Highlight/index'
 import submissionAPI from '@admin/api/sys.submission'
 import util from '@/utils/util'
+import * as clipboard from 'clipboard-polyfill'
 
 const results = [
   { msg: 'Compile Error', type: 'warning', tag: 'warning' },
@@ -156,6 +159,14 @@ export default {
     getColor (type) {
       return util.formatter.getCodeColor(type)
     },
+    copyText (text) {
+      clipboard.writeText(text)
+      this.$notify({
+        title: '复制成功',
+        message: '已复制代码到剪贴板！',
+        type: 'success'
+      })
+    },
     getSubmissionDetail () {
       let load = this.$loading()
       submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
@@ -214,18 +225,19 @@ export default {
 <style lang="less">
     .table-expand {
         font-size: 0;
-        label{
+
+        label {
             width: 80px;
-            color:#5E81AC;
+            color: #5E81AC;
         }
 
-        .el-form-item{
+        .el-form-item {
             /*margin-right: 0;*/
             margin-bottom: 5px;
             min-width: 50%;
         }
 
-        .error-info{
+        .error-info {
             .el-form-item__content {
                 line-height: 5px;
             }

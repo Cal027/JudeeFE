@@ -196,7 +196,8 @@ export default {
     },
     copyText (text) {
       clipboard.writeText(text)
-      this.$message({
+      this.$notify({
+        title: '复制成功',
         message: '已复制到剪贴板！',
         type: 'success'
       })

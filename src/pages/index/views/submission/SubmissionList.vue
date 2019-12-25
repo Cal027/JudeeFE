@@ -55,7 +55,7 @@
                     :header-cell-style="{background: '#E5E9F0'}"
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     element-loading-text="正在加载">
-                <el-table-column prop="ID" label="递交ID" width="90px">
+                <el-table-column prop="ID" label="递交ID" width="90px" align="center">
                     <template v-slot="scope">
                         <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
                             {{scope.row.ID}}
@@ -142,9 +142,9 @@ const results = [
   { msg: 'Compile Error', type: 'warning' },
   { msg: 'Wrong Answer', type: 'danger' },
   { msg: 'Accepted', type: 'success' },
-  { msg: 'CPU Time Limit Exceeded', type: 'warning' },
-  { msg: 'Real Time Limit Exceeded', type: 'warning' },
-  { msg: 'Memory Limit Exceeded', type: 'warning' },
+  { msg: 'CPU TLE', type: 'warning' },
+  { msg: 'Real TLE', type: 'warning' },
+  { msg: 'MLE', type: 'warning' },
   { msg: 'Runtime Error', type: 'danger' },
   { msg: 'System Error', type: 'danger' },
   { msg: 'Pending', type: 'info' },

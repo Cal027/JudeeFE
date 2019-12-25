@@ -6,7 +6,7 @@
                     <span class="title">{{msg}}</span>
                     <div class="content">
                         <template v-if="isCE">
-                            <pre>{{detail.compile_error_info}}</pre>
+                            <div>{{detail.compile_error_info}}</div>
                         </template>
                         <template v-else>
                             <span>时间：{{resolveRunTime(detail.time_cost)}}</span>
@@ -18,7 +18,7 @@
                     </div>
                 </el-alert>
                 <br/>
-                <el-card v-if="!isCE&&detail.info.length>0">
+                <el-card v-if="detail.info&&detail.info.length>0&&!isCE">
                     <el-table :data="detail.info">
                         <el-table-column label="测试样例ID">
                             <template v-slot="scope">
@@ -45,17 +45,19 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-                <el-card style="margin-top: 30px;position: relative">
+                <el-card class="code-card">
                     <template #header>
                         提交代码
-                        <span v-if="detail.username===info.username" style="right: 15px;position: absolute">
+                        <el-button icon="iconfont j-icon-clipboard" @click="copyText(detail.code)"
+                                   class="icon-btn" type="text"/>
+                        <span v-if="detail.username===info.username">
                             <el-switch v-model="shared" slot="reference"
                                        active-text="公开" inactive-text="私密"
                                        active-color="#A3BE8C" inactive-color="#D08770"
                                        @change="changeShare"/>
                         </span>
                     </template>
-                    <Highlight :code="detail.code"
+                    <Highlight :code="detail.code? detail.code: ''"
                                :border-color="getColor(type)"
                                :language="getLanguage(detail.language)"/>
                 </el-card>
@@ -72,6 +74,7 @@
 <script>
 import submissionAPI from '@oj/api/oj.submission'
 import util from '@/utils/util'
+import * as clipboard from 'clipboard-polyfill'
 import Highlight from '@/components/Highlight/index'
 import { mapState } from 'vuex'
 
@@ -143,6 +146,14 @@ export default {
         })
       })
     },
+    copyText (text) {
+      clipboard.writeText(text)
+      this.$notify({
+        title: '复制成功',
+        message: '已复制代码到剪贴板！',
+        type: 'success'
+      })
+    },
     getSubmissionDetail () {
       let load = this.$loading()
       submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
@@ -188,10 +199,20 @@ export default {
         }
     }
 
+    .code-card {
+        position: relative;
+
+        span {
+            top: 15px;
+            right: 15px;
+            position: absolute
+        }
+    }
+
     .float-button {
         position: fixed;
-        right: 45px;
-        bottom: 25px;
+        right: 43px;
+        bottom: 100px;
 
         .el-button {
             box-shadow: 0 3px 9px 2px #BFBFBF;
@@ -199,6 +220,16 @@ export default {
 
         .el-button:hover {
             box-shadow: 0 6px 9px 2px #BFBFBF;
+        }
+    }
+</style>
+
+<style lang="less">
+    .code-card {
+        margin-top: 30px;
+
+        .el-card__header {
+            padding: 5px 18px;
         }
     }
 </style>

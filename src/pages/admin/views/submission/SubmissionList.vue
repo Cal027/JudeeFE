@@ -61,8 +61,8 @@
                     :default-sort="{prop: 'create_time', order: 'descending'}"
                     @selection-change="handleSelectionChange"
                     element-loading-text="正在加载">
-                <el-table-column type="selection" width="55" :selectable="checkSelectable"/>
-                <el-table-column prop="ID" label="递交ID">
+                <el-table-column type="selection" width="50" :selectable="checkSelectable"/>
+                <el-table-column prop="ID" label="递交ID" width="80" align="center">
                     <template v-slot="scope">
                         <router-link :to="'/status/'+scope.row.ID">{{scope.row.ID}}</router-link>
                     </template>
@@ -70,8 +70,8 @@
                 <el-table-column prop="problem" label="题目编号" width="80" align="center"/>
                 <el-table-column prop="contest" label="竞赛编号" width="80" align="center"/>
                 <el-table-column prop="username" label="用户" align="center"/>
-                <el-table-column prop="language" label="语言" align="center"/>
-                <el-table-column label="状态" align="center" width="120">
+                <el-table-column prop="language" label="语言" width="80" align="center"/>
+                <el-table-column label="状态" align="center">
                     <template v-slot="scope">
                         <el-tag size="small" effect="light"
                                 :type="results[scope.row.result+2].type">
@@ -120,9 +120,9 @@ const results = [
   { msg: 'Compile Error', type: 'warning' },
   { msg: 'Wrong Answer', type: 'danger' },
   { msg: 'Accepted', type: 'success' },
-  { msg: 'CPU Time Limit Exceeded', type: 'warning' },
-  { msg: 'Real Time Limit Exceeded', type: 'warning' },
-  { msg: 'Memory Limit Exceeded', type: 'warning' },
+  { msg: 'CPU TLE', type: 'warning' },
+  { msg: 'Real TLE', type: 'warning' },
+  { msg: 'MLE', type: 'warning' },
   { msg: 'Runtime Error', type: 'danger' },
   { msg: 'System Error', type: 'danger' },
   { msg: 'Pending', type: 'info' },
