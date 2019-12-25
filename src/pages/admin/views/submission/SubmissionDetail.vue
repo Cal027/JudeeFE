@@ -22,6 +22,30 @@
                 <br/>
                 <el-card v-if="!isCE&&info.length>0">
                     <el-table :data="detail.info">
+                        <el-table-column type="expand">
+                            <template v-slot="props">
+                                <el-form label-position="left" inline class="table-expand">
+                                    <el-form-item label="错误类别">
+                                        <span>{{errorInfo[props.row.error]}}</span>
+                                    </el-form-item>
+                                    <el-form-item label="退出信号">
+                                        <span>{{props.row.signal}}</span>
+                                    </el-form-item>
+                                    <el-form-item label="真实时间">
+                                        <span>{{props.row.real_time}}MS</span>
+                                    </el-form-item>
+                                    <el-form-item label="错误详情" :class="props.row.error_info? error-info:''">
+                                        <pre v-if="props.row.error_info" v-hl="props.row.error_info">
+                                            <code class="cpp"/>
+                                        </pre>
+                                        <span v-else>暂无错误详情</span>
+                                    </el-form-item>
+                                    <el-form-item label="退出代号">
+                                        <span>{{props.row.exit_code}}</span>
+                                    </el-form-item>
+                                </el-form>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="测试样例ID">
                             <template v-slot="scope">
                                 {{scope.$index+1}}
@@ -57,7 +81,11 @@
                 </el-card>
             </el-col>
         </el-row>
-
+        <div class="float-button">
+            <el-tooltip content="刷新">
+                <el-button @click="getSubmissionDetail" type="primary" circle icon="el-icon-refresh" size="medium"/>
+            </el-tooltip>
+        </div>
     </d2-container>
 </template>
 
@@ -79,6 +107,22 @@ const results = [
   { msg: 'Judging', type: 'primary', tag: 'primary' },
   { msg: 'Partially Accepted', type: 'warning', tag: 'warning' }
 ]
+
+const errorInfo = {
+  '0': 'Error Not Found',
+  '-1': 'Error Invalid Config',
+  '-2': 'Error Fork Failed',
+  '-3': 'Error Pthread Failed',
+  '-4': 'Error Wait Failed',
+  '-5': 'Error Root Required',
+  '-6': 'Error Load Seccomp Failed',
+  '-7': 'Error Setrlimit Failed',
+  '-8': 'Error Dup2 Failed',
+  '-9': 'Error Set Uid Failed',
+  '-10': 'Error Execute Failed',
+  '-11': 'Error SPJ error'
+}
+
 export default {
   name: 'SubmissionDetail',
   components: { Highlight },
@@ -88,6 +132,7 @@ export default {
       detail: '',
       info: [],
       code: '',
+      errorInfo,
       results,
       isCE: null,
       type: '',
@@ -95,20 +140,8 @@ export default {
     }
   },
   mounted () {
-    let load = this.$loading()
     this.ID = this.$route.params.id
-    submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
-      this.detail = res
-      this.code = res.code
-      this.info = res.info
-      this.isCE = this.detail.compile_error_info !== null
-      this.type = this.results[this.detail.result + 2].tag
-      this.msg = this.results[this.detail.result + 2].msg
-      load.close()
-    }).catch(() => {
-      load.close()
-      this.$router.back()
-    })
+    this.getSubmissionDetail()
   },
   methods: {
     resolveMemory (memory) {
@@ -122,6 +155,21 @@ export default {
     },
     getColor (type) {
       return util.formatter.getCodeColor(type)
+    },
+    getSubmissionDetail () {
+      let load = this.$loading()
+      submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
+        this.detail = res
+        this.code = res.code
+        this.info = res.info
+        this.isCE = this.detail.compile_error_info !== null
+        this.type = this.results[this.detail.result + 2].tag
+        this.msg = this.results[this.detail.result + 2].msg
+        load.close()
+      }).catch(() => {
+        load.close()
+        this.$router.back()
+      })
     }
   }
 }
@@ -144,6 +192,42 @@ export default {
 
             span {
                 margin-right: 15px;
+            }
+        }
+    }
+
+    .float-button {
+        position: fixed;
+        right: 45px;
+        bottom: 25px;
+
+        .el-button {
+            box-shadow: 0 3px 9px 2px #BFBFBF;
+        }
+
+        .el-button:hover {
+            box-shadow: 0 6px 9px 2px #BFBFBF;
+        }
+    }
+</style>
+
+<style lang="less">
+    .table-expand {
+        font-size: 0;
+        label{
+            width: 80px;
+            color:#5E81AC;
+        }
+
+        .el-form-item{
+            /*margin-right: 0;*/
+            margin-bottom: 5px;
+            min-width: 50%;
+        }
+
+        .error-info{
+            .el-form-item__content {
+                line-height: 5px;
             }
         }
     }

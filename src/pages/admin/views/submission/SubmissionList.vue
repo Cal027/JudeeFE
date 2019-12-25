@@ -208,19 +208,23 @@ export default {
       return row.result !== 6 && row.result !== 7
     },
     rejudge () {
-      let data = []
-      this.selection.forEach((item, index) => {
-        data[index] = item.ID
-      })
-      submissionAPI.rejudgeSubmission(data).then(res => {
-        this.$notify({
-          title: '重新评测成功',
-          type: 'success',
-          message: res.length + '项测评记录 ' + res + ' 已重新评测',
-          duration: 3000
+      if (this.selection.length === 0) {
+        this.$message.error('未选中评测记录')
+      } else {
+        let data = []
+        this.selection.forEach((item, index) => {
+          data[index] = item.ID
         })
-        this.filterSubmissionList()
-      })
+        submissionAPI.rejudgeSubmission(data).then(res => {
+          this.$notify({
+            title: '重新评测成功',
+            type: 'success',
+            message: res.length + '项测评记录 ' + res + ' 已重新评测',
+            duration: 3000
+          })
+          this.filterSubmissionList()
+        })
+      }
     },
     handleSelectionChange (val) {
       this.selection = val

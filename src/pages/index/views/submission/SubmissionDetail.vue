@@ -61,6 +61,11 @@
                 </el-card>
             </el-col>
         </el-row>
+        <div class="float-button">
+            <el-tooltip content="刷新">
+                <el-button @click="getSubmissionDetail" type="primary" circle icon="el-icon-refresh" size="medium"/>
+            </el-tooltip>
+        </div>
     </div>
 </template>
 
@@ -137,24 +142,27 @@ export default {
           message: '已取消修改'
         })
       })
+    },
+    getSubmissionDetail () {
+      let load = this.$loading()
+      submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
+        this.detail = res
+        this.shared = res.shared
+        this.isCE = this.detail.compile_error_info !== null
+        this.type = this.results[this.detail.result + 2].tag
+        this.msg = this.results[this.detail.result + 2].msg
+        load.close()
+      }).catch(err => {
+        load.close()
+        if (err.response.status === 403) {
+          this.$router.back()
+        }
+      })
     }
   },
   mounted () {
-    let load = this.$loading()
     this.ID = this.$route.params.id
-    submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
-      this.detail = res
-      this.shared = res.shared
-      this.isCE = this.detail.compile_error_info !== null
-      this.type = this.results[this.detail.result + 2].tag
-      this.msg = this.results[this.detail.result + 2].msg
-      load.close()
-    }).catch(err => {
-      load.close()
-      if (err.response.status === 403) {
-        this.$router.back()
-      }
-    })
+    this.getSubmissionDetail()
   }
 }
 </script>
@@ -177,6 +185,20 @@ export default {
             span {
                 margin-right: 15px;
             }
+        }
+    }
+
+    .float-button {
+        position: fixed;
+        right: 45px;
+        bottom: 25px;
+
+        .el-button {
+            box-shadow: 0 3px 9px 2px #BFBFBF;
+        }
+
+        .el-button:hover {
+            box-shadow: 0 6px 9px 2px #BFBFBF;
         }
     }
 </style>
