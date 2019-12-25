@@ -49,12 +49,12 @@ export default {
     .back {
         height: 100%;
         width: 100%;
-        background-color: #f2f5f6;
+        background-color: #ECEFF4;
         border-radius: 50%;
-        box-shadow: 0 0 6px rgba(0, 0, 0, .12);
+        box-shadow: 0 0 6px rgba(0, 0, 0, .10);
         text-align: center;
         line-height: 45px;
-        color: #1989fa;
+        color: #81A1C1;
     }
 
     .view {
