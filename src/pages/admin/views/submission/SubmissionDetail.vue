@@ -67,17 +67,17 @@ import submissionAPI from '@admin/api/sys.submission'
 import util from '@/utils/util'
 
 const results = [
-  { msg: 'COMPILE_ERROR', type: 'warning', tag: 'warning' },
-  { msg: 'WRONG_ANSWER', type: 'danger', tag: 'error' },
-  { msg: 'ACCEPTED', type: 'success', tag: 'success' },
-  { msg: 'CPU_TIME_LIMIT_EXCEEDED', type: 'warning', tag: 'warning' },
-  { msg: 'REAL_TIME_LIMIT_EXCEEDED', type: 'warning', tag: 'warning' },
-  { msg: 'MEMORY_LIMIT_EXCEEDED', type: 'warning', tag: 'warning' },
-  { msg: 'RUNTIME_ERROR', type: 'danger', tag: 'error' },
-  { msg: 'SYSTEM_ERROR', type: 'danger', tag: 'error' },
-  { msg: 'PENDING', type: 'primary', tag: 'primary' },
-  { msg: 'JUDGING', type: 'primary', tag: 'primary' },
-  { msg: 'PARTIALLY_ACCEPTED', type: 'warning', tag: 'warning' }
+  { msg: 'Compile Error', type: 'warning', tag: 'warning' },
+  { msg: 'Wrong Answer', type: 'danger', tag: 'error' },
+  { msg: 'Accepted', type: 'success', tag: 'success' },
+  { msg: 'CPU Time Limit Exceeded', type: 'warning', tag: 'warning' },
+  { msg: 'Real Time Limit Exceeded', type: 'warning', tag: 'warning' },
+  { msg: 'Memory Limit Exceeded', type: 'warning', tag: 'warning' },
+  { msg: 'Runtime Error', type: 'danger', tag: 'error' },
+  { msg: 'System Error', type: 'danger', tag: 'error' },
+  { msg: 'Pending', type: 'primary', tag: 'primary' },
+  { msg: 'Judging', type: 'primary', tag: 'primary' },
+  { msg: 'Partially Accepted', type: 'warning', tag: 'warning' }
 ]
 export default {
   name: 'SubmissionDetail',
