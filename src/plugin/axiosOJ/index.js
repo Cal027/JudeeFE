@@ -1,5 +1,6 @@
 import axios from 'axios'
 import util from '@/utils/util'
+import store from '@/store'
 import { Message } from 'element-ui'
 
 // 创建一个 axiosAdmin 实例
@@ -39,7 +40,13 @@ service.interceptors.response.use(
           error.message = '请求错误'
           break
         case 401:
-          error.message = '未授权，请登录'
+          if (error.response.data.detail.charAt(0) === '身') {
+            error.message = '未授权，请登录'
+          } else {
+            // Token过期/失效
+            error.message = 'Token失效，请重新登录'
+            store.dispatch('oj/account/forceLogout')
+          }
           break
         case 403:
           error.message = '拒绝访问'

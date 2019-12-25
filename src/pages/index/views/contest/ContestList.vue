@@ -31,9 +31,9 @@
                 </el-col>
                 <el-col :span="20">
                     <el-checkbox-group v-model="status" @change="handleStatus" class="group">
+                        <el-checkbox :label="1">筹备中</el-checkbox>
                         <el-checkbox :label="0">比赛中</el-checkbox>
                         <el-checkbox :label="-1">已结束</el-checkbox>
-                        <el-checkbox :label="1">筹备中</el-checkbox>
                     </el-checkbox-group>
                 </el-col>
             </el-row>

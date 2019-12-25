@@ -71,6 +71,19 @@ export default {
         })
       })
     },
+    forceLogout ({ dispatch }) {
+      return new Promise(async resolve => {
+        // 删除cookie
+        util.cookies.remove('tokenOJ')
+        // 清空 vuex 用户信息
+        await dispatch('oj/user/set', {}, { root: true })
+        resolve()
+        // 跳转登录
+        router.push({
+          name: 'login'
+        })
+      })
+    },
     load ({ dispatch }) {
       return new Promise(async resolve => {
         // DB -> store 加载用户名
