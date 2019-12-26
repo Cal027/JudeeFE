@@ -75,6 +75,6 @@
     "node-sass": "^4.10.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "vue-eslint-parser": "^3.2.2",
-    "webpack-bundle-analyzer": "^2.13.1"
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }
