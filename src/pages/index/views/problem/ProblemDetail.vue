@@ -136,7 +136,7 @@ export default {
       'info'
     ]),
     isPassed: function () {
-      return (this.info.ac_prob && this.info.ac_prob.indexOf(this.$route.params.id + '|') !== -1) ? '已通过' : '尚未通过'
+      return (this.info.ac_prob && (this.info.ac_prob.indexOf('|' + this.$route.params.id + '|') !== -1 || this.info.ac_prob.indexOf(this.$route.params.id + '|') === 0)) ? '已通过' : '尚未通过'
     }
   },
   data () {

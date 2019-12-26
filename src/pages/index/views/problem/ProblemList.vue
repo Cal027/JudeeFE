@@ -170,7 +170,7 @@ export default {
     },
     // ac 的题目就变颜色
     tableRowClassName ({ row, rowIndex }) {
-      return (this.info.ac_prob && this.info.ac_prob.indexOf(row.ID + '|') !== -1) ? 'success-row' : ''
+      return (this.info.ac_prob && (this.info.ac_prob.indexOf('|' + row.ID + '|') !== -1 || this.info.ac_prob.indexOf(row.ID + '|') === 0)) ? 'success-row' : ''
     },
     changeStatistics (row, column, cell, event) {
     },
