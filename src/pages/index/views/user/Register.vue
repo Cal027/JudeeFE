@@ -64,8 +64,8 @@ export default {
   components: { SquareBackground },
   data () {
     // 正则表达式校验
-    var checkUserName = (rule, value, callback) => {
-      var uPattern = /^[a-zA-Z0-9_-]{3,16}$/
+    let checkUserName = (rule, value, callback) => {
+      const uPattern = /^[a-zA-Z0-9_-]{3,16}$/
       if (!value) {
         return callback(new Error('用户名不能为空'))
       }
@@ -77,7 +77,7 @@ export default {
         }
       }, 100)
     }
-    var checkPass = (rule, value, callback) => {
+    let checkPass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('密码不能为空'))
       } else if (value.length < 6) {
@@ -89,7 +89,7 @@ export default {
         callback()
       }
     }
-    var checkConfirm = (rule, value, callback) => {
+    let checkConfirm = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.regForm.password) {

@@ -21,9 +21,9 @@
                     2019 SUSTech Judee小组出品
                 </p>
                 <p class="page-login--content-footer-options">
-                    <a href="https://github.com/Cal027/JudeeFE">前端</a>
-                    <a href="https://github.com/darkliang/JudeeBE">后端</a>
-                    <a href="https://github.com/wht-github/JudeeJudger">测评机</a>
+                    <a href="https://github.com/Cal027/JudeeFE" target="_blank">前端</a>
+                    <a href="https://github.com/darkliang/JudeeBE" target="_blank">后端</a>
+                    <a href="https://github.com/wht-github/JudeeJudger" target="_blank">测评机</a>
                 </p>
             </div>
         </div>
@@ -103,7 +103,7 @@ export default {
 
 </style>
 <style lang="less">
-    @import '~@/assets/style/puclic-oj.css';
+    @import '~@/assets/style/public-oj.less';
 
     html, body {
         height: 100%;

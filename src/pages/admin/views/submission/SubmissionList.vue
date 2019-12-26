@@ -29,7 +29,7 @@
                     <el-select size="medium" clearable placeholder="语言" v-model="language"
                                @change="filterSubmissionList">
                         <el-option
-                                v-for="lag in languageOpt"
+                                v-for="lag in languageOptions"
                                 :key="lag" :label="lag" :value="lag"/>
                     </el-select>
                 </el-col>
@@ -37,7 +37,7 @@
                     <el-select size="medium" clearable placeholder="评测状态" v-model="result"
                                @change="filterSubmissionList">
                         <el-option
-                                v-for="(r,index) in results"
+                                v-for="(r,index) in reviewResults"
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
@@ -74,8 +74,8 @@
                 <el-table-column label="状态" align="center">
                     <template v-slot="scope">
                         <el-tag size="small" effect="light"
-                                :type="results[scope.row.result+2].type">
-                            {{results[scope.row.result+2].msg}}
+                                :type="reviewResults[scope.row.result+2].type">
+                            {{reviewResults[scope.row.result+2].msg}}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -114,21 +114,9 @@
 
 <script>
 import util from '@/utils/util'
+import { reviewResults, languageOptions } from '@/utils/util.const'
 import submissionAPI from '@admin/api/sys.submission'
 
-const results = [
-  { msg: 'Compile Error', type: 'warning' },
-  { msg: 'Wrong Answer', type: 'danger' },
-  { msg: 'Accepted', type: 'success' },
-  { msg: 'CPU TLE', type: 'warning' },
-  { msg: 'Real TLE', type: 'warning' },
-  { msg: 'MLE', type: 'warning' },
-  { msg: 'Runtime Error', type: 'danger' },
-  { msg: 'System Error', type: 'danger' },
-  { msg: 'Pending', type: 'info' },
-  { msg: 'Judging', type: 'info' },
-  { msg: 'Partially Accepted', type: 'warning' }
-]
 export default {
   name: 'submissionList',
   data () {
@@ -137,7 +125,7 @@ export default {
         title: '评测管理',
         subTitle: '在这里可以管理所有评测记录'
       },
-      languageOpt: ['Java', 'C++', 'C', 'Python3'],
+      languageOptions,
       language: '',
       problemID: '',
       contestID: '',
@@ -148,7 +136,7 @@ export default {
       tableData: [],
       loadingTable: false,
       selection: [],
-      results,
+      reviewResults,
       // 分页相关
       currentPage: 1,
       pageSize: 20,

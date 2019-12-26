@@ -54,8 +54,8 @@
                         <el-table-column label="状态" align="center">
                             <template v-slot="scope">
                                 <el-tag size="small" effect="light"
-                                        :type="results[scope.row.result+2].type">
-                                    {{results[scope.row.result+2].msg}}
+                                        :type="reviewResults[scope.row.result+2].type">
+                                    {{reviewResults[scope.row.result+2].msg}}
                                 </el-tag>
                             </template>
                         </el-table-column>
@@ -95,21 +95,8 @@
 import Highlight from '@/components/Highlight/index'
 import submissionAPI from '@admin/api/sys.submission'
 import util from '@/utils/util'
+import { reviewResults } from '@/utils/util.const'
 import * as clipboard from 'clipboard-polyfill'
-
-const results = [
-  { msg: 'Compile Error', type: 'warning', tag: 'warning' },
-  { msg: 'Wrong Answer', type: 'danger', tag: 'error' },
-  { msg: 'Accepted', type: 'success', tag: 'success' },
-  { msg: 'CPU Time Limit Exceeded', type: 'warning', tag: 'warning' },
-  { msg: 'Real Time Limit Exceeded', type: 'warning', tag: 'warning' },
-  { msg: 'Memory Limit Exceeded', type: 'warning', tag: 'warning' },
-  { msg: 'Runtime Error', type: 'danger', tag: 'error' },
-  { msg: 'System Error', type: 'danger', tag: 'error' },
-  { msg: 'Pending', type: 'primary', tag: 'primary' },
-  { msg: 'Judging', type: 'primary', tag: 'primary' },
-  { msg: 'Partially Accepted', type: 'warning', tag: 'warning' }
-]
 
 const errorInfo = {
   '0': 'Error Not Found',
@@ -136,7 +123,7 @@ export default {
       info: [],
       code: '',
       errorInfo,
-      results,
+      reviewResults,
       isCE: null,
       type: '',
       msg: 'PENDING'
@@ -174,8 +161,8 @@ export default {
         this.code = res.code
         this.info = res.info
         this.isCE = this.detail.compile_error_info !== null
-        this.type = this.results[this.detail.result + 2].tag
-        this.msg = this.results[this.detail.result + 2].msg
+        this.type = this.reviewResults[this.detail.result + 2].tag
+        this.msg = this.reviewResults[this.detail.result + 2].msg
         load.close()
       }).catch(() => {
         load.close()

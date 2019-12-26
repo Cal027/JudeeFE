@@ -1,8 +1,16 @@
+import userAPI from '@oj/api/oj.user'
+import { Message } from 'element-ui'
+
 export default {
   namespaced: true,
   state: {
     // 用户信息
     info: {}
+  },
+  mutations: {
+    updateInfo (state, acProb) {
+      state.info.ac_prob = acProb
+    }
   },
   actions: {
     /**
@@ -30,9 +38,9 @@ export default {
      * @param {Object} context
      * @param {*} acProb
      */
-    updateAC ({ state, dispatch }, acProb) {
+    updateAC ({ commit, state, dispatch }, acProb) {
       return new Promise(async resolve => {
-        state.info.ac_prob = acProb
+        commit('updateInfo', acProb)
         await dispatch('oj/db/set', {
           dbName: 'oj',
           path: 'user.info',
@@ -56,6 +64,18 @@ export default {
         }, { root: true })
         // end
         resolve()
+      })
+    },
+
+    getProfile ({ state }) {
+      return new Promise((resolve, reject) => {
+        userAPI.getUserInfo(state.info.username).then(res => {
+          Message.success('获取个人信息成功')
+          resolve(res)
+        }).catch(err => {
+          Message.error('获取个人信息失败')
+          reject(err)
+        })
       })
     }
   }

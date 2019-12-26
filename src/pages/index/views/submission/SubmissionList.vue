@@ -24,7 +24,7 @@
                     <el-select size="medium" clearable placeholder="语言" v-model="language"
                                @change="filterSubmissionList">
                         <el-option
-                                v-for="lag in languageOpt"
+                                v-for="lag in languageOptions"
                                 :key="lag" :label="lag" :value="lag"/>
                     </el-select>
                 </el-col>
@@ -32,7 +32,7 @@
                     <el-select size="medium" clearable placeholder="评测状态" v-model="result"
                                @change="filterSubmissionList">
                         <el-option
-                                v-for="(r,index) in results"
+                                v-for="(r,index) in reviewResults"
                                 :key="index" :label="r.msg" :value="index-2"/>
                     </el-select>
                 </el-col>
@@ -44,6 +44,13 @@
         </el-card>
         <el-card :class="contestID? 'card-module':''">
             <template #header v-if="!showPanel">
+                <el-select v-model="problemID"
+                           @change="filterSubmissionList"
+                           placeholder="全部"
+                           style="width: 73px;margin-right: 10px"
+                           clearable size="small">
+                    <el-option v-for="(val, key, index) in Letter" :key="index" :label="val" :value="key"/>
+                </el-select>
                 <el-button icon="el-icon-refresh" class="header-button" @click="filterSubmissionList" type="text">
                     刷新
                 </el-button>
@@ -93,8 +100,8 @@
                 <el-table-column label="状态" align="center">
                     <template v-slot="scope">
                         <el-tag size="small" effect="light"
-                                :type="results[scope.row.result+2].type">
-                            {{results[scope.row.result+2].msg}}
+                                :type="reviewResults[scope.row.result+2].type">
+                            {{reviewResults[scope.row.result+2].msg}}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -135,22 +142,9 @@
 import submissionAPI from '@oj/api/oj.submission'
 import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
+import { reviewResults, languageOptions } from '@/utils/util.const'
 import MountainFooter from '@oj/components/MountainFooter'
 import { mapState } from 'vuex'
-
-const results = [
-  { msg: 'Compile Error', type: 'warning' },
-  { msg: 'Wrong Answer', type: 'danger' },
-  { msg: 'Accepted', type: 'success' },
-  { msg: 'CPU TLE', type: 'warning' },
-  { msg: 'Real TLE', type: 'warning' },
-  { msg: 'MLE', type: 'warning' },
-  { msg: 'Runtime Error', type: 'danger' },
-  { msg: 'System Error', type: 'danger' },
-  { msg: 'Pending', type: 'info' },
-  { msg: 'Judging', type: 'info' },
-  { msg: 'Partially Accepted', type: 'warning' }
-]
 
 export default {
   name: 'SubmissionList',
@@ -162,23 +156,25 @@ export default {
   },
   data () {
     return {
-      languageOpt: ['Java', 'C++', 'C', 'Python3'],
+      languageOptions,
       language: '',
       myself: false,
       problemID: '',
-      contestID: '',
       username: '',
       result: '',
       isProblem: false,
       showPanel: true,
       tableData: [],
       loadingTable: false,
-      results,
+      reviewResults,
       // 分页相关
       currentPage: 1,
       pageSize: 20,
       totalNum: 0,
-      Letter: {}
+      Letter: {},
+      // 竞赛相关
+      contestID: '',
+      searchProblem: ''
     }
   },
   methods: {

@@ -3,5 +3,6 @@ const ContestDetail = () => import(/* webpackChunkName: "contest" */ './ContestD
 const ContestProblemList = () => import(/* webpackChunkName: "contest" */'./children/ContestProblemList')
 const ContestRank = () => import(/* webpackChunkName: "contest" */'./children/ContestRank')
 const ContestAnnouncement = () => import(/* webpackChunkName: "contest" */'./children/ContestAnnouncement')
+const ContestSubmissionDetail = () => import(/* webpackChunkName: "contest" */'./children/ContestSubmissionDetail')
 
-export { ContestList, ContestDetail, ContestProblemList, ContestRank, ContestAnnouncement }
+export { ContestList, ContestDetail, ContestProblemList, ContestRank, ContestAnnouncement, ContestSubmissionDetail }

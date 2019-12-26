@@ -4,27 +4,27 @@
             <el-tab-pane :label="label.des">
                 <description/>
             </el-tab-pane>
-            <el-tab-pane :label="label.rule" :lazy="true">
-                <ratingRule/>
+            <el-tab-pane :label="label.faq" :lazy="true">
+                <FAQ/>
             </el-tab-pane>
         </el-tabs>
     </el-row>
 </template>
 
 <script>
-import ratingRule from '@oj/components/RatingRule'
-import description from '@oj/components/Description'
+import FAQ from '@oj/components/Introduction/FAQ'
+import Description from '@oj/components/Introduction/Description'
 
 export default {
   name: 'Intro',
   components: {
-    ratingRule,
-    description
+    Description,
+    FAQ
   },
   data () {
     return {
       label: {
-        rule: '规则',
+        faq: 'FAQ',
         des: '介绍'
       }
     }

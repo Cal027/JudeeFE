@@ -1,38 +1,38 @@
 <template>
-  <el-container>
-    <SquareBackground/>
-    <el-header>
-      <h1>修改个人信息</h1>
-    </el-header>
-    <el-main>
-      <el-card id="card">
-        <el-form ref="form" :model="form" :rules="rules">
-          <el-form-item prop="nickname" label="昵称">
-            <el-input v-model="form.nickname"/>
-          </el-form-item>
+    <el-container>
+        <SquareBackground/>
+        <el-header>
+            <h1>修改个人信息</h1>
+        </el-header>
+        <el-main style="z-index: 10">
+            <el-card id="card">
+                <el-form ref="form" :model="form" :rules="rules">
+                    <el-form-item prop="nickname" label="昵称">
+                        <el-input v-model="form.nickname"/>
+                    </el-form-item>
 
-          <el-form-item prop="desc" label="个人介绍">
-            <el-input v-model="form.desc"
-                      placeholder="你这个人很懒，什么都没有留下"/>
-          </el-form-item>
+                    <el-form-item prop="desc" label="个人介绍">
+                        <el-input v-model="form.desc"
+                                  placeholder="你这个人很懒，什么都没有留下"/>
+                    </el-form-item>
 
-          <el-form-item prop="phone_number" label="电话号码">
-            <el-input v-model="form.phone_number"
-                      placeholder="还没留下电话号码"/>
-          </el-form-item>
+                    <el-form-item prop="phone_number" label="电话号码">
+                        <el-input v-model="form.phone_number"
+                                  placeholder="还没留下电话号码"/>
+                    </el-form-item>
 
-          <el-form-item prop="qq_number" label="QQ">
-            <el-input v-model="form.qq_number" placeholder="还没留下QQ号码"/>
-          </el-form-item>
+                    <el-form-item prop="qq_number" label="QQ">
+                        <el-input v-model="form.qq_number" placeholder="还没留下QQ号码"/>
+                    </el-form-item>
 
-          <el-form-item prop="github" label="Github用户名">
-            <el-input v-model="form.github_username" placeholder="还没留下Github用户名"/>
-          </el-form-item>
-        </el-form>
-        <el-button class="button" type="primary" @click="updateClick">更新</el-button>
-      </el-card>
-    </el-main>
-  </el-container>
+                    <el-form-item prop="github" label="Github用户名">
+                        <el-input v-model="form.github_username" placeholder="还没留下Github用户名"/>
+                    </el-form-item>
+                </el-form>
+                <el-button class="button" type="primary" @click="updateClick">更新</el-button>
+            </el-card>
+        </el-main>
+    </el-container>
 </template>
 
 <script>
@@ -49,8 +49,8 @@ export default {
     ])
   },
   data () {
-    var checkQQ = (rule, value, callback) => {
-      var qqPattern = /^[1-9][0-9]{4,10}$/
+    let checkQQ = (rule, value, callback) => {
+      const qqPattern = /^[1-9][0-9]{4,10}$/
       setTimeout(() => {
         if (qqPattern.test(value) || !value) {
           callback()
@@ -59,8 +59,8 @@ export default {
         }
       }, 100)
     }
-    var checkPhone = (rule, value, callback) => {
-      var pPattern = /^1[34578]\d{9}$/
+    let checkPhone = (rule, value, callback) => {
+      const pPattern = /^1[34578]\d{9}$/
       setTimeout(() => {
         if (pPattern.test(value) || !value) {
           callback()
@@ -70,6 +70,7 @@ export default {
       }, 100)
     }
     return {
+      username: '',
       form: {
         nickname: '',
         desc: '',
@@ -86,19 +87,29 @@ export default {
       }
     }
   },
-  mounted () {
-    if (this.info.username) {
-      userAPI.getUserInfo(this.info.username).then(res => {
-        this.form.nickname = res.nickname
-        this.form.desc = res.desc
-        this.form.qq_number = res.qq_number
-        this.form.phone_number = res.phone_number
-        this.form.github_username = res.github_username
-      })
-    }
+  created () {
+    // FIXME 待测试
+    this.$store.dispatch('oj/user/getProfile').then(res => {
+      this.username = res.username
+      this.form.nickname = res.nickname
+      this.form.desc = res.desc
+      this.form.qq_number = res.qq_number
+      this.form.phone_number = res.phone_number
+      this.form.github_username = res.github_username
+    })
   },
-
   methods: {
+    // getUserInfo (username) {
+    //   if (username) {
+    //     userAPI.getUserInfo(username).then(res => {
+    //       this.form.nickname = res.nickname
+    //       this.form.desc = res.desc
+    //       this.form.qq_number = res.qq_number
+    //       this.form.phone_number = res.phone_number
+    //       this.form.github_username = res.github_username
+    //     })
+    //   }
+    // },
     updateClick () {
       this.$refs.form.validate((valid) => {
         if (valid) {
@@ -114,9 +125,9 @@ export default {
               type: 'warning'
             }
           ).then(() => {
-            userAPI.updateUserProfile(this.info.username, this.form)
+            userAPI.updateUserProfile(this.username, this.form)
               .then(() => {
-                this.$message({
+                this.$notify({
                   message: '修改个人信息成功！',
                   type: 'success'
                 })
@@ -134,27 +145,27 @@ export default {
 </script>
 
 <style scoped>
-  .el-header h1 {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 300;
-    letter-spacing: -.5px;
-  }
+    .el-header h1 {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 300;
+        letter-spacing: -.5px;
+    }
 
-  .el-main {
-    text-align: center;
-    margin: 0 auto;
-  }
+    .el-main {
+        text-align: center;
+        margin: 0 auto;
+    }
 
-  #card {
-    /*margin: 200px;*/
-    /*padding: 200px;*/
-    width: 448px;
-  }
+    #card {
+        /*margin: 200px;*/
+        /*padding: 200px;*/
+        width: 448px;
+    }
 
-  .button {
-    display: block;
-    width: 100%;
-    margin-top: 35px;
-  }
+    .button {
+        /*display: block;*/
+        width: 100%;
+        margin-top: 20px;
+    }
 </style>

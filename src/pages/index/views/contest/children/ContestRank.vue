@@ -86,6 +86,7 @@ import dayjs from 'dayjs'
 
 export default {
   name: 'ContestRank',
+  // 计算属性获取vuex存储的竞赛状态
   computed: {
     ...mapState('oj/contest', ['contestDetail']),
 

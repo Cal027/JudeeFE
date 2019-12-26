@@ -28,8 +28,8 @@
                         <el-table-column label="状态" align="center">
                             <template v-slot="scope">
                                 <el-tag size="small" effect="light"
-                                        :type="results[scope.row.result+2].type">
-                                    {{results[scope.row.result+2].msg}}
+                                        :type="reviewResults[scope.row.result+2].type">
+                                    {{reviewResults[scope.row.result+2].msg}}
                                 </el-tag>
                             </template>
                         </el-table-column>
@@ -50,7 +50,7 @@
                         提交代码
                         <el-button icon="iconfont j-icon-clipboard" @click="copyText(detail.code)"
                                    class="icon-btn" type="text"/>
-                        <span v-if="detail.username===info.username">
+                        <span v-if="detail.username===info.username" class="code-share">
                             <el-switch v-model="shared" slot="reference"
                                        active-text="公开" inactive-text="私密"
                                        active-color="#A3BE8C" inactive-color="#D08770"
@@ -74,23 +74,11 @@
 <script>
 import submissionAPI from '@oj/api/oj.submission'
 import util from '@/utils/util'
+import { reviewResults } from '@/utils/util.const'
 import * as clipboard from 'clipboard-polyfill'
 import Highlight from '@/components/Highlight/index'
 import { mapState } from 'vuex'
 
-const results = [
-  { msg: 'Compile Error', type: 'warning', tag: 'warning' },
-  { msg: 'Wrong Answer', type: 'danger', tag: 'error' },
-  { msg: 'Accepted', type: 'success', tag: 'success' },
-  { msg: 'CPU Time Limit Exceeded', type: 'warning', tag: 'warning' },
-  { msg: 'Real Time Limit Exceeded', type: 'warning', tag: 'warning' },
-  { msg: 'Memory Limit Exceeded', type: 'warning', tag: 'warning' },
-  { msg: 'Runtime Error', type: 'danger', tag: 'error' },
-  { msg: 'System Error', type: 'danger', tag: 'error' },
-  { msg: 'Pending', type: 'primary', tag: 'primary' },
-  { msg: 'Judging', type: 'primary', tag: 'primary' },
-  { msg: 'Partially Accepted', type: 'warning', tag: 'warning' }
-]
 export default {
   name: 'SubmissionDetail',
   components: { Highlight },
@@ -98,7 +86,7 @@ export default {
     return {
       ID: '',
       detail: '',
-      results,
+      reviewResults,
       isCE: null,
       type: '',
       shared: false,
@@ -160,8 +148,8 @@ export default {
         this.detail = res
         this.shared = res.shared
         this.isCE = this.detail.compile_error_info !== null
-        this.type = this.results[this.detail.result + 2].tag
-        this.msg = this.results[this.detail.result + 2].msg
+        this.type = this.reviewResults[this.detail.result + 2].tag
+        this.msg = this.reviewResults[this.detail.result + 2].msg
         load.close()
       }).catch(err => {
         load.close()
@@ -200,36 +188,10 @@ export default {
     }
 
     .code-card {
-        position: relative;
-
-        span {
+        .code-share{
             top: 15px;
             right: 15px;
             position: absolute
-        }
-    }
-
-    .float-button {
-        position: fixed;
-        right: 43px;
-        bottom: 100px;
-
-        .el-button {
-            box-shadow: 0 3px 9px 2px #BFBFBF;
-        }
-
-        .el-button:hover {
-            box-shadow: 0 6px 9px 2px #BFBFBF;
-        }
-    }
-</style>
-
-<style lang="less">
-    .code-card {
-        margin-top: 30px;
-
-        .el-card__header {
-            padding: 5px 18px;
         }
     }
 </style>

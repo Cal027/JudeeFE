@@ -118,7 +118,7 @@ const routes = [
         path: 'status/:id',
         name: 'Contest-submission-status',
         meta: { auth: true },
-        component: _import('submission/SubmissionDetail')
+        component: Contest.ContestSubmissionDetail
       }
     ]
   },
