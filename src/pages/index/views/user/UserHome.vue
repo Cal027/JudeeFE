@@ -55,15 +55,13 @@
                         <p class="emphasis">{{ userData.ranking }}</p>
                     </el-col>
                 </el-row>
-                <!--                FIXME 美化效果-->
                 <el-divider content-position="center">个人简介</el-divider>
                 <div>{{profile.desc?profile.desc:'这家伙很懒,连屁也没有放个就走了'}}</div>
                 <el-divider content-position="center">近七天统计数据</el-divider>
-                <ve-line :data="chartData" :settings="                {
+                <ve-line :data="chartData" :settings="{
                 axisSite: { right: ['rate'] },
                 yAxisType: ['normal', 'percent'],
-                yAxisName: ['次数', '比率']
-                }"/>
+                yAxisName: ['次数', '比率']}"/>
                 <el-divider content-position="center">通过题目 ({{userData.ac_prob.length}}道)</el-divider>
                 <el-tag class="click"
                         v-for="item in userData.ac_prob" :key="item"
@@ -79,7 +77,7 @@ import * as clipboard from 'clipboard-polyfill'
 import SquareBackground from '@oj/components/SquareBackground'
 import util from '@/utils/util'
 import userAPI from '@oj/api/oj.user'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import VeLine from 'v-charts/lib/line.common'
 import md5 from 'js-md5'
 
@@ -89,7 +87,10 @@ export default {
   computed: {
     ...mapState('oj/user', [
       'info'
-    ])
+    ]),
+    isShowEdit () {
+      return this.info.username === this.username
+    }
   },
   data () {
     return {
@@ -107,15 +108,12 @@ export default {
       },
       github: '还没填写Github信息',
       qq: '还没填写QQ信息',
-      phone_number: '还没填写电话号码',
-      isShowEdit: false
+      phone_number: '还没填写电话号码'
     }
   },
   mounted () {
     this.username = this.$route.params.username
     util.title(this.username)
-    this.isShowEdit = this.info.username === this.username
-    let info = Object.assign({}, this.info)
     userAPI.getUserInfo(this.username).then(res => {
       this.profile = res
       if (this.profile.qq_number) {
@@ -128,7 +126,7 @@ export default {
         this.phone_number = this.profile.phone_number
       }
       if (this.isShowEdit) {
-        this.avatarUrl = info.avatarUrl
+        this.avatarUrl = this.info.avatarUrl
       } else {
         this.avatarUrl = `https://www.gravatar.com/avatar/${md5(this.profile.email ? this.profile.email.toLowerCase() : '')}.jpg?s=140&d=${encodeURI('https://files.catbox.moe/9aciic.png')}`
       }
@@ -145,13 +143,15 @@ export default {
         this.userData.ac_prob.splice(-1, 1)
       }
       if (this.isShowEdit) {
-        info.ac_prob = res.ac_prob
+        this.updateAC(res.ac_prob)
       }
     })
-    this.$store.dispatch('oj/user/set', info, { root: true })
     this.getStatisticInfo(7)
   },
   methods: {
+    ...mapActions('oj/user', [
+      'updateAC'
+    ]),
     copyText (text) {
       clipboard.writeText(text)
       this.$message({

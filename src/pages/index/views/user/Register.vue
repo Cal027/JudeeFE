@@ -36,7 +36,7 @@
           <el-form-item prop="confirm" label="确认密码">
             <el-input
               v-model="regForm.confirm"
-              type="password"
+              show-password
               placeholder="再次输入密码"/>
           </el-form-item>
         </el-form>

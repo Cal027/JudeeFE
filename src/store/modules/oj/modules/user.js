@@ -26,6 +26,22 @@ export default {
       })
     },
     /**
+     * @description 更新用户ac信息
+     * @param {Object} context
+     * @param {*} acProb
+     */
+    updateAC ({ state, dispatch }, acProb) {
+      return new Promise(async resolve => {
+        state.info.ac_prob = acProb
+        await dispatch('oj/db/set', {
+          dbName: 'oj',
+          path: 'user.info',
+          value: state.info,
+          user: true
+        }, { root: true })
+      })
+    },
+    /**
      * @description 从数据库取用户数据
      * @param {Object} context
      */

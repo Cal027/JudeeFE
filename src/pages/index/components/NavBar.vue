@@ -82,6 +82,9 @@ export default {
     ...mapActions('oj/account', [
       'logout'
     ]),
+    ...mapActions('oj/user', [
+      'updateAC'
+    ]),
     handleClick () {
       this.$router.push({
         name: 'user',
@@ -109,9 +112,7 @@ export default {
       }
       if (command === 'updateRanking') {
         userAPI.updateRanking().then(res => {
-          let info = Object.assign({}, this.info)
-          info.ac_prob = res.ac_prob
-          this.$store.dispatch('oj/user/set', info, { root: true })
+          this.updateAC(res.ac_prob)
           this.$message({
             message: '更新成功，当前排名' + (res.ranking + 1),
             type: 'success'
@@ -181,7 +182,7 @@ export default {
         float: right;
         margin-top: 13px;
         margin-right: 3px;
-        box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
+        box-shadow: 0 0 8px 0 rgba(232, 237, 250, .6), 0 2px 4px 0 rgba(232, 237, 250, .5);
     }
 </style>
 
