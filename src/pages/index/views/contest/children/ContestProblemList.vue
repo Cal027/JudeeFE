@@ -24,7 +24,7 @@
             <el-table-column prop="accepted_number" label="通过人数" width="100"/>
             <el-table-column prop="submission_number" label="提交人数" width="100"/>
             <el-table-column prop="total_score" label="分数" width="100"/>
-            <el-table-column prop="contestproblem__first_ac" label="First Blood" width="100"/>
+            <el-table-column v-if="contestDetail.rule_type==='ACM'" prop="contestproblem__first_ac" label="First Blood" width="100"/>
         </el-table>
     </el-card>
 </template>
@@ -32,9 +32,13 @@
 <script>
 import problemAPI from '@oj/api/oj.problem'
 import util from '@/utils/util'
+import { mapState } from 'vuex'
 
 export default {
   name: 'ContestProblemList',
+  computed: {
+    ...mapState('oj/contest', ['contestDetail'])
+  },
   data () {
     return {
       loading: false,

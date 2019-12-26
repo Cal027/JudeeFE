@@ -4,8 +4,8 @@ export default {
     contestDetail: {}
   },
   mutations: {
-    setContestEndTime (state, endTime) {
-      state.contestDetail.end_time = endTime
+    setContest (state, contest) {
+      state.contestDetail = contest
     }
   }
 }

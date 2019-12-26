@@ -85,9 +85,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'ProblemList',
   computed: {
-    ...mapState('d2admin/user', [
-      'info'
-    ])
+    ...mapState('d2admin/user', ['info'])
   },
   data () {
     return {

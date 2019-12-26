@@ -1,12 +1,14 @@
 <template>
-    <d2-container type="ghost">
+    <div>
         <div :class="isSticky? 'float': 'nav'"
              :style="{'margin-top':top+'px','border-bottom': themeColor +' solid','border-width':'2px'}"
              :sticky-z-index="999"
              v-sticky on-stick="handleSticky" sticky-offset="{top:-44}">
             <div class="header">
                 <span style="font-size: 24px">{{contestDetail.title}}</span>
-                <el-button v-if="!contestDetail.is_in" type="text" style="font-size:16px; float: right" @click="joinContest">加入竞赛</el-button>
+                <el-button v-if="!contestDetail.is_in" type="text"
+                           style="font-size:16px; float: right"
+                           @click="joinContest">加入竞赛</el-button>
             </div>
             <el-menu
                     :default-active="$route.name"
@@ -25,7 +27,7 @@
                               :route="{name:'Contest-submissions-mine',params:{contestID:ID}}">我的提交
                 </el-menu-item>
                 <el-menu-item index="Contest-rank" class="menuItem"
-                              :route="{name:'Contest-rank',params:{contestID:ID,type:type}}">排名
+                              :route="{name:'Contest-rank',params:{contestID:ID}}">排名
                 </el-menu-item>
                 <el-menu-item index="Contest-announcement" class="menuItem"
                               :route="{name:'Contest-announcement',params:{contestID:ID}}">公告
@@ -68,7 +70,7 @@
             </transition>
             <!--ChildrenEnd-->
         </div>
-    </d2-container>
+    </div>
 </template>
 
 <script>
@@ -90,7 +92,6 @@ export default {
       themeColor: '',
       contest: '',
       ID: '',
-      type: '',
       now: null,
       routeName: '',
       contestDetail: {},
@@ -138,8 +139,7 @@ export default {
 
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
-      this.$store.commit('oj/contest/setContestEndTime', this.contestDetail.end_time)
-      this.type = this.contestDetail.rule_type
+      this.$store.commit('oj/contest/setContest', this.contestDetail)
       util.title(this.contestDetail.title)
     }).catch(() => {
       this.$prompt('竞赛受保护，请输入密码加入竞赛', '提示', {
