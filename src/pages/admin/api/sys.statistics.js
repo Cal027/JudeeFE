@@ -20,9 +20,9 @@ export default {
   },
   getLoginData (offset = null) {
     if (offset) {
-      return request.get(`/admin-login-data/?offset=${offset}`)
+      return request.get(`/admin-stat/?offset=${offset}`)
     } else {
-      return request.get('/admin-login-data')
+      return request.get('/admin-stat/')
     }
   }
 }
