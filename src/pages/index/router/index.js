@@ -7,6 +7,7 @@ import util from '@/utils/util'
 import { Message } from 'element-ui'
 
 import routes from './routes'
+import store from '@/store'
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
@@ -36,6 +37,9 @@ router.beforeEach((to, from, next) => {
         type: 'error',
         duration: 1000
       })
+      if (store.state.oj.user.info) {
+        store.dispatch('oj/account/forceLogout')
+      }
       next({
         name: 'login',
         query: {

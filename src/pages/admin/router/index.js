@@ -10,6 +10,7 @@ import util from '@/utils/util.js'
 
 // 路由数据
 import routes from './routes'
+import { Message } from 'element-ui'
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
@@ -51,6 +52,14 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // 没有登录的时候跳转到登录界面
       // 携带上登陆成功之后需要跳转的页面完整路径
+      Message({
+        message: '未授权，请登录',
+        type: 'error',
+        duration: 1000
+      })
+      if (store.state.d2admin.user.info) {
+        store.dispatch('d2admin/account/logout')
+      }
       next({
         name: 'login',
         query: {
