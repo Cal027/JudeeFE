@@ -119,10 +119,13 @@ export default {
       return util.time.compareTime(begin, end)
     },
     joinContest () {
-      ContestAPI.joinContest(this.ID).then(res => {
-        if (res.is_in) {
-          this.contestDetail.is_in = true
-        }
+      ContestAPI.joinContest(this.ID).then(() => {
+        this.$notify({
+          type: 'success',
+          title: '加入成功',
+          message: '你已成功加入竞赛'
+        })
+        this.contestDetail.is_in = true
       })
     }
   },
@@ -132,8 +135,10 @@ export default {
     setInterval(() => {
       this.now = dayjs()
     }, 1000)
+
     ContestAPI.getContest(this.ID).then(res => {
       this.contestDetail = res
+      this.$store.commit('oj/contest/setContestEndTime', this.contestDetail.end_time)
       this.type = this.contestDetail.rule_type
       util.title(this.contestDetail.title)
     }).catch(() => {

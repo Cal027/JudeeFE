@@ -6,7 +6,15 @@
                     <el-col :span="1">
                         <span style="font-size: 18px">排名</span>
                     </el-col>
-                    <el-col :span="2" :offset="18">
+                    <el-col :span="5">
+                        <el-tag v-if="ruleType==='ACM'&&isCloseEnd" type="info" size="medium">比赛结束前一小时封榜</el-tag>
+                    </el-col>
+                    <el-col :span="1" :offset="ruleType==='ACM'&&isCloseEnd? 12:17">
+                        <el-button icon="el-icon-refresh" style="margin-top: -5px" @click="getContestRank" type="text">
+                            刷新
+                        </el-button>
+                    </el-col>
+                    <el-col :span="2">
                         <el-button icon="el-icon-close" type="text" style="margin-top: -5px" @click="clearFilter">
                             清空筛选
                         </el-button>
@@ -73,9 +81,18 @@
 <script>
 import contestAPI from '@oj/api/oj.contest'
 import util from '@/utils/util'
+import { mapState } from 'vuex'
+import dayjs from 'dayjs'
 
 export default {
   name: 'ContestRank',
+  computed: {
+    ...mapState('oj/contest', ['contestDetail']),
+
+    isCloseEnd () {
+      return util.time.isCloseEnd(this.now, this.contestDetail.end_time)
+    }
+  },
   data () {
     return {
       ruleType: '',
@@ -83,19 +100,14 @@ export default {
       rankList: [],
       tableData: [],
       problemToLetter: {},
-      filterUser: ''
+      filterUser: '',
+      contestID: '',
+      now: null
     }
   },
   mounted () {
-    contestAPI.getContestRankList(this.$route.params.contestID).then(res => {
-      this.ruleType = res.rule_type
-      this.problems = res.problems
-      this.tableData = res.rank_list
-      res.rank_list.forEach((item, index) => {
-        this.tableData[index].rank = index + 1
-      })
-      this.rankList = this.tableData.slice()
-    })
+    this.contestID = this.$route.params.contestID
+    this.getContestRank()
   },
   methods: {
     toLetter (index) {
@@ -107,6 +119,18 @@ export default {
     clearFilter () {
       this.filterUser = ''
       this.rankList = this.tableData
+    },
+    getContestRank () {
+      this.now = dayjs()
+      contestAPI.getContestRankList(this.contestID).then(res => {
+        this.ruleType = res.rule_type
+        this.problems = res.problems
+        this.tableData = res.rank_list
+        res.rank_list.forEach((item, index) => {
+          this.tableData[index].rank = index + 1
+        })
+        this.rankList = this.tableData.slice()
+      })
     },
     searchUser () {
       // 忽略大小写模糊搜索

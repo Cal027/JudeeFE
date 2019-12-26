@@ -69,11 +69,18 @@ function compareTime (begin, end) {
   }
 }
 
+function isCloseEnd (now, end) {
+  const endDate = dayjs(end)
+  const diff = endDate.diff(now, 'second')
+  return diff <= 3600 && diff > 0
+}
+
 export default {
   duration: duration,
   resolveTime: resolveTime,
   resolveTimes: resolveTimes,
   compareTime: compareTime,
   resolveSecond: resolveSecond,
-  countdown: countdown
+  countdown: countdown,
+  isCloseEnd: isCloseEnd
 }

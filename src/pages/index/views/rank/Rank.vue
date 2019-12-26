@@ -23,7 +23,7 @@
                 <el-table-column prop="ac_prob_num" label="通过题数" align="center" sortable/>
                 <el-table-column prop="ac" label="通过次数" align="center" sortable/>
                 <el-table-column prop="submit" label="提交次数" align="center" sortable/>
-                <el-table-column prop="rate" label="通过率" align="center" sortable/>
+                <el-table-column prop="rate" label="通过率" align="center"/>
             </el-table>
             <div class="pagination">
                 <el-pagination
