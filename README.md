@@ -1,5 +1,5 @@
 # Judee OJ前端项目
-> Vue CLI 3 多页应用项目, ElementUI为UI组件库, D2Admin后台管理模板
+> Vue CLI 3 多页应用项目, 网站配色为[Nord](https://www.nordtheme.com/)，ElementUI为UI组件库, D2Admin为后台管理模板
 
 
 ## 初始化
@@ -12,28 +12,18 @@ npm install
     * 本地运行：`npm run serve`  
     * 修复代码格式错误：`npm run lint`
 * 打包：
-    * 开发环境: `npm run dev`
+    * 开发环境: `vue-cli-service build`
     
-## 评测状态码
-```
-    COMPILE_ERROR = -2
-    WRONG_ANSWER = -1
-    ACCEPTED = 0
-    CPU_TIME_LIMIT_EXCEEDED = 1
-    REAL_TIME_LIMIT_EXCEEDED = 2
-    MEMORY_LIMIT_EXCEEDED = 3
-    RUNTIME_ERROR = 4
-    SYSTEM_ERROR = 5
-    PENDING = 6
-    JUDGING = 7
-    PARTIALLY_ACCEPTED = 8
-```
-
 ## 目录结构说明 
-施工中
+鸽了🕊
 
 ## 参考资料
 [Vue CLI 3 官方文档](https://cli.vuejs.org/zh/)
 
-[D2 Admin 官方文档](https://fairyever.com/d2-admin/doc/zh/)
+[Vuex 官方文档](https://vuex.vuejs.org/zh/)
 
+[ElementUI 官方文档](https://element.eleme.cn/#/zh-CN/)
+
+[Vue Router 官方文档](https://router.vuejs.org/zh/)
+
+[D2 Admin 官方文档](https://fairyever.com/d2-admin/doc/zh/)
