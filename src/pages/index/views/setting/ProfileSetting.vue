@@ -38,16 +38,10 @@
 <script>
 import SquareBackground from '@oj/components/SquareBackground'
 import userAPI from '@oj/api/oj.user'
-import { mapState } from 'vuex'
 
 export default {
   name: 'ProfileSetting',
   components: { SquareBackground },
-  computed: {
-    ...mapState('oj/user', [
-      'info'
-    ])
-  },
   data () {
     let checkQQ = (rule, value, callback) => {
       const qqPattern = /^[1-9][0-9]{4,10}$/
@@ -87,8 +81,7 @@ export default {
       }
     }
   },
-  created () {
-    // FIXME 待测试
+  mounted () {
     this.$store.dispatch('oj/user/getProfile').then(res => {
       this.username = res.username
       this.form.nickname = res.nickname
@@ -96,24 +89,15 @@ export default {
       this.form.qq_number = res.qq_number
       this.form.phone_number = res.phone_number
       this.form.github_username = res.github_username
+    }).catch(() => {
+      this.$message.error('获取个人信息失败')
     })
   },
   methods: {
-    // getUserInfo (username) {
-    //   if (username) {
-    //     userAPI.getUserInfo(username).then(res => {
-    //       this.form.nickname = res.nickname
-    //       this.form.desc = res.desc
-    //       this.form.qq_number = res.qq_number
-    //       this.form.phone_number = res.phone_number
-    //       this.form.github_username = res.github_username
-    //     })
-    //   }
-    // },
     updateClick () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          if (!this.info.username) {
+          if (!this.username) {
             this.$message.error('非法访问！')
             return
           }

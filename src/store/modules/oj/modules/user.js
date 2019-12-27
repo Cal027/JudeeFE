@@ -1,5 +1,4 @@
 import userAPI from '@oj/api/oj.user'
-import { Message } from 'element-ui'
 
 export default {
   namespaced: true,
@@ -67,13 +66,14 @@ export default {
       })
     },
 
-    getProfile ({ state }) {
-      return new Promise((resolve, reject) => {
+    getProfile ({ state, dispatch }) {
+      return new Promise(async (resolve, reject) => {
+        if (!state.info.username) {
+          await dispatch('oj/user/load', null, { root: true })
+        }
         userAPI.getUserInfo(state.info.username).then(res => {
-          Message.success('获取个人信息成功')
           resolve(res)
         }).catch(err => {
-          Message.error('获取个人信息失败')
           reject(err)
         })
       })
