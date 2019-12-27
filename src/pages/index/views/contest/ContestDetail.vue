@@ -155,6 +155,7 @@ export default {
                 type: 'success',
                 message: '成功加入竞赛'
               })
+              this.contestDetail.is_in = true
               done()
             }).catch(err => {
               this.$message({

@@ -8,7 +8,7 @@ export default {
   props: {
     bottom: {
       type: String,
-      default: '12px'
+      default: '-5px'
     }
   }
 }
