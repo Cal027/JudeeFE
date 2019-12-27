@@ -20,6 +20,13 @@
                 <li><p>OJ前台和管理后台分离</p></li>
                 <li><p>支持评测机docker镜像快速部署</p></li>
                 <li><p>Redis做缓存，不再担心高并发</p></li>
+                <li><p>支持一键导入
+                    <el-tooltip content="FPS是一种开放式(LGPL)ACM/ICPC/NOIP题目存储、转换标准" placement="right">
+                        <el-link href="https://github.com/zhblue/freeproblemset/" target="_blank">
+                            FPS
+                        </el-link>
+                    </el-tooltip>
+                    题目</p></li>
                 <li><p>支持多机器多进程判题，判题更高效</p></li>
                 <li><p>支持 C/C++/Java/Python3</p></li>
             </ul>
