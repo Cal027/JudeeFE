@@ -11,7 +11,7 @@ export default {
     return request.get(`/userdata/${username}`)
   },
   updateUserProfile (username, newProfile) {
-    return request.put(`/change_profile/${username}/`, newProfile)
+    return request.patch(`/change_profile/${username}/`, newProfile)
   },
   changePwd (data) {
     return request.put('/change_pwd', data)
