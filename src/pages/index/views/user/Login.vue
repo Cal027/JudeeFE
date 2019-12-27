@@ -24,7 +24,7 @@
                         </el-link>
                     </router-link>
                 </el-row>
-                <el-link href="admin">已经是管理员？立即登录！</el-link>
+                <el-link href="admin.html" target="_blank">已经是管理员？立即登录！</el-link>
             </div>
         </el-main>
     </el-container>

@@ -108,7 +108,7 @@ export default {
         })
       }
       if (command === 'admin') {
-        window.open('/admin')
+        window.open('/admin.html')
       }
       if (command === 'updateRanking') {
         userAPI.updateRanking().then(res => {
