@@ -1,6 +1,5 @@
 <template>
     <d2-container>
-
         <d2-module-index-banner v-bind="banner"/>
         <el-card class="content">
             <template #header>
@@ -26,20 +25,22 @@
                         style="width: 100%">
                     <el-table-column
                             prop="input_name"
-                            label="输入文件名"
-                            width="80">
+                            align="center"
+                            label="输入文件名">
                     </el-table-column>
                     <el-table-column
                             prop="input_size"
-                            label="输入文件大小"
-                            width="80">
+                            align="center"
+                            label="输入文件大小">
                     </el-table-column>
                     <el-table-column
                             prop="output_name"
+                            align="center"
                             label="输出文件名">
                     </el-table-column>
                     <el-table-column
                             prop="output_size"
+                            align="center"
                             label="输出文件大小">
                     </el-table-column>
                 </el-table>
@@ -93,11 +94,12 @@ export default {
 <style scoped>
     .content{
         width: 500px;
-        height: 400px;
-        margin: 0 auto;
+        height: 350px;
+        margin: 30px auto 0;
         text-align: center;
     }
     .box-card {
-        width: 480px;
+        margin: 30px auto 0;
+        width: 600px;
     }
 </style>

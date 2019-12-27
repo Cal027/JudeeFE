@@ -34,7 +34,7 @@
                         <el-tag
                                 :type="typeColor[scopeT.row.type-1]"
                                 effect="plain">
-                                {{typeMap[scopeT.row.type-1]}}
+                            {{typeMap[scopeT.row.type-1]}}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -113,7 +113,7 @@
                                icon="fa fa-user-plus" @click="generateUser"
                                :loading="loadingGenerate">批量生成
                     </el-button>
-                    <el-button round  size="medium"
+                    <el-button round size="medium"
                                icon="fa fa-download" @click="handleDownload"
                                :loading="loadingGenerate">下载数据
                     </el-button>
@@ -186,8 +186,8 @@ const typeColor = ['info', '', 'warning']
 export default {
   name: 'User',
   data () {
-    var checkQQ = (rule, value, callback) => {
-      var qqPattern = /^[1-9][0-9]{4,10}$/
+    let checkQQ = (rule, value, callback) => {
+      const qqPattern = /^[1-9][0-9]{4,10}$/
       setTimeout(() => {
         if (qqPattern.test(value) || !value) {
           callback()
@@ -196,8 +196,8 @@ export default {
         }
       }, 100)
     }
-    var checkPhone = (rule, value, callback) => {
-      var pPattern = /^1[34578]\d{9}$/
+    let checkPhone = (rule, value, callback) => {
+      const pPattern = /^1[34578]\d{9}$/
       setTimeout(() => {
         if (pPattern.test(value) || !value) {
           callback()
