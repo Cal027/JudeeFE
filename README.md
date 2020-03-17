@@ -1,6 +1,7 @@
 # Judee OJ前端项目
 > Vue CLI 3 多页应用项目, 网站配色为[Nord](https://www.nordtheme.com/)，ElementUI为UI组件库, D2Admin为后台管理模板
-
+[后端](https://github.com/darkliang/JudeeBE)
+[评测机](https://github.com/wht-github/JudeeJudger)
 
 ## 初始化
 ```bash
