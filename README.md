@@ -26,39 +26,39 @@ npm install
 
 #### 登录
 
-![首页](./screenshots/Login.jpg)
+![登录](./screenshots/Login.jpg)
 
 #### 题目列表
 
-![首页](./screenshots/Problems.jpg)
+![题目列表](./screenshots/Problems.jpg)
 
 #### 题目详情
 
-![首页](./screenshots/Problem Detail.jpg)
+![详情1](./screenshots/ProblemDetail.jpg)
 
-![首页](./screenshots/Problem Editor.jpg)
+![详情2](./screenshots/ProblemEditor.jpg)
 
-![首页](./screenshots/Problem Statistics.png)
+![详情3](./screenshots/ProblemStatistics.png)
 
 #### 竞赛列表
 
-![首页](./screenshots/ContestList.png)
+![竞赛列表](./screenshots/ContestList.png)
 
 #### 排名
 
-![首页](./screenshots/Rank.png)
+![排名](./screenshots/Rank.png)
 
 #### 后台统计数据
 
-![首页](./screenshots/Statistics.png)
+![后台统计数据](./screenshots/Statistics.png)
 
 #### 添加题目
 
-![首页](./screenshots/Add Problem.jpg)
+![添加题目](./screenshots/AddProblem.jpg)
 
 #### 教程
 
-![首页](./screenshots/Tutorial.jpg)
+![教程](./screenshots/Tutorial.jpg)
 
 ## 参考资料
 
