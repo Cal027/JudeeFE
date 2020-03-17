@@ -1,6 +1,5 @@
 import axios from 'axios'
 import util from '@/utils/util'
-import store from '@/store'
 import { Message } from 'element-ui'
 
 // 创建一个 axiosAdmin 实例
