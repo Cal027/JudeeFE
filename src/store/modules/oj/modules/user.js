@@ -46,6 +46,7 @@ export default {
           value: state.info,
           user: true
         }, { root: true })
+        resolve()
       })
     },
     /**
