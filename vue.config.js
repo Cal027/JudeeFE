@@ -46,7 +46,8 @@ module.exports = {
     // publicPath,
     proxy: {
       '/api': {
-        target: 'http://10.20.184.64:8300/',
+        target: 'https://www.fastmock.site/mock/6c453883945216292945f471a2264433/judee',
+        // target: 'http://10.20.184.64:8300/',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

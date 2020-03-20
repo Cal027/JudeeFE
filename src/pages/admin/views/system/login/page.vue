@@ -14,11 +14,7 @@
       <div
         class="page-login--content"
         flex="dir:top main:justify cross:stretch box:justify">
-        <div class="page-login--content-header">
-          <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
-          </p>
-        </div>
+        <div class="page-login--content-header"/>
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
@@ -60,23 +56,17 @@
                 </el-button>
               </el-form>
             </el-card>
-            <p v-if="false"
-              class="page-login--options"
-              flex="main:justify cross:center">
-              <span><d2-icon name="question-circle"/> 忘记密码</span>
-              <span>注册用户</span>
-            </p>
           </div>
         </div>
         <div class="page-login--content-footer">
-          <p class="page-login--content-footer-locales">
-            <a
-              v-for="language in $languages"
-              :key="language.value"
-              @click="onChangeLocale(language.value)">
-              {{ language.label }}
-            </a>
-          </p>
+<!--          <p class="page-login&#45;&#45;content-footer-locales">-->
+<!--            <a-->
+<!--              v-for="language in $languages"-->
+<!--              :key="language.value"-->
+<!--              @click="onChangeLocale(language.value)">-->
+<!--              {{ language.label }}-->
+<!--            </a>-->
+<!--          </p>-->
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
@@ -96,11 +86,11 @@
 <script>
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
-import localeMixin from '@admin/locales/mixin.js'
+// import localeMixin from '@admin/locales/mixin.js'
 export default {
-  mixins: [
-    localeMixin
-  ],
+  // mixins: [
+  //   localeMixin
+  // ],
   data () {
     return {
       timeInterval: null,
