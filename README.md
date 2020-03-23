@@ -1,8 +1,10 @@
 # Judee OJ前端项目
 > Vue CLI 3 多页应用项目, 网站配色为[Nord](https://www.nordtheme.com/)，ElementUI为UI组件库, D2Admin为后台管理模板
 
+预览地址：[judee.leeeung.com]() 仅支持ipv6访问
 
 ## 其他关联模块
+
 - Judee后端(Django): https://github.com/darkliang/JudeeBE)
 - Judee评测机: https://github.com/wht-github/JudeeJudger)
 
@@ -15,7 +17,7 @@ npm install
 ## 使用
 
 * 开发：
-    
+  
     * 本地运行：`npm run serve`  
     * 修复代码格式错误：`npm run lint`
     * 开发API地址请修改`.env.development`的`VUE_APP_BASE_URL`和`vue.config.js`里的`target`
