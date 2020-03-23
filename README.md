@@ -3,6 +3,13 @@
 
 预览地址：[judee.leeeung.com]() 仅支持ipv6访问
 
+## Judee项目特色
+- 出色的网页设计
+- 前后端分离开发
+- 支持一键导入FPS题目
+- 支持评测机docker镜像快速部署
+- Redis缓存，多机器多进程判题
+
 ## 其他关联模块
 
 - Judee后端(Django): https://github.com/darkliang/JudeeBE)
