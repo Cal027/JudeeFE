@@ -4,7 +4,6 @@
             <div style="text-align: center">
                 <d2-icon-svg name="logo" class="nord-logo"/>
                 <h3 style="font-weight: 300">一个基于Vue.js和Django的轻量级在线评测系统</h3>
-<!--                <d2-icon-svg name="Nord-Ice-Footer" class="nord-ice"/>-->
             </div>
             <h2>FAQ：</h2>
             <p>判题机为Linux系统</p>
