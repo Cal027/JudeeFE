@@ -26,12 +26,11 @@ glob.sync('./src/pages/**/main.js').forEach((filePath) => {
   if (chunkFirstName === 'user') {
     chunk += '/index'
   }
-  // console.log(chunk)
   pages[chunk] = {
     entry: filePath,
     template: 'public/index.html',
     title: titles[chunk],
-    chunks: ['chunk-vendors', 'chunk-common', chunk]
+    // chunks: ['chunk-vendors', 'chunk-common', chunk]
   }
 })
 console.log('process.env.NODE_ENV ==' + process.env.NODE_ENV)
@@ -40,14 +39,13 @@ module.exports = {
   publicPath,
   lintOnSave: true,
   outputDir: './dist',
-  productionSourceMap: !(process.env.NODE_ENV === 'production'),
+  productionSourceMap: false,
   devServer: {
     port: 8999,
     // publicPath,
     proxy: {
       '/api': {
         target: 'https://www.fastmock.site/mock/6c453883945216292945f471a2264433/judee',
-        // target: 'http://10.20.184.64:8300/',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -123,6 +121,12 @@ module.exports = {
      .exclude
      .add(resolve('src/assets/svg-icons/icons'))
      .end()
+    // 分析工具
+    if (process.env.npm_config_report) {
+      config
+       .plugin('webpack-bundle-analyzer')
+       .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    }
   },
   // i18n
   pluginOptions: {
@@ -138,26 +142,43 @@ module.exports = {
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
-            drop_console: true
+            drop_console: true,
+            drop_debugger:true,
+            warnings: false,
+            unused: true
           }
         },
-        sourceMap: true
+        sourceMap: false,
+        cache: true,
+        exclude: /\.min\.js$/,
+        parallel: true,
       })
     ]
     // splitChunk 配置
     const splitChunksConfig = {
       cacheGroups: {
+        element:{
+          name: 'vendors-element-ui',
+          test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+          chunks: 'initial',
+          reuseExistingChunk: true,
+          enforce: true,
+          priority: 3
+        },
         vendors: {
           name: 'chunk-vendors',
           test: /[\\/]node_modules[\\/]/,
-          priority: -10,
+          priority: 2,
+          minSize: 30000,
           chunks: 'initial',
           minChunks: 2
         },
         common: {
           name: 'chunk-common',
-          minChunks: 2,
-          priority: -20,
+          // test: /[\\/]src[\\/]components[\\/]/,
+          minChunks: 3,
+          minSize: 30000,
+          priority: 1,
           chunks: 'initial',
           reuseExistingChunk: true
         }

@@ -82,7 +82,7 @@ npm install
 │ │ ├─d2-module-index-banner 
 │ │ ├─d2-quill 
 │ │ ├─Highlight 
-│ │ └─index.js 
+│ │ └─system.index.js 
 │ ├─pages 
 │ │ ├─admin ----------------------- // 管理后台
 │ │ │ ├─api ----------------------- // 后台相关API
@@ -132,7 +132,7 @@ npm install
 │ │ ├─axiosOJ 
 │ │ └─highlight.js 
 │ ├─store ------------------------- // 状态管理
-│ │ ├─index.js 
+│ │ ├─system.index.js 
 │ │ └─modules 
 │ │   ├─d2admin 
 │ │   └─oj 

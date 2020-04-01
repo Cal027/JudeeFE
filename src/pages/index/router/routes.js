@@ -6,31 +6,38 @@ const _import = require('@oj/libs/util.import.' + process.env.NODE_ENV)
 // WebpackChunk
 const ProblemList = () => import(/* webpackChunkName: "oj-problem" */ '@oj/views/problem/ProblemList')
 const ProblemDetail = () => import(/* webpackChunkName: "oj-problem" */ '@oj/views/problem/ProblemDetail')
+
 const SubmissionList = () => import(/* webpackChunkName: "oj-submission" */ '@oj/views/submission/SubmissionList')
 const SubmissionDetail = () => import(/* webpackChunkName: "oj-submission" */ '@oj/views/submission/SubmissionDetail')
+
+const ProfileSetting = () => import(/* webpackChunkName: "oj-profile" */ '@oj/views/setting/ProfileSetting')
+const PasswordSetting = () => import(/* webpackChunkName: "oj-profile" */ '@oj/views/setting/PasswordSetting')
+const UserHome = () => import(/* webpackChunkName: "oj-profile" */ '@oj/views/user/UserHome')
+const Login = () => import(/* webpackChunkName: "oj-profile" */ '@oj/views/user/Login')
+const Register = () => import(/* webpackChunkName: "oj-profile" */ '@oj/views/user/Register')
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: _import('Intro')
+    component: require('@oj/views/Intro').default
   },
   {
     path: '/user/:username',
     name: 'user',
-    component: _import('user/UserHome')
+    component: UserHome
   },
   {
     path: '/login',
     name: 'login',
     meta: { title: '登录' },
-    component: _import('user/Login')
+    component: Login
   },
   {
     path: '/register',
     name: 'register',
     meta: { title: '注册' },
-    component: _import('user/Register')
+    component: Register
   },
   {
     path: '/tutorial',
@@ -42,13 +49,13 @@ const routes = [
     path: '/setting/profile',
     name: 'profile',
     meta: { title: '个人信息', auth: true },
-    component: _import('setting/ProfileSetting')
+    component: ProfileSetting
   },
   {
     path: '/setting/password',
     name: 'password',
     meta: { title: '修改密码', auth: true },
-    component: _import('setting/PasswordSetting')
+    component: PasswordSetting
   },
   // 题目相关
   {
@@ -61,7 +68,7 @@ const routes = [
     path: '/problem/:id',
     name: 'ProblemDetail',
     meta: { title: '题目详情' },
-    component: _import('problem/ProblemDetail'),
+    component: ProblemDetail,
     children: [
       {
         path: 'submissions',

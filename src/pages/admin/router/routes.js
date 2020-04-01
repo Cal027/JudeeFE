@@ -2,6 +2,7 @@ import layoutHeaderAside from '@admin/layout/header-aside'
 import * as Contest from '@admin/views/contest'
 import * as Problem from '@admin/views/problem'
 import * as Submission from '@admin/views/submission'
+import * as System from '@admin/views/system/system.index'
 
 // 由于懒加载页面太多的话会造成webpack热更新太慢，所以开发环境不使用懒加载，只有生产环境使用懒加载
 const _import = require('@admin/libs/util.import.' + process.env.NODE_ENV)
@@ -164,21 +165,21 @@ const frameIn = [
           title: '前端日志',
           auth: true
         },
-        component: _import('system/log')
+        component: System.Log
       },
       // 刷新页面 必须保留
       {
         path: 'refresh',
         name: 'refresh',
         hidden: true,
-        component: _import('system/function/refresh')
+        component: System.Refresh
       },
       // 页面重定向 必须保留
       {
         path: 'redirect/:route*',
         name: 'redirect',
         hidden: true,
-        component: _import('system/function/redirect')
+        component: System.Redirect
       }
     ]
   }
@@ -192,7 +193,7 @@ const frameOut = [
   {
     path: '/login',
     name: 'login',
-    component: _import('system/login')
+    component: System.Login
   }
 ]
 
@@ -203,7 +204,7 @@ const errorPage = [
   {
     path: '*',
     name: '404',
-    component: _import('system/error/404')
+    component: System.Error404
   }
 ]
 
