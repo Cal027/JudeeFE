@@ -73,7 +73,7 @@
 <script>
 import problemAPI from '@admin/api/sys.problem'
 import { mapState } from 'vuex'
-import AddProblemContest from '@admin/views/problem/AddProblemContest'
+import AddProblemContest from '@admin/views/contest/AddProblemContest'
 import util from '@/utils/util'
 
 export default {

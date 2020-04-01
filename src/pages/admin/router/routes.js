@@ -1,4 +1,7 @@
 import layoutHeaderAside from '@admin/layout/header-aside'
+import * as Contest from '@admin/views/contest'
+import * as Problem from '@admin/views/problem'
+import * as Submission from '@admin/views/submission'
 
 // 由于懒加载页面太多的话会造成webpack热更新太慢，所以开发环境不使用懒加载，只有生产环境使用懒加载
 const _import = require('@admin/libs/util.import.' + process.env.NODE_ENV)
@@ -29,7 +32,7 @@ const frameIn = [
           title: '添加题目',
           auth: true
         },
-        component: _import('problem/Problem')
+        component: Problem.Problem
       },
       {
         path: 'problem/import',
@@ -38,7 +41,7 @@ const frameIn = [
           title: '导入题目',
           auth: true
         },
-        component: _import('problem/ProblemImport')
+        component: Problem.ProblemImport
       },
       {
         path: 'problem/edit/:problemID',
@@ -47,13 +50,13 @@ const frameIn = [
           title: '修改题目',
           auth: true
         },
-        component: _import('problem/Problem')
+        component: Problem.Problem
       },
       {
         path: 'problems',
         name: 'problem-list',
         meta: { title: '题目管理', auth: true },
-        component: _import('problem/ProblemList')
+        component: Problem.ProblemList
       },
       // 竞赛
       {
@@ -63,7 +66,7 @@ const frameIn = [
           title: '添加竞赛',
           auth: true
         },
-        component: _import('contest/Contest')
+        component: Contest.Contest
       },
       {
         path: 'contest/:contestID/edit',
@@ -72,7 +75,7 @@ const frameIn = [
           title: '修改竞赛',
           auth: true
         },
-        component: _import('contest/Contest')
+        component: Contest.Contest
       },
       {
         path: 'contests',
@@ -81,7 +84,7 @@ const frameIn = [
           title: '竞赛管理',
           auth: true
         },
-        component: _import('contest/ContestList')
+        component: Contest.ContestList
       },
       {
         path: 'contest/:contestID/problems',
@@ -90,13 +93,13 @@ const frameIn = [
           title: '竞赛题目列表',
           auth: true
         },
-        component: _import('contest/ContestProblemList')
+        component: Contest.ContestProblemList
       },
       {
         path: 'contest/:contestID/announcement',
         name: 'contest-announcement',
         meta: { title: '竞赛公告', auth: true },
-        component: _import('contest/ContestAnnouncement')
+        component: Contest.ContestAnnouncement
       },
       {
         path: 'contest/:contestID/problem/create',
@@ -105,7 +108,7 @@ const frameIn = [
           title: '添加竞赛题目',
           auth: true
         },
-        component: _import('problem/Problem')
+        component: Problem.Problem
       },
       {
         path: 'contest/:contestID/problem/:problemID/edit',
@@ -114,7 +117,7 @@ const frameIn = [
           title: '修改竞赛题目',
           auth: true
         },
-        component: _import('problem/Problem')
+        component: Problem.Problem
       },
       // 用户
       {
@@ -133,7 +136,7 @@ const frameIn = [
           title: '评测记录',
           auth: true
         },
-        component: _import('submission/SubmissionList')
+        component: Submission.SubmissionList
       },
       {
         path: 'status/:id',
@@ -142,7 +145,7 @@ const frameIn = [
           title: '评测详情',
           auth: true
         },
-        component: _import('submission/SubmissionDetail')
+        component: Submission.SubmissionDetail
       },
       {
         path: 'statistics',

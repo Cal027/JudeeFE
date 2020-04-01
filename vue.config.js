@@ -166,7 +166,7 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       config.plugins = [...config.plugins, ...plugins, new CompressionWebpackPlugin({
         filename: '[path].gz[query]',
-        test: /\.(js|css)$/,
+        test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
         threshold: 10240,
         minRatio: 0.8,
         deleteOriginalAssets: false

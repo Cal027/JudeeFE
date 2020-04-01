@@ -3,6 +3,12 @@ import * as Contest from '@oj/views/contest'
 
 const _import = require('@oj/libs/util.import.' + process.env.NODE_ENV)
 
+// WebpackChunk
+const ProblemList = () => import(/* webpackChunkName: "oj-problem" */ '@oj/views/problem/ProblemList')
+const ProblemDetail = () => import(/* webpackChunkName: "oj-problem" */ '@oj/views/problem/ProblemDetail')
+const SubmissionList = () => import(/* webpackChunkName: "oj-submission" */ '@oj/views/submission/SubmissionList')
+const SubmissionDetail = () => import(/* webpackChunkName: "oj-submission" */ '@oj/views/submission/SubmissionDetail')
+
 const routes = [
   {
     path: '/',
@@ -49,7 +55,7 @@ const routes = [
     path: '/problem',
     name: 'ProblemList',
     meta: { title: '题目列表' },
-    component: _import('problem/ProblemList')
+    component: ProblemList
   },
   {
     path: '/problem/:id',
@@ -61,13 +67,13 @@ const routes = [
         path: 'submissions',
         name: 'ProblemSubmissions',
         meta: { auth: true },
-        component: _import('submission/SubmissionList')
+        component: SubmissionList
       },
       {
         path: 'submissions-mine',
         name: 'ProblemSubmissionsMine',
         meta: { auth: true },
-        component: _import('submission/SubmissionList')
+        component: SubmissionList
       }
     ]
   },
@@ -94,7 +100,7 @@ const routes = [
         path: 'problem/:id/',
         name: 'Contest-problem-detail',
         meta: { auth: true },
-        component: _import('problem/ProblemDetail')
+        component: ProblemDetail
       },
       {
         path: 'announcement',
@@ -106,7 +112,7 @@ const routes = [
         path: 'submissions-mine',
         name: 'Contest-submissions-mine',
         meta: { auth: true },
-        component: _import('submission/SubmissionList')
+        component: SubmissionList
       },
       {
         path: 'rank',
@@ -127,13 +133,13 @@ const routes = [
     path: '/status',
     name: 'submission-list',
     meta: { title: '全部评测记录', auth: true },
-    component: _import('submission/SubmissionList')
+    component: SubmissionList
   },
   {
     path: '/status/:id/',
     name: 'submission-detail',
     meta: { title: '评测详情', auth: true },
-    component: _import('submission/SubmissionDetail')
+    component: SubmissionDetail
   },
   {
     path: '/rank',
