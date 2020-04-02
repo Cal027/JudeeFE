@@ -7,6 +7,20 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 const glob = require('glob')
 const titles = require('./title.js')
+const isProduction = process.env.NODE_ENV === 'production'
+
+const cdn = {
+  css: [
+    'https://cdn.bootcss.com/element-ui/2.13.0/theme-chalk/index.css'
+  ],
+  js: [
+    'https://cdn.bootcss.com/vue/2.6.11/vue.runtime.min.js',
+    'https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js',
+    'https://cdn.bootcss.com/vuex/3.1.3/vuex.min.js',
+    'https://cdn.bootcss.com/axios/0.18.1/axios.min.js',
+    'https://cdn.bootcss.com/element-ui/2.13.0/index.js'
+  ]
+}
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -30,7 +44,7 @@ glob.sync('./src/pages/**/main.js').forEach((filePath) => {
     entry: filePath,
     template: 'public/index.html',
     title: titles[chunk],
-    // chunks: ['chunk-vendors', 'chunk-common', chunk]
+    chunks: ['chunk-vendors', 'chunk-common', chunk]
   }
 })
 console.log('process.env.NODE_ENV ==' + process.env.NODE_ENV)
@@ -55,6 +69,8 @@ module.exports = {
     } // 配置开发环境 URL 便于本地开发调试
   },
   css: {
+    extract: true,
+    sourceMap: false,
     loaderOptions: {
       // 设置 scss 公用变量文件
       sass: {
@@ -127,6 +143,16 @@ module.exports = {
        .plugin('webpack-bundle-analyzer')
        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     }
+    // 生产环境注入cdn + 多页面
+    if (isProduction) {
+      glob.sync('./src/pages/**/main.js').forEach(path => {
+        const chunk = path.split('./src/pages/')[1].split('/main.js')[0]
+        config.plugin('html-' + chunk).tap(args => {
+          args[0].cdn = cdn
+          return args
+        })
+      })
+    }
   },
   // i18n
   pluginOptions: {
@@ -143,7 +169,7 @@ module.exports = {
         uglifyOptions: {
           compress: {
             drop_console: true,
-            drop_debugger:true,
+            drop_debugger: true,
             warnings: false,
             unused: true
           }
@@ -157,34 +183,24 @@ module.exports = {
     // splitChunk 配置
     const splitChunksConfig = {
       cacheGroups: {
-        element:{
-          name: 'vendors-element-ui',
-          test: /[\\/]node_modules[\\/]element-ui[\\/]/,
-          chunks: 'initial',
-          reuseExistingChunk: true,
-          enforce: true,
-          priority: 3
-        },
         vendors: {
           name: 'chunk-vendors',
           test: /[\\/]node_modules[\\/]/,
-          priority: 2,
-          minSize: 30000,
+          priority: -10,
           chunks: 'initial',
           minChunks: 2
         },
         common: {
           name: 'chunk-common',
-          // test: /[\\/]src[\\/]components[\\/]/,
-          minChunks: 3,
-          minSize: 30000,
+          minChunks: 2,
+          minSize: 0,
           priority: 1,
           chunks: 'initial',
           reuseExistingChunk: true
         }
       }
     }
-    if (process.env.NODE_ENV === 'production') {
+    if (isProduction) {
       config.plugins = [...config.plugins, ...plugins, new CompressionWebpackPlugin({
         filename: '[path].gz[query]',
         test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
@@ -193,6 +209,13 @@ module.exports = {
         deleteOriginalAssets: false
       })]
       config.optimization.splitChunks = splitChunksConfig
+      config.externals = {
+        'vue': 'Vue',
+        'vuex': 'Vuex',
+        'vue-router': 'VueRouter',
+        'axios': 'axios',
+        'element-ui': 'ELEMENT'
+      }
     }
   }
 }
