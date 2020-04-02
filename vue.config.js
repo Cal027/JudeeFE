@@ -7,6 +7,20 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 const glob = require('glob')
 const titles = require('./title.js')
+const isProduction = process.env.NODE_ENV === 'production'
+
+const cdn = {
+  css: [
+    'https://cdn.bootcss.com/element-ui/2.13.0/theme-chalk/index.css'
+  ],
+  js: [
+    'https://cdn.bootcss.com/vue/2.6.11/vue.runtime.min.js',
+    'https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js',
+    'https://cdn.bootcss.com/vuex/3.1.3/vuex.min.js',
+    'https://cdn.bootcss.com/axios/0.18.1/axios.min.js',
+    'https://cdn.bootcss.com/element-ui/2.13.0/index.js'
+  ]
+}
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -26,7 +40,6 @@ glob.sync('./src/pages/**/main.js').forEach((filePath) => {
   if (chunkFirstName === 'user') {
     chunk += '/index'
   }
-  // console.log(chunk)
   pages[chunk] = {
     entry: filePath,
     template: 'public/index.html',
@@ -40,14 +53,13 @@ module.exports = {
   publicPath,
   lintOnSave: true,
   outputDir: './dist',
-  productionSourceMap: !(process.env.NODE_ENV === 'production'),
+  productionSourceMap: false,
   devServer: {
     port: 8999,
     // publicPath,
     proxy: {
       '/api': {
         target: 'https://www.fastmock.site/mock/6c453883945216292945f471a2264433/judee',
-        // target: 'http://10.20.184.64:8300/',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -57,10 +69,12 @@ module.exports = {
     } // 配置开发环境 URL 便于本地开发调试
   },
   css: {
+    extract: true,
+    sourceMap: false,
     loaderOptions: {
       // 设置 scss 公用变量文件
       sass: {
-        data: `@import '~@/assets/style/public.scss';`
+        prependData: `@import '~@/assets/style/public.scss';`
       }
     }
   },
@@ -123,6 +137,22 @@ module.exports = {
      .exclude
      .add(resolve('src/assets/svg-icons/icons'))
      .end()
+    // 分析工具
+    if (process.env.npm_config_report) {
+      config
+       .plugin('webpack-bundle-analyzer')
+       .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    }
+    // 生产环境注入cdn + 多页面
+    if (isProduction) {
+      glob.sync('./src/pages/**/main.js').forEach(path => {
+        const chunk = path.split('./src/pages/')[1].split('/main.js')[0]
+        config.plugin('html-' + chunk).tap(args => {
+          args[0].cdn = cdn
+          return args
+        })
+      })
+    }
   },
   // i18n
   pluginOptions: {
@@ -138,10 +168,16 @@ module.exports = {
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
-            drop_console: true
+            drop_console: true,
+            drop_debugger: true,
+            warnings: false,
+            unused: true
           }
         },
-        sourceMap: true
+        sourceMap: false,
+        cache: true,
+        exclude: /\.min\.js$/,
+        parallel: true,
       })
     ]
     // splitChunk 配置
@@ -157,21 +193,29 @@ module.exports = {
         common: {
           name: 'chunk-common',
           minChunks: 2,
-          priority: -20,
+          minSize: 0,
+          priority: 1,
           chunks: 'initial',
           reuseExistingChunk: true
         }
       }
     }
-    if (process.env.NODE_ENV === 'production') {
+    if (isProduction) {
       config.plugins = [...config.plugins, ...plugins, new CompressionWebpackPlugin({
         filename: '[path].gz[query]',
-        test: /\.(js|css)$/,
+        test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
         threshold: 10240,
         minRatio: 0.8,
         deleteOriginalAssets: false
       })]
       config.optimization.splitChunks = splitChunksConfig
+      config.externals = {
+        'vue': 'Vue',
+        'vuex': 'Vuex',
+        'vue-router': 'VueRouter',
+        'axios': 'axios',
+        'element-ui': 'ELEMENT'
+      }
     }
   }
 }

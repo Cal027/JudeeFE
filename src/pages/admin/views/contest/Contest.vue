@@ -106,9 +106,9 @@ export default {
       }).then(() => {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let data = Object.assign({}, this.form)
-            let ranges = []
-            for (let v of data.allowed_ip_ranges) {
+            const data = Object.assign({}, this.form)
+            const ranges = []
+            for (const v of data.allowed_ip_ranges) {
               if (v.value !== '') {
                 ranges.push(v.value)
               }
@@ -147,7 +147,7 @@ export default {
       this.form.allowed_ip_ranges.push({ value: '' })
     },
     removeIPRange (range) {
-      let index = this.form.allowed_ip_ranges.indexOf(range)
+      const index = this.form.allowed_ip_ranges.indexOf(range)
       if (index !== -1) {
         this.form.allowed_ip_ranges.splice(index, 1)
       }

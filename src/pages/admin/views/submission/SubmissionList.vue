@@ -199,7 +199,7 @@ export default {
       if (this.selection.length === 0) {
         this.$message.error('未选中评测记录')
       } else {
-        let data = []
+        const data = []
         this.selection.forEach((item, index) => {
           data[index] = item.ID
         })

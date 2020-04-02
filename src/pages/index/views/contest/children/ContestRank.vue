@@ -160,7 +160,7 @@ export default {
           }
         }
       }
-      return { 'background': color }
+      return { background: color }
     }
   }
 }

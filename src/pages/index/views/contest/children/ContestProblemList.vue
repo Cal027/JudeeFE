@@ -51,9 +51,9 @@ export default {
       this.loading = true
       problemAPI.getContestProblems(this.contestID).then(res => {
         for (let i = 0; i < res.length; i++) {
-          let ac = res[i]['accepted_number']
-          let sub = res[i]['submission_number']
-          res[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          const ac = res[i].accepted_number
+          const sub = res[i].submission_number
+          res[i].rate = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
         }
         this.tableData = res
         this.loading = false

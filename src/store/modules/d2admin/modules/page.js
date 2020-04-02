@@ -102,7 +102,7 @@ export default {
     openedUpdate ({ state, commit, dispatch }, { index, params, query, fullPath }) {
       return new Promise(async resolve => {
         // 更新页面列表某一项
-        let page = state.opened[index]
+        const page = state.opened[index]
         page.params = params || page.params
         page.query = query || page.query
         page.fullPath = fullPath || page.fullPath
@@ -122,7 +122,7 @@ export default {
     add ({ state, commit, dispatch }, { tag, params, query, fullPath }) {
       return new Promise(async resolve => {
         // 设置新的 tag 在新打开一个以前没打开过的页面时使用
-        let newTag = tag
+        const newTag = tag
         newTag.params = params || newTag.params
         newTag.query = query || newTag.query
         newTag.fullPath = fullPath || newTag.fullPath
@@ -147,7 +147,7 @@ export default {
     open ({ state, commit, dispatch }, { name, params, query, fullPath }) {
       return new Promise(async resolve => {
         // 已经打开的页面
-        let opened = state.opened
+        const opened = state.opened
         // 判断此页面是否已经打开 并且记录位置
         let pageOpendIndex = 0
         const pageOpend = opened.find((page, index) => {
@@ -165,7 +165,7 @@ export default {
           })
         } else {
           // 页面以前没有打开过
-          let page = state.pool.find(t => t.name === name)
+          const page = state.pool.find(t => t.name === name)
           // 如果这里没有找到 page 代表这个路由虽然在框架内 但是不参与标签页显示
           if (page) {
             await dispatch('add', {
@@ -195,7 +195,7 @@ export default {
         // 如果关闭的页面就是当前显示的页面
         if (isCurrent) {
           // 去找一个新的页面
-          let len = state.opened.length
+          const len = state.opened.length
           for (let i = 1; i < len; i++) {
             if (state.opened[i].fullPath === tagName) {
               if (i < len - 1) {
@@ -220,7 +220,7 @@ export default {
         // 最后需要判断是否需要跳到首页
         if (isCurrent) {
           const { name = '', params = {}, query = {} } = newPage
-          let routerObj = {
+          const routerObj = {
             name,
             params,
             query
@@ -358,7 +358,7 @@ export default {
      * @param {String} name name
      */
     keepAliveRemove (state, name) {
-      const list = [ ...state.keepAlive ]
+      const list = [...state.keepAlive]
       const index = list.findIndex(item => item === name)
 
       if (index !== -1) {
@@ -372,7 +372,7 @@ export default {
      * @param {String} name name
      */
     keepAlivePush (state, name) {
-      const keep = [ ...state.keepAlive ]
+      const keep = [...state.keepAlive]
       keep.push(name)
       state.keepAlive = keep
     },

@@ -129,9 +129,9 @@ export default {
       problemAPI.getProblemList(this.pageSize, (this.currentPage - 1) * this.pageSize,
         this.searchText).then(res => {
         for (let i = 0; i < res.results.length; i++) {
-          let ac = res.results[i]['accepted_number']
-          let sub = res.results[i]['submission_number']
-          res.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          const ac = res.results[i].accepted_number
+          const sub = res.results[i].submission_number
+          res.results[i].rate = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
         }
         this.tableData = res.results
         this.problemNum = res.count
@@ -147,7 +147,7 @@ export default {
     },
     downloadTestCase (id) {
       problemAPI.getTestCase(id).then(resp => {
-        let link = document.createElement('a')
+        const link = document.createElement('a')
         link.href = window.URL.createObjectURL(resp)
         link.download = `problem_${id}_test_cases.zip`
         document.body.appendChild(link)

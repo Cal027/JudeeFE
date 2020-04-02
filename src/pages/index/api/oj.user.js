@@ -17,7 +17,7 @@ export default {
     return request.put('/change_pwd', data)
   },
   updateRanking (username) {
-    let url = `/update-ranking/`
+    let url = '/update-ranking/'
     if (username) {
       url += `?username=${username}`
     }

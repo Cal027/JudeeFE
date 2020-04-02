@@ -8,7 +8,7 @@ export default {
     })
   },
   getSubmissionList (limit, offset, username, language, problem, result, contest) {
-    let url = ``
+    let url = ''
     url += `/manager-submission/?limit=${limit}&offset=${offset}`
 
     if (username !== '') {
@@ -29,6 +29,6 @@ export default {
     return request.get(url)
   },
   rejudgeSubmission (idList) {
-    return request.post('rejudge/', { 'submissions': idList })
+    return request.post('rejudge/', { submissions: idList })
   }
 }

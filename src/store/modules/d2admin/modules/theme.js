@@ -46,7 +46,7 @@ export default {
     load ({ state, commit, dispatch }) {
       return new Promise(async resolve => {
         // store 赋值
-        let activeName = await dispatch('d2admin/db/get', {
+        const activeName = await dispatch('d2admin/db/get', {
           dbName: 'sys',
           path: 'theme.activeName',
           defaultValue: state.list[0].name,

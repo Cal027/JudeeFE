@@ -19,7 +19,7 @@ Vue.use(Sticky)
 Vue.use(highlight)
 
 Vue.directive('highlight', function (el) {
-  let blocks = el.querySelectorAll('pre.ql-syntax')
+  const blocks = el.querySelectorAll('pre.ql-syntax')
   blocks.forEach((block) => {
     hljs.highlightBlock(block)
   })

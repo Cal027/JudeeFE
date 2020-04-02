@@ -6,8 +6,8 @@ dayjs.locale('zh-cn')
 dayjs.extend(relativeTime)
 
 function duration (startTime, endTime) {
-  let start = dayjs(startTime)
-  let end = dayjs(endTime)
+  const start = dayjs(startTime)
+  const end = dayjs(endTime)
   return start.to(end, true)
 }
 
@@ -59,7 +59,7 @@ function resolveSecond (seconds) {
 }
 
 function compareTime (begin, end) {
-  let now = dayjs()
+  const now = dayjs()
   if (now.isBefore(begin)) {
     return 0
   } else if (now.isAfter(end)) {

@@ -189,9 +189,9 @@ export default {
       problemAPI.getProblemWithLimit(this.pageSize, (this.currentPage - 1) * this.pageSize,
         this.tags, this.searchText, this.difficulty).then(response => {
         for (let i = 0; i < response.results.length; i++) {
-          let ac = response.results[i]['accepted_number']
-          let sub = response.results[i]['submission_number']
-          response.results[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          const ac = response.results[i].accepted_number
+          const sub = response.results[i].submission_number
+          response.results[i].rate = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
         }
         this.tableData = response.results
         this.problemNum = response.count
@@ -203,7 +203,7 @@ export default {
     this.getProblems()
     problemAPI.getTags().then(response => {
       for (let i = 0; i < response.count; i++) {
-        let tmp = {}
+        const tmp = {}
         tmp.value = response.results[i].id
         tmp.label = response.results[i].name
         this.tagNames.push(tmp)

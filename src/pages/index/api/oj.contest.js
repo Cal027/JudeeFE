@@ -27,7 +27,7 @@ export default {
     return request({
       url: `/contest/${id}/join-with-pwd/`,
       method: 'post',
-      data: { 'password': password }
+      data: { password: password }
     })
   },
   joinContest (id) {

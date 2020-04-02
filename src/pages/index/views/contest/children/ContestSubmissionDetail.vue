@@ -114,7 +114,7 @@ export default {
       })
     },
     getSubmissionDetail () {
-      let load = this.$loading()
+      const load = this.$loading()
       submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
         this.detail = res
         this.shared = res.shared

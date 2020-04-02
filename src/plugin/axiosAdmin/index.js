@@ -75,7 +75,7 @@ service.interceptors.response.use(
           error.message = '拒绝访问'
           break
         case 404:
-          error.message = `404 请求地址出错`
+          error.message = '404 请求地址出错'
           break
         case 408:
           error.message = '请求超时'
