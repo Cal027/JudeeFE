@@ -186,7 +186,7 @@ const typeColor = ['info', '', 'warning']
 export default {
   name: 'User',
   data () {
-    let checkQQ = (rule, value, callback) => {
+    const checkQQ = (rule, value, callback) => {
       const qqPattern = /^[1-9][0-9]{4,10}$/
       setTimeout(() => {
         if (qqPattern.test(value) || !value) {
@@ -196,7 +196,7 @@ export default {
         }
       }, 100)
     }
-    let checkPhone = (rule, value, callback) => {
+    const checkPhone = (rule, value, callback) => {
       const pPattern = /^1[34578]\d{9}$/
       setTimeout(() => {
         if (pPattern.test(value) || !value) {
@@ -265,14 +265,14 @@ export default {
     openUserDialog (user) {
       this.editUser = true
       this.currentUser = {
-        'username': user.username,
-        'nickname': user.nickname,
-        'email': user.email,
-        'phone_number': user.phone_number,
-        'qq_number': user.qq_number,
-        'github_username': user.github_username,
-        'desc': user.desc,
-        'type': user.type
+        username: user.username,
+        nickname: user.nickname,
+        email: user.email,
+        phone_number: user.phone_number,
+        qq_number: user.qq_number,
+        github_username: user.github_username,
+        desc: user.desc,
+        type: user.type
       }
     },
     resolveTime (time) {
@@ -347,7 +347,7 @@ export default {
       }).then(({ value }) => {
         userAPI.downloadUserList(value)
           .then(resp => {
-            let link = document.createElement('a')
+            const link = document.createElement('a')
             link.href = window.URL.createObjectURL(resp)
             link.download = `${value}.xlsx`
             document.body.appendChild(link)

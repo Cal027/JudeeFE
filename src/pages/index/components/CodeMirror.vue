@@ -101,10 +101,10 @@ export default {
         highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true }
       },
       mode: {
-        'C': 'text/x-csrc',
+        C: 'text/x-csrc',
         'C++': 'text/x-c++src',
-        'Python3': 'text/x-python',
-        'Java': 'text/x-java'
+        Python3: 'text/x-python',
+        Java: 'text/x-java'
       },
       themes: [
         { label: 'Nord', value: 'nord' },
@@ -137,9 +137,9 @@ export default {
       document.getElementById('file-uploader').click()
     },
     onUploadFileDone () {
-      let f = document.getElementById('file-uploader').files[0]
-      let fileReader = new window.FileReader()
-      let self = this
+      const f = document.getElementById('file-uploader').files[0]
+      const fileReader = new window.FileReader()
+      const self = this
       fileReader.onload = function (e) {
         var text = e.target.result
         self.editor.setValue(text)

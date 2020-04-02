@@ -60,7 +60,7 @@ export default {
   },
   addAnnouncement (data) {
     return request({
-      url: `/contest-announcement/`,
+      url: '/contest-announcement/',
       method: 'post',
       data
     })

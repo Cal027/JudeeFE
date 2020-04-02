@@ -78,10 +78,10 @@ export default {
         this.totalUser = res.count
         this.tableData = res.results
         for (let i = 0; i < res.results.length; i++) {
-          let ac = res.results[i]['ac']
-          let sub = res.results[i]['submit']
-          this.tableData[i]['rate'] = (sub === 0 ? '0' : Math.round(ac / sub * 10000) / 100.00) + '%'
-          this.tableData[i]['ranking'] = (this.currentPage - 1) * this.pageSize + i + 1
+          const ac = res.results[i].ac
+          const sub = res.results[i].submit
+          this.tableData[i].rate = (sub === 0 ? '0' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          this.tableData[i].ranking = (this.currentPage - 1) * this.pageSize + i + 1
         }
         if (this.currentPage === 1) {
           for (let i = 0; i < Math.min(3, this.tableData.length); i++) {

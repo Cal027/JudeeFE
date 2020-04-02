@@ -181,7 +181,7 @@ export default {
       }
     },
     getProblem (id) {
-      let load = this.$loading()
+      const load = this.$loading()
       problemAPI.getProblem(id)
         .then(res => {
           load.close()
@@ -190,7 +190,7 @@ export default {
           this.getPercent()
           this.chartData.rows.length = 0
           Object.keys(res.statistic_info).forEach(key => {
-            this.chartData.rows.push({ 'status': key, 'number': res.statistic_info[key] })
+            this.chartData.rows.push({ status: key, number: res.statistic_info[key] })
           })
           util.title(this.problemDetail.title)
         })
@@ -210,8 +210,8 @@ export default {
       this.language = newLang
     },
     goStatus () {
-      let name = this.notContest ? 'submission-detail' : 'Contest-submission-status'
-      let params = {
+      const name = this.notContest ? 'submission-detail' : 'Contest-submission-status'
+      const params = {
         contestID: this.$route.params.contestID,
         id: this.submissionId
       }
@@ -245,7 +245,7 @@ export default {
       }).then(() => {
         this.submissionId = ''
         this.submitLoading = true
-        let data = {
+        const data = {
           problem: this.problemDetail.ID,
           language: this.language,
           code: this.code

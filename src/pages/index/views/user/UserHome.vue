@@ -95,16 +95,16 @@ export default {
   data () {
     return {
       chartData: { columns: ['date', 'submit', 'ac', 'rate'], rows: [] },
-      avatarUrl: ``,
+      avatarUrl: '',
       username: '',
       profile: {},
       userData: {
-        'username': '',
-        'ac': 0,
-        'submit': 0,
-        'score': 0,
-        'ranking': 10000,
-        'ac_prob': []
+        username: '',
+        ac: 0,
+        submit: 0,
+        score: 0,
+        ranking: 10000,
+        ac_prob: []
       },
       github: '还没填写Github信息',
       qq: '还没填写QQ信息',

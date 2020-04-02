@@ -86,7 +86,7 @@ export default {
       loading: false,
       tableData: [],
       titles: [],
-      data: { 'problems': [] },
+      data: { problems: [] },
       pageSize: 15,
       searchText: ''
     }
@@ -108,7 +108,7 @@ export default {
       if (this.data.problems.includes(id)) {
         this.$message.error(`已存在问题: (${id}) ${title}`)
       } else {
-        let name = this.toLetter(this.contestNum + this.data.problems.length + 1)
+        const name = this.toLetter(this.contestNum + this.data.problems.length + 1)
         this.$message({
           message: `添加题目${name}：(${id}) ${title}`,
           type: 'success'

@@ -33,15 +33,15 @@ export default {
                container: [
                  ['bold', 'italic', 'underline', 'strike'],
                  ['blockquote', 'code-block'],
-                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                 [{ 'script': 'sub' }, { 'script': 'super' }],
+                 [{ list: 'ordered' }, { list: 'bullet' }],
+                 [{ script: 'sub' }, { script: 'super' }],
                  // [{ 'indent': '-1' }, { 'indent': '+1' }],
                  // [{ 'direction': 'rtl' }],
-                 [{ 'size': ['small', false, 'large', 'huge'] }],
-                 [{ 'header': [1, 2, 3, 4, false] }],
-                 [{ 'color': [] }, { 'background': [] }],
+                 [{ size: ['small', false, 'large', 'huge'] }],
+                 [{ header: [1, 2, 3, 4, false] }],
+                 [{ color: [] }, { background: [] }],
                  // [{ 'font': [] }],
-                 [{ 'align': [] }],
+                 [{ align: [] }],
                  ['clean'],
                  ['link', 'image'],
                  // ['link'],
@@ -110,7 +110,7 @@ export default {
       })
     },
     imageHandler: function () {
-      let range = this.Quill.getSelection()
+      const range = this.Quill.getSelection()
       this.$prompt('请输入图片URL',
         {
           inputPattern: /https?:\/\/.+\.(jpg|gif|png)/,

@@ -88,15 +88,15 @@ import VeWordCloud from 'v-charts/lib/wordcloud.common'
 const results = {
   '-2': 'Compile Error',
   '-1': 'Wrong Answer',
-  '0': 'Accepted',
-  '1': 'CPU Time Limit Exceeded',
-  '2': 'Real Time Limit Exceeded',
-  '3': 'Memory Limit Exceeded',
-  '4': 'Runtime Error',
-  '5': 'System Error',
-  '6': 'Pending',
-  '7': 'Judging',
-  '8': 'Partially Accepted'
+  0: 'Accepted',
+  1: 'CPU Time Limit Exceeded',
+  2: 'Real Time Limit Exceeded',
+  3: 'Memory Limit Exceeded',
+  4: 'Runtime Error',
+  5: 'System Error',
+  6: 'Pending',
+  7: 'Judging',
+  8: 'Partially Accepted'
 }
 export default {
   name: 'Statistics',
@@ -144,7 +144,7 @@ export default {
     overallContest: function () {
       try {
         let total = 0
-        for (let key in this.overallData.contest_number) {
+        for (const key in this.overallData.contest_number) {
           total += this.overallData.contest_number[key]
         }
         return total
@@ -177,7 +177,7 @@ export default {
       statisticAPI.getSubmissionResults(this.resultOffset).then(res => {
         this.recentSubmission.rows.length = 0
         Object.keys(res).forEach(key => {
-          this.recentSubmission.rows.push({ 'status': results[res[key].result], 'number': res[key].count })
+          this.recentSubmission.rows.push({ status: results[res[key].result], number: res[key].count })
         })
       })
     },

@@ -32,7 +32,7 @@ export default {
   },
   getTags () {
     return request({
-      url: `/problem_tag`,
+      url: '/problem_tag',
       method: 'get'
     })
   },

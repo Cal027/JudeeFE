@@ -2,7 +2,7 @@ import request from '@/plugin/axiosOJ'
 
 export default {
   getSubmissionList (limit, offset, username, language, problem, result, myself, contest = '') {
-    let url = ``
+    let url = ''
     if (contest !== '') {
       url += `/contest-submission/?limit=${limit}&offset=${offset}&contest=${contest}`
     } else {
@@ -45,7 +45,7 @@ export default {
     return request({
       url: `/sharing/${id}/`,
       method: 'put',
-      data: { 'shared': shared }
+      data: { shared: shared }
     })
   }
 }

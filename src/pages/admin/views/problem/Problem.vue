@@ -165,7 +165,7 @@ export default {
       if (value.length < 1) {
         return callback(new Error('样例不能为空'))
       }
-      for (let obj of value) {
+      for (const obj of value) {
         if (obj.input === '' || obj.output === '') {
           return callback(new Error('输入或输出不能为空'))
         }
@@ -230,9 +230,9 @@ export default {
       this.banner = { title: '修改题目', subTitle: '在这里修改题目信息' }
       problemAPI.getProblem(this.$route.params.problemID).then(res => {
         this.form = res
-        let tags = this.form.tags
+        const tags = this.form.tags
         this.form.tags = []
-        for (let tag of tags) {
+        for (const tag of tags) {
           this.form.tags.push(tag.name)
         }
       })

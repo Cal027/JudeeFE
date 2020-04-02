@@ -99,7 +99,7 @@ import { reviewResults } from '@/utils/util.const'
 import * as clipboard from 'clipboard-polyfill'
 
 const errorInfo = {
-  '0': 'Error Not Found',
+  0: 'Error Not Found',
   '-1': 'Error Invalid Config',
   '-2': 'Error Fork Failed',
   '-3': 'Error Pthread Failed',
@@ -155,7 +155,7 @@ export default {
       })
     },
     getSubmissionDetail () {
-      let load = this.$loading()
+      const load = this.$loading()
       submissionAPI.getSubmission(this.ID, this.$route.params.contestID).then(res => {
         this.detail = res
         this.code = res.code

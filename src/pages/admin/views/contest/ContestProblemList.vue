@@ -117,9 +117,9 @@ export default {
       this.loading = true
       problemAPI.getContestProblems(this.contestID).then(res => {
         for (let i = 0; i < res.length; i++) {
-          let ac = res[i]['accepted_number']
-          let sub = res[i]['submission_number']
-          res[i]['rate'] = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
+          const ac = res[i].accepted_number
+          const sub = res[i].submission_number
+          res[i].rate = (sub === 0 ? '0.00' : Math.round(ac / sub * 10000) / 100.00) + '%'
         }
         this.contestNum = res.length
         this.tableData = res
@@ -151,7 +151,7 @@ export default {
     },
     downloadTestCase (id) {
       problemAPI.getTestCase(id).then(resp => {
-        let link = document.createElement('a')
+        const link = document.createElement('a')
         link.href = window.URL.createObjectURL(resp)
         link.download = `problem_${id}_test_cases.zip`
         document.body.appendChild(link)
@@ -163,7 +163,7 @@ export default {
       this.$confirm('确认删除竞赛题目？相关数据将被清除', '删除问题', {
         type: 'warning'
       }).then(() => {
-        const data = { 'problems': [id] }
+        const data = { problems: [id] }
         problemAPI.deleteContestProblem(this.contestID, data).then(() => {
           this.$message({
             type: 'success',

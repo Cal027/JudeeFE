@@ -106,7 +106,7 @@ import dayjs from 'dayjs'
 
 const opt = ['筹备中', '已结束', '比赛中']
 const typ = ['info', 'danger', 'success']
-const ruleTypeColor = { 'ACM': 'primary', 'OI': 'warning' }
+const ruleTypeColor = { ACM: 'primary', OI: 'warning' }
 export default {
   name: 'ContestList',
   components: { MountainFooter },

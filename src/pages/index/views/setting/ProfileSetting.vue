@@ -43,7 +43,7 @@ export default {
   name: 'ProfileSetting',
   components: { SquareBackground },
   data () {
-    let checkQQ = (rule, value, callback) => {
+    const checkQQ = (rule, value, callback) => {
       const qqPattern = /^[1-9][0-9]{4,10}$/
       setTimeout(() => {
         if (qqPattern.test(value) || !value) {
@@ -53,7 +53,7 @@ export default {
         }
       }, 100)
     }
-    let checkPhone = (rule, value, callback) => {
+    const checkPhone = (rule, value, callback) => {
       const pPattern = /^1[34578]\d{9}$/
       setTimeout(() => {
         if (pPattern.test(value) || !value) {
