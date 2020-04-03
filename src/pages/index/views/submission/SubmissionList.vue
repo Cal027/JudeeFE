@@ -67,10 +67,10 @@
                         <router-link v-if="contestID" :to="'/contest/'+contestID+'/status/'+scope.row.ID">
                             {{scope.row.ID}}
                         </router-link>
-                        <router-link v-else :to="'/status/'+scope.row.ID">
+                        <span class="router-span" v-else @click="pushDetailRouter(scope.row.ID,scope.row.username,scope.row.shared)">
                             {{scope.row.ID}}
                             <d2-icon v-if="scope.row.shared" name="unlock" style="margin-left: 1px"/>
-                        </router-link>
+                        </span>
                     </template>
                 </el-table-column>
                 <el-table-column v-if="contestID" prop="problem" label="题目编号" width="80" align="center">
@@ -231,6 +231,13 @@ export default {
         }
       })
     },
+    pushDetailRouter (id, username, isShared) {
+      if (username === this.info.username || isShared) {
+        this.$router.push({ path: `/status/${id}` })
+      } else {
+        this.$message.error('无访问权限')
+      }
+    },
     getProblemList () {
       problemAPI.getContestProblems(this.contestID).then(res => {
         res.forEach((item, index) => {
@@ -299,7 +306,7 @@ export default {
     }
 
     .table {
-        a {
+        .a{
             color: #76a3cd;
             text-decoration: none;
         }
@@ -307,6 +314,11 @@ export default {
         .router-link-active {
             color: #76a3cd;
             text-decoration: none;
+        }
+
+        .router-span {
+            color: #76a3cd;
+            cursor: pointer;
         }
     }
 
