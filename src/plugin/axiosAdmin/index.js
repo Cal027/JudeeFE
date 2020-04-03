@@ -48,6 +48,13 @@ service.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `JWT ${token}`
     }
+    // get请求添加时间戳防止缓存
+    if (config.method === 'get') {
+      config.params = {
+        _t: new Date().getTime(),
+        ...config.params
+      }
+    }
     return config
   },
   error => {

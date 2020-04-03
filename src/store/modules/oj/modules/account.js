@@ -16,7 +16,6 @@ export default {
     } = {}) {
       return new Promise((resolve, reject) => {
         Login({ username, password }).then(async res => {
-          console.log(res.username)
           if (res === 'userError') {
             Message.error('用户名或邮箱未注册')
           } else if (res === 'pwdError') {

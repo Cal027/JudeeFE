@@ -2,7 +2,7 @@ import axios from 'axios'
 import util from '@/utils/util'
 import { Message } from 'element-ui'
 
-// 创建一个 axiosAdmin 实例
+// 创建一个 axiosOJ 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
   timeout: 5000 // 请求超时时间
@@ -17,6 +17,13 @@ service.interceptors.request.use(
     const token = util.cookies.get('tokenOJ')
     if (token) {
       config.headers.Authorization = `JWT ${token}`
+    }
+    // get请求添加时间戳防止缓存
+    if (config.method === 'get') {
+      config.params = {
+        _t: new Date().getTime(),
+        ...config.params
+      }
     }
     return config
   },
