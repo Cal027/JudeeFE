@@ -61,7 +61,7 @@
                 </ul>
                 <el-card class="card-module">
                     <span class="title" :style="{color:themeColor}">竞赛说明</span>
-                    <div class="content" v-highlight v-html="contestDetail.description"/>
+                    <div class="content" v-hlql v-html="contestDetail.description"/>
                 </el-card>
             </template>
             <!--Children-->

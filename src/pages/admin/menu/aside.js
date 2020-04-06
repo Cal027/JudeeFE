@@ -1,14 +1,6 @@
 // 菜单 侧边栏
 export default [
   { path: '/index', title: '首页', icon: 'home' },
-  // {
-  //   title: '常规',
-  //   icon: 'inbox',
-  //   children: [
-  //     { path: '/announce', title: '公告', icon: 'bullhorn' },
-  //     { path: '/judge', title: '评测机', icon: 'steam' }
-  //   ]
-  // },
   { path: '/user', title: '用户', icon: 'user-circle-o' },
   {
     title: '题目',

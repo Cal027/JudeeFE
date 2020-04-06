@@ -33,5 +33,11 @@ export default {
         })
       }
     })
+    Vue.directive('hlql', function (el) {
+      const blocks = el.querySelectorAll('pre.ql-syntax')
+      blocks.forEach((block) => {
+        hljs.highlightBlock(block)
+      })
+    })
   }
 }

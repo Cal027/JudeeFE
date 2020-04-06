@@ -56,7 +56,7 @@
                 </el-button>
             </template>
             <el-table
-                    class="table"
+                    class="submission-table"
                     :data="tableData"
                     v-loading="loadingTable"
                     :header-cell-style="{background: '#E5E9F0'}"
@@ -305,8 +305,8 @@ export default {
         }
     }
 
-    .table {
-        .a{
+    .submission-table {
+        a{
             color: #76a3cd;
             text-decoration: none;
         }

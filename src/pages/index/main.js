@@ -5,9 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import store from '@/store'
 import Sticky from 'vue-sticky-directive'
-import hljs from 'highlight.js'
 import highlight from '@/plugin/highlight'
-import 'highlight.js/styles/atom-one-light.css'
 import VueResize from 'vue-resize'
 
 // 组件
@@ -19,13 +17,6 @@ Vue.use(VueResize)
 Vue.use(ElementUI)
 Vue.use(Sticky)
 Vue.use(highlight)
-
-Vue.directive('highlight', function (el) {
-  const blocks = el.querySelectorAll('pre.ql-syntax')
-  blocks.forEach((block) => {
-    hljs.highlightBlock(block)
-  })
-})
 
 new Vue({
   router,

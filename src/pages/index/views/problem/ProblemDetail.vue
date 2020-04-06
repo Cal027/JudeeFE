@@ -67,14 +67,14 @@
             </el-card>
             <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">题目描述</span>
-                <div class="content" v-highlight  v-html="problemDetail.description"/>
+                <div class="content" v-hlql  v-html="problemDetail.description"/>
             </el-card>
             <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">输入描述</span>
-                <div class="content" v-highlight v-html="problemDetail.input_description"/>
+                <div class="content" v-hlql v-html="problemDetail.input_description"/>
                 <br/>
                 <span class="title" :style="{color:themeColor}">输出描述</span>
-                <div class="content" v-highlight v-html="problemDetail.output_description"/>
+                <div class="content" v-hlql v-html="problemDetail.output_description"/>
                 <br/>
                 <el-row v-for="(sample,index) in problemDetail.samples" :key="index" :gutter="60">
                     <el-col :span="10">
@@ -91,7 +91,7 @@
             </el-card>
             <el-card class="card-module">
                 <span class="title" :style="{color:themeColor}">提示</span>
-                <div class="content" v-highlight v-html="problemDetail.hint"/>
+                <div class="content" v-hlql v-html="problemDetail.hint"/>
             </el-card>
             <el-card class="card-module">
                 <CodeMirror :value.sync="code"
