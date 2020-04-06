@@ -8,12 +8,14 @@ import Sticky from 'vue-sticky-directive'
 import hljs from 'highlight.js'
 import highlight from '@/plugin/highlight'
 import 'highlight.js/styles/atom-one-light.css'
+import VueResize from 'vue-resize'
 
 // 组件
 import '@/components'
 // svg 图标
 import '@/assets/svg-icons'
 
+Vue.use(VueResize)
 Vue.use(ElementUI)
 Vue.use(Sticky)
 Vue.use(highlight)

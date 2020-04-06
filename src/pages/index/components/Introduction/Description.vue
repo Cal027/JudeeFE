@@ -6,6 +6,7 @@
                 <h3 style="font-weight: 300">一个基于Vue.js和Django的轻量级在线评测系统</h3>
                 <d2-icon-svg name="Nord-Ice-Footer" class="nord-ice"/>
             </div>
+            <br>
             <h3>OJ 特色:</h3>
             <ul>
                 <li><p>网站采用
@@ -31,7 +32,7 @@
                 <li><p>支持 C/C++/Java/Python3</p></li>
             </ul>
         </div>
-        <MountainFooter/>
+        <MountainFooter :ratio="0.95"/>
     </div>
 </template>
 

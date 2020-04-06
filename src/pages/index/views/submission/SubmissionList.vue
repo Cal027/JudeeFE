@@ -10,7 +10,7 @@
                     清空筛选
                 </el-button>
             </template>
-            <MountainFooter bottom="-25px"/>
+            <MountainFooter :height="45" :ratio="0.85"/>
             <el-row :gutter="20">
                 <el-col :span="5" v-show="!isProblem">
                     <el-input v-model="problemID" @change="filterSubmissionList" size="medium"

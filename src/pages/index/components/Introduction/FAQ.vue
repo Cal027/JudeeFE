@@ -44,7 +44,7 @@
                 <li><p>System Error: 糟糕，判题机出了点问题。 请将此报告给管理员。</p></li>
             </ul>
         </div>
-        <MountainFooter/>
+        <MountainFooter :ratio="0.95"/>
     </div>
 </template>
 

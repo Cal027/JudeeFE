@@ -1,7 +1,7 @@
 <template>
     <div class="p-list">
         <el-card class="controlPanel-sl">
-            <MountainFooter/>
+            <MountainFooter :height="90" :ratio="0.9"/>
             <el-button icon="el-icon-close" type="text" @click="clearFilter" class="clear">清空筛选条件</el-button>
             <el-row>
                 <el-col :span="2">搜索:</el-col>
