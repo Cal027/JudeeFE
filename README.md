@@ -1,7 +1,7 @@
-# Judee OJ前端项目
+# Judee OJ前端项目 [![Netlify Status](https://api.netlify.com/api/v1/badges/aa251639-1e38-4953-82e8-6c21f00d645f/deploy-status)](https://app.netlify.com/sites/judee/deploys)
 > Vue CLI 3 多页应用项目, 网站配色为[Nord](https://www.nordtheme.com/)，ElementUI为UI组件库, D2Admin为后台管理模板
 
-预览地址：[judee.leeeung.com]() 仅支持ipv6访问
+预览地址：[judee.netlify.app](https://judee.netlify.app)
 
 ## Judee项目特色
 - 出色的网页设计
